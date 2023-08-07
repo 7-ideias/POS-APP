@@ -30,11 +30,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_fonts: ^4.0.4
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+  # create pdf document
+  pdf: ^3.1.0
+
+  # save file
+  path_provider: ^2.0.1
+
+  # open pdf document
+  open_file: ^3.1.0
+
+  # format dates for invoice
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
