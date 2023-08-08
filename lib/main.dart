@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:pos_app/page/pdf_page.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:pos_app/app/app.dart';
+import 'package:pos_app/screens/000_carregamento/TelaDeCarregamentoPrincipal.dart';
+import 'package:pos_app/screens/003_register/products/MyScreen.dart';
+import 'package:pos_app/service/NotificationService.dart';
 
-Future main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  NotificationService().initNotification();
 
-  runApp(MyApp());
-}
+  //**************************************************************
+  // runApp(const App()); //TODO PARA TESTAR O RELATORIO
+  //**************************************************************
+  runApp(TelaDeCarregamentoPrincipal());
 
-class MyApp extends StatelessWidget {
-  static final String title = 'Invoice';
+  // final rotina = Rotina();
+  // rotina.iniciarRotina();
+  //**************************************************************
 
-  @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(
-            textTheme: GoogleFonts.lobsterTextTheme(Theme.of(context).textTheme),
-            primarySwatch: Colors.deepOrange
-        ),
-        home: PdfPage(),
-      );
+  //**************************************************************
+  // Aguarda 5 minutos e depois para a rotina
+  // Timer(Duration(minutes: 5), () {
+  //   rotina.pararRotina();
+  // });
+  //**************************************************************
 }
