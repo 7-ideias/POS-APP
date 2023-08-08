@@ -6,6 +6,8 @@ import 'package:pos_app/app/page/pdf_create_page.dart';
 import 'package:pos_app/desenvolvedor/desenvolvedor.dart';
 import 'package:pos_app/desenvolvedor/tela_de_id.dart';
 import 'package:pos_app/screens/001_login/LoginPage.dart';
+import 'package:pos_app/screens/001_login/login-usuario-ativo-page.dart';
+import 'package:pos_app/screens/001_login/login-usuario-novo-page.dart';
 import 'package:pos_app/screens/002_main/TelaPrincipal2.dart';
 import 'package:pos_app/screens/003_register/products/CadastroProduto.dart';
 import 'package:pos_app/screens/AgendaTela.dart';
@@ -37,6 +39,8 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
       routes: {
         '/principal': (_) => TelaPrincipal2(),
         '/login': (_) => LoginPage(),
+        '/loginUsuarioAtivo': (_) => LoginDeUmUsuarioAtivo(),
+        '/loginUsuarioNovo': (_) => LoginDeUmUsuarioNovo(),
         '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),
         '/clientes': (_) => ClientesTela(),
@@ -53,7 +57,7 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
         '/perfil': (_) => PerfilTela(),
         // '/teste': (_) => Teste(),
         '/venda': (_) => VendaTela(),
-        '/pdf': (_) => App(),
+        '/pdf': (_) => PDFCreatePage(),
         '/desenvolvedor': (_) => DesenvolvedorPage(),
         '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
       },
