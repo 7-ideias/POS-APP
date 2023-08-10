@@ -1,0 +1,14 @@
+todo list
+
+***************************************************************************************************************
+JORNADA DO LOGIN
+
+- se novo usuario, vai fazer um cadastro
+- se ja usar o app, vai
+
+[] gravar e consultar shared preferences do usuario
+[] fazer a jornada do novo usuario
+    - colocar as preferencias do negócio do cara
+
+***************************************************************************************************************
+
