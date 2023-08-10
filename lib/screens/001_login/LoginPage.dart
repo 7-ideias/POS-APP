@@ -63,19 +63,6 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(height: 50,),
           Stack(
             children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.35,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.blue,
-                      Colors.lightBlueAccent,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
-                ),
-              ),
               Center(
                 child: Lottie.asset(
                   'assets/login-security.json',
@@ -128,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity * 0.8,
                     child: ElevatedButton(
                       onPressed: _validateFields,
-                      child: Text('Entrar'),
+                      child: Text('login',style: TextStyle(fontSize: 18)),
                     ),
                   ),
                   SizedBox(height: 20.0),
@@ -140,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text('pular o login - APENAS PARA TESTE',style: TextStyle(fontSize: 18)),
                     ),
                   ),
+                  SizedBox(height: 20.0),
                 ],
               ),
             ),

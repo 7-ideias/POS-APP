@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pos_app/app/app.dart';
 import 'package:pos_app/app/page/pdf_create_page.dart';
 import 'package:pos_app/desenvolvedor/desenvolvedor.dart';
+import 'package:pos_app/desenvolvedor/tela-carrousel.dart';
 import 'package:pos_app/desenvolvedor/tela_de_id.dart';
 import 'package:pos_app/screens/001_login/LoginPage.dart';
 import 'package:pos_app/screens/002_main/TelaPrincipal2.dart';
@@ -42,11 +43,11 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
         '/ajuda': (_) => AjudaESuporteTela(),
         '/clientes': (_) => ClientesTela(),
         '/cadcliente': (_) => CadastroClienteTela(),
+        '/cadastro_produto': (_) => CadastroProduto(),
         '/configs': (_) => ConfiguracoesTela(),
         '/financeiro': (_) => FinanceiroTela(),
         '/pedidos': (_) => PedidosTela(),
         '/produtos': (_) => ProdutosTela(),
-        '/cadastro_produto': (_) => CadastroProduto(),
         '/relatorios': (_) => RelatoriosTela(),
         '/resumo': (_) => ResumoTela(),
         '/sejapro': (_) => SejaProTela(),
@@ -57,6 +58,7 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
         '/pdf': (_) => App(),
         '/desenvolvedor': (_) => DesenvolvedorPage(),
         '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
+        '/imagensIniciais': (_) => TelaComCarousel(),
       },
     );
   }

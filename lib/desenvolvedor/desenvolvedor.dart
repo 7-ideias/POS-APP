@@ -33,6 +33,13 @@ class _DesenvolvedorPageState extends State<DesenvolvedorPage> {
                     Navigator.of(context).pushNamed('/tela_de_identificacao_ou_cadastro');
                 }, child: Text('logando')),
               ),
+              SizedBox(height: 20,),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(onPressed: () {
+                  Navigator.of(context).pushNamed('/imagensIniciais');
+                }, child: Text('JORNADA ANTES DE TUDO')),
+              ),
 
             ],
           ),
