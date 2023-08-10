@@ -17,6 +17,7 @@ reportView(context) async {
         if (context.pageNumber == 1) {
           return SizedBox();
         }
+
         return Container(
             alignment: Alignment.centerRight,
             margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
@@ -57,8 +58,7 @@ reportView(context) async {
           <String>['2000', 'Ipsum 1.0', 'Lorem 1'],
           <String>['2001', 'Ipsum 1.1', 'Lorem 2'],
         ]),
-      ]),
-  );
+      ]));
 
   //save PDF
 

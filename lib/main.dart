@@ -5,7 +5,6 @@ import 'package:pos_app/screens/003_register/products/MyScreen.dart';
 import 'package:pos_app/service/NotificationService.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService().initNotification();
 
