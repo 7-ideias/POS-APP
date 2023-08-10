@@ -40,6 +40,7 @@ class _DesenvolvedorPageState extends State<DesenvolvedorPage> {
                     Navigator.of(context).pushNamed('/tela_de_identificacao_ou_cadastro');
                 }, child: Text('logando')),
               ),
+
             ],
           ),
         ),
