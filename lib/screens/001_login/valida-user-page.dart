@@ -30,13 +30,10 @@ class _ValidaPageState extends State<ValidaPage> {
 
     final url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
     print('URL.: ' + url);
-    final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'celular': widget.celular, 'senha': widget.senha});
 
-
-
     try {
-      final response = await http.post(Uri.parse(url), headers: headers, body: body);
+      final response = await http.post(Uri.parse(url), headers: VariaveisGlobais.headersGlobal, body: body);
           // await http.post(Uri.parse(url), headers: headers, body: body);
       if (response.statusCode == 200) {
         setState(() {
@@ -73,7 +70,7 @@ class _ValidaPageState extends State<ValidaPage> {
       ),
       body: Center(
         child: isLoading
-            ? Lottie.asset('assets/login-security.json')
+            ? Lottie.asset('assets/loading.json')
             : (status == 200
                 ? Lottie.asset('assets/success-mark.json')
                 : Lottie.asset('assets/failed-button.json')),

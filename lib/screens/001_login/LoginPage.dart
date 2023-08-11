@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextField(
                       controller: celularController,
                       style: TextStyle(fontSize: 22),
-                      keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'celular',
@@ -99,6 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity * 0.8,
                     child: TextField(
                       controller: senhaController,
+                      keyboardType: TextInputType.number,
                       style: TextStyle(fontSize: 22),
                       obscureText: true,
                       decoration: InputDecoration(
