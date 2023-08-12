@@ -7,13 +7,13 @@ import 'package:pos_app/desenvolvedor/desenvolvedor.dart';
 import 'package:pos_app/desenvolvedor/tela-carrousel.dart';
 import 'package:pos_app/desenvolvedor/tela_de_id.dart';
 import 'package:pos_app/screens/001_login/LoginPage.dart';
-import 'package:pos_app/screens/002_main/TelaPrincipal2.dart';
+import 'package:pos_app/screens/002_main/home_tela.dart';
+import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:pos_app/screens/003_register/products/CadastroProduto.dart';
 import 'package:pos_app/screens/AgendaTela.dart';
 import 'package:pos_app/screens/AjudaESuporteTela.dart';
 import 'package:pos_app/screens/ClientesTela.dart';
 import 'package:pos_app/screens/ConfiguracoesTela.dart';
-import 'package:pos_app/screens/FinanceiroTela.dart';
 import 'package:pos_app/screens/PedidosTela.dart';
 import 'package:pos_app/screens/PerfilTela.dart';
 import 'package:pos_app/screens/RelatoriosTela.dart';
@@ -21,6 +21,8 @@ import 'package:pos_app/screens/ResumoTela.dart';
 import 'package:pos_app/screens/SejaProTela.dart';
 import 'package:pos_app/screens/ServicosTela.dart';
 import 'package:pos_app/screens/VendaTela.dart';
+import 'package:pos_app/screens/financeiro_operacao.dart';
+import 'package:pos_app/screens/venda_tela.dart';
 import '../001_login/valida-user-page.dart';
 import '../003_register/clientes/CadastroClienteTela.dart';
 import '../produtos_tela.dart';
@@ -30,7 +32,6 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         // textTheme: GoogleFonts.lobsterTextTheme(Theme.of(context).textTheme),
@@ -38,7 +39,7 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
       ),
       home: SplashPage(),
       routes: {
-        '/principal': (_) => TelaPrincipal2(),
+        '/home ': (_) => Home(),
         '/login': (_) => LoginPage(),
         '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),
@@ -56,6 +57,7 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
         '/perfil': (_) => PerfilTela(),
         // '/teste': (_) => Teste(),
         '/venda': (_) => VendaTela(),
+        '/venda2': (_) => VendasTela2(),
         '/pdf': (_) => App(),
         '/desenvolvedor': (_) => DesenvolvedorPage(),
         '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
@@ -75,7 +77,6 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 1), () {
-      // Navigator.pushReplacementNamed(context, '/pdf');
       Navigator.pushReplacementNamed(context, '/login');
     });
   }

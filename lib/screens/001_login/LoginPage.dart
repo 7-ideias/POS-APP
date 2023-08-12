@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/001_login/valida-user-page.dart';
-import 'package:pos_app/screens/002_main/TelaPrincipal2.dart';
+import 'package:pos_app/screens/002_main/home_tela.dart';
+import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       // Chamar a página de cadastro do cliente
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TelaPrincipal2()),
+        MaterialPageRoute(builder: (context) => PrincipalTela()),
       );
     } else {
       // Campos inválidos, exibir mensagem de erro ou tomar a ação necessária
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => TelaPrincipal2()),
+        MaterialPageRoute(builder: (context) => Home()),
       );
     });
   }

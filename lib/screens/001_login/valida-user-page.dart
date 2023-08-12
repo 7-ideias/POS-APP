@@ -41,7 +41,7 @@ class _ValidaPageState extends State<ValidaPage> {
           isLoading = false;
         });
         Timer(Duration(seconds: 3), () {
-          Navigator.pushReplacementNamed(context, '/principal');
+          Navigator.pushReplacementNamed(context, '/home');
         });
       } else {
         setState(() {
