@@ -39,7 +39,7 @@ class TelaDeCarregamentoPrincipal extends StatelessWidget {
       ),
       home: SplashPage(),
       routes: {
-        '/home ': (_) => Home(),
+        '/home': (_) => Home(),
         '/login': (_) => LoginPage(),
         '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),

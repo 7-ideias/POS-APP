@@ -26,6 +26,9 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
               GestureDetector(
                 child: Card(
                   elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Container(
                     height: 200,
                     width: MediaQuery.of(context).size.width * larguraTela,
@@ -53,8 +56,7 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                                         'caixa',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: tamanhoDaFonte,
-                                            color: Colors.white),
+                                            fontSize: tamanhoDaFonte, color: Colors.white),
                                       ),
                                     ),
                                   )
