@@ -26,9 +26,6 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
               GestureDetector(
                 child: Card(
                   elevation: 10,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
                   child: Container(
                     height: 200,
                     width: MediaQuery.of(context).size.width * larguraTela,
@@ -70,64 +67,74 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, '/venda2');
+                  Navigator.pushNamed(context, '/caixa');
                 },
               ),
-              Wrap(
-                alignment: WrapAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    child: Card(
-                      elevation: 10,
-                      child: Container(
-                        color: Colors.blueGrey,
-                        height: MediaQuery.of(context).size.width * 0.4,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Center(
-                            child: Text(
-                          'cadastros',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: tamanhoDaFonte, color: Colors.white),
-                        )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/cadastros');
+                      },
+                      child: Card(
+                        elevation: 10,
+                        child: Container(
+                          color: Colors.blueGrey,
+                          height: MediaQuery.of(context).size.width * 0.4,
+                          width: MediaQuery.of(context).size.width * larguraTela/2,
+                          child: Center(
+                              child: Text(
+                            'cadastros',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: tamanhoDaFonte, color: Colors.white),
+                          )),
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    child: Card(
-                      elevation: 10,
-                      child: Container(
-                        color: Colors.blueGrey,
-                        height: MediaQuery.of(context).size.width * 0.4,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Center(
-                            child: Text(
-                          'relatórios',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: tamanhoDaFonte, color: Colors.white),
-                        )),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/relatorios');
+                      },
+                      child: Card(
+                        elevation: 10,
+                        child: Container(
+                          color: Colors.blueGrey,
+                          height: MediaQuery.of(context).size.width * 0.4,
+                          width: MediaQuery.of(context).size.width * larguraTela/2,
+                          child: Center(
+                              child: Text(
+                            'relatórios',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: tamanhoDaFonte, color: Colors.white),
+                          )),
+                        ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    child: Card(
-                      elevation: 10,
-                      child: Container(
-                        color: Colors.blueGrey,
-                        height: MediaQuery.of(context).size.width * 0.4,
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Center(
-                            child: Text(
-                          'configs',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: tamanhoDaFonte, color: Colors.white),
-                        )),
+                    GestureDetector(
+                      child: Card(
+                        elevation: 10,
+                        child: Container(
+                          color: Colors.blueGrey,
+                          height: MediaQuery.of(context).size.width * 0.4,
+                          width: MediaQuery.of(context).size.width * larguraTela/2,
+                          child: Center(
+                              child: Text(
+                            'configs',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: tamanhoDaFonte, color: Colors.white),
+                          )),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ],
           ),
