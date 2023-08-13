@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/screens/others/shake-icon.dart';
-
 import '../../utilitarios/Donut.dart';
 import '../../utilitarios/MenuLateral.dart';
 import '../../utilitarios/VariaveisGlobais.dart';
@@ -140,11 +139,14 @@ class _PrincipalTelaState extends State<PrincipalTela>
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SizedBox(width: 20),
-                              Text('Nome do Usuário',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20)),
+                              Text(
+                                VariaveisGlobais.usuarioDto.objUser?.objPessoa?.nome ?? '',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
                             ],
                           ),
                           SizedBox(width: 20),
@@ -176,13 +178,14 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
-                                    onTap: (){
+                                    onTap: () {
                                       Navigator.pushNamed(context, '/venda2');
                                     },
-                                    child: ShakeIcon(icon: Icon(
-                                        color: Colors.yellow,
-                                        size: 50,
-                                        Icons.shopping_cart)),
+                                    child: ShakeIcon(
+                                        icon: Icon(
+                                            color: Colors.yellow,
+                                            size: 50,
+                                            Icons.shopping_cart)),
                                   ),
                                 )
                               ],
@@ -192,10 +195,11 @@ class _PrincipalTelaState extends State<PrincipalTela>
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: ShakeIcon(icon: Icon(
-                                      color: Colors.yellow,
-                                      size: 50,
-                                      Icons.monetization_on)),
+                                  child: ShakeIcon(
+                                      icon: Icon(
+                                          color: Colors.yellow,
+                                          size: 50,
+                                          Icons.monetization_on)),
                                 )
                               ],
                             ),

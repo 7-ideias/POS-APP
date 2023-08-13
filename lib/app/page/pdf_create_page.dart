@@ -13,6 +13,7 @@ class _PDFCreatePageState extends State<PDFCreatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('teste de relatorio'),),
       body: Center(
         child: Container(
           margin: const EdgeInsets.only(top: 30),
@@ -32,6 +33,7 @@ class _PDFCreatePageState extends State<PDFCreatePage> {
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: () {
+              Navigator.pop(context);
               reportView(context);
             },
           ),

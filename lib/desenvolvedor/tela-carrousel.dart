@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/app/app.dart';
 
 class TelaComCarousel extends StatefulWidget {
   @override

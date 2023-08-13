@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/utilitarios/traducao.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../service/info-user-service.dart';
 import 'VariaveisGlobais.dart';
 
-class MenuLateral extends StatelessWidget {
+class MenuLateral extends StatefulWidget {
   MenuLateral(BuildContext context);
 
+  @override
+  State<MenuLateral> createState() => _MenuLateralState();
+}
+
+class _MenuLateralState extends State<MenuLateral> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,9 +24,6 @@ class MenuLateral extends StatelessWidget {
           Container(
             child: imagemDaBarraLateral(context),
           ),
-          opcaoDaBarraLateral(context, 'Clientes', Icons.abc_outlined),
-          opcaoDaBarraLateral(context, 'Produtos', Icons.verified_user),
-          opcaoDaBarraLateral(context, 'Serviços', Icons.account_box),
           opcaoDaBarraLateral(
               context,
               Traducao.retornaPalavra("configuração", VariaveisGlobais.idioma),
@@ -33,7 +37,42 @@ class MenuLateral extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () async {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Confirmação de Logout'),
+                    content: Text('Tem certeza que deseja fazer logout?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Cancelar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Confirmar'),
+                        onPressed: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          String? jsonString = prefs.getString(
+                              VariaveisGlobais.PREFERENCIASDOUSUARIO);
+                          if (jsonString != null) {
+                            prefs
+                                .remove(VariaveisGlobais.PREFERENCIASDOUSUARIO);
+                            setState(() {
+                              infoUserService();
+                            });
+                            Navigator.pushReplacementNamed(context, '/login');
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
           ListTile(
               // leading: Icon(Icons.star),

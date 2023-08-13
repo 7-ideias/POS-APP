@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/service/info-user-service.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ValidaPage extends StatefulWidget {
   final String celular;
@@ -27,19 +29,22 @@ class _ValidaPageState extends State<ValidaPage> {
   }
 
   Future<void> fazerRequisicao() async {
-
     final url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
     print('URL.: ' + url);
     final body = jsonEncode({'celular': widget.celular, 'senha': widget.senha});
 
     try {
       final response = await http.post(Uri.parse(url), headers: VariaveisGlobais.headersGlobal, body: body);
-          // await http.post(Uri.parse(url), headers: headers, body: body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(VariaveisGlobais.PREFERENCIASDOUSUARIO, response.body);
+
         setState(() {
+          infoUserService();
           status = response.statusCode;
           isLoading = false;
         });
+
         Timer(Duration(seconds: 3), () {
           Navigator.pushReplacementNamed(context, '/home');
         });
@@ -65,13 +70,10 @@ class _ValidaPageState extends State<ValidaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('ValidaPage'),
-      ),
       body: Center(
         child: isLoading
             ? Lottie.asset('assets/loading.json')
-            : (status == 200
+            : (status == 200 || status == 201
                 ? Lottie.asset('assets/success-mark.json')
                 : Lottie.asset('assets/failed-button.json')),
       ),

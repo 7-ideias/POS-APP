@@ -17,7 +17,7 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
       children: [
         Container(
           height: MediaQuery.of(context).size.height,
-          color: Colors.orange,
+          color: Colors.indigoAccent,
           child: Column(
             children: [
               SizedBox(
@@ -32,10 +32,10 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                     child: Stack(
                       children: [
                         Container(
-                          color: Colors.blueGrey,
+                          color: Colors.blueGrey.shade500,
                         ),
                         Lottie.asset(
-                          'assets/astronaut.json',
+                          'assets/financial-accounting.json',
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -106,13 +106,18 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                           color: Colors.blueGrey,
                           height: MediaQuery.of(context).size.width * 0.4,
                           width: MediaQuery.of(context).size.width * larguraTela/2,
-                          child: Center(
-                              child: Text(
-                            'relatórios',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: tamanhoDaFonte, color: Colors.white),
-                          )),
+                          child: Stack(
+                            children: [
+                              Lottie.asset('assets/relatorios.json'),
+                              Center(
+                                  child: Text(
+                                'relatórios',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: tamanhoDaFonte, color: Colors.white),
+                              )),
+                            ],
+                          ),
                         ),
                       ),
                     ),

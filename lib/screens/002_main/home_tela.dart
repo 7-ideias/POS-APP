@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:pos_app/screens/financeiro_operacao.dart';
+import 'package:pos_app/service/info-user-service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../dtos/usuario-dto.dart';
 import '../escolha_operacao.dart';
 
 class Home extends StatefulWidget {
@@ -18,27 +21,28 @@ class _HomeState extends State<Home> {
   final GlobalKey _bottomNavigationKey = GlobalKey();
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
     _page = 1; // Definindo o valor inicial como 1
-  }
+  } 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
+        // color: Colors.white10,
         index: 1,
         backgroundColor: _page == 0
-            ? Colors.orange
+            ? Colors.indigoAccent
             : _page == 1
                 ? Colors.indigo
-                : Colors.lightGreenAccent,
+                : Colors.blueGrey,
         key: _bottomNavigationKey,
         items: <Widget>[
           SizedBox(
             height: 60,
             width: 60,
-            child: Lottie.asset('assets/astronaut.json', fit: BoxFit.contain),
+            child: Lottie.asset('assets/financeiro.json', fit: BoxFit.contain),
           ),
           SizedBox(
             height: 60,

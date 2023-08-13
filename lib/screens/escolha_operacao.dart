@@ -17,7 +17,7 @@ class _OperacoesTelaState extends State<OperacoesTela> {
       children: [
         Container(
           height: MediaQuery.of(context).size.height,
-          color: Colors.lightGreenAccent,
+          color: Colors.blueGrey,
           child: Column(
             children: [
               SizedBox(
