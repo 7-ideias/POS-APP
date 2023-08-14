@@ -12,7 +12,7 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
   @override
   Widget build(BuildContext context) {
     var larguraTela = 0.9;
-    var tamanhoDaFonte = 30.0;
+    var tamanhoDaFonte = 22.0;
     return ListView(
       children: [
         Container(
@@ -89,7 +89,6 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                           child: Center(
                               child: Text(
                             'cadastros',
-                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: tamanhoDaFonte, color: Colors.white),
                           )),
@@ -100,24 +99,36 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                       onTap: (){
                         Navigator.pushNamed(context, '/relatorios');
                       },
-                      child: Card(
-                        elevation: 10,
-                        child: Container(
-                          color: Colors.blueGrey,
-                          height: MediaQuery.of(context).size.width * 0.4,
-                          width: MediaQuery.of(context).size.width * larguraTela/2,
-                          child: Stack(
-                            children: [
-                              Lottie.asset('assets/relatorios.json'),
-                              Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                        color: Colors.blueGrey,
+                        ),
+                        height: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width * larguraTela/2,
+                        child: Stack(
+                          children: [
+                            Lottie.asset('assets/relatorios.json'),
+                            Positioned(
+                              right: 0,
+                              bottom: 0,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10), // Define o raio das bordas arredondadas
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8),
                                   child: Text(
-                                'relatórios',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: tamanhoDaFonte, color: Colors.white),
-                              )),
-                            ],
-                          ),
+                                    'relatórios',
+                                    style: TextStyle(
+                                      fontSize: tamanhoDaFonte,
+                                      // color: Colors.black12,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -131,7 +142,6 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                           child: Center(
                               child: Text(
                             'configs',
-                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: tamanhoDaFonte, color: Colors.white),
                           )),

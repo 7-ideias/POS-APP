@@ -18,6 +18,7 @@ import 'package:pos_app/screens/ServicosTela.dart';
 import 'package:pos_app/screens/VendaTela.dart';
 import 'package:pos_app/screens/caixa_tela.dart';
 import 'package:pos_app/screens/castro-tela.dart';
+import 'package:pos_app/screens/devolucao_tela.dart';
 import 'package:pos_app/screens/financeiro_operacao.dart';
 import 'package:pos_app/screens/prod_tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
@@ -56,6 +57,7 @@ class _TelaDeCarregamentoPrincipalState
         '/cadcliente': (_) => CadastroClienteTela(),
         '/cadastro_produto': (_) => CadastroProduto(),
         '/configs': (_) => ConfiguracoesTela(),
+        '/devolucao': (_) => DevolucaoTela(),
         '/financeiro': (_) => FinanceiroTela(),
         '/pedidos': (_) => PedidosTela(),
         '/produtos': (_) => ProdutosTela(),

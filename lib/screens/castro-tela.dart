@@ -26,7 +26,7 @@ class _CadastrosTelaState extends State<CadastrosTela> {
                 ),
                 GestureDetector(
                   onTap:() {
-                    Navigator.pushNamed(context, '/produtos-geral');
+                    Navigator.pushNamed(context, '/produtos');
                   },
                   child: Card(
                     elevation: 10,

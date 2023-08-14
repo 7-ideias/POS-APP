@@ -107,13 +107,7 @@ Widget opcaoDaBarraLateral(BuildContext context, String text, IconData icon) {
     title: Text(text),
     leading: Icon(icon),
     onTap: () => {
-      if (text == 'Clientes')
-        {Navigator.of(context).pushNamed('/clientes')}
-      else if (text == 'Produtos')
-        {Navigator.of(context).pushNamed('/produtos')}
-      else if (text == 'Serviços')
-        {Navigator.of(context).pushNamed('/servicos')}
-      else if (text == 'Settings')
+      if (text == 'setting')
         {Navigator.of(context).pushNamed('/configs')}
       else if (text == 'desenvolvedor')
         {Navigator.of(context).pushNamed('/desenvolvedor')}

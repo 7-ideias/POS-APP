@@ -151,6 +151,9 @@ class _OperacoesTelaState extends State<OperacoesTela> {
                     ),
                   ),
                 ),
+                onTap: (){
+                  Navigator.pushNamed(context, '/devolucao');
+                },
               ),
             ],
           ),
