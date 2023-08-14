@@ -4,6 +4,7 @@ import 'package:pos_app/desenvolvedor/desenvolvedor.dart';
 import 'package:pos_app/desenvolvedor/tela-carrousel.dart';
 import 'package:pos_app/desenvolvedor/tela_de_id.dart';
 import 'package:pos_app/screens/001_login/LoginPage.dart';
+import 'package:pos_app/screens/001_login/new-login-page.dart';
 import 'package:pos_app/screens/002_main/home_tela.dart';
 import 'package:pos_app/screens/003_register/products/CadastroProduto.dart';
 import 'package:pos_app/screens/AgendaTela.dart';
@@ -48,7 +49,7 @@ class _TelaDeCarregamentoPrincipalState
       home: SplashPage(),
       routes: {
         '/home': (_) => Home(),
-        '/login': (_) => LoginPage(),
+        '/login': (_) => NewLoginPage(),
         '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),
         '/caixa': (_) => CaixaTela(),
@@ -103,7 +104,7 @@ class _SplashPageState extends State<SplashPage> {
           ),
         ),
         child: VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
-            ? LoginPage()
+            ? NewLoginPage()
             : Home(),
       ),
     );
