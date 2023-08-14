@@ -11,9 +11,10 @@ class ProdutosTela extends StatefulWidget {
 }
 
 class _ProdutosTelaState2 extends State<ProdutosTela> {
-  List<ProdutoDto> produtoList = [];
+  List<Produto> produtoList = [];
   bool isLoading = true;
-  late ProdutoDto produtoDto;
+  late String idProduto;
+  late ResponseModel resumo;
 
   @override
   void initState() {
@@ -30,66 +31,92 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       appBar: AppBar(
         title: Text('Produtos'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Utils.getEspacamento(),
-            Card(
-              elevation:10,
-              child: TextField(
-                controller: _termoDaBusca,
-                decoration: InputDecoration( 
-                  border: OutlineInputBorder(),
-                  labelText: 'digite para buscar',
+      body: Column(
+        children: [
+          Container(
+            color: Colors.indigoAccent,
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: [
+                SizedBox(height: 30,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('itens no estoque.: ',style: TextStyle(fontSize: 22, color: Colors.white),),
+                      isLoading == false ? Text(resumo.qtNoEstoque.toString(),style: TextStyle(fontSize: 22, color: Colors.white),) : Container()
+                    ],
+                  ),
                 ),
-                // controller: searchController,
-                onChanged: (value) {
-                  // Lógica para filtrar a lista de produtos com base no texto digitado
-                },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('valor do estoque.: R\$ ',style: TextStyle(fontSize: 22, color: Colors.white),),
+                      isLoading == false ? Text(resumo.vlEstoqueEmGrana.toString(),style: TextStyle(fontSize: 22, color: Colors.white),) : Container()
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Card(
+            elevation:10,
+            child: TextField(
+              controller: _termoDaBusca,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'digite para buscar',
               ),
+              // controller: searchController,
+              onChanged: (value) {
+                // Lógica para filtrar a lista de produtos com base no texto digitado
+              },
             ),
-            Utils.getEspacamento(),
-            Utils.getEspacamento(),
-            Utils.getEspacamento(),
-            Expanded(
-              child: isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : ListView.builder(
-                      itemCount: produtoList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            // leading: Icon(Icons.add_a_photo),
-                            title: Text(produtoList[index].nomeProduto),
-                            subtitle: Row(
-                              children: [
-                                Text("estoque atual.: 00120"),
-                                // Text(" - "),
-                                // Text("preço.: R\$ 1230,52"),
-                              ],
-                            ),
-                            shape: Border.all(color: Colors.black12),
-                            trailing: Icon(Icons.arrow_forward),
-                            onTap: () {
-                              produtoDto = produtoList[index];
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProdutoDetalheTela(produtoDto: produtoDto),
-                                ),
-                              );
-                            },
+          ),
+          Utils.getEspacamento(),
+          Utils.getEspacamento(),
+          Utils.getEspacamento(),
+          Expanded(
+            child: isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    itemCount: produtoList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          // leading: Icon(Icons.add_a_photo),
+                          title: Text(produtoList[index].nomeProduto),
+                          subtitle: Row(
+                            children: [
+                              Text("estoque atual.: "+produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque.toString()),
+                              Text(" - "),
+                              Text("preço.: R\$  "+produtoList[index].precoVenda.toString()),
+                            ],
                           ),
-                        );
-                      },
-                    ),
-            ),
-          ],
-        ),
+                          shape: Border.all(color: Colors.black12),
+                          trailing: Icon(Icons.arrow_forward),
+                          onTap: () {
+                            idProduto = produtoList[index].id;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProdutoDetalheTela(idProduto: idProduto,),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -104,14 +131,15 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
     setState(() {
       isLoading = true;
     });
-    Future<List<ProdutoDto>> futureProdutos =
-        ProdutoController().buscarProdutoList();
-    futureProdutos.then((listaProdutos) {
-      produtoList = listaProdutos;
+     var buscarProdutoList = ProdutoController().buscarProdutoList();
+    buscarProdutoList.then((listaProdutos) {
+      produtoList = listaProdutos.produtosList;
       setState(() {
+       resumo = listaProdutos;
         isLoading = false;
       });
     }).catchError((erro) {
+      print(erro);
       // Trate qualquer erro que ocorra durante a obtenção dos produtos
     });
   }

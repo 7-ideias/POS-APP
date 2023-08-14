@@ -5,11 +5,23 @@ import '../utilitarios/VariaveisGlobais.dart';
 
 class ProdutoController {
 
-  Future<List<ProdutoDto>> buscarProdutoList() async {
-    final response = await http.get(Uri.parse('${VariaveisGlobais.endPoint}/produto/lista'));
-    List<dynamic> jsonResponse = json.decode(response.body);
-    List<ProdutoDto> list = jsonResponse.map((item) => ProdutoDto.fromJson(item)).toList();
-    return list;
+  Future<ResponseModel> buscarProdutoList() async {
+
+    var headers = {
+      'idUsuario': '40eb39abc2f44908ae5dfc16687cc977',
+      'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
+      'Content-Type': 'application/json',
+    };
+
+    var body = {
+      'produtosAtivos': true,
+    };
+
+    var response = await http.post(Uri.parse('https://sixbackend-70ed1c73ebec.herokuapp.com/produto/lista'), headers: headers,body: jsonEncode(body),);
+    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    print(response.statusCode);
+    ResponseModel responseModel = ResponseModel.fromJson(jsonResponse);
+    return responseModel;
   }
 
   Future<void> novoProduto() async {

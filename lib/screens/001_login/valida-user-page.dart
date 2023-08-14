@@ -31,10 +31,21 @@ class _ValidaPageState extends State<ValidaPage> {
   Future<void> fazerRequisicao() async {
     final url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
     print('URL.: ' + url);
-    final body = jsonEncode({'celular': widget.celular, 'senha': widget.senha});
+
+    var headers = {
+      'idUser':'appPOS',
+      'idUsuario': '40eb39abc2f44908ae5dfc16687cc977',
+      'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
+      'Content-Type': 'application/json',
+    };
+
+    var body = {
+      'celular': widget.celular,
+      'senha' : widget.senha
+    };
 
     try {
-      final response = await http.post(Uri.parse(url), headers: VariaveisGlobais.headersGlobal, body: body);
+      final response = await http.post(Uri.parse(url), headers: headers, body: jsonEncode(body));
       if (response.statusCode == 200 || response.statusCode == 201) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(VariaveisGlobais.PREFERENCIASDOUSUARIO, response.body);
