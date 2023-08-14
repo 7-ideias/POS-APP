@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/001_login/valida-user-page.dart';
 
-class NewLoginPage extends StatelessWidget {
+class NewLoginPage extends StatefulWidget {
   const NewLoginPage({super.key});
+
+  @override
+  State<NewLoginPage> createState() => _NewLoginPageState();
+}
+
+class _NewLoginPageState extends State<NewLoginPage> {
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +24,13 @@ class NewLoginPage extends StatelessWidget {
     void _validateFields() {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ValidaPage(celular: celularController.text,senha: senhaController.text),),
+        MaterialPageRoute(
+          builder: (context) => ValidaPage(
+              celular: celularController.text, senha: senhaController.text),
+        ),
       );
     }
+
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(
@@ -61,6 +72,9 @@ class NewLoginPage extends StatelessWidget {
                 child: const Text(
                   "Recuperar senha",
                   textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Color(0x6cc3c3c3)
+                  ),
                 ),
               ),
             ),
@@ -69,16 +83,28 @@ class NewLoginPage extends StatelessWidget {
             ),
             TextFormField(
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Senha",
                 labelStyle: TextStyle(
-                  color:  Color(0xFF66A3D2),
+                  color: Color(0xFF66A3D2),
                   fontSize: 25,
+                ),
+                suffixIcon: IconButton(
+                  alignment: Alignment.centerRight,
+                  icon: _obscureText
+                      ? Lottie.asset('assets/olho-aberto-senha.json')
+                      : Lottie.asset('assets/olho-fechado-senha.json'),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
                 ),
               ),
               style: const TextStyle(
                 color: Colors.white,
               ),
+              obscureText: _obscureText,
             ),
             const SizedBox(
               height: 20,
@@ -89,23 +115,19 @@ class NewLoginPage extends StatelessWidget {
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                      begin:  Alignment.bottomRight,
+                      begin: Alignment.bottomRight,
                       end: Alignment.topLeft,
-                      stops: [0.3,1],
-                      colors: [
-                        Color(0xff386DBD),
-                        Color(0xFF66A3D2)
-                      ]
-                  ),
-                  borderRadius: BorderRadius.circular(10)
-              ),
+                      stops: [0.3, 1],
+                      colors: [Color(0xff386DBD), Color(0xFF66A3D2)]),
+                  borderRadius: BorderRadius.circular(10)),
               child: SizedBox.expand(
                 child: TextButton(
                   onPressed: _validateFields,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      const Text("Entrar",
+                      const Text(
+                        "Entrar",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -113,12 +135,10 @@ class NewLoginPage extends StatelessWidget {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      Container(
-                        child: SizedBox(
-                          child: Lottie.asset('assets/login.json'),
-                          height: 28,
-                          width: 28,
-                        ),
+                      SizedBox(
+                        child: Lottie.asset('assets/login.json'),
+                        height: 28,
+                        width: 28,
                       ),
                     ],
                   ),
@@ -140,9 +160,7 @@ class NewLoginPage extends StatelessWidget {
               child: TextButton(
                 onPressed: () {},
                 child: const Text(
-                  style: TextStyle(
-                      color: Colors.white
-                  ),
+                  style: TextStyle(color: Color(0xffC3C3C3)),
                   "Nāo tenho conta, criar agora",
                   textAlign: TextAlign.center,
                 ),
