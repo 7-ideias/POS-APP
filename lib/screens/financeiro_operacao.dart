@@ -133,6 +133,9 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                       ),
                     ),
                     GestureDetector(
+                      onTap: (){
+                        Navigator.pushNamed(context, '/configs');
+                      },
                       child: Card(
                         elevation: 10,
                         child: Container(
