@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/001_login/new-login-page.dart';
-
-class PrimeiroUso extends StatelessWidget {
+ class PrimeiroUso extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,15 +26,28 @@ class PrimeiroUso extends StatelessWidget {
                         },
                         child: Lottie.asset('assets/New user sign up.json'),
                       ),
-                      const Text(
-                        'Vou criar uma \n nova conta \n',
+                      const Text(textAlign: TextAlign.center,
+                        'Vou criar uma \n nova conta',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
+                      const Opacity(
+                        opacity: 0.5,
+                        child: Text(textAlign: TextAlign.center,
+                          'Descrição do título aqui',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ],
+                  ),
+                  const SizedBox(
+                    width: 20,
                   ),
                   Column(
                     children: [
@@ -48,12 +60,22 @@ class PrimeiroUso extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      const Text(
+                      const Text(textAlign: TextAlign.center,
                         'Sou um colaborador \n e tenho acesso',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
+                        ),
+                      ),
+                      const Opacity(
+                        opacity: 0.5,
+                        child: Text(textAlign: TextAlign.center,
+                          'Descrição do título aqui',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -78,12 +100,22 @@ class PrimeiroUso extends StatelessWidget {
                         },
                         child: Lottie.asset('assets/User Interface.json'),
                       ),
-                      const Text(
+                      const Text(textAlign: TextAlign.center,
                         'Já possuo conta, quero entrar',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
+                        ),
+                      ),
+                      const Opacity(
+                        opacity: 0.5,
+                        child: Text(textAlign: TextAlign.center,
+                          'Descrição do título aqui',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
