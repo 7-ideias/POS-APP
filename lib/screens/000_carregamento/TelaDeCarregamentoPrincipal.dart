@@ -23,6 +23,7 @@ import 'package:pos_app/screens/devolucao_tela.dart';
 import 'package:pos_app/screens/financeiro_operacao.dart';
 import 'package:pos_app/screens/prod_tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
+import 'package:pos_app/screens/trilhar/primeiro-uso.dart';
 import 'package:pos_app/screens/venda_tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
@@ -48,7 +49,8 @@ class _TelaDeCarregamentoPrincipalState
       ),
       home: SplashPage(),
       routes: {
-        '/home': (_) => Home(),
+        '/home':(_) => PrimeiroUso(),
+        // '/home': (_) => Home(),
         '/login': (_) => NewLoginPage(),
         '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),
