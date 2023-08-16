@@ -14,7 +14,7 @@ class RecuperacaoSenhaConfirmacao extends StatelessWidget {
   TextEditingController celularController = TextEditingController();
   final String numeroCelular;
   final String endpoint =
-      "http://192.168.1.103:8082/usuario/verificacao-4-digitos";
+      "http://192.168.0.114:8082/usuario/verificacao-4-digitos";
 
   RecuperacaoSenhaConfirmacao(this.numeroCelular);
 
