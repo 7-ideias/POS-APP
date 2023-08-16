@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:pos_app/screens/001_login/recuperacao-senha-confirmacao.dart';
 
 class RecuperandoSenha extends StatelessWidget {
   TextEditingController celularController = TextEditingController();
@@ -16,6 +17,10 @@ class RecuperandoSenha extends StatelessWidget {
       if (response.statusCode == 200) {
         // Requisição bem-sucedida, faça algo com a resposta aqui
         print(response.body);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RecuperacaoSenhaConfirmacao(celular)),
+        );
       } else {
         // Requisição falhou, lide com o erro aqui
         print("Erro na requisição: ${response.statusCode}");
