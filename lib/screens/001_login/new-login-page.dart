@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/001_login/recuperando-senha.dart';
 import 'package:pos_app/screens/001_login/valida-user-page.dart';
+import 'package:http/http.dart' as http;
 
 class NewLoginPage extends StatefulWidget {
   const NewLoginPage({super.key});
@@ -11,16 +13,45 @@ class NewLoginPage extends StatefulWidget {
 
 class _NewLoginPageState extends State<NewLoginPage> {
   bool _obscureText = true;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController celularController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController celularController = TextEditingController();
     final TextEditingController senhaController = TextEditingController();
-    bool isUserValid = false;
-    bool isPasswordValid = false;
-    late var celular;
-    late var senha;
+    // bool isUserValid = false;
+    // bool isPasswordValid = false;
+    // late var celular;
+    // late var senha;
 
+    const String endpoint = "localhost:8082/usuario/recuperar-senha/";
+    String url = '$endpoint?celular=$celularController';
+    void recuperarSenha(BuildContext context) {
+      if (formKey.currentState!.validate()) {
+        String celular = celularController.text;
+        if (celular.length == 13) {
+          // Fazendo a requisição GET com o número de celular como parâmetro
+          http.get(Uri.parse(url)).then((response) {
+            if (response.statusCode == 200) {
+              // Requisição bem-sucedida, faça algo com a resposta aqui
+              print(response.body);
+            } else {
+              // Requisição falhou, lide com o erro aqui
+              print("Erro na requisição: ${response.statusCode}");
+            }
+          }).catchError((error) {
+            // Erro ao fazer a requisição, lide com o erro aqui
+            print("Erro: $error");
+          });
+        } else {
+          // Navegação para a nova página
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RecuperandoSenha()),
+          );
+        }
+      }
+    }
     void _validateFields() {
       Navigator.pushReplacement(
         context,
@@ -63,19 +94,23 @@ class _NewLoginPageState extends State<NewLoginPage> {
               style: const TextStyle(
                 color: Colors.white,
               ),
+              key: formKey,
             ),
             Container(
-              height: 40,
               alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Recuperar senha",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Color(0x6cc3c3c3)
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: () => recuperarSenha(context),
+                    child: const Text(
+                      "Recuperar senha",
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Color(0x6cc3c3c3),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             const SizedBox(
@@ -85,7 +120,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "Senha",
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Color(0xFF66A3D2),
                   fontSize: 25,
                 ),
