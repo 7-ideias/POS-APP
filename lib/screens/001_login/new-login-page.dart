@@ -15,43 +15,15 @@ class _NewLoginPageState extends State<NewLoginPage> {
   bool _obscureText = true;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController celularController = TextEditingController();
-
+  final TextEditingController senhaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final TextEditingController senhaController = TextEditingController();
+
     // bool isUserValid = false;
     // bool isPasswordValid = false;
     // late var celular;
     // late var senha;
 
-    const String endpoint = "localhost:8082/usuario/recuperar-senha/";
-    String url = '$endpoint?celular=$celularController';
-    void recuperarSenha(BuildContext context) {
-      if (formKey.currentState!.validate()) {
-        String celular = celularController.text;
-        if (celular.length == 13) {
-          // Fazendo a requisição GET com o número de celular como parâmetro
-          http.get(Uri.parse(url)).then((response) {
-            if (response.statusCode == 200) {
-              // Requisição bem-sucedida, faça algo com a resposta aqui
-              print(response.body);
-            } else {
-              // Requisição falhou, lide com o erro aqui
-              print("Erro na requisição: ${response.statusCode}");
-            }
-          }).catchError((error) {
-            // Erro ao fazer a requisição, lide com o erro aqui
-            print("Erro: $error");
-          });
-        } else {
-          // Navegação para a nova página
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => RecuperandoSenha()),
-          );
-        }
-      }
-    }
     void _validateFields() {
       Navigator.pushReplacement(
         context,
@@ -101,7 +73,11 @@ class _NewLoginPageState extends State<NewLoginPage> {
               child: Column(
                 children: [
                   TextButton(
-                    onPressed: () => recuperarSenha(context),
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RecuperandoSenha()),
+                    ),
                     child: const Text(
                       "Recuperar senha",
                       textAlign: TextAlign.right,

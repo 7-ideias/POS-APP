@@ -2,19 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-
 class RecuperandoSenha extends StatelessWidget {
-  final String endpoint = "URL_DO_ENDPOINT"; // Substitua pela URL do seu endpoint
-
   TextEditingController celularController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController senhaController = TextEditingController();
 
   void enviar(BuildContext context) {
     String celular = celularController.text;
+    String endpoint = 'http://192.168.1.103:8082/usuario/recuperar-senha/+55$celular';
 
     // Fazendo a requisição GET com o número de celular como parâmetro
-    http.get(Uri.parse('$endpoint?celular=$celular')).then((response) {
+    http.get(Uri.parse(endpoint)).then((response) {
       if (response.statusCode == 200) {
         // Requisição bem-sucedida, faça algo com a resposta aqui
         print(response.body);
