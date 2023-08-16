@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:pos_app/screens/financeiro_operacao.dart';
-import 'package:pos_app/service/info-user-service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../dtos/usuario-dto.dart';
-import '../escolha_operacao.dart';
+import '../operacao-escolha-tela.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -21,10 +18,10 @@ class _HomeState extends State<Home> {
   final GlobalKey _bottomNavigationKey = GlobalKey();
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     _page = 1; // Definindo o valor inicial como 1
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +62,7 @@ class _HomeState extends State<Home> {
           ? FinanceiroTela()
           : _page == 1
               ? PrincipalTela()
-              : OperacoesTela(),
+              : OperacaoEscolhaTela(),
     );
   }
 }

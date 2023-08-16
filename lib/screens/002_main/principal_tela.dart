@@ -4,6 +4,14 @@ import '../../utilitarios/Donut.dart';
 import '../../utilitarios/MenuLateral.dart';
 import '../../utilitarios/VariaveisGlobais.dart';
 
+
+
+/*
+TODO PAYLOAD IMAGINADO
+
+ */
+
+
 class PrincipalTela extends StatefulWidget {
   @override
   _PrincipalTelaState createState() => _PrincipalTelaState();
@@ -41,68 +49,13 @@ class _PrincipalTelaState extends State<PrincipalTela>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // SizedBox(height: 16),
-          // if (_isExpanded)
-          //   Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       Container(
-          //         child: Card(
-          //           elevation: 3,
-          //           child: Text('nova venda',
-          //               style: TextStyle(fontSize: 30, color: Colors.indigo)),
-          //         ),
-          //       ),
-          //       SizedBox(
-          //         width: 20,
-          //       ),
-          //       buildFloatingActionButton(
-          //         icon: Icons.add,
-          //         onPressed: () {
-          //           Navigator.pushNamed(context, '/venda');
-          //         },
-          //       ),
-          //     ],
-          //   ),
-          // SizedBox(height: 16),
-          // if (_isExpanded) SizedBox(height: 16),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.end,
-          //   children: [
-          //     _isExpanded
-          //         ? Container(
-          //             child: Card(
-          //               elevation: 3,
-          //               child: Text('cancelar',
-          //                   style:
-          //                       TextStyle(fontSize: 30, color: Colors.indigo)),
-          //             ),
-          //           )
-          //         : Container(),
-          //     SizedBox(
-          //       width: 20,
-          //     ),
-          //     buildFloatingActionButton(
-          //       icon: _isExpanded ? Icons.close : Icons.add,
-          //       onPressed: () {
-          //         setState(() {
-          //           _isExpanded = !_isExpanded;
-          //           _isExpanded
-          //               ? _animationController.forward()
-          //               : _animationController.reverse();
-          //         });
-          //       },
-          //     ),
-          //   ],
-          // ),
-          // SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              buildFloatingActionButton(
-                icon: Icons.refresh,
-                onPressed: () {
-                  //todo
+              FloatingActionButton(
+                child: Icon(Icons.refresh),
+                onPressed: (){
+
                 },
               ),
             ],
@@ -179,7 +132,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context, '/venda2');
+                                      Navigator.pushNamed(context, '/operacoes');
                                     },
                                     child: ShakeIcon(
                                         icon: Icon(
@@ -276,14 +229,6 @@ class _PrincipalTelaState extends State<PrincipalTela>
                   ],
                 )),
       ]),
-    );
-  }
-
-  Widget buildFloatingActionButton(
-      {required IconData icon, required VoidCallback onPressed}) {
-    return FloatingActionButton(
-      child: Icon(icon),
-      onPressed: onPressed,
     );
   }
 }

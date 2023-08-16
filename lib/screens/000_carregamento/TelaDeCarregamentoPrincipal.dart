@@ -13,21 +13,21 @@ import 'package:pos_app/screens/ConfiguracoesTela.dart';
 import 'package:pos_app/screens/PedidosTela.dart';
 import 'package:pos_app/screens/PerfilTela.dart';
 import 'package:pos_app/screens/ResumoTela.dart';
-import 'package:pos_app/screens/SejaProTela.dart';
 import 'package:pos_app/screens/ServicosTela.dart';
 import 'package:pos_app/screens/VendaTela.dart';
 import 'package:pos_app/screens/caixa_tela.dart';
 import 'package:pos_app/screens/castro-tela.dart';
 import 'package:pos_app/screens/devolucao_tela.dart';
 import 'package:pos_app/screens/financeiro_operacao.dart';
+import 'package:pos_app/screens/operacao-nova-tela.dart';
 import 'package:pos_app/screens/prod_tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
-import 'package:pos_app/screens/venda_tela.dart';
+import 'package:pos_app/screens/operacao-tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import '../../service/info-user-service.dart';
 import '../003_register/clientes/CadastroClienteTela.dart';
-import '../produtos_tela.dart';
+import '../produto_tela.dart';
 
 class TelaDeCarregamentoPrincipal extends StatefulWidget {
   @override
@@ -64,12 +64,11 @@ class _TelaDeCarregamentoPrincipalState
         '/produtos-geral': (_) => ProdTela(),
         '/relatorios': (_) => RelatoriosTela(),
         '/resumo': (_) => ResumoTela(),
-        '/sejapro': (_) => SejaProTela(),
         '/servicos': (_) => ServicosTela(),
         '/perfil': (_) => PerfilTela(),
-        // '/teste': (_) => Teste(),
+        '/operacaoNova': (_) => OperacaoNova(),
         '/venda': (_) => VendaTela(),
-        '/venda2': (_) => VendasTela2(),
+        '/operacoes': (_) => OperacaoTela(),
         '/pdf': (_) => PDFCreatePage(),
         '/desenvolvedor': (_) => DesenvolvedorPage(),
         '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),

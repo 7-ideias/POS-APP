@@ -15,145 +15,158 @@ class _CadastrosTelaState extends State<CadastrosTela> {
     var tamanhoDaFonte = 30.0;
     return Scaffold(
       appBar: AppBar(),
-      body: ListView(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                GestureDetector(
-                  onTap:() {
-                    Navigator.pushNamed(context, '/produtos');
-                  },
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * larguraTela,
-                      child: Stack(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GestureDetector(
+              onTap:() {
+                Navigator.pushNamed(context, '/produtos');
+              },
+              child: Card(
+                elevation: 10,
+                child: Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width * larguraTela,
+                  child: Stack(
+                    children: [
+                      Container(
+                      ),
+                      Lottie.asset(
+                        'assets/produtos.json',
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                          ),
-                          Lottie.asset(
-                            'assets/produtos.json',
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Card(
+                                    color: Colors.red,
+                                    child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          'produtos',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: tamanhoDaFonte, color: Colors.white),
-                                        ),
+                                      child: Text(
+                                        'produtos',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: tamanhoDaFonte, color: Colors.black),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * larguraTela,
-                      child: Stack(
+              ),
+            ),
+            GestureDetector(
+              child: Card(
+                elevation: 10,
+                child: Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width * larguraTela,
+                  child: Stack(
+                    children: [
+                      Container(
+                      ),
+                      Lottie.asset(
+                        'assets/clientes.json',
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                          ),
-                          Lottie.asset(
-                            'assets/clientes.json',
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Card(
+                                    color: Colors.red,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         'clientes',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: tamanhoDaFonte, color: Colors.white),
+                                            fontSize: tamanhoDaFonte, color: Colors.black),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * larguraTela,
-                      child: Stack(
+              ),
+            ),
+            GestureDetector(
+              child: Card(
+                elevation: 10,
+                child: Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width * larguraTela,
+                  child: Stack(
+                    children: [
+                      Container(
+                      ),
+                      Lottie.asset(
+                        'assets/agency-team.json',
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                          ),
-                          Lottie.asset(
-                            'assets/agency-team.json',
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FittedBox(
-                                      fit: BoxFit.scaleDown,
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Card(
+                                    color: Colors.red,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'colaboradores',
+                                        'produtos',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: tamanhoDaFonte, color: Colors.white),
+                                            fontSize: tamanhoDaFonte, color: Colors.black),
                                       ),
-                                    )
-                                  ],
+                                    ),
+                                  ),
                                 ),
-                              )
-                            ],
-                          ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
