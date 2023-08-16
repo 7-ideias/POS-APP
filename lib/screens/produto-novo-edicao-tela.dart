@@ -5,41 +5,76 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
-class ProdutoDetalheTela extends StatefulWidget {
+import '../dtos/produto_dto.dart';
+
+class ProdutoNovoEdicaoTela extends StatefulWidget {
   String idProduto;
 
-  ProdutoDetalheTela({Key? key, required this.idProduto}) : super(key: key);
+  ProdutoNovoEdicaoTela({Key? key, required this.idProduto}) : super(key: key);
 
   @override
-  State<ProdutoDetalheTela> createState() => _ProdutoDetalheTelaState();
+  State<ProdutoNovoEdicaoTela> createState() => _ProdutoNovoEdicaoTelaState();
 }
 
-class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
+class AdicionarOuBaixar extends StatefulWidget {
+  final String adicionarOuBaixar;
+  final String idProduto;
+
+  const AdicionarOuBaixar(this.adicionarOuBaixar, this.idProduto, {Key? key})
+      : super(key: key);
+
+  @override
+  State<AdicionarOuBaixar> createState() => _AdicionarOuBaixarState();
+}
+
+class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   final _form = GlobalKey<FormState>(); // cria  a chave para o formulario
 
-  bool fazendoRequest = false;
+  late Produto produtoModelo;
+
+  var fazendoRequest = false;
   int responseCodeDaRequest = 0;
 
-  bool revelarTodos = false;
-  bool editar = false;
-  bool edicaoDeProdutoAtivo = false;
+  var revelarTodos = false;
+  var editar = false;
+  var edicaoDeProdutoAtivo = false;
   var idProduto = '';
-  var _idProduto = TextEditingController();
-  var _nomeProduto = TextEditingController();
-  var _codigoProduto = TextEditingController();
+  final _idProduto = TextEditingController();
+  final _nomeProduto = TextEditingController();
+  final _codigoProduto = TextEditingController();
+  var _qtInicial = TextEditingController();
+  final _custo = TextEditingController();
+  final _vlDeVenda = TextEditingController();
+
+  String _textoApareceEmCimaDaTela = '';
 
   @override
   void initState() {
+    if (widget.idProduto != VariaveisGlobais.NOVO_PRODUTO) {
+      pesquisarOProduto(widget.idProduto);
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.idProduto);
+    setState(() {
+      if (widget.idProduto == VariaveisGlobais.NOVO_PRODUTO) {
+        _textoApareceEmCimaDaTela = 'novo produto';
+        edicaoDeProdutoAtivo = true;
+        editar = true;
+      } else {
+        _textoApareceEmCimaDaTela = 'edição';
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
           title: edicaoDeProdutoAtivo == true
-              ? Text('edicao')
+              ? Text(_textoApareceEmCimaDaTela)
               : Text(widget.idProduto)),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -52,7 +87,7 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
               edicaoDeProdutoAtivo == true
                   ? FloatingActionButton.extended(
                       onPressed: () async {
-                         await enviarNovoProduto();
+                        await enviarNovoProduto();
                         if (responseCodeDaRequest == 409) {
                           showDialog(
                             context: context,
@@ -63,13 +98,13 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
                                 actions: [
                                   TextButton(
                                     child: Text("cancelar"),
-                                    onPressed:  () {
+                                    onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
                                   TextButton(
                                     child: Text("continuar"),
-                                    onPressed:  () {
+                                    onPressed: () {
                                       Navigator.of(context).pop();
                                     },
                                   ),
@@ -77,6 +112,9 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
                               );
                             },
                           );
+                        }
+                        if (responseCodeDaRequest == 200) {
+                          Navigator.pop(context);
                         }
                       },
                       backgroundColor: Colors.green,
@@ -226,7 +264,7 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
                     edicaoDeProdutoAtivo == true
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('editando o produto',
+                            child: Text(_textoApareceEmCimaDaTela,
                                 style: TextStyle(fontSize: 22)),
                           )
                         : Container(),
@@ -248,10 +286,7 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
                   child: TextField(
                     enabled: editar,
                     controller: _nomeProduto,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'nome produto',
-                    ),
+                    decoration: buildInputDecoration('descrição do item'),
                   ),
                 ),
                 Padding(
@@ -263,15 +298,13 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                     ],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Digite um número',
-                    ),
+                    decoration: buildInputDecoration('código do item'),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    controller: _qtInicial,
                     enabled: editar,
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
@@ -279,10 +312,36 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
                       FilteringTextInputFormatter.allow(
                           RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
                     ],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Digite um número',
-                    ),
+                    decoration:
+                        buildInputDecoration('quantidade da entrada inicial'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _custo,
+                    enabled: editar,
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                    ],
+                    decoration: buildInputDecoration('custo'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: _vlDeVenda,
+                    enabled: editar,
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                    ],
+                    decoration: buildInputDecoration('valor da venda'),
                   ),
                 ),
               ],
@@ -290,22 +349,36 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
     );
   }
 
+  InputDecoration buildInputDecoration(String texto) {
+    return InputDecoration(
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      enabledBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      focusedBorder:
+          OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      labelText: texto,
+    );
+  }
+
   Future<void> enviarNovoProduto() async {
     setState(() {
       fazendoRequest = true;
     });
-    var url = 'http://sixbackend-70ed1c73ebec.herokuapp.com/produto/cadastro';
+    var url = '${VariaveisGlobais.endPoint}/produto/cadastro';
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
     var headers = {
       'Content-Type': 'application/json',
-      'idUsuario': '40eb39abc2f44908ae5dfc16687cc977',
-      'idColaborador': '40eb39abc2f44908ae5dfc16687cc977'
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'idColaborador': idDeQuemEstaCadastrando
     };
     var body = jsonEncode({
       "ativo": true,
       "codigoDeBarras": _codigoProduto.text,
       "nomeProduto": _nomeProduto.text,
       "tipoPoduto": "PRODUTO",
-      "objInformacoesDoCadastro": {"idDeQuemCadastrou": "idDeQuemCadastrou"},
+      "objInformacoesDoCadastro": {
+        "idDeQuemCadastrou": idDeQuemEstaCadastrando
+      },
       "objAgrupamento": {"grupoDoProduto": "grupoDoProduto"},
       "objetoServico": {
         "tempoDaGarantia": "tempoDaGarantia",
@@ -320,12 +393,16 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
         "valorFixoDeComissaoParaEsseProduto": 10.00
       },
       "objEntradaSaidaProduto": [
-        {"quantidade": 10.99, "valorCusto": 5.99, "valorDaVenda": 10.99}
+        {
+          "quantidade": _qtInicial.text,
+          "valorCusto": _custo.text,
+          "valorDaVenda": _vlDeVenda.text
+        }
       ],
       "objLogs": [
         {
           "objInformacoesDoCadastro": {
-            "idDeQuemCadastrou": "idDeQuemCadastrou",
+            "idDeQuemCadastrou": '${VariaveisGlobais.usuarioDto.id}',
             "dataCadastro": null
           },
           "ocorrencia": "ocorrencia"
@@ -342,19 +419,32 @@ class _ProdutoDetalheTelaState extends State<ProdutoDetalheTela> {
       fazendoRequest = false;
       responseCodeDaRequest = response.statusCode;
     });
-
   }
-}
 
-class AdicionarOuBaixar extends StatefulWidget {
-  final String adicionarOuBaixar;
-  final String idProduto;
+  Future<void> pesquisarOProduto(String id) async {
+    debugPrint('pesquisarOProduto');
+    setState(() {
+      fazendoRequest = true;
+    });
+    var url = '${VariaveisGlobais.endPoint}/produto/detalhado/' + id;
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
+    var headers = {
+      'Content-Type': 'application/json',
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'idColaborador': idDeQuemEstaCadastrando
+    };
+    var response = await http.get(Uri.parse(url), headers: headers);
 
-  const AdicionarOuBaixar(this.adicionarOuBaixar, this.idProduto, {Key? key})
-      : super(key: key);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      produtoModelo = Produto.fromJson(jsonResponse);
+    }
 
-  @override
-  State<AdicionarOuBaixar> createState() => _AdicionarOuBaixarState();
+    setState(() {
+      fazendoRequest = false;
+      responseCodeDaRequest = response.statusCode;
+    });
+  }
 }
 
 class _AdicionarOuBaixarState extends State<AdicionarOuBaixar> {

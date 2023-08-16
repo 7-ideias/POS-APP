@@ -1,6 +1,6 @@
 class ResponseModel {
-  int qtNoEstoque;
-  int qtSemEstoque;
+  double qtNoEstoque;
+  double qtSemEstoque;
   double vlEstoqueEmGrana;
   List<Produto> produtosList;
 
@@ -56,11 +56,11 @@ class Produto {
 }
 
 class ObjCalculosDeProdutoDoBackEnd {
-  int qtNoEstoque;
+  double qtNoEstoque;
   double vlEstoqueEmGrana;
   String ultimoDiaDeVenda;
-  int ultimoVlEmGranaPagoPeloProduto;
-  int vlMedioDoProduto;
+  double ultimoVlEmGranaPagoPeloProduto;
+  double vlMedioDoProduto;
 
   ObjCalculosDeProdutoDoBackEnd({
     required this.qtNoEstoque,

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:http/src/response.dart';
 import 'package:pos_app/controller/produto_controller.dart';
-import 'package:pos_app/screens/produto_edicao_tela.dart';
+import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 
 import '../dtos/produto_dto.dart';
+import 'package:http/http.dart' as http;
+
+import '../utilitarios/VariaveisGlobais.dart';
 
 class ProdutosTela extends StatefulWidget {
   @override
@@ -12,6 +16,7 @@ class ProdutosTela extends StatefulWidget {
 class _ProdutosTelaState2 extends State<ProdutosTela> {
   List<Produto> produtoList = [];
   bool isLoading = true;
+  bool _temConteudo = false;
   late String idProduto;
   late ResponseModel resumo;
   bool mostrarTudo = false;
@@ -51,7 +56,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                       ),
                       isLoading == false
                           ? Text(
-                              resumo.qtNoEstoque.toString(),
+                        _temConteudo == true ? resumo.qtNoEstoque.toString() : '0',
                               style:
                                   TextStyle(fontSize: 22, color: Colors.white),
                             )
@@ -70,7 +75,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                       ),
                       isLoading == false
                           ? Text(
-                              resumo.vlEstoqueEmGrana.toString(),
+                        _temConteudo == true ? resumo.vlEstoqueEmGrana.toString() : '0',
                               style:
                                   TextStyle(fontSize: 22, color: Colors.white),
                             )
@@ -112,7 +117,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   )
                 : RefreshIndicator(
                     onRefresh: () => getProdutoList(),
-                    child: ListView.builder(
+                    child: _temConteudo == true ? ListView.builder(
                       itemCount: produtoList.length,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -146,7 +151,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProdutoDetalheTela(
+                                  builder: (context) => ProdutoNovoEdicaoTela(
                                     idProduto: idProduto,
                                   ),
                                 ),
@@ -155,7 +160,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                           ),
                         );
                       },
-                    ),
+                    ) : Container(),
                   ),
           ),
         ],
@@ -173,8 +178,8 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProdutoDetalheTela(
-                    idProduto: 'novo produto',
+                  builder: (context) => ProdutoNovoEdicaoTela(
+                    idProduto: VariaveisGlobais.NOVO_PRODUTO,
                   ),
                 ),
               );
@@ -207,6 +212,10 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
               ],
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
+          FloatingActionButton(onPressed: getProdutoList,child: Icon(Icons.refresh),)
         ],
       ),
     );
@@ -215,18 +224,26 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
   Future<void> getProdutoList() async {
     setState(() {
       isLoading = true;
+      _temConteudo = false;
     });
-    var buscarProdutoList = ProdutoController().buscarProdutoList();
-    buscarProdutoList.then((listaProdutos) {
-      produtoList = listaProdutos.produtosList;
-      setState(() {
-        resumo = listaProdutos;
-        isLoading = false;
-        mostrarTudo = false;
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao();
+    if (fazRequisicao.statusCode == 200){
+      var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
+      buscarProdutoList.then((listaProdutos) {
+        produtoList = listaProdutos.produtosList;
+        setState(() {
+          resumo = listaProdutos;
+          isLoading = false;
+          mostrarTudo = false;
+          _temConteudo = true;
+        });
+      }).catchError((erro) {
+        print(erro);
       });
-    }).catchError((erro) {
-      print(erro);
-      // Trate qualquer erro que ocorra durante a obtenção dos produtos
-    });
+    }else{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
