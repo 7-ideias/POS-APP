@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
 import '../001_login/nova-senha.dart';
-
 class RecuperacaoSenhaConfirmacao extends StatefulWidget {
   final String numeroCelular;
+
 
   RecuperacaoSenhaConfirmacao(this.numeroCelular);
 
@@ -86,7 +86,7 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
           children: [
             Container(
               padding: EdgeInsets.all(40),
-              child: Lottie.asset(''),
+              child: Lottie.asset('assets/password-protection.json'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -137,4 +137,3 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
     );
   }
 }
-  

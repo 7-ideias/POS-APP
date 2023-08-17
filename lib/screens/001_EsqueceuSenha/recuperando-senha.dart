@@ -5,9 +5,17 @@ import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/001_EsqueceuSenha/recuperacao-senha-confirmacao.dart';
 import 'package:validatorless/validatorless.dart';
 
-class RecuperandoSenha extends StatelessWidget {
+class RecuperandoSenha extends StatefulWidget {
+  @override
+  State<RecuperandoSenha> createState() => _RecuperandoSenhaState();
+}
+
+class _RecuperandoSenhaState extends State<RecuperandoSenha> {
+
   TextEditingController celularController = TextEditingController();
+
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final TextEditingController senhaController = TextEditingController();
 
   void enviar(BuildContext context) {
@@ -56,8 +64,8 @@ class RecuperandoSenha extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
-                  child: Text(
-                    'Enviaremos um SMS para confirmar sua identidade, isso levara um segundo!',
+                  child: const Text(
+                    'Enviaremos um SMS para confirmar sua identidade, isso levará um segundo!',
                     style: TextStyle(
                       fontSize: 20,
                       color: Color(0xffCEC10D),
