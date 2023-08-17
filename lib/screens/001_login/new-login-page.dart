@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/001_login/recuperando-senha.dart';
+import 'package:pos_app/screens/001_EsqueceuSenha/recuperando-senha.dart';
 import 'package:pos_app/screens/001_login/valida-user-page.dart';
 import 'package:http/http.dart' as http;
 import 'package:validatorless/validatorless.dart';

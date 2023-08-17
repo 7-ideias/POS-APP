@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'nova-senha.dart';
+import '../001_login/nova-senha.dart';
 
 class RecuperacaoSenhaConfirmacao extends StatelessWidget {
   TextEditingController campo1Controller = TextEditingController();

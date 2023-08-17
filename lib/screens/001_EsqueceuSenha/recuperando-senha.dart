@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/001_login/recuperacao-senha-confirmacao.dart';
+import 'package:pos_app/screens/001_EsqueceuSenha/recuperacao-senha-confirmacao.dart';
 import 'package:validatorless/validatorless.dart';
 
 class RecuperandoSenha extends StatelessWidget {
@@ -57,7 +57,7 @@ class RecuperandoSenha extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    'Enviaremos um SMS para confirmar sua identificação, isso levara um segundo!',
+                    'Enviaremos um SMS para confirmar sua identidade, isso levara um segundo!',
                     style: TextStyle(
                       fontSize: 20,
                       color: Color(0xffCEC10D),
@@ -79,6 +79,9 @@ class RecuperandoSenha extends StatelessWidget {
                     ]),
                     keyboardType: TextInputType.phone,
                     controller: celularController,
+                    style: const TextStyle(
+                      color: Colors.white
+                    ),
                     decoration: const InputDecoration(
                       labelText: 'Digite seu numero de telefone',
                       labelStyle: TextStyle(
