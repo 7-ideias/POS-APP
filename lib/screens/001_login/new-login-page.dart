@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/001_login/recuperando-senha.dart';
 import 'package:pos_app/screens/001_login/valida-user-page.dart';
 import 'package:http/http.dart' as http;
+import 'package:validatorless/validatorless.dart';
 
 class NewLoginPage extends StatefulWidget {
   const NewLoginPage({super.key});
@@ -29,6 +30,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ValidaPage(
+
               celular: celularController.text, senha: senhaController.text),
         ),
       );
@@ -55,6 +57,10 @@ class _NewLoginPageState extends State<NewLoginPage> {
               height: 135,
             ),
             TextFormField(
+              validator: Validatorless.multiple([
+                Validatorless.number("Insira somente numeros"),
+                Validatorless.regex(RegExp(r'^\d{11}$'), "Número de celular inválido")
+              ]),
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
                 labelText: "Celular",
@@ -93,6 +99,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
               height: 20,
             ),
             TextFormField(
+              validator: Validatorless.max(6, 'A senha deve conter no maximo 6 digitos.'),
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "Senha",

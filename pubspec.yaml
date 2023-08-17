@@ -36,3 +36,8 @@ flutter:
   assets:
     - assets/
   uses-material-design: true
+
+  fonts:
+    - family: Caprasimo
+      fonts:
+        - asset: fonts/Caprasimo-Regular.ttf
