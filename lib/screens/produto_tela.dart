@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/src/response.dart';
-import 'package:pos_app/controller/produto_controller.dart';
+import 'package:pos_app/controller/produto-controller.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 
 import '../dtos/produto-dto.dart';
