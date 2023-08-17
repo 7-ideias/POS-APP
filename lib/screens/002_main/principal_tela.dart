@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/others/shake-icon.dart';
+
 import '../../utilitarios/Donut.dart';
 import '../../utilitarios/MenuLateral.dart';
 import '../../utilitarios/VariaveisGlobais.dart';
-
-
 
 /*
 TODO PAYLOAD IMAGINADO
 
  */
-
 
 class PrincipalTela extends StatefulWidget {
   @override
@@ -54,9 +53,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
             children: [
               FloatingActionButton(
                 child: Icon(Icons.refresh),
-                onPressed: (){
-
-                },
+                onPressed: () {},
               ),
             ],
           ),
@@ -93,7 +90,9 @@ class _PrincipalTelaState extends State<PrincipalTela>
                             children: [
                               SizedBox(width: 20),
                               Text(
-                                VariaveisGlobais.usuarioDto.objUser?.objPessoa?.nome ?? '',
+                                VariaveisGlobais
+                                        .usuarioDto.objUser?.objPessoa?.nome ??
+                                    '',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -132,7 +131,8 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.pushNamed(context, '/operacoes');
+                                      Navigator.pushNamed(
+                                          context, '/operacoes');
                                     },
                                     child: ShakeIcon(
                                         icon: Icon(

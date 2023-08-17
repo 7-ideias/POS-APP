@@ -14,6 +14,9 @@ class ProdutosTela extends StatefulWidget {
 }
 
 class _ProdutosTelaState2 extends State<ProdutosTela> {
+
+  double tamanhoDaFonte = 16;
+
   List<Produto> produtoList = [];
   bool isLoading = true;
   bool _temConteudo = false;
@@ -52,13 +55,13 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                     children: [
                       Text(
                         'itens no estoque.: ',
-                        style: TextStyle(fontSize: 22, color: Colors.white),
+                        style: TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
                       ),
                       isLoading == false
                           ? Text(
                         _temConteudo == true ? resumo.qtNoEstoque.toString() : '0',
                               style:
-                                  TextStyle(fontSize: 22, color: Colors.white),
+                                  TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
                             )
                           : Container()
                     ],
@@ -71,13 +74,13 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                     children: [
                       Text(
                         'valor do estoque.: R\$ ',
-                        style: TextStyle(fontSize: 22, color: Colors.white),
+                        style: TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
                       ),
                       isLoading == false
                           ? Text(
                         _temConteudo == true ? resumo.vlEstoqueEmGrana.toString() : '0',
                               style:
-                                  TextStyle(fontSize: 22, color: Colors.white),
+                                  TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
                             )
                           : Container()
                     ],
@@ -187,7 +190,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             label: Row(
               children: [
                 Icon(Icons.add),
-                Text('  adicionar novo produto',style: TextStyle(fontSize: 22),),
+                Text('  adicionar novo produto',style: TextStyle(fontSize: tamanhoDaFonte),),
               ],
             ),
           ):Container(),
@@ -203,12 +206,12 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             label: mostrarTudo == false ? Row(
               children: [
                 Icon(Icons.add),
-                Text(' mais ações', style: TextStyle(fontSize: 22)),
+                Text(' mais ações', style: TextStyle(fontSize: tamanhoDaFonte)),
               ],
             ) : Row(
               children: [
                 Icon(Icons.hide_source),
-                Text(' esconder ações', style: TextStyle(fontSize: 22)),
+                Text(' esconder ações', style: TextStyle(fontSize: tamanhoDaFonte)),
               ],
             ),
           ),

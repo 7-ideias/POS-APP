@@ -13,4 +13,9 @@ class VariaveisGlobais {
   static Map<String, String> headers() => {"Content-Type": "application/json","idUser":"{$idUsuario}","idColaborador":"{$idUsuario}"};
   static final headersGlobal = {'Content-Type': 'application/json','idUser': '{$idUsuario}','idColaborador': '{$idUsuario}'};
   static String idioma = "ingles";
+
+  static double converterMoedaEmDoble(String aConverter){
+    aConverter.isEmpty ? aConverter = "0.00" : aConverter;
+    return double.parse(aConverter.replaceAll(RegExp('[^0-9]'), '')) / 100;
+  }
 }

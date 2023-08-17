@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
-
+import 'package:intl/intl.dart';
 import '../dtos/produto_dto.dart';
 
 class ProdutoNovoEdicaoTela extends StatefulWidget {
@@ -32,6 +32,8 @@ class AdicionarOuBaixar extends StatefulWidget {
 class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   final _form = GlobalKey<FormState>(); // cria  a chave para o formulario
 
+  double tamanhoDaFonte = 16;
+
   late Produto produtoModelo;
 
   var fazendoRequest = false;
@@ -41,12 +43,14 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   var editar = false;
   var edicaoDeProdutoAtivo = false;
   var idProduto = '';
-  final _idProduto = TextEditingController();
-  final _nomeProduto = TextEditingController();
-  final _codigoProduto = TextEditingController();
+  var _idProduto = TextEditingController();
+  var _nomeProduto = TextEditingController();
+  var _codigoProduto = TextEditingController();
   var _qtInicial = TextEditingController();
-  final _custo = TextEditingController();
-  final _vlDeVenda = TextEditingController();
+  var _custo = TextEditingController();
+  var _vlDeVenda = TextEditingController();
+  var _produtoAtivo = true;
+  int _vlParaOEstoque = 1;
 
   String _textoApareceEmCimaDaTela = '';
 
@@ -60,7 +64,6 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.idProduto);
     setState(() {
       if (widget.idProduto == VariaveisGlobais.NOVO_PRODUTO) {
         _textoApareceEmCimaDaTela = 'novo produto';
@@ -75,7 +78,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       appBar: AppBar(
           title: edicaoDeProdutoAtivo == true
               ? Text(_textoApareceEmCimaDaTela)
-              : Text(widget.idProduto)),
+              : Text(_textoApareceEmCimaDaTela)),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -87,7 +90,12 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
               edicaoDeProdutoAtivo == true
                   ? FloatingActionButton.extended(
                       onPressed: () async {
-                        await enviarNovoProduto();
+                        if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
+                          await enviarNovoProduto('NOVO');
+                        }else{
+                          await enviarNovoProduto('EDICAO');
+                        }
+
                         if (responseCodeDaRequest == 409) {
                           showDialog(
                             context: context,
@@ -97,13 +105,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                 content: Text("O código de produto já existe!"),
                                 actions: [
                                   TextButton(
-                                    child: Text("cancelar"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text("continuar"),
+                                    child: Text("ok"),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -120,7 +122,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       backgroundColor: Colors.green,
                       label: Text(
                         'salvar',
-                        style: TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: tamanhoDaFonte),
                       ),
                       icon: Icon(Icons.save),
                       shape: RoundedRectangleBorder(
@@ -139,7 +141,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       backgroundColor: Colors.redAccent,
                       label: Text(
                         'cancelar',
-                        style: TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: tamanhoDaFonte),
                       ),
                       icon: Icon(Icons.cancel),
                       shape: RoundedRectangleBorder(
@@ -163,7 +165,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       backgroundColor: Colors.green,
                       label: Text(
                         'adicionar mais ao estoque',
-                        style: TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: tamanhoDaFonte),
                       ),
                       icon: Icon(Icons.add),
                       shape: RoundedRectangleBorder(
@@ -189,7 +191,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       backgroundColor: Colors.red,
                       label: Text(
                         'dar baixar (diminuir) estoque',
-                        style: TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: tamanhoDaFonte),
                       ),
                       icon: Icon(Icons.remove),
                       shape: RoundedRectangleBorder(
@@ -198,6 +200,31 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     )
                   : Container())
               : Container(),
+
+          SizedBox(
+            height: 10,
+          ),
+          edicaoDeProdutoAtivo == false
+              ? (revelarTodos == true
+              ? FloatingActionButton.extended(
+            onPressed: ()  async {
+              await excluirProdutoPorID(widget.idProduto);
+              Navigator.of(context).pop();
+            },
+            backgroundColor: Colors.orange,
+            label: Text(
+              'excluir o produto',
+              style: TextStyle(fontSize: tamanhoDaFonte),
+            ),
+            icon: Icon(Icons.ac_unit),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+          )
+              : Container())
+              : Container(),
+
+
           SizedBox(
             height: 10,
           ),
@@ -212,7 +239,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       },
                       label: Text(
                         'editar o produto',
-                        style: TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: tamanhoDaFonte),
                       ),
                       icon: Icon(Icons.edit),
                       shape: RoundedRectangleBorder(
@@ -235,14 +262,14 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       ? Row(
                           children: [
                             Icon(Icons.add),
-                            Text(' mais ações', style: TextStyle(fontSize: 22)),
+                            Text(' mais ações', style: TextStyle(fontSize: tamanhoDaFonte)),
                           ],
                         )
                       : Row(
                           children: [
                             Icon(Icons.hide_source),
                             Text(' esconder ações',
-                                style: TextStyle(fontSize: 22)),
+                                style: TextStyle(fontSize: tamanhoDaFonte)),
                           ],
                         ),
                 )
@@ -265,25 +292,43 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         ? Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(_textoApareceEmCimaDaTela,
-                                style: TextStyle(fontSize: 22)),
+                                style: TextStyle(fontSize: tamanhoDaFonte)),
                           )
                         : Container(),
                   ],
                 ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('produto ativo',style: TextStyle(fontSize: tamanhoDaFonte),),
+                      Switch(
+                        value: _produtoAtivo,
+                        onChanged: edicaoDeProdutoAtivo == false ? null : (value) {
+                          setState(() {
+                            _produtoAtivo = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
                     enabled: false,
                     controller: _idProduto,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Digite um texto',
+                      labelText: 'id do produto',
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
                     enabled: editar,
                     controller: _nomeProduto,
                     decoration: buildInputDecoration('descrição do item'),
@@ -292,6 +337,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
                     controller: _codigoProduto,
                     enabled: editar,
                     keyboardType: TextInputType.number,
@@ -301,9 +347,10 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     decoration: buildInputDecoration('código do item'),
                   ),
                 ),
-                Padding(
+                widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
                     controller: _qtInicial,
                     enabled: editar,
                     keyboardType:
@@ -315,10 +362,11 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     decoration:
                         buildInputDecoration('quantidade da entrada inicial'),
                   ),
-                ),
-                Padding(
+                ):Container(),
+                widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
                     controller: _custo,
                     enabled: editar,
                     keyboardType:
@@ -329,10 +377,20 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     ],
                     decoration: buildInputDecoration('custo'),
                   ),
-                ),
+                ):Container(),
+                widget.idProduto != VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
+                    controller: TextEditingController(text: "AJUSTAR"),
+                    enabled: false,
+                    decoration: buildInputDecoration('estoque atual'),
+                  ),
+                ):Container(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    style: TextStyle(fontSize: tamanhoDaFonte),
                     controller: _vlDeVenda,
                     enabled: editar,
                     keyboardType:
@@ -344,6 +402,44 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     decoration: buildInputDecoration('valor da venda'),
                   ),
                 ),
+                widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                            color: Colors.red,
+                            width: 120,
+                            height: 50,
+                            child: Icon(Icons.arrow_upward_outlined,color: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          color: Colors.white10,
+                          width: 50,
+                          height: 50,
+                          child: Text(_vlParaOEstoque.toString(), style: TextStyle(fontSize: 30)),
+                        ),
+                        GestureDetector(
+                          child: Container(
+                            color: Colors.green,
+                            width: 120,
+                            height: 50,
+                            child: Icon(Icons.arrow_downward_outlined,color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ) : Container(),
               ],
             ),
     );
@@ -357,22 +453,32 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       focusedBorder:
           OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
       labelText: texto,
+
     );
   }
 
-  Future<void> enviarNovoProduto() async {
+  Future<void> enviarNovoProduto(String tipoNovoOuEdicao) async {
     setState(() {
       fazendoRequest = true;
     });
     var url = '${VariaveisGlobais.endPoint}/produto/cadastro';
     String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
-    var headers = {
-      'Content-Type': 'application/json',
-      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
-      'idColaborador': idDeQuemEstaCadastrando
-    };
-    var body = jsonEncode({
-      "ativo": true,
+
+    String headerDoTipo;
+    var body;
+    String id = '';
+
+    if(tipoNovoOuEdicao == 'NOVO'){
+      headerDoTipo = 'NOVO';
+
+    }else{
+      headerDoTipo = 'EDICAO';
+      id = widget.idProduto;
+    }
+
+    body = jsonEncode({
+      "id" : id,
+      "ativo": _produtoAtivo,
       "codigoDeBarras": _codigoProduto.text,
       "nomeProduto": _nomeProduto.text,
       "tipoPoduto": "PRODUTO",
@@ -387,7 +493,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       "modeloProduto": "UNIDADE, KILO, SEM_MODELO",
       "estoqueMaximo": 50,
       "estoqueMinimo": 10,
-      "precoVenda": 300.50,
+      "precoVenda": VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text),
       "objComissao": {
         "produtoTemComissaoEspecial": false,
         "valorFixoDeComissaoParaEsseProduto": 10.00
@@ -395,8 +501,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       "objEntradaSaidaProduto": [
         {
           "quantidade": _qtInicial.text,
-          "valorCusto": _custo.text,
-          "valorDaVenda": _vlDeVenda.text
+          "valorCusto": VariaveisGlobais.converterMoedaEmDoble(_custo.text),
+          "valorDaVenda": VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text)
         }
       ],
       "objLogs": [
@@ -405,15 +511,20 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
             "idDeQuemCadastrou": '${VariaveisGlobais.usuarioDto.id}',
             "dataCadastro": null
           },
-          "ocorrencia": "ocorrencia"
+          "ocorrencia": "CADASTRO"
         }
       ]
     });
 
-    var response =
-        await http.post(Uri.parse(url), headers: headers, body: body);
-    print(response.statusCode);
-    print(response.body);
+    var headers = {
+      'Content-Type': 'application/json',
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'idColaborador': idDeQuemEstaCadastrando,
+      'tipoNovoOuEditar' : headerDoTipo
+    };
+
+    var response = await http.post(Uri.parse(url), headers: headers, body: body);
+    debugPrint(response.statusCode.toString());
 
     setState(() {
       fazendoRequest = false;
@@ -438,6 +549,11 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       produtoModelo = Produto.fromJson(jsonResponse);
+      _idProduto = TextEditingController(text: widget.idProduto);
+      _nomeProduto = TextEditingController(text: produtoModelo.nomeProduto);
+      _codigoProduto = TextEditingController(text: produtoModelo.codigoDeBarras);
+      _vlDeVenda = TextEditingController(text: NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(produtoModelo.precoVenda));
+      _produtoAtivo = produtoModelo.ativo;
     }
 
     setState(() {
@@ -445,6 +561,31 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       responseCodeDaRequest = response.statusCode;
     });
   }
+
+  Future<void> excluirProdutoPorID (String id) async {
+    setState(() {
+      fazendoRequest = true;
+    });
+    var url = '${VariaveisGlobais.endPoint}/produto/apagar/' + id;
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
+    var headers = {
+      'Content-Type': 'application/json',
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'idColaborador': idDeQuemEstaCadastrando
+    };
+    var response = await http.delete(Uri.parse(url), headers: headers);
+
+    if (response.statusCode == 200) {
+
+    }
+
+    setState(() {
+      fazendoRequest = false;
+      responseCodeDaRequest = response.statusCode;
+    });
+  }
+
+
 }
 
 class _AdicionarOuBaixarState extends State<AdicionarOuBaixar> {
