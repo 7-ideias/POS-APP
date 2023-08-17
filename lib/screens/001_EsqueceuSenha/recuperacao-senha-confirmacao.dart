@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 
 import '../001_login/nova-senha.dart';
 
@@ -83,6 +84,10 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              padding: EdgeInsets.all(40),
+              child: Lottie.asset(''),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
