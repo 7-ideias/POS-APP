@@ -3,7 +3,7 @@ import 'package:http/src/response.dart';
 import 'package:pos_app/controller/produto_controller.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 
-import '../dtos/produto_dto.dart';
+import '../dtos/produto-dto.dart';
 import 'package:http/http.dart' as http;
 
 import '../utilitarios/VariaveisGlobais.dart';

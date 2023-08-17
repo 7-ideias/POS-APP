@@ -1,5 +1,5 @@
-import 'endereco-dto.dart';
-import 'objetoLinhaDeCredito.dart';
+import 'obj-endereco.dart';
+import 'obj-linha-de-credito.dart';
 
 class ObjPessoa {
   String? atencao;

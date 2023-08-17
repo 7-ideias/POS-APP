@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/001_login/valida-user-page.dart';
+import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
 import 'package:pos_app/screens/002_main/home_tela.dart';
 import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -83,6 +83,21 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     width: double.infinity * 0.8,
                     child: TextField(
+                      enabled: false,
+                      style: TextStyle(fontSize: 22),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'celular do titular',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: double.infinity * 0.8,
+                    child: TextField(
                       controller: celularController,
                       style: TextStyle(fontSize: 22),
                       keyboardType: TextInputType.number,
@@ -111,6 +126,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                    Text('esqueci a senha',style: TextStyle(fontSize: 18),)
+                  ],
+                  ),
                   SizedBox(height: 20.0),
                   Container(
                     height: 50,
@@ -120,16 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text('login',style: TextStyle(fontSize: 18)),
                     ),
                   ),
-                  SizedBox(height: 20.0),
-                  Container(
-                    height: 50,
-                    width: double.infinity * 0.8,
-                    child: ElevatedButton(
-                      onPressed: _pular,
-                      child: Text('pular o login - APENAS PARA TESTE',style: TextStyle(fontSize: 18)),
-                    ),
-                  ),
-                  SizedBox(height: 20.0),
                 ],
               ),
             ),

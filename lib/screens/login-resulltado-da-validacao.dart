@@ -34,8 +34,8 @@ class _ValidaPageState extends State<ValidaPage> {
 
     var headers = {
       'idUser':'appPOS',
-      'idUsuario': '40eb39abc2f44908ae5dfc16687cc977',
-      'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
+      // 'idUsuario': '40eb39abc2f44908ae5dfc16687cc977',
+      // 'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
       'Content-Type': 'application/json',
     };
 

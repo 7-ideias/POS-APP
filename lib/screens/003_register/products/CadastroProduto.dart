@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/BaseClient.dart';
 
-import '../../../dtos/produto_dto.dart';
+import '../../../dtos/produto-dto.dart';
 
 class CadastroProduto extends StatefulWidget {
   @override

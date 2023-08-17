@@ -1,5 +1,5 @@
-import 'package:pos_app/dtos/obj-pessoa-dto.dart';
-import 'empresa-dto.dart';
+import 'package:pos_app/dtos/objetos/obj-pessoa-dto.dart';
+import 'obj-empresa.dart';
 
 class ObjUser {
   String? testeExpiraEm;

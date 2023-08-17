@@ -1,4 +1,5 @@
-import 'endereco-dto.dart';
+import 'obj-endereco.dart';
+import 'obj-colaborador.dart';
 
 class ObjEmpresa {
   String? nomeDaEmpresa;
@@ -7,6 +8,7 @@ class ObjEmpresa {
   String? telefone;
   String? email;
   ObjEndereco? objEndereco;
+  ObjColaborador? objColaborador;
 
   ObjEmpresa(
       {this.nomeDaEmpresa,
@@ -14,7 +16,9 @@ class ObjEmpresa {
         this.cnpj,
         this.telefone,
         this.email,
-        this.objEndereco});
+        this.objEndereco,
+        this.objColaborador
+      });
 
   ObjEmpresa.fromJson(Map<String, dynamic> json) {
     nomeDaEmpresa = json['nomeDaEmpresa'];
@@ -24,6 +28,9 @@ class ObjEmpresa {
     email = json['email'];
     objEndereco = json['objEndereco'] != null
         ? new ObjEndereco.fromJson(json['objEndereco'])
+        : null;
+    objColaborador = json['objColaborador'] != null
+        ? new ObjColaborador.fromJson(json['objColaborador'])
         : null;
   }
 
@@ -40,3 +47,4 @@ class ObjEmpresa {
     return data;
   }
 }
+

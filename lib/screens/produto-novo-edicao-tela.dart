@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:intl/intl.dart';
-import '../dtos/produto_dto.dart';
+import '../dtos/produto-dto.dart';
 
 class ProdutoNovoEdicaoTela extends StatefulWidget {
   String idProduto;

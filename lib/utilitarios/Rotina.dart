@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_app/service/NotificationService.dart';
-import '../dtos/push_dto.dart';
+import '../dtos/push-dto.dart';
 import 'VariaveisGlobais.dart';
 
 class Rotina {

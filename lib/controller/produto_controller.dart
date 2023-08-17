@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../dtos/produto_dto.dart';
+import '../dtos/produto-dto.dart';
 import '../utilitarios/VariaveisGlobais.dart';
 
 class ProdutoController {
