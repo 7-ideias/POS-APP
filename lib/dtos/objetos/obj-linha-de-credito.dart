@@ -1,16 +1,15 @@
 class ObjetoLinhaDeCredito {
-  String? xxxxxxxxxxxxxxxxxxxxxxx;
+  double? limite;
 
-  ObjetoLinhaDeCredito(
-      {this.xxxxxxxxxxxxxxxxxxxxxxx});
+  ObjetoLinhaDeCredito({this.limite});
 
   ObjetoLinhaDeCredito.fromJson(Map<String, dynamic> json) {
-    xxxxxxxxxxxxxxxxxxxxxxx = json['testeExpiraEm'];
+    limite = json['limite'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['testeExpiraEm'] = this.xxxxxxxxxxxxxxxxxxxxxxx;
+    data['limite'] = this.limite;
     return data;
   }
 }

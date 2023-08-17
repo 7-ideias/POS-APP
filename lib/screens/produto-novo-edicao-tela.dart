@@ -34,7 +34,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
   double tamanhoDaFonte = 16;
 
-  late Produto produtoModelo;
+  late ProdutoDto produtoModelo;
 
   var fazendoRequest = false;
   int responseCodeDaRequest = 0;
@@ -548,7 +548,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
-      produtoModelo = Produto.fromJson(jsonResponse);
+      produtoModelo = ProdutoDto.fromJson(jsonResponse);
       _idProduto = TextEditingController(text: widget.idProduto);
       _nomeProduto = TextEditingController(text: produtoModelo.nomeProduto);
       _codigoProduto = TextEditingController(text: produtoModelo.codigoDeBarras);

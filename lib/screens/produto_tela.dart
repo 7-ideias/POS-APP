@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/src/response.dart';
 import 'package:pos_app/controller/produto-controller.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 
+import '../dtos/produto-dto-list.dart';
 import '../dtos/produto-dto.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,11 +17,11 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
 
   double tamanhoDaFonte = 16;
 
-  List<Produto> produtoList = [];
+  List<ProdutoDto> produtoList = [];
   bool isLoading = true;
   bool _temConteudo = false;
   late String idProduto;
-  late ResponseModel resumo;
+  late ProdutoDtoList produtoDtoList;
   bool mostrarTudo = false;
 
   @override
@@ -59,7 +59,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                       ),
                       isLoading == false
                           ? Text(
-                        _temConteudo == true ? resumo.qtNoEstoque.toString() : '0',
+                        _temConteudo == true ? produtoDtoList.qtNoEstoque.toString() : '0',
                               style:
                                   TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
                             )
@@ -78,7 +78,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                       ),
                       isLoading == false
                           ? Text(
-                        _temConteudo == true ? resumo.vlEstoqueEmGrana.toString() : '0',
+                        _temConteudo == true ? produtoDtoList.vlEstoqueEmGrana.toString() : '0',
                               style:
                                   TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
                             )
@@ -102,7 +102,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                 onChanged: (value) {
                   print(value);
                   setState(() {
-                    var listagem = resumo.produtosList;
+                    var listagem = produtoDtoList.produtosList;
                     produtoList = listagem
                         .where((produto) => produto.nomeProduto
                             .toLowerCase()
@@ -235,7 +235,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       buscarProdutoList.then((listaProdutos) {
         produtoList = listaProdutos.produtosList;
         setState(() {
-          resumo = listaProdutos;
+          produtoDtoList = listaProdutos;
           isLoading = false;
           mostrarTudo = false;
           _temConteudo = true;

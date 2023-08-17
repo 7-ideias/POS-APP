@@ -6,8 +6,7 @@ class UsuarioDto {
   bool? liberadoParaAcessar;
   String? tipoDoAssinante;
   ObjUser? objUser;
-  ObjPreferenciasDoAppRefleteParaTodosOsUsuarios?
-  objPreferenciasDoAppRefleteParaTodosOsUsuarios;
+  ObjPreferenciasDoAppRefleteParaTodosOsUsuarios? objPreferenciasDoAppRefleteParaTodosOsUsuarios;
   List<Null>? objLogsList;
 
   UsuarioDto(
@@ -49,27 +48,6 @@ class UsuarioDto {
     return data;
   }
 }
-
-
-
-
-
-class ObjetoLinhaDeCredito {
-  int? limite;
-
-  ObjetoLinhaDeCredito({this.limite});
-
-  ObjetoLinhaDeCredito.fromJson(Map<String, dynamic> json) {
-    limite = json['limite'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['limite'] = this.limite;
-    return data;
-  }
-}
-
 
 class ObjPreferenciasDoAppRefleteParaTodosOsUsuarios {
   String? idiomaPadraoDoAppParaRelatoriosEComprovantes;

@@ -1,32 +1,4 @@
-class ResponseModel {
-  double qtNoEstoque;
-  double qtSemEstoque;
-  double vlEstoqueEmGrana;
-  List<Produto> produtosList;
-
-  ResponseModel({
-    required this.qtNoEstoque,
-    required this.qtSemEstoque,
-    required this.vlEstoqueEmGrana,
-    required this.produtosList,
-  });
-
-  factory ResponseModel.fromJson(Map<String, dynamic> json) {
-    List<dynamic> produtosJson = json['produtosList'];
-    List<Produto> produtosList = produtosJson
-        .map((produtoJson) => Produto.fromJson(produtoJson))
-        .toList();
-
-    return ResponseModel(
-      qtNoEstoque: json['qtNoEstoque'],
-      qtSemEstoque: json['qtSemEstoque'],
-      vlEstoqueEmGrana: json['vlEstoqueEmGrana'],
-      produtosList: produtosList,
-    );
-  }
-}
-
-class Produto {
+class ProdutoDto {
   String id;
   String codigoDeBarras;
   String nomeProduto;
@@ -34,7 +6,7 @@ class Produto {
   double precoVenda;
   bool ativo;
 
-  Produto({
+  ProdutoDto({
     required this.id,
     required this.codigoDeBarras,
     required this.nomeProduto,
@@ -43,8 +15,8 @@ class Produto {
     required this.ativo,
   });
 
-  factory Produto.fromJson(Map<String, dynamic> json) {
-    return Produto(
+  factory ProdutoDto.fromJson(Map<String, dynamic> json) {
+    return ProdutoDto(
       id: json['id'],
       codigoDeBarras: json['codigoDeBarras'],
       nomeProduto: json['nomeProduto'],

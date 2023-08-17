@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../dtos/produto-dto.dart';
+import '../dtos/produto-dto-list.dart';
 import '../utilitarios/VariaveisGlobais.dart';
 
 class ProdutoController {
@@ -19,7 +19,7 @@ class ProdutoController {
   }
 
 
-  Future<ResponseModel> buscarProdutoList(http.Response response) async {
+  Future<ProdutoDtoList> buscarProdutoList(http.Response response) async {
     var headers = {
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
       'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
@@ -29,7 +29,7 @@ class ProdutoController {
       'produtosAtivos': true,
     };
     Map<String, dynamic> jsonResponse = json.decode(response.body);
-    ResponseModel responseModel = ResponseModel.fromJson(jsonResponse);
+    ProdutoDtoList responseModel = ProdutoDtoList.fromJson(jsonResponse);
     return responseModel;
   }
 
