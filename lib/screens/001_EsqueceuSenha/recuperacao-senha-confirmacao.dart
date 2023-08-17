@@ -2,28 +2,32 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../001_login/nova-senha.dart';
 
-class RecuperacaoSenhaConfirmacao extends StatelessWidget {
-  TextEditingController campo1Controller = TextEditingController();
-  TextEditingController campo2Controller = TextEditingController();
-  TextEditingController campo3Controller = TextEditingController();
-  TextEditingController campo4Controller = TextEditingController();
-  TextEditingController celularController = TextEditingController();
+class RecuperacaoSenhaConfirmacao extends StatefulWidget {
   final String numeroCelular;
-  final String endpoint =
-      "http://192.168.0.114:8082/usuario/verificacao-4-digitos";
 
   RecuperacaoSenhaConfirmacao(this.numeroCelular);
 
+  @override
+  _RecuperacaoSenhaConfirmacaoState createState() => _RecuperacaoSenhaConfirmacaoState();
+}
+
+class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmacao> {
+  List<TextEditingController> controllers = List.generate(4, (_) => TextEditingController());
+  List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
+  final String endpoint =
+      "http://192.168.0.114:8082/usuario/verificacao-4-digitos";
+
   void enviar(BuildContext context) {
-    String numeroCelular = this.numeroCelular;
-    String numero1 = campo1Controller.text;
-    String numero2 = campo2Controller.text;
-    String numero3 = campo3Controller.text;
-    String numero4 = campo4Controller.text;
+    String numeroCelular = this.widget.numeroCelular;
+    String numero1 = controllers[0].text;
+    String numero2 = controllers[1].text;
+    String numero3 = controllers[2].text;
+    String numero4 = controllers[3].text;
 
     // Construindo o corpo da requisição
     Map<String, String> body = {
@@ -57,13 +61,24 @@ class RecuperacaoSenhaConfirmacao extends StatelessWidget {
     });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < controllers.length; i++) {
+      controllers[i].addListener(() {
+        if (controllers[i].text.isNotEmpty) {
+          FocusScope.of(context).requestFocus(focusNodes[i + 1]);
+        }
+      });
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Verificação"),
-      ),
       body: Container(
+        color: const Color(0xFF003366),
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -71,48 +86,50 @@ class RecuperacaoSenhaConfirmacao extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  width: 50,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: campo1Controller,
-                    maxLength: 1,
-                  ),
-                ),
-                Container(
-                  width: 50,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: campo2Controller,
-                    maxLength: 1,
-                  ),
-                ),
-                Container(
-                  width: 50,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: campo3Controller,
-                    maxLength: 1,
-                  ),
-                ),
-                Container(
-                  width: 50,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: campo4Controller,
-                    maxLength: 1,
-                  ),
-                ),
+                buildTextField(controllers[0], focusNodes[0]),
+                buildTextField(controllers[1], focusNodes[1]),
+                buildTextField(controllers[2], focusNodes[2]),
+                buildTextField(controllers[3], focusNodes[3]),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => enviar(context),
-              child: const Text("Enviar"),
+              onPressed: (
+                  ) {
+                enviar(context);
+                // Implementar a lógica para enviar o código
+              },
+              child: Text('Enviar Código'),
             ),
           ],
         ),
       ),
     );
   }
+  
+  Widget buildTextField(TextEditingController controller, FocusNode focusNode) {
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 2),
+        borderRadius: BorderRadius.circular(10)
+      ),
+      child: TextFormField(
+        textAlign: TextAlign.center,
+        focusNode: focusNode,
+        controller: controller,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+          LengthLimitingTextInputFormatter(1),
+        ],
+        keyboardType: TextInputType.number,
+        style: TextStyle(color: Colors.white, fontSize: 30),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+        ),
+      ),
+    );
+  }
 }
+  
