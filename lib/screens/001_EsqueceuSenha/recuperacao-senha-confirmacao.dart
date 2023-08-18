@@ -6,19 +6,22 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 
-import '../001_login/nova-senha.dart';
+import 'nova-senha.dart';
+
 class RecuperacaoSenhaConfirmacao extends StatefulWidget {
   final String numeroCelular;
-
 
   RecuperacaoSenhaConfirmacao(this.numeroCelular);
 
   @override
-  _RecuperacaoSenhaConfirmacaoState createState() => _RecuperacaoSenhaConfirmacaoState();
+  _RecuperacaoSenhaConfirmacaoState createState() =>
+      _RecuperacaoSenhaConfirmacaoState();
 }
 
-class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmacao> {
-  List<TextEditingController> controllers = List.generate(4, (_) => TextEditingController());
+class _RecuperacaoSenhaConfirmacaoState
+    extends State<RecuperacaoSenhaConfirmacao> {
+  List<TextEditingController> controllers =
+      List.generate(4, (_) => TextEditingController());
   List<FocusNode> focusNodes = List.generate(4, (_) => FocusNode());
   final String endpoint =
       "http://192.168.0.114:8082/usuario/verificacao-4-digitos";
@@ -62,7 +65,6 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
     });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -74,7 +76,7 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
       });
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +87,30 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: EdgeInsets.all(40),
+              child: const Text(
+                'Chegou ai?',
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Caprasimo',
+                  color: Color(0xffC3C3C3),
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: const Text(
+                'Insira aqui seu codigo para redefinir sua senha',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Color(0xffCEC10D),
+                    fontFamily: 'Caprasimo'),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(40),
               child: Lottie.asset('assets/password-protection.json'),
             ),
             Row(
@@ -97,29 +122,42 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
                 buildTextField(controllers[3], focusNodes[3]),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 40),
             ElevatedButton(
-              onPressed: (
-                  ) {
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                minimumSize: const Size(200, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              onPressed: () {
                 enviar(context);
                 // Implementar a lógica para enviar o código
               },
-              child: Text('Enviar Código'),
+              child: const Text(
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: Color(0xffC3C3C3),
+                ),
+                'Redefinir senha',
+              ),
             ),
           ],
         ),
       ),
     );
   }
-  
+
   Widget buildTextField(TextEditingController controller, FocusNode focusNode) {
     return Container(
       width: 60,
       height: 60,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white, width: 2),
-        borderRadius: BorderRadius.circular(10)
-      ),
+          border: Border.all(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.circular(10)),
       child: TextFormField(
         textAlign: TextAlign.center,
         focusNode: focusNode,
@@ -129,8 +167,8 @@ class _RecuperacaoSenhaConfirmacaoState extends State<RecuperacaoSenhaConfirmaca
           LengthLimitingTextInputFormatter(1),
         ],
         keyboardType: TextInputType.number,
-        style: TextStyle(color: Colors.white, fontSize: 30),
-        decoration: InputDecoration(
+        style: const TextStyle(color: Colors.white, fontSize: 30),
+        decoration: const InputDecoration(
           border: InputBorder.none,
         ),
       ),

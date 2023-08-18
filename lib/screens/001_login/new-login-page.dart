@@ -19,12 +19,6 @@ class _NewLoginPageState extends State<NewLoginPage> {
   final TextEditingController senhaController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
-    // bool isUserValid = false;
-    // bool isPasswordValid = false;
-    // late var celular;
-    // late var senha;
-
     void _validateFields() {
       Navigator.pushReplacement(
         context,
