@@ -1,4 +1,4 @@
-import 'package:pos_app/dtos/objetos/obj-user.dart';
+import 'package:pos_app/dtos/feitoObjetos/obj-user.dart';
 
 class UsuarioDto {
   String? id;
