@@ -41,8 +41,7 @@ class ObjPessoa {
         ? new ObjEndereco.fromJson(json['objEndereco'])
         : null;
     objetoLinhaDeCredito = json['objetoLinhaDeCredito'] != null
-        ? new ObjetoLinhaDeCredito.fromJson(json['objetoLinhaDeCredito'])
-        : null;
+        ? new ObjetoLinhaDeCredito.fromJson(json['objetoLinhaDeCredito']) : null;
   }
 
   Map<String, dynamic> toJson() {

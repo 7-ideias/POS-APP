@@ -1,5 +1,5 @@
 class ObjetoLinhaDeCredito {
-  double? limite;
+  int? limite;//FIXME - ESSE CARA ESTA ERRADO. ELE PRECISA SER UM DOUBLE MAS O BACKA MANDANDO INTEIRO
 
   ObjetoLinhaDeCredito({this.limite});
 

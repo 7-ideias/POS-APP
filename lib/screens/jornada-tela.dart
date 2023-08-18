@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class TelaComCarousel extends StatefulWidget {
+class JornadaTela extends StatefulWidget {
   @override
-  _TelaComCarouselState createState() => _TelaComCarouselState();
+  _JornadaTelaState createState() => _JornadaTelaState();
 }
 
-class _TelaComCarouselState extends State<TelaComCarousel> {
+class _JornadaTelaState extends State<JornadaTela> {
   final PageController _pageController = PageController(
     initialPage: 0,
   );
@@ -195,39 +195,48 @@ class OutraTela extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: (){
-                Navigator.of(context).pushNamed('/login');
+                Navigator.of(context).pushNamed('/login',arguments: 'usuario');
               },
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Lottie.asset(
-                    'assets/moon.json',
-                    width: 300,
-                    height: 300,
-                  ),
-                  Lottie.asset(
-                    'assets/cloud-astronaut.json',
-                    width: 300,
-                    height: 300,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.red,
+                  height: 100,
+                  width: 200,
+                  child: Text('já tenho uma conta'),
+                ),
               ),
             ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Lottie.asset(
-                  'assets/spaceship.json',
-                  width: 400,
-                  height: 400,
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).pushNamed('/login',arguments: 'colaborador');
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.red,
+                  height: 100,
+                  width: 200,
+                  child: Text('sou um colaborador'),
                 ),
-                Lottie.asset(
-                  'assets/monster.json',
-                  width: 300,
-                  height: 300,
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).pushNamed('/login',arguments: 'novo');
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.red,
+                  height: 100,
+                  width: 200,
+                  child: Text('sou novo... quero uma conta'),
                 ),
-
-              ],
+              ),
             ),
           ],
         ),

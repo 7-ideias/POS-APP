@@ -37,10 +37,9 @@ class _DesenvolvedorPageState extends State<DesenvolvedorPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: ElevatedButton(onPressed: () {
-                  Navigator.of(context).pushNamed('/imagensIniciais');
+                  Navigator.of(context).pushReplacementNamed('/idioma');
                 }, child: Text('JORNADA ANTES DE TUDO')),
               ),
-
             ],
           ),
         ),

@@ -59,7 +59,7 @@ class _MenuLateralState extends State<MenuLateral> {
                             setState(() {
                               infoUserService();
                             });
-                            Navigator.pushReplacementNamed(context, '/login');
+                            Navigator.pushReplacementNamed(context, '/idioma');
                           }
                         },
                       ),

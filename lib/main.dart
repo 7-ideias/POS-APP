@@ -3,13 +3,17 @@ import 'dart:async';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_app/screens/003_register/clientes/CadastroClienteTela.dart';
+import 'package:pos_app/screens/esqueceu-senha-digitar-sms.dart';
+import 'package:pos_app/screens/esqueceu-senha-tela.dart';
+import 'package:pos_app/screens/idioma-tela.dart';
+import 'package:pos_app/screens/moeda-tela.dart';
 import 'package:pos_app/screens/produto_tela.dart';
 import 'package:pos_app/service/NotificationService.dart';
 import 'package:pos_app/service/info-user-service.dart';
 import 'package:pos_app/service/verifica-atualizacoes-para-cada-usuario.dart';
 import 'package:pos_app/app/page/pdf_create_page.dart';
 import 'package:pos_app/desenvolvedor/desenvolvedor.dart';
-import 'package:pos_app/desenvolvedor/tela-carrousel.dart';
+import 'package:pos_app/screens/jornada-tela.dart';
 import 'package:pos_app/desenvolvedor/tela_de_id.dart';
 import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/screens/002_main/home_tela.dart';
@@ -85,31 +89,35 @@ class _TelaDeCarregamentoPrincipalState
       ),
       home: SplashPage(),
       routes: {
-        '/home': (_) => Home(),
-        '/login': (_) => LoginPage(),
-        '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),
-        '/caixa': (_) => CaixaTela(),
-        '/cadastros': (_) => CadastrosTela(),
-        '/clientes': (_) => ClientesTela(),
-        '/cadcliente': (_) => CadastroClienteTela(),
+        '/agenda': (_) => AgendaTela(),
         '/cadastro_produto': (_) => CadastroProduto(),
+        '/cadastros': (_) => CadastrosTela(),
+        '/cadcliente': (_) => CadastroClienteTela(),
+        '/caixa': (_) => CaixaTela(),
+        '/clientes': (_) => ClientesTela(),
         '/configs': (_) => ConfiguracoesTela(),
+        '/desenvolvedor': (_) => DesenvolvedorPage(),
         '/devolucao': (_) => DevolucaoTela(),
+        '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
+        '/esqueceuSenhaInformarSMS': (_) => EsqueceuSenhaDigitarSmsTela(),
         '/financeiro': (_) => FinanceiroTela(),
+        '/home': (_) => Home(),
+        '/idioma': (_) => IdiomaTela(),
+        '/imagensIniciais': (_) => JornadaTela(),
+        '/login': (_) => LoginPage(),
+        '/moeda': (_) => MoedaTela(),
+        '/operacaoNova': (_) => OperacaoNova(),
+        '/operacoes': (_) => OperacaoTela(),
+        '/pdf': (_) => PDFCreatePage(),
         '/pedidos': (_) => PedidosTela(),
+        '/perfil': (_) => PerfilTela(),
         '/produtos': (_) => ProdutosTela(),
         '/relatorios': (_) => RelatoriosTela(),
         '/resumo': (_) => ResumoTela(),
         '/servicos': (_) => ServicosTela(),
-        '/perfil': (_) => PerfilTela(),
-        '/operacaoNova': (_) => OperacaoNova(),
-        '/venda': (_) => VendaTela(),
-        '/operacoes': (_) => OperacaoTela(),
-        '/pdf': (_) => PDFCreatePage(),
-        '/desenvolvedor': (_) => DesenvolvedorPage(),
         '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
-        '/imagensIniciais': (_) => TelaComCarousel(),
+        '/venda': (_) => VendaTela(),
       },
     );
   }
@@ -131,7 +139,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.redAccent, Colors.black],
             begin: Alignment.topCenter,
@@ -139,8 +147,8 @@ class _SplashPageState extends State<SplashPage> {
           ),
         ),
         child: VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
-              ? LoginPage()
-              : Home() ,
+              ? const IdiomaTela()
+              : const Home() ,
 
             //
             // VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
