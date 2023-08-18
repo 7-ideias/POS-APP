@@ -1,4 +1,4 @@
-import '../feitoObjetos/obj-assistencia-tecnica-pode.dart';
+import 'obj-assistencia-tecnica-pode.dart';
 import 'obj-clientes-pode.dart';
 import 'obj-lancamentos-financeiros-pode.dart';
 import 'obj-produtos-pode.dart';

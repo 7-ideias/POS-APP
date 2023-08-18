@@ -1,4 +1,4 @@
-import 'obj-endereco.dart';
+import '../feitoObjetos/obj-endereco.dart';
 import 'obj-colaborador.dart';
 
 class ObjEmpresa {

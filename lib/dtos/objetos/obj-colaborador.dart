@@ -1,7 +1,7 @@
+import 'package:pos_app/dtos/xpto/obj-autorizacoes.dart';
 import '../feitoObjetos/obj-informacoes-do-cadastro.dart';
 import '../feitoObjetos/obj-pessoa-dto.dart';
 import '../obj-dados-funcionais.dart';
-import '../xpto/obj-autorizacoes.dart';
 
 class ObjColaborador {
   String? id;
@@ -14,21 +14,22 @@ class ObjColaborador {
   ObjAutorizacoes? objAutorizacoes;
 
   ObjColaborador.fromJson(Map<String, dynamic> json) {
-    id = json['id'] != null ? json['id'] : null;
-    ativo = json['ativo'] != null ? json['ativo'] : null;
-    celularDeAcesso =
-        json['celularDeAcesso'] != null ? json['celularDeAcesso'] : null;
-    senhaParaPermitirOAcessoDoColaborador =
-        json['senhaParaPermitirOAcessoDoColaborador'] != null
-            ? json['senhaParaPermitirOAcessoDoColaborador']
-            : null;
+    id = json['id'];
+    ativo = json['ativo'];
+    celularDeAcesso = json['celularDeAcesso'];
+    senhaParaPermitirOAcessoDoColaborador = json['senhaParaPermitirOAcessoDoColaborador'];
     objInformacoesDoCadastro = json['objInformacoesDoCadastro'] != null
-        ? json['objInformacoesDoCadastro']
+        ? new ObjInformacoesDoCadastro.fromJson(json['objInformacoesDoCadastro'])
         : null;
-    objDadosFuncionais =
-        json['objDadosFuncionais'] != null ? json['objDadosFuncionais'] : null;
-    objPessoa = json['objPessoa'] != null ? json['objPessoa'] : null;
-    objAutorizacoes =
-        json['objAutorizacoes'] != null ? json['objAutorizacoes'] : null;
+    objDadosFuncionais = json['objDadosFuncionais'] != null
+        ? new ObjDadosFuncionais.fromJson(json['objDadosFuncionais'])
+        : null;
+    objPessoa = json['objPessoa'] != null
+        ? new ObjPessoa.fromJson(json['objPessoa'])
+        : null;
+    objAutorizacoes = json['objAutorizacoes'] != null
+        ? new ObjAutorizacoes.fromJson(json['objAutorizacoes'])
+        : null;
   }
+
 }

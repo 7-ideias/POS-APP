@@ -1,4 +1,4 @@
-import '../feitoObjetos/obj-endereco.dart';
+import 'obj-endereco.dart';
 import '../feitoObjetos/obj-linha-de-credito.dart';
 
 class ObjPessoa {
