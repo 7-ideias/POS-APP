@@ -1,5 +1,5 @@
 import 'obj-endereco.dart';
-import '../feitoObjetos/obj-linha-de-credito.dart';
+import 'obj-linha-de-credito.dart';
 
 class ObjPessoa {
   String? atencao;
@@ -16,16 +16,16 @@ class ObjPessoa {
 
   ObjPessoa(
       {this.atencao,
-        this.nome,
-        this.nomeDeGuerra,
-        this.celular,
-        this.senha,
-        this.cpf,
-        this.rg,
-        this.dataDeNascimento,
-        this.email,
-        this.objEndereco,
-        this.objetoLinhaDeCredito});
+      this.nome,
+      this.nomeDeGuerra,
+      this.celular,
+      this.senha,
+      this.cpf,
+      this.rg,
+      this.dataDeNascimento,
+      this.email,
+      this.objEndereco,
+      this.objetoLinhaDeCredito});
 
   ObjPessoa.fromJson(Map<String, dynamic> json) {
     atencao = json['atencao'];
