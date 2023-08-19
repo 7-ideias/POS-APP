@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/produto-controller.dart';
+import 'package:pos_app/dtos/operacao-dto.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 
 import '../dtos/produto-dto-list.dart';
@@ -17,10 +20,10 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
 
   double tamanhoDaFonte = 16;
 
-  List<ProdutoDto> produtoList = [];
   bool isLoading = true;
   bool _temConteudo = false;
   late String idProduto;
+  List<ProdutoDto> produtoList = [];
   late ProdutoDtoList produtoDtoList;
   bool mostrarTudo = false;
 

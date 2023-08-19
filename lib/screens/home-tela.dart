@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:pos_app/screens/financeiro_operacao.dart';
 
-import '../operacao-escolha-tela.dart';
+import 'operacao-escolha-tela.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

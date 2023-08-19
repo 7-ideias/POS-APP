@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/002_main/home_tela.dart';
+import 'package:pos_app/screens/home-tela.dart';
 import 'package:pos_app/screens/002_main/principal_tela.dart';
 import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
 
@@ -263,8 +263,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  SizedBox widgetCampoDigitacao(
-      int posicao, TextEditingController controller, FocusNode focusNode) {
+  SizedBox widgetCampoDigitacao(int posicao, TextEditingController controller, FocusNode focusNode) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.13,
       child: Padding(

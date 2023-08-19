@@ -16,7 +16,7 @@ class ProdutoDtoList {
   factory ProdutoDtoList.fromJson(Map<String, dynamic> json) {
     List<dynamic> produtosJson = json['produtosList'];
     List<ProdutoDto> produtosList = produtosJson
-        .map((produtoJson) => ProdutoDto.fromJson(produtoJson))
+        .map((elemento) => ProdutoDto.fromJson(elemento))
         .toList();
 
     return ProdutoDtoList(

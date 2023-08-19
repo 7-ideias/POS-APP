@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/others/shake-icon.dart';
+import 'package:pos_app/utilitarios/shake-icon.dart';
 
 import '../../utilitarios/Donut.dart';
 import '../../utilitarios/MenuLateral.dart';
@@ -42,6 +42,80 @@ class _PrincipalTelaState extends State<PrincipalTela>
     return Scaffold(
       backgroundColor: Colors.indigo,
       appBar: AppBar(
+        actions: [
+          GestureDetector(
+            child: Icon(
+              Icons.settings,
+              size: 35,
+            ),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(100.0),
+                          topRight: Radius.circular(10.0),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.blueAccent,
+                                  height: 150,
+                                  width: 150,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.blueAccent,
+                                  height: 150,
+                                  width: 150,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.blueAccent,
+                                  height: 150,
+                                  width: 150,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  color: Colors.blueAccent,
+                                  height: 150,
+                                  width: 150,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    // Conteúdo do seu bottom sheet aqui
+                  );
+                },
+              );
+            },
+          ),
+        ],
         title: Text(VariaveisGlobais.NOME_SISTEMA),
       ),
       drawer: MenuLateral(context),

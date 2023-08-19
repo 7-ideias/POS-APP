@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:http/http.dart' as http;
+import 'package:pos_app/controller/operacao-controller.dart';
+import 'package:pos_app/dtos/operacao-dto-list.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import '../dtos/operacao-dto.dart';
 
 /**
  * TODO CARREGAR AS INFORMACOES DO BACKEND COM OPERACOES NAO FINALIZADAS
@@ -34,7 +41,17 @@ class OperacaoTela extends StatefulWidget {
 }
 
 class _OperacaoTelaState extends State<OperacaoTela> {
+
   bool existemOperacoes = false;
+  bool isLoading = true;
+  List<OperacaoDto> operacaoList = [];
+  late OperacaoDtoList operacaoDtoList;
+
+  @override
+  void initState() {
+    super.initState();
+    getOperacaoList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +132,114 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             ),
           ],
         ),
-        Container(
-          color: Colors.blue,
-          height: 10,
-          width: 10,
+        SizedBox(height: 20,),
+        Expanded(
+          child: isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : RefreshIndicator(
+            onRefresh: () => getOperacaoList(),
+            child:  ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: operacaoList.length,
+              itemBuilder: (context, index) {
+                return Slidable(
+                    startActionPane: esquerdaDireitaPane(),
+                    endActionPane: direitaEsquertaPane(),
+                    child: retornaALista(index));
+              },
+            ) ,
+          ),
         ),
       ],
+    );
+  }
+
+  ActionPane esquerdaDireitaPane() {
+    return ActionPane(
+      motion: const StretchMotion(),
+      children: [
+        SlidableAction(
+          backgroundColor: Colors.blueAccent,
+          icon: Icons.share,
+          onPressed:  (context) {
+
+          },
+        ),
+        SlidableAction(
+          label: 'pdf',
+          backgroundColor: Colors.purpleAccent,
+          icon: Icons.picture_as_pdf,
+          onPressed:  (context) {
+
+          },
+        ),
+
+      ],
+
+    );
+  }
+  ActionPane direitaEsquertaPane() {
+    return ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      SlidableAction(
+                        label: 'caixa',
+                        backgroundColor: Colors.indigoAccent,
+                        icon: Icons.monetization_on,
+                        onPressed:  (context) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Enviar a venda para o caixa?'),
+                                content: Text('isso deixa a venda pronta para ser recebida'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Cancelar'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('ok'),
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      SlidableAction(
+                        label: 'editar',
+                        backgroundColor: Colors.amber,
+                        icon: Icons.edit,
+                        onPressed:  (context) {
+
+                        },
+                      ),
+
+                    ],
+
+                  );
+  }
+
+  Widget retornaALista(int index) {
+    return ListTile(
+      title: Text(operacaoList[index].tipoDeOperacaoEnum),
+      subtitle: Row(
+        children: [
+          Text(operacaoList[index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString())
+        ],
+      ),
+      shape: Border.all(color: Colors.black12),
+      onTap: () {
+      },
     );
   }
 
@@ -147,5 +266,30 @@ class _OperacaoTelaState extends State<OperacaoTela> {
         ),
       ],
     );
+  }
+
+  Future<void> getOperacaoList() async {
+    setState(() {
+      isLoading = true;
+    });
+    http.Response fazRequisicao = await OperacaoController().fazRequisicao();
+    if (fazRequisicao.statusCode == 200){
+      debugPrint('fazRequisicao.statusCode -> '+fazRequisicao.statusCode.toString());
+      var buscarProdutoList = OperacaoController().buscarOperacaoList(fazRequisicao);
+      buscarProdutoList.then((listaProdutos) {
+        operacaoList = listaProdutos.produtosList;
+        setState(() {
+          operacaoDtoList = listaProdutos;
+          isLoading = false;
+          debugPrint('sucesso!!!');
+        });
+      }).catchError((erro) {
+        print(erro);
+      });
+    }else{
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
