@@ -1,21 +1,25 @@
 class ObjCalculosDeProdutoDoBackEnd {
-  double? qtNoEstoque;
-  double? vlEstoqueEmGrana;
-  DateTime? ultimoDiaDeVenda;
-  double? ultimoVlEmGranaPagoPeloProduto;
-  double? vlMedioDoProduto;
+  double qtNoEstoque;
+  double vlEstoqueEmGrana;
+  DateTime ultimoDiaDeVenda;
+  double ultimoVlEmGranaPagoPeloProduto;
+  double vlMedioDoProduto;
 
-  ObjCalculosDeProdutoDoBackEnd.fromJson(Map<String, dynamic> json) {
-    qtNoEstoque = json['qtNoEstoque'] != null ? json['qtNoEstoque'] : null;
-    vlEstoqueEmGrana =
-        json['vlEstoqueEmGrana'] != null ? json['vlEstoqueEmGrana'] : null;
-    ultimoDiaDeVenda =
-        json['ultimoDiaDeVenda'] != null ? json['ultimoDiaDeVenda'] : null;
-    ultimoVlEmGranaPagoPeloProduto =
-        json['ultimoVlEmGranaPagoPeloProduto'] != null
-            ? json['ultimoVlEmGranaPagoPeloProduto']
-            : null;
-    vlMedioDoProduto =
-        json['vlMedioDoProduto'] != null ? json['vlMedioDoProduto'] : null;
+  ObjCalculosDeProdutoDoBackEnd({
+    required this.qtNoEstoque,
+    required this.vlEstoqueEmGrana,
+    required this.ultimoDiaDeVenda,
+    required this.ultimoVlEmGranaPagoPeloProduto,
+    required this.vlMedioDoProduto,
+  });
+
+  factory ObjCalculosDeProdutoDoBackEnd.fromJson(Map<String, dynamic> json) {
+    return ObjCalculosDeProdutoDoBackEnd(
+      qtNoEstoque: json['qtNoEstoque'],
+      vlEstoqueEmGrana: json['vlEstoqueEmGrana'],
+      ultimoDiaDeVenda: DateTime.parse(json['ultimoDiaDeVenda']),
+      ultimoVlEmGranaPagoPeloProduto: json['ultimoVlEmGranaPagoPeloProduto'],
+      vlMedioDoProduto: json['vlMedioDoProduto'],
+    );
   }
 }

@@ -1,4 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:pos_app/main.dart';
+import '../controller/idioma_controller.dart';
+import '../utilitarios/VariaveisGlobais.dart';
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'jornada-tela.dart';
 
 class IdiomaTela extends StatefulWidget {
   const IdiomaTela({Key? key}) : super(key: key);
@@ -9,11 +19,13 @@ class IdiomaTela extends StatefulWidget {
 
 class _IdiomaTelaState extends State<IdiomaTela> {
 
+  bool isLoading = false;
+  var status = 401;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: isLoading == true ? Center(child: VariaveisGlobais().widgetDeLoadingPadraoDoApp()) : Container(
         alignment: Alignment.center,
         color: Colors.white,
         child: Column(
@@ -23,7 +35,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: (){
-                  darUmGetNoIdiomaSelecionadoEProsseguir('portugues-br');
+                  fazerRequisicao('pt-br');
                 },
                 child: SizedBox(
                   height: 100,
@@ -40,7 +52,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: (){
-                  darUmGetNoIdiomaSelecionadoEProsseguir('ingles');
+                  fazerRequisicao('en-us');
                 },
                 child: SizedBox(
                   height: 100,
@@ -57,7 +69,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: (){
-                  darUmGetNoIdiomaSelecionadoEProsseguir('idioma-espanhol');
+                  fazerRequisicao('es-419');
                 },
                 child: SizedBox(
                   height: 100,
@@ -65,23 +77,67 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                   child: Container(
                     color: Colors.orange,
                     alignment: Alignment.center,
-                    child: Text('espanhol'),
+                    child: Text('espanhol america latina'),
                   ),
                 ),
               ),
             ),
+            Text(VariaveisGlobais.idiomaDto.bomDia.toString())
           ],
         ),
       ),
     );
   }
 
-  void darUmGetNoIdiomaSelecionadoEProsseguir(String idiomaEscolhido) {
 
-    //TODO GET NO IDIOMA
+  Future<void> fazerRequisicao(String idiomaEscolhido) async {
 
-    //TODO SALVAR LOCALMENTE
+    setState(() {
+      isLoading = true;
+    });
 
-    Navigator.of(context).pushNamed('/moeda');
+    final url = '${VariaveisGlobais.endPoint}/idioma/'+idiomaEscolhido;
+    print('URL.: ' + url);
+
+    var headers = {
+      'idUser':'appPOS',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString(VariaveisGlobais.IDIOMADOAPP, response.body);
+
+        setState(() {
+          Idioma.instance.mudarIdioma();
+          status = response.statusCode;
+          isLoading = false;
+        });
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => JornadaTela()),
+          );
+
+      } else {
+        setState(() {
+          status = response.statusCode;
+          isLoading = false;
+        });
+        Timer(Duration(seconds: 2), () {
+          // Navigator.pushReplacementNamed(context, '/login');
+        });
+      }
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+      Timer(Duration(seconds: 3), () {
+        // Navigator.pushReplacementNamed(context, '/login');
+      });
+    }
   }
+
+
 }

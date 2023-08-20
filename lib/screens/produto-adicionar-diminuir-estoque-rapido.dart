@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import '../dtos/produto-dto.dart';
 import '../utilitarios/widgetsGlobais.dart';
@@ -21,6 +22,7 @@ class ProdutoEstoqueRapidoTela extends StatefulWidget {
 class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
   int _contador = 1;
   TextEditingController numeroController = TextEditingController();
+  TextEditingController _precoController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,11 +62,61 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'estoque atual.: ${widget.produtoList[0].objCalculosDeProdutoDoBackEnd.qtNoEstoque}',
+                  'estoque atual.: ${widget.produtoList[0].objCalculosDeProdutoDoBackEnd.qtNoEstoque.toString()}',
                   style: TextStyle(
                       fontSize: 20, color: AppController.instance.corLetras),
                 ),
               ),
+              widget.adicionarOuBaixar == 'adicionar' ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text( 'ultimo preço.: ${VariaveisGlobais.moeda}${widget.produtoList[0].objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto}',
+                      // 'ultimo preço.:   ${widget.produtoList[0].objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto}',
+                      style: TextStyle(
+                          fontSize: 20, color: AppController.instance.corLetras),
+                    ),
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Informar o novo preço'),
+                              content: TextField(
+                                controller: _precoController,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  labelText: 'Novo preço',
+                                ),
+                              ),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    // Ação ao pressionar o botão "Cancelar"
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Cancelar'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    // Ação ao pressionar o botão "Confirmar"
+                                    String novoPreco = _precoController.text;
+                                    // Faça o que desejar com o valor digitado
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Confirmar'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      child: Icon(Icons.edit, color: AppController.instance.corLetras))
+                ],
+              ) : Container(),
               SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

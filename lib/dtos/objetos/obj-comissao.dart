@@ -2,13 +2,13 @@ class ObjComissao {
   bool? produtoTemComissaoEspecial;
   double? valorFixoDeComissaoParaEsseProduto;
 
+  ObjComissao({
+    this.produtoTemComissaoEspecial,
+    this.valorFixoDeComissaoParaEsseProduto,
+  });
+
   ObjComissao.fromJson(Map<String, dynamic> json) {
-    produtoTemComissaoEspecial = json['produtoTemComissaoEspecial'] != null
-        ? json['produtoTemComissaoEspecial']
-        : null;
-    valorFixoDeComissaoParaEsseProduto =
-        json['valorFixoDeComissaoParaEsseProduto'] != null
-            ? json['valorFixoDeComissaoParaEsseProduto']
-            : null;
+    produtoTemComissaoEspecial = json['produtoTemComissaoEspecial'] ;
+    valorFixoDeComissaoParaEsseProduto = json['valorFixoDeComissaoParaEsseProduto'] ;
   }
 }

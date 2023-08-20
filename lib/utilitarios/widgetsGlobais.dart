@@ -19,7 +19,9 @@ class WidgetsGlocais {
         height: 50,
         child: Center(
           child: Text(
-            texto,style: TextStyle(fontSize: AppController.instance.botaoTamanhoLetras),
+            texto,style: TextStyle(fontSize: AppController.instance.botaoTamanhoLetras,
+          color: AppController.instance.corLetras
+          ),
           ),
         ),
       ),

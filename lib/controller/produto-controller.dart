@@ -20,25 +20,9 @@ class ProdutoController {
 
 
   Future<ProdutoDtoList> buscarProdutoList(http.Response response) async {
-    var headers = {
-      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
-      'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
-      'Content-Type': 'application/json',
-    };
-    var body = {
-      'produtosAtivos': true,
-    };
     Map<String, dynamic> jsonResponse = json.decode(response.body);
     ProdutoDtoList responseModel = ProdutoDtoList.fromJson(jsonResponse);
     return responseModel;
-  }
-
-  Future<void> novoProduto() async {
-
-  }
-
-  Future<void> alterarProduto() async {
-
   }
 
 }

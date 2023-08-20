@@ -153,12 +153,11 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                           produtoList[index].precoVenda.toString(),style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
                                     ],
                                   ),
-                                  tileColor: produtoList[index]
-                                      .objCalculosDeProdutoDoBackEnd
-                                      .qtNoEstoque <
-                                      10
-                                      ? Colors.red
-                                      : null,
+                                  // tileColor: produtoList[index]
+                                  //     .objCalculosDeProdutoDoBackEnd
+                                  //     .qtNoEstoque < 10
+                                  //     ? Colors.red
+                                  //     : null,
                                   shape: Border.all(color: AppController.instance.corLetras),
                                 ),
                               ),
@@ -270,9 +269,8 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           },
         ),
         SlidableAction(
-          label: 'editar',
-          backgroundColor: Colors.amber,
-          icon: Icons.edit,
+          backgroundColor: Colors.blueAccent,
+          icon: Icons.remove_red_eye_outlined,
           onPressed:  (context) {
             idProduto = produtoList[index].id;
             Navigator.push(

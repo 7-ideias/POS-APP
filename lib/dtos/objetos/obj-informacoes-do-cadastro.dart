@@ -1,17 +1,17 @@
 
 class ObjInformacoesDoCadastro {
-  final String idDeQuemCadastrou;
-  final String dataCadastro;
+  String? idDeQuemCadastrou;
+  DateTime? dataCadastro;
 
   ObjInformacoesDoCadastro({
-    required this.idDeQuemCadastrou,
-    required this.dataCadastro,
+    this.idDeQuemCadastrou,
+    this.dataCadastro,
   });
 
   factory ObjInformacoesDoCadastro.fromJson(Map<String, dynamic> json) {
     return ObjInformacoesDoCadastro(
       idDeQuemCadastrou: json['idDeQuemCadastrou'],
-      dataCadastro: json['dataCadastro'],
+      dataCadastro: DateTime.parse(json['dataCadastro']),
     );
   }
 
