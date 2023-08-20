@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:intl/intl.dart';
 import '../dtos/produto-dto.dart';
@@ -78,7 +79,21 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       appBar: AppBar(
           title: edicaoDeProdutoAtivo == true
               ? Text(_textoApareceEmCimaDaTela)
-              : Text(_textoApareceEmCimaDaTela)),
+              : Text(_textoApareceEmCimaDaTela),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+              onTap: (){
+                setState(() {
+                  edicaoDeProdutoAtivo = true;
+                });
+              },
+              child: Icon(Icons.edit, color: AppController.instance.corLetras,
+              size: 30,)),
+        )
+      ],
+      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,

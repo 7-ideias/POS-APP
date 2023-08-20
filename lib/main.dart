@@ -37,6 +37,7 @@ import 'package:pos_app/screens/operacao-tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import '../../service/info-user-service.dart';
+import 'controller/app_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,81 +82,93 @@ class _TelaDeCarregamentoPrincipalState
     extends State<TelaDeCarregamentoPrincipal> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        // textTheme: GoogleFonts.lobsterTextTheme(Theme.of(context).textTheme),
-        // fontFamily: 'Georgia',
-      ),
-      home: SplashPage(),
-      routes: {
-        '/ajuda': (_) => AjudaESuporteTela(),
-        '/agenda': (_) => AgendaTela(),
-        '/cadastro_produto': (_) => CadastroProduto(),
-        '/cadastros': (_) => CadastrosTela(),
-        '/cadcliente': (_) => CadastroClienteTela(),
-        '/caixa': (_) => CaixaTela(),
-        '/clientes': (_) => ClientesTela(),
-        '/configs': (_) => ConfiguracoesTela(),
-        '/desenvolvedor': (_) => DesenvolvedorPage(),
-        '/devolucao': (_) => DevolucaoTela(),
-        '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
-        '/esqueceuSenhaInformarSMS': (_) => EsqueceuSenhaDigitarSmsTela(),
-        '/financeiro': (_) => FinanceiroTela(),
-        '/home': (_) => Home(),
-        '/idioma': (_) => IdiomaTela(),
-        '/imagensIniciais': (_) => JornadaTela(),
-        '/login': (_) => LoginPage(),
-        '/moeda': (_) => MoedaTela(),
-        '/operacaoNova': (_) => OperacaoNova(),
-        '/operacoes': (_) => OperacaoTela(),
-        '/pdf': (_) => PDFCreatePage(),
-        '/pedidos': (_) => PedidosTela(),
-        '/perfil': (_) => PerfilTela(),
-        '/produtos': (_) => ProdutosTela(),
-        '/relatorios': (_) => RelatoriosTela(),
-        '/resumo': (_) => ResumoTela(),
-        '/servicos': (_) => ServicosTela(),
-        '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
-        '/venda': (_) => VendaTela(),
-      },
+    return AnimatedBuilder(
+        animation: AppController.instance,
+        builder: (context, child) {
+          return MaterialApp(
+            theme: ThemeData(
+              primarySwatch: AppController.instance.corTelaFundo,
+              appBarTheme: AppBarTheme(color: AppController.instance.corAppBar),
+              backgroundColor: AppController.instance.corTelaFundo,
+              brightness: Brightness.light,
+            ),
+            home: buildScaffold(),
+            routes: {
+              '/ajuda': (_) => AjudaESuporteTela(),
+              '/agenda': (_) => AgendaTela(),
+              '/cadastro_produto': (_) => CadastroProduto(),
+              '/cadastros': (_) => CadastrosTela(),
+              '/cadcliente': (_) => CadastroClienteTela(),
+              '/caixa': (_) => CaixaTela(),
+              '/clientes': (_) => ClientesTela(),
+              '/configs': (_) => ConfiguracoesTela(),
+              '/desenvolvedor': (_) => DesenvolvedorPage(),
+              '/devolucao': (_) => DevolucaoTela(),
+              '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
+              '/esqueceuSenhaInformarSMS': (_) => EsqueceuSenhaDigitarSmsTela(),
+              '/financeiro': (_) => FinanceiroTela(),
+              '/home': (_) => Home(),
+              '/idioma': (_) => IdiomaTela(),
+              '/imagensIniciais': (_) => JornadaTela(),
+              '/login': (_) => LoginPage(),
+              '/moeda': (_) => MoedaTela(),
+              '/operacaoNova': (_) => OperacaoNova(),
+              '/operacoes': (_) => OperacaoTela(),
+              '/pdf': (_) => PDFCreatePage(),
+              '/pedidos': (_) => PedidosTela(),
+              '/perfil': (_) => PerfilTela(),
+              '/produtos': (_) => ProdutosTela(),
+              '/relatorios': (_) => RelatoriosTela(),
+              '/resumo': (_) => ResumoTela(),
+              '/servicos': (_) => ServicosTela(),
+              '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
+              '/venda': (_) => VendaTela(),
+            },
+          );
+        }
     );
   }
+
 }
+//
+// class SplashPage extends StatefulWidget {
+//   @override
+//   _SplashPageState createState() => _SplashPageState();
+// }
+//
+// class _SplashPageState extends State<SplashPage> {
+//   @override
+//   void initState() {
+//     infoUserService();
+//     super.initState();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return buildScaffold();
+//   }
+//
+//   }
 
-class SplashPage extends StatefulWidget {
-  @override
-  _SplashPageState createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    infoUserService();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Scaffold buildScaffold() {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.redAccent, Colors.black],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+    body: Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.redAccent, Colors.black],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-        child: VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
-              ? const IdiomaTela()
-              : const Home() ,
-
-            //
-            // VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
-            // ? LoginPage()
-            // : Home(),
       ),
-    );
-  }
+      child: VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
+            ? const IdiomaTela()
+            : const Home() ,
+
+          //
+          // VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
+          // ? LoginPage()
+          // : Home(),
+    ),
+  );
 }
 

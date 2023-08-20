@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../controller/app_controller.dart';
+
 class RelatoriosTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -7,7 +9,9 @@ class RelatoriosTela extends StatelessWidget {
         appBar: AppBar(
           title: Text('Relatorios'),
         ),
-        body: Container()
+        body: Container(
+          color: AppController.instance.corTelaFundo,
+        )
     );
   }
 }

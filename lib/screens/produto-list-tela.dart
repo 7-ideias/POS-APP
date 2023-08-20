@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pos_app/controller/produto-controller.dart';
 import 'package:pos_app/dtos/operacao-dto.dart';
+import 'package:pos_app/screens/produto-adicionar-diminuir-estoque-rapido.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 
+import '../controller/app_controller.dart';
 import '../dtos/produto-dto-list.dart';
 import '../dtos/produto-dto.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +21,7 @@ class ProdutosTela extends StatefulWidget {
 
 class _ProdutosTelaState2 extends State<ProdutosTela> {
 
-  double tamanhoDaFonte = 16;
+  double tamanhoDaFonte = 20;
 
   bool isLoading = true;
   bool _temConteudo = false;
@@ -36,13 +39,14 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
         title: Text('Produtos'),
       ),
       body: Column(
         children: [
           Container(
-            color: Colors.indigoAccent,
+            color: AppController.instance.corTelaAcima,
             height: 150,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -75,15 +79,11 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        'valor do estoque.: R\$ ',
-                        style: TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
-                      ),
                       isLoading == false
                           ? Text(
-                        _temConteudo == true ? produtoDtoList.vlEstoqueEmGrana.toString() : '0',
+                        _temConteudo == true ? 'vl estoque.: '+VariaveisGlobais.moeda + produtoDtoList.vlEstoqueEmGrana.toString() : '0',
                               style:
-                                  TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
+                                  TextStyle(fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
                             )
                           : Container()
                     ],
@@ -123,47 +123,46 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   )
                 : RefreshIndicator(
                     onRefresh: () => getProdutoList(),
-                    child: _temConteudo == true ? ListView.builder(
+                    child: _temConteudo == true ?
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
                       itemCount: produtoList.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            leading: Icon(Icons.add_a_photo),
-                            title: Text(produtoList[index].nomeProduto),
-                            subtitle: Row(
-                              children: [
-                                Text("estoque atual.: " +
-                                    produtoList[index]
-                                        .objCalculosDeProdutoDoBackEnd
-                                        .qtNoEstoque
-                                        .toString()),
-                                Text(" - "),
-                                Text("preço.: R\$  " +
-                                    produtoList[index].precoVenda.toString()),
-                              ],
-                            ),
-                            //TODO CORRIGIR PARA A COMPARACAO SER COM O ESTOQUE MINIMO
-                            tileColor: produtoList[index]
-                                        .objCalculosDeProdutoDoBackEnd
-                                        .qtNoEstoque <
-                                    10
-                                ? Colors.red
-                                : null,
-                            shape: Border.all(color: Colors.black12),
-                            trailing: Icon(Icons.arrow_forward),
-                            onTap: () {
-                              idProduto = produtoList[index].id;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProdutoNovoEdicaoTela(
-                                    idProduto: idProduto,
+                        return Slidable(
+                            endActionPane: direitaEsquertaPane(index),
+                            child:Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                color: AppController.instance.corTelaAcima,
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    maxRadius: 30,
+                                    backgroundColor: Colors.white,
+                                    child: Icon(Icons.question_mark),
                                   ),
+                                  title: Text(produtoList[index].nomeProduto,style: TextStyle(color: AppController.instance.corLetras,fontSize: 20)),
+                                  subtitle: Row(
+                                    children: [
+                                      Text("estoque atual.: " +
+                                          produtoList[index]
+                                              .objCalculosDeProdutoDoBackEnd
+                                              .qtNoEstoque
+                                              .toString(),style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
+                                      Text(" - preço.: " +VariaveisGlobais.moeda+
+                                          produtoList[index].precoVenda.toString(),style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
+                                    ],
+                                  ),
+                                  tileColor: produtoList[index]
+                                      .objCalculosDeProdutoDoBackEnd
+                                      .qtNoEstoque <
+                                      10
+                                      ? Colors.red
+                                      : null,
+                                  shape: Border.all(color: AppController.instance.corLetras),
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            ),
                         );
                       },
                     ) : Container(),
@@ -226,6 +225,72 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       ),
     );
   }
+
+  ActionPane direitaEsquertaPane(int index) {
+    return ActionPane(
+      motion: const StretchMotion(),
+      children: [
+        SlidableAction(
+          backgroundColor: Colors.red,
+          icon: Icons.arrow_downward_outlined,
+          onPressed:  (context) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProdutoEstoqueRapidoTela(
+                  produtoList: [produtoList[index]], adicionarOuBaixar: 'baixar',)),
+            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ProdutoNovoEdicaoTela(
+            //       idProduto: idProduto,
+            //     ),
+            //   ),
+            // );
+          },
+        ),
+        SlidableAction(
+          backgroundColor: Colors.green,
+          icon: Icons.arrow_upward_rounded,
+          onPressed:  (context) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProdutoEstoqueRapidoTela(
+                  produtoList: [produtoList[index]], adicionarOuBaixar: 'adicionar')),
+            );
+            // idProduto = produtoList[index].id;
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(
+            //     builder: (context) => ProdutoNovoEdicaoTela(
+            //       idProduto: idProduto,
+            //     ),
+            //   ),
+            // );
+          },
+        ),
+        SlidableAction(
+          label: 'editar',
+          backgroundColor: Colors.amber,
+          icon: Icons.edit,
+          onPressed:  (context) {
+            idProduto = produtoList[index].id;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProdutoNovoEdicaoTela(
+                  idProduto: idProduto,
+                ),
+              ),
+            );
+          },
+        ),
+
+      ],
+
+    );
+  }
+
 
   Future<void> getProdutoList() async {
     setState(() {

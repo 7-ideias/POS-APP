@@ -83,11 +83,13 @@ class _ValidaPageState extends State<ValidaPage> {
     return Scaffold(
       body: Center(
         child: isLoading
-            ? Lottie.asset('assets/loading.json')
+            ? VariaveisGlobais().widgetDeLoadingPadraoDoApp()
             : (status == 200 || status == 201
                 ? Lottie.asset('assets/success-mark.json')
                 : Lottie.asset('assets/failed-button.json')),
       ),
     );
   }
+
+
 }

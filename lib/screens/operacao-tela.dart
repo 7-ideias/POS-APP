@@ -5,6 +5,9 @@ import 'package:pos_app/controller/operacao-controller.dart';
 import 'package:pos_app/dtos/operacao-dto-list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
+import 'package:pos_app/utilitarios/widgetsGlobais.dart';
+import '../controller/app_controller.dart';
 import '../dtos/operacao-dto.dart';
 
 /**
@@ -46,6 +49,8 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   bool isLoading = true;
   List<OperacaoDto> operacaoList = [];
   late OperacaoDtoList operacaoDtoList;
+  double soma = 0.00;
+  int qtOperacoes = 0;
 
   @override
   void initState() {
@@ -56,6 +61,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
           title: Center(
               child: Text(
@@ -86,51 +92,45 @@ class _OperacaoTelaState extends State<OperacaoTela> {
               }),
         ],
       ),
-      body: existemOperacoes == false
+      body: isLoading == false ? (existemOperacoes == false
           ? widgetExitemOperacoes()
-          : widgetZeroOperacoes(),
+          : widgetZeroOperacoes()): Center(child: VariaveisGlobais().widgetDeLoadingPadraoDoApp()),
     );
   }
+
+
 
   Widget widgetExitemOperacoes() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(20)),
-              height: 200,
-              width: MediaQuery.of(context).size.width * .95,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.indigoAccent,
+              borderRadius: BorderRadius.circular(20)),
+          height: 200,
+          width: MediaQuery.of(context).size.width * .95,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'existem operações não finalizadas',
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                        Text(
-                          'blalblaa',
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                        Text(
-                          'xxxxxxxxx',
-                          style: TextStyle(fontSize: 22, color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  )
+                  Text(
+                    'existem ' + qtOperacoes.toString() + ' operações não finalizadas',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  Text(
+                    'valor das operações.: '+VariaveisGlobais.moeda+soma.toString(),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                  Text(
+                    'xxxxxxxxx',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
                 ],
-              ),
-            ),
-          ],
+              )
+            ],
+          ),
         ),
         SizedBox(height: 20,),
         Expanded(
@@ -229,15 +229,16 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                   );
   }
 
+
   Widget retornaALista(int index) {
     return ListTile(
-      title: Text(operacaoList[index].tipoDeOperacaoEnum),
+      title: Text(operacaoList[index].tipoDeOperacaoEnum,style: TextStyle(fontSize: 18,color: Colors.white),),
       subtitle: Row(
         children: [
-          Text(operacaoList[index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString())
+          Text(VariaveisGlobais.moeda + operacaoList[index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString(),style: TextStyle(color: Colors.white),)
         ],
       ),
-      shape: Border.all(color: Colors.black12),
+      shape: Border.all(color: Colors.white),
       onTap: () {
       },
     );
@@ -278,6 +279,13 @@ class _OperacaoTelaState extends State<OperacaoTela> {
       var buscarProdutoList = OperacaoController().buscarOperacaoList(fazRequisicao);
       buscarProdutoList.then((listaProdutos) {
         operacaoList = listaProdutos.produtosList;
+
+        qtOperacoes = 0;
+        qtOperacoes = operacaoList.length;
+
+        soma = 0.00;
+        soma = operacaoList.fold(soma, (accumulated, element) => accumulated + element.objCalculosDeOperacaoDoBackEnd.vlTotal);
+
         setState(() {
           operacaoDtoList = listaProdutos;
           isLoading = false;

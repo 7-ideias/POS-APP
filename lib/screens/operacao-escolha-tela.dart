@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../controller/app_controller.dart';
+import '../utilitarios/VariaveisGlobais.dart';
+import 'devolucao_tela.dart';
+import 'operacao-tela.dart';
+
 class OperacaoEscolhaTela extends StatefulWidget {
   const OperacaoEscolhaTela({Key? key}) : super(key: key);
 
@@ -11,7 +16,7 @@ class OperacaoEscolhaTela extends StatefulWidget {
 class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
   @override
   Widget build(BuildContext context) {
-    var larguraTela = 0.9;
+    var larguraTela = 0.8;
     var tamanhoDaFonte = 30.0;
     return buildListView(context, larguraTela, tamanhoDaFonte);
   }
@@ -19,7 +24,7 @@ class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
   Widget buildListView(BuildContext context, double larguraTela, double tamanhoDaFonte) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: Colors.blue[900],
+      color: AppController.instance.corTelaFundo,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -31,12 +36,13 @@ class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
             child: Card(
               elevation: 10,
               child: Container(
+                color: AppController.instance.corTelaAcima,
                 height: 200,
                 width: MediaQuery.of(context).size.width * larguraTela,
                 child: Stack(
                   children: [
-                    Lottie.asset('assets/vendedor.json',
-                    ),
+                    // Lottie.asset('assets/vendedor.json',
+                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -90,19 +96,21 @@ class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
               ),
             ),
             onTap: (){
-              Navigator.pushNamed(context, '/operacoes');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const OperacaoTela()),
+              );
             },
           ),
           GestureDetector(
             child: Card(
               elevation: 10,
               child: Container(
+                color: AppController.instance.corTelaAcima,
                 height: 200,
                 width: MediaQuery.of(context).size.width * larguraTela,
                 child: Stack(
                   children: [
-                    Container(
-                    ),
                     Lottie.asset(
                       'assets/return-package.json',
                     ),
@@ -143,7 +151,10 @@ class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
               ),
             ),
             onTap: (){
-              Navigator.pushNamed(context, '/devolucao');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DevolucaoTela()),
+              );
             },
           ),
         ],

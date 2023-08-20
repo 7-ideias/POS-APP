@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/shake-icon.dart';
 
 import '../../utilitarios/Donut.dart';
 import '../../utilitarios/MenuLateral.dart';
 import '../../utilitarios/VariaveisGlobais.dart';
-
-/*
-TODO PAYLOAD IMAGINADO
-
- */
 
 class PrincipalTela extends StatefulWidget {
   @override
@@ -40,79 +36,19 @@ class _PrincipalTelaState extends State<PrincipalTela>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigo,
+      backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
         actions: [
           GestureDetector(
-            child: Icon(
-              Icons.settings,
-              size: 35,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                Icons.settings,
+                size: 35,
+              ),
             ),
             onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (BuildContext context) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(100.0),
-                          topRight: Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.blueAccent,
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.blueAccent,
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.blueAccent,
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  color: Colors.blueAccent,
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    // Conteúdo do seu bottom sheet aqui
-                  );
-                },
-              );
+              buildShowModalBottomSheet(context);
             },
           ),
         ],
@@ -138,7 +74,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
           children: [
             Container(
               key: keyContainer,
-              color: Colors.indigo,
+              color: AppController.instance.corTelaFundo,
               alignment: Alignment.center,
               height: MediaQuery.of(context).size.height * 0.35,
               child: Container(
@@ -155,7 +91,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                               SizedBox(width: 20),
                               Text('Boa tarde',
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 15)),
+                                      color: AppController.instance.corLetras, fontSize: 15)),
                             ],
                           ),
                           SizedBox(width: 20),
@@ -168,7 +104,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         .usuarioDto.objUser?.objPessoa?.nome ??
                                     '',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppController.instance.corLetras,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
@@ -190,7 +126,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                     height: 80,
                   ),
                   Card(
-                    color: Colors.indigoAccent,
+                    color: AppController.instance.corTelaAcima,
                     elevation: 10,
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.3,
@@ -210,7 +146,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     },
                                     child: ShakeIcon(
                                         icon: Icon(
-                                            color: Colors.yellow,
+                                            color: AppController.instance.corLetras,
                                             size: 50,
                                             Icons.shopping_cart)),
                                   ),
@@ -224,7 +160,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                   padding: const EdgeInsets.all(8.0),
                                   child: ShakeIcon(
                                       icon: Icon(
-                                          color: Colors.yellow,
+                                          color: AppController.instance.corLetras,
                                           size: 50,
                                           Icons.monetization_on)),
                                 )
@@ -245,7 +181,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
         _isExpanded
             ? Container()
             : Card(
-                color: Colors.indigoAccent,
+                color: AppController.instance.corTelaAcima,
                 child: Column(
                   children: [
                     Padding(
@@ -253,7 +189,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                       child: Text('DIA',
                           style: TextStyle(
                             fontSize: 22,
-                            color: Colors.white,
+                            color: AppController.instance.corLetras,
                           )),
                     ),
                     Donut(context),
@@ -267,13 +203,13 @@ class _PrincipalTelaState extends State<PrincipalTela>
         _isExpanded
             ? Container()
             : Card(
-                color: Colors.indigoAccent,
+                color: AppController.instance.corTelaAcima,
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('MÊS',
-                          style: TextStyle(fontSize: 18, color: Colors.white)),
+                          style: TextStyle(fontSize: 18, color: AppController.instance.corLetras,)),
                     ),
                     Donut(context),
                     Padding(
@@ -286,13 +222,13 @@ class _PrincipalTelaState extends State<PrincipalTela>
         _isExpanded
             ? Container()
             : Card(
-                color: Colors.indigoAccent,
+                color: AppController.instance.corTelaAcima,
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text('resumo do dia',
-                          style: TextStyle(fontSize: 18, color: Colors.white)),
+                          style: TextStyle(fontSize: 18, color: AppController.instance.corLetras,)),
                     ),
                     Donut(context),
                     Padding(
@@ -305,10 +241,94 @@ class _PrincipalTelaState extends State<PrincipalTela>
       ]),
     );
   }
+
+  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+              context: context,
+              builder: (_) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              height: 10,
+                              width: 60,
+                              color: Colors.grey,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Escolha a cor do app '),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: (){
+                                AppController.instance.corPrincipal = Colors.indigo;
+                                AppController.instance.mudarCores();
+                              },
+                              child: Container(
+                                color: Colors.indigo,
+                                height: height(),
+                                width: height(),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                AppController.instance.corPrincipal = Colors.purple;
+                                AppController.instance.mudarCores();
+                              },
+                              child: Container(
+                                color: Colors.purple,
+                                height: height(),
+                                width: height(),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: (){
+                                AppController.instance.corPrincipal = Colors.orange;
+                                AppController.instance.mudarCores();
+                              },
+                              child: Container(
+                                color: Colors.orange,
+                                height: height(),
+                                width: height(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+  }
+
+  double height() => 30;
+
 }
 
 Table ResumoTable() {
-  return Table(border: TableBorder.all(color: Colors.white), children: [
+  return Table(border: TableBorder.all(color: AppController.instance.corLetras,), children: [
     TableRow(
       children: [
         TableCell(
@@ -317,7 +337,7 @@ Table ResumoTable() {
             padding: EdgeInsets.all(8),
             child: Text('operação',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppController.instance.corLetras,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
           ),
@@ -328,7 +348,7 @@ Table ResumoTable() {
             padding: EdgeInsets.all(8),
             child: Text('valor do dia',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppController.instance.corLetras,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
           ),
@@ -342,7 +362,7 @@ Table ResumoTable() {
             padding: EdgeInsets.all(8),
             child: Text('vendas',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppController.instance.corLetras,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
           ),
@@ -353,7 +373,7 @@ Table ResumoTable() {
             child: Text('R\$ 1200,00',
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppController.instance.corLetras,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
           ),
@@ -367,7 +387,7 @@ Table ResumoTable() {
             padding: EdgeInsets.all(8),
             child: Text('orçamentos',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppController.instance.corLetras,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
           ),
@@ -378,7 +398,7 @@ Table ResumoTable() {
             child: Text('R\$ 1200,00',
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: AppController.instance.corLetras,
                     fontWeight: FontWeight.bold,
                     fontSize: 18)),
           ),

@@ -16,7 +16,7 @@ class OperacaoDto {
   final String tipoDeOperacaoEnum;
   final bool statusQuitada;
   final bool operacaoFinalizadaEProntaParaOCaixa;
-  final ObjCalculosDeOperacaoDoBackEnd? objCalculosDeOperacaoDoBackEnd;
+  final ObjCalculosDeOperacaoDoBackEnd objCalculosDeOperacaoDoBackEnd;
   final ObjAgenda? objAgenda;
   ObjVendaEServicoList? vendaList;
   ObjVendaEServicoList? servicoList;
@@ -32,7 +32,7 @@ class OperacaoDto {
     required this.tipoDeOperacaoEnum,
     required this.statusQuitada,
     required this.operacaoFinalizadaEProntaParaOCaixa,
-    this.objCalculosDeOperacaoDoBackEnd,
+    required this.objCalculosDeOperacaoDoBackEnd,
     this.objAgenda,
     this.vendaList,
     this.servicoList,

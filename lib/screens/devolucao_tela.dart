@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+import '../controller/app_controller.dart';
+
 class DevolucaoTela extends StatefulWidget {
   const DevolucaoTela({Key? key}) : super(key: key);
 
@@ -19,11 +21,12 @@ class _DevolucaoTelaState extends State<DevolucaoTela> {
         textAlign: TextAlign.center,
       ))),
       body: Container(
+        color: AppController.instance.corTelaFundo,
           child: ListView(
             children: [
               Card(
                 child: Container(
-                  color: Colors.indigoAccent,
+                  color: AppController.instance.corTelaAcima,
                   height: 200,
                   width: 200,
                   child: Lottie.asset(
@@ -37,7 +40,7 @@ class _DevolucaoTelaState extends State<DevolucaoTela> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  color: Colors.indigoAccent,
+                  color: AppController.instance.corTelaAcima,
                   height: 100,
                   width: 100,
                   child: Center(child: Text('digite o numero', style: TextStyle(fontSize: 50),)),
@@ -49,7 +52,7 @@ class _DevolucaoTelaState extends State<DevolucaoTela> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  color: Colors.indigoAccent,
+                  color: AppController.instance.corTelaAcima,
                   height: 100,
                   width: 100,
                   child: Center(child: Text('123...', style: TextStyle(fontSize: 50),)),
@@ -68,7 +71,7 @@ class _DevolucaoTelaState extends State<DevolucaoTela> {
                     );
                   },
                   child: Container(
-                    color: Colors.indigoAccent,
+                    color: AppController.instance.corTelaAcima,
                     height: 100,
                     width: 100,
                     child: Center(child: Text('botao', style: TextStyle(fontSize: 50),)),

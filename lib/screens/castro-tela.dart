@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/produto-list-tela.dart';
+
+import '../controller/app_controller.dart';
 
 class CadastrosTela extends StatefulWidget {
   const CadastrosTela({Key? key}) : super(key: key);
@@ -16,6 +19,7 @@ class _CadastrosTelaState extends State<CadastrosTela> {
     return Scaffold(
       appBar: AppBar(),
       body: Container(
+        color: AppController.instance.corTelaFundo,
         height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -23,11 +27,15 @@ class _CadastrosTelaState extends State<CadastrosTela> {
           children: [
             GestureDetector(
               onTap:() {
-                Navigator.pushNamed(context, '/produtos');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProdutosTela()),
+                );
               },
               child: Card(
                 elevation: 10,
                 child: Container(
+                  color: AppController.instance.corTelaAcima,
                   height: 200,
                   width: MediaQuery.of(context).size.width * larguraTela,
                   child: Stack(
@@ -49,7 +57,6 @@ class _CadastrosTelaState extends State<CadastrosTela> {
                                 FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Card(
-                                    color: Colors.red,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
@@ -75,6 +82,7 @@ class _CadastrosTelaState extends State<CadastrosTela> {
               child: Card(
                 elevation: 10,
                 child: Container(
+                  color: AppController.instance.corTelaAcima,
                   height: 200,
                   width: MediaQuery.of(context).size.width * larguraTela,
                   child: Stack(
@@ -96,7 +104,6 @@ class _CadastrosTelaState extends State<CadastrosTela> {
                                 FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Card(
-                                    color: Colors.red,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
@@ -122,6 +129,7 @@ class _CadastrosTelaState extends State<CadastrosTela> {
               child: Card(
                 elevation: 10,
                 child: Container(
+                  color: AppController.instance.corTelaAcima,
                   height: 200,
                   width: MediaQuery.of(context).size.width * larguraTela,
                   child: Stack(
@@ -143,7 +151,6 @@ class _CadastrosTelaState extends State<CadastrosTela> {
                                 FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Card(
-                                    color: Colors.red,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(

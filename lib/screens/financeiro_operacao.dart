@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/caixa_tela.dart';
+import 'package:pos_app/screens/relatorios_tela.dart';
+
+import '../controller/app_controller.dart';
+import '../utilitarios/VariaveisGlobais.dart';
+import 'castro-tela.dart';
 
 class FinanceiroTela extends StatefulWidget {
   const FinanceiroTela({Key? key}) : super(key: key);
@@ -17,7 +23,7 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
       children: [
         Container(
           height: MediaQuery.of(context).size.height,
-          color: Colors.indigoAccent,
+          color: AppController.instance.corTelaFundo,
           child: Column(
             children: [
               SizedBox(
@@ -32,7 +38,7 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                     child: Stack(
                       children: [
                         Container(
-                          color: Colors.blueGrey.shade500,
+                          color: AppController.instance.corTelaAcima,
                         ),
                         Lottie.asset(
                           'assets/financial-accounting.json',
@@ -53,7 +59,7 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                                         'caixa',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                            fontSize: tamanhoDaFonte, color: Colors.white),
+                                            fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
                                       ),
                                     ),
                                   )
@@ -67,7 +73,10 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                   ),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, '/caixa');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CaixaTela()),
+                  );
                 },
               ),
               Padding(
@@ -78,76 +87,45 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                   children: [
                     GestureDetector(
                       onTap: (){
-                        Navigator.pushNamed(context, '/cadastros');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const CadastrosTela()),
+                        );
                       },
                       child: Card(
                         elevation: 10,
                         child: Container(
-                          color: Colors.blueGrey,
+                          color: AppController.instance.corTelaAcima,
                           height: MediaQuery.of(context).size.width * 0.4,
                           width: MediaQuery.of(context).size.width * larguraTela/2,
                           child: Center(
                               child: Text(
                             'cadastros',
                             style: TextStyle(
-                                fontSize: tamanhoDaFonte, color: Colors.white),
+                                fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
                           )),
                         ),
                       ),
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.pushNamed(context, '/relatorios');
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                        color: Colors.blueGrey,
-                        ),
-                        height: MediaQuery.of(context).size.width * 0.4,
-                        width: MediaQuery.of(context).size.width * larguraTela/2,
-                        child: Stack(
-                          children: [
-                            Lottie.asset('assets/relatorios.json'),
-                            Positioned(
-                              right: 0,
-                              bottom: 0,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10), // Define o raio das bordas arredondadas
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Text(
-                                    'relatórios',
-                                    style: TextStyle(
-                                      fontSize: tamanhoDaFonte,
-                                      // color: Colors.black12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pushNamed(context, '/configs');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RelatoriosTela()),
+                        );
                       },
                       child: Card(
                         elevation: 10,
                         child: Container(
-                          color: Colors.blueGrey,
+                          color: AppController.instance.corTelaAcima,
                           height: MediaQuery.of(context).size.width * 0.4,
                           width: MediaQuery.of(context).size.width * larguraTela/2,
                           child: Center(
                               child: Text(
-                            'configs',
-                            style: TextStyle(
-                                fontSize: tamanhoDaFonte, color: Colors.white),
-                          )),
+                                'relatorios',
+                                style: TextStyle(
+                                  fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                              )),
                         ),
                       ),
                     ),
