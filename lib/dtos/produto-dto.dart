@@ -1,3 +1,9 @@
+import 'package:pos_app/dtos/objetos/obj-agrupamento.dart';
+import 'package:pos_app/dtos/objetos/obj-informacoes-do-cadastro.dart';
+
+import 'objetos/obj-calculos-de-produto-do-back-end.dart';
+import 'objetos/obj-comissao.dart';
+
 class ProdutoDto {
   String id;
   String codigoDeBarras;
@@ -5,6 +11,15 @@ class ProdutoDto {
   ObjCalculosDeProdutoDoBackEnd objCalculosDeProdutoDoBackEnd;
   double precoVenda;
   bool ativo;
+  String idUsuario;
+  String tipoPoduto;
+  ObjInformacoesDoCadastro objInformacoesDoCadastro;
+  ObjAgrupamento objAgrupamento;
+  String? objServico;
+  String modeloProduto;
+  double estoqueMaximo;
+  double estoqueMinimo;
+  ObjComissao objComissao;
 
   ProdutoDto({
     required this.id,
@@ -13,6 +28,15 @@ class ProdutoDto {
     required this.objCalculosDeProdutoDoBackEnd,
     required this.precoVenda,
     required this.ativo,
+    required this.idUsuario,
+    required this.tipoPoduto,
+    required this.objInformacoesDoCadastro,
+    required this.objAgrupamento,
+    required this.objServico,
+    required this.modeloProduto,
+    required this.estoqueMaximo,
+    required this.estoqueMinimo,
+    required this.objComissao,
   });
 
   factory ProdutoDto.fromJson(Map<String, dynamic> json) {
@@ -23,32 +47,16 @@ class ProdutoDto {
       objCalculosDeProdutoDoBackEnd: ObjCalculosDeProdutoDoBackEnd.fromJson(json['objCalculosDeProdutoDoBackEnd']),
       precoVenda: json['precoVenda'],
       ativo: json['ativo'],
-    );
-  }
-}
+      idUsuario: json['idUsuario'],
+      tipoPoduto : json['tipoPoduto'],
+      objInformacoesDoCadastro :  ObjInformacoesDoCadastro.fromJson(json['objInformacoesDoCadastro']),
+      objAgrupamento: ObjAgrupamento.fromJson(json['objAgrupamento']),
+      objServico: json['objServico'],
+      modeloProduto: json['modeloProduto'],
+      estoqueMaximo: json['estoqueMaximo'],
+      estoqueMinimo: json['estoqueMinimo'],
+      objComissao : ObjComissao.fromJson(json['objComissao']),
 
-class ObjCalculosDeProdutoDoBackEnd {
-  double qtNoEstoque;
-  double vlEstoqueEmGrana;
-  String ultimoDiaDeVenda;
-  double ultimoVlEmGranaPagoPeloProduto;
-  double vlMedioDoProduto;
-
-  ObjCalculosDeProdutoDoBackEnd({
-    required this.qtNoEstoque,
-    required this.vlEstoqueEmGrana,
-    required this.ultimoDiaDeVenda,
-    required this.ultimoVlEmGranaPagoPeloProduto,
-    required this.vlMedioDoProduto,
-  });
-
-  factory ObjCalculosDeProdutoDoBackEnd.fromJson(Map<String, dynamic> json) {
-    return ObjCalculosDeProdutoDoBackEnd(
-      qtNoEstoque: json['qtNoEstoque'],
-      vlEstoqueEmGrana: json['vlEstoqueEmGrana'],
-      ultimoDiaDeVenda: json['ultimoDiaDeVenda'],
-      ultimoVlEmGranaPagoPeloProduto: json['ultimoVlEmGranaPagoPeloProduto'],
-      vlMedioDoProduto: json['vlMedioDoProduto'],
     );
   }
 }

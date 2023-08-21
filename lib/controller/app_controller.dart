@@ -44,5 +44,6 @@ class AppController extends ChangeNotifier {
     }
     notifyListeners();
   }
+
 }
 

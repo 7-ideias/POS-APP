@@ -8,6 +8,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:intl/intl.dart';
+import 'package:pos_app/utilitarios/widgetsGlobais.dart';
 import '../dtos/produto-dto.dart';
 
 class ProdutoNovoEdicaoTela extends StatefulWidget {
@@ -19,41 +20,33 @@ class ProdutoNovoEdicaoTela extends StatefulWidget {
   State<ProdutoNovoEdicaoTela> createState() => _ProdutoNovoEdicaoTelaState();
 }
 
-class AdicionarOuBaixar extends StatefulWidget {
-  final String adicionarOuBaixar;
-  final String idProduto;
-
-  const AdicionarOuBaixar(this.adicionarOuBaixar, this.idProduto, {Key? key})
-      : super(key: key);
-
-  @override
-  State<AdicionarOuBaixar> createState() => _AdicionarOuBaixarState();
-}
 
 class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   final _form = GlobalKey<FormState>(); // cria  a chave para o formulario
 
-  double tamanhoDaFonte = 16;
-
+  double tamanhoDaFonte = 20;
   late ProdutoDto produtoModelo;
-
   var fazendoRequest = false;
   int responseCodeDaRequest = 0;
-
+  String _textoApareceEmCimaDaTela = '';
   var revelarTodos = false;
   var editar = false;
   var edicaoDeProdutoAtivo = false;
+
   var idProduto = '';
   var _idProduto = TextEditingController();
   var _nomeProduto = TextEditingController();
   var _codigoProduto = TextEditingController();
   var _qtInicial = TextEditingController();
+  var _modeloProduto = TextEditingController();
   var _custo = TextEditingController();
   var _vlDeVenda = TextEditingController();
+  var _estoqueMaximo = TextEditingController();
+  var _estoqueMinino = TextEditingController();
   var _produtoAtivo = true;
-  int _vlParaOEstoque = 1;
+  var _comissao = false;
+  var _vlDaComissao = TextEditingController();
 
-  String _textoApareceEmCimaDaTela = '';
 
   @override
   void initState() {
@@ -76,220 +69,24 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     });
 
     return Scaffold(
+      backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
           title: edicaoDeProdutoAtivo == true
               ? Text(_textoApareceEmCimaDaTela)
               : Text(_textoApareceEmCimaDaTela),
       actions: [
-        Padding(
+        edicaoDeProdutoAtivo == false ? Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
               onTap: (){
                 setState(() {
-                  edicaoDeProdutoAtivo = true;
+                  prepararCamposParaEdicao();
                 });
               },
               child: Icon(Icons.edit, color: AppController.instance.corLetras,
               size: 30,)),
-        )
+        ) : Container()
       ],
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              edicaoDeProdutoAtivo == true
-                  ? FloatingActionButton.extended(
-                      onPressed: () async {
-                        if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
-                          await enviarNovoProduto('NOVO');
-                        }else{
-                          await enviarNovoProduto('EDICAO');
-                        }
-
-                        if (responseCodeDaRequest == 409) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Ops... algo nao deu certo"),
-                                content: Text("O código de produto já existe!"),
-                                actions: [
-                                  TextButton(
-                                    child: Text("ok"),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
-                        if (responseCodeDaRequest == 200) {
-                          Navigator.pop(context);
-                        }
-                      },
-                      backgroundColor: Colors.green,
-                      label: Text(
-                        'salvar',
-                        style: TextStyle(fontSize: tamanhoDaFonte),
-                      ),
-                      icon: Icon(Icons.save),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    )
-                  : Container(),
-              SizedBox(
-                width: 20,
-              ),
-              edicaoDeProdutoAtivo == true
-                  ? FloatingActionButton.extended(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      backgroundColor: Colors.redAccent,
-                      label: Text(
-                        'cancelar',
-                        style: TextStyle(fontSize: tamanhoDaFonte),
-                      ),
-                      icon: Icon(Icons.cancel),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    )
-                  : Container(),
-            ],
-          ),
-          edicaoDeProdutoAtivo == false
-              ? (revelarTodos == true
-                  ? FloatingActionButton.extended(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  AdicionarOuBaixar('adicionar', idProduto)),
-                        );
-                      },
-                      backgroundColor: Colors.green,
-                      label: Text(
-                        'adicionar mais ao estoque',
-                        style: TextStyle(fontSize: tamanhoDaFonte),
-                      ),
-                      icon: Icon(Icons.add),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    )
-                  : Container())
-              : Container(),
-          SizedBox(
-            height: 10,
-          ),
-          edicaoDeProdutoAtivo == false
-              ? (revelarTodos == true
-                  ? FloatingActionButton.extended(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  AdicionarOuBaixar('baixar', idProduto)),
-                        );
-                      },
-                      backgroundColor: Colors.red,
-                      label: Text(
-                        'dar baixar (diminuir) estoque',
-                        style: TextStyle(fontSize: tamanhoDaFonte),
-                      ),
-                      icon: Icon(Icons.remove),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    )
-                  : Container())
-              : Container(),
-
-          SizedBox(
-            height: 10,
-          ),
-          edicaoDeProdutoAtivo == false
-              ? (revelarTodos == true
-              ? FloatingActionButton.extended(
-            onPressed: ()  async {
-              await excluirProdutoPorID(widget.idProduto);
-              Navigator.of(context).pop();
-            },
-            backgroundColor: Colors.orange,
-            label: Text(
-              'excluir o produto',
-              style: TextStyle(fontSize: tamanhoDaFonte),
-            ),
-            icon: Icon(Icons.ac_unit),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-          )
-              : Container())
-              : Container(),
-
-
-          SizedBox(
-            height: 10,
-          ),
-          edicaoDeProdutoAtivo == false
-              ? (revelarTodos == true
-                  ? FloatingActionButton.extended(
-                      onPressed: () {
-                        setState(() {
-                          editar = !editar;
-                          edicaoDeProdutoAtivo = !edicaoDeProdutoAtivo;
-                        });
-                      },
-                      label: Text(
-                        'editar o produto',
-                        style: TextStyle(fontSize: tamanhoDaFonte),
-                      ),
-                      icon: Icon(Icons.edit),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    )
-                  : Container())
-              : Container(),
-          SizedBox(
-            height: 10,
-          ),
-          edicaoDeProdutoAtivo == false
-              ? FloatingActionButton.extended(
-                  onPressed: () {
-                    setState(() {
-                      revelarTodos = !revelarTodos;
-                    });
-                  },
-                  label: revelarTodos == false
-                      ? Row(
-                          children: [
-                            Icon(Icons.add),
-                            Text(' mais ações', style: TextStyle(fontSize: tamanhoDaFonte)),
-                          ],
-                        )
-                      : Row(
-                          children: [
-                            Icon(Icons.hide_source),
-                            Text(' esconder ações',
-                                style: TextStyle(fontSize: tamanhoDaFonte)),
-                          ],
-                        ),
-                )
-              : Container(),
-        ],
       ),
       body: fazendoRequest == true
           ? Center(
@@ -298,166 +95,239 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                   : (responseCodeDaRequest == 200
                       ? Lottie.asset('assets/success-mark.json')
                       : Lottie.asset('assets/failed-button.json')))
-          : ListView(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          : Padding(
+            padding: const EdgeInsets.only(left: 8,right: 8,top: 10,bottom: 10),
+            child: Container(
+        color: AppController.instance.corTelaAcima,
+              child: ListView(
                   children: [
-                    edicaoDeProdutoAtivo == true
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(_textoApareceEmCimaDaTela,
-                                style: TextStyle(fontSize: tamanhoDaFonte)),
-                          )
-                        : Container(),
+                    //produto ativo
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('produto ativo',style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
+                          Switch(
+                            value: _produtoAtivo,
+                            onChanged: edicaoDeProdutoAtivo == false ? null : (value) {
+                              setState(() {
+                                _produtoAtivo = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    //descricao do item
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        enabled: editar,
+                        controller: _nomeProduto,
+                        decoration: buildInputDecoration('descrição do item'),
+                      ),
+                    ),
+                    //codigo de barras ou codigo do item
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _codigoProduto,
+                        enabled: editar,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        ],
+                        decoration: buildInputDecoration('código do item'),
+                      ),
+                    ),
+                    //qt entrando no estoque
+                    widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _qtInicial,
+                        enabled: editar,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                        ],
+                        decoration:
+                            buildInputDecoration('quantidade da entrada inicial'),
+                      ),
+                    ):Container(),
+                    //custo
+                    widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _custo,
+                        enabled: editar,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                        ],
+                        decoration: buildInputDecoration('custo'),
+                      ),
+                    ):Container(),
+                    //estoque atual
+                    widget.idProduto != VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: TextEditingController(text: produtoModelo.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toString()),
+                        enabled: false,
+                        decoration: buildInputDecoration('estoque atual'),
+                      ),
+                    ):Container(),
+                    //valor da venda
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _vlDeVenda,
+                        enabled: editar,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                        ],
+                        decoration: buildInputDecoration('valor da venda'),
+                      ),
+                    ),
+                    //estoque mínimo
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _estoqueMinino,
+                        enabled: editar,
+                        keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                        ],
+                        decoration:
+                        buildInputDecoration('estoque mínimo'),
+                      ),
+                    ) ,
+                    //estoque maximo
+                     Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _estoqueMaximo,
+                        enabled: editar,
+                        keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                        ],
+                        decoration:
+                        buildInputDecoration('estoque máximo'),
+                      ),
+                    ) ,
+                    //produto com comissao ao vendedor
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text('comissao ao vendedor?',style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
+                          Switch(
+                            value: _comissao,
+                            onChanged: (value) {
+                              setState(() {
+                                _comissao = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    //valor da comissao
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                        controller: _vlDaComissao,
+                        enabled: editar,
+                        keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                        ],
+                        decoration: buildInputDecoration('valor da comissao'),
+                      ),
+                    ),
+                    edicaoDeProdutoAtivo == false ? Container() :botoesSalvarECancelar(context),
+                    SizedBox(
+                      height: 30,
+                    )
                   ],
                 ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('produto ativo',style: TextStyle(fontSize: tamanhoDaFonte),),
-                      Switch(
-                        value: _produtoAtivo,
-                        onChanged: edicaoDeProdutoAtivo == false ? null : (value) {
-                          setState(() {
-                            _produtoAtivo = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    enabled: false,
-                    controller: _idProduto,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'id do produto',
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    enabled: editar,
-                    controller: _nomeProduto,
-                    decoration: buildInputDecoration('descrição do item'),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    controller: _codigoProduto,
-                    enabled: editar,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    ],
-                    decoration: buildInputDecoration('código do item'),
-                  ),
-                ),
-                widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    controller: _qtInicial,
-                    enabled: editar,
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                    ],
-                    decoration:
-                        buildInputDecoration('quantidade da entrada inicial'),
-                  ),
-                ):Container(),
-                widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    controller: _custo,
-                    enabled: editar,
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                    ],
-                    decoration: buildInputDecoration('custo'),
-                  ),
-                ):Container(),
-                widget.idProduto != VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    controller: TextEditingController(text: "AJUSTAR"),
-                    enabled: false,
-                    decoration: buildInputDecoration('estoque atual'),
-                  ),
-                ):Container(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    style: TextStyle(fontSize: tamanhoDaFonte),
-                    controller: _vlDeVenda,
-                    enabled: editar,
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                    ],
-                    decoration: buildInputDecoration('valor da venda'),
-                  ),
-                ),
-                widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: Container(
-                            color: Colors.red,
-                            width: 120,
-                            height: 50,
-                            child: Icon(Icons.arrow_upward_outlined,color: Colors.white),
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          color: Colors.white10,
-                          width: 50,
-                          height: 50,
-                          child: Text(_vlParaOEstoque.toString(), style: TextStyle(fontSize: 30)),
-                        ),
-                        GestureDetector(
-                          child: Container(
-                            color: Colors.green,
-                            width: 120,
-                            height: 50,
-                            child: Icon(Icons.arrow_downward_outlined,color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ) : Container(),
-              ],
             ),
+          ),
     );
+  }
+
+  Widget botoesSalvarECancelar(BuildContext context) {
+    print(_vlDeVenda.text);
+    return Column(
+                children: [
+                  GestureDetector(
+                    onTap: ()async {
+                      if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
+                        await enviarNovoProduto('NOVO');
+                      }else{
+                        await enviarNovoProduto('EDICAO');
+                      }
+                      if (responseCodeDaRequest == 409) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Ops... algo nao deu certo"),
+                              content: Text("O código de produto já existe!"),
+                              actions: [
+                                TextButton(
+                                  child: Text("ok"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      if (responseCodeDaRequest == 200) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: WidgetsGlocais.botaoMaster(context, AppController.instance.botaoConfirmar,
+                        'salvar'),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                        setState(() {
+                          edicaoDeProdutoAtivo = false;
+                        });
+                        Navigator.pop(context);
+                    },
+                    child: WidgetsGlocais.botaoMaster(context, AppController.instance.botaoNegar,
+                        'cancelar'),
+                  ),
+                ],
+              );
   }
 
   InputDecoration buildInputDecoration(String texto) {
@@ -496,7 +366,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       "ativo": _produtoAtivo,
       "codigoDeBarras": _codigoProduto.text,
       "nomeProduto": _nomeProduto.text,
-      "tipoPoduto": "PRODUTO",
+      "tipoPoduto": widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? "PRODUTO" : "SERVICO",
       "objInformacoesDoCadastro": {
         "idDeQuemCadastrou": idDeQuemEstaCadastrando
       },
@@ -506,12 +376,12 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
         "podeAlterarOValorNaHora": false
       },
       "modeloProduto": "UNIDADE, KILO, SEM_MODELO",
-      "estoqueMaximo": 50,
-      "estoqueMinimo": 10,
-      "precoVenda": VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text),
+      "estoqueMaximo": _estoqueMaximo.text,
+      "estoqueMinimo": _estoqueMinino.text,
+      "precoVenda":  VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text),
       "objComissao": {
-        "produtoTemComissaoEspecial": false,
-        "valorFixoDeComissaoParaEsseProduto": 10.00
+        "produtoTemComissaoEspecial": _comissao,
+        "valorFixoDeComissaoParaEsseProduto": _vlDaComissao.text
       },
       "objEntradaSaidaProduto": [
         {
@@ -564,11 +434,21 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       produtoModelo = ProdutoDto.fromJson(jsonResponse);
-      _idProduto = TextEditingController(text: widget.idProduto);
-      _nomeProduto = TextEditingController(text: produtoModelo.nomeProduto);
+
+      _idProduto = TextEditingController();
       _codigoProduto = TextEditingController(text: produtoModelo.codigoDeBarras);
+      _nomeProduto = TextEditingController(text: produtoModelo.nomeProduto);
       _vlDeVenda = TextEditingController(text: NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(produtoModelo.precoVenda));
       _produtoAtivo = produtoModelo.ativo;
+
+      _modeloProduto = TextEditingController(text: produtoModelo.modeloProduto);
+      _estoqueMaximo = TextEditingController(text: produtoModelo.estoqueMaximo.toString());
+      _estoqueMinino = TextEditingController(text: produtoModelo.estoqueMinimo.toString());
+
+      _produtoAtivo = true;
+      _comissao = produtoModelo.objComissao.produtoTemComissaoEspecial!;
+      _vlDaComissao = TextEditingController(text: produtoModelo.objComissao.valorFixoDeComissaoParaEsseProduto.toString());
+
     }
 
     setState(() {
@@ -600,19 +480,11 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     });
   }
 
-
-}
-
-class _AdicionarOuBaixarState extends State<AdicionarOuBaixar> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.adicionarOuBaixar),
-      ),
-      body: Column(
-        children: [],
-      ),
-    );
+  void prepararCamposParaEdicao() {
+    editar = !editar;
+    edicaoDeProdutoAtivo = !edicaoDeProdutoAtivo;
+    _vlDeVenda = TextEditingController(text: NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(produtoModelo.precoVenda));
   }
+
 }
+

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 class JornadaTela extends StatefulWidget {
   @override
@@ -61,7 +63,7 @@ class _JornadaTelaState extends State<JornadaTela> {
                         Container(
                           alignment: Alignment.bottomCenter,
                           child: Text(
-                            'controle \ntotal\n',
+                            VariaveisGlobais.idiomaDto.frase1DeIntroducao.toString(),
                             style: TextStyle(
                               fontSize: 50,
                               backgroundColor: Colors.transparent,
@@ -81,15 +83,30 @@ class _JornadaTelaState extends State<JornadaTela> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: screenWidth,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Lottie.asset(
-                          'assets/astronaut-floating-with-balloons.json',
-                          fit: BoxFit.cover,
+                    Column(
+                      children: [
+                        Container(
+                          width: screenWidth,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Lottie.asset(
+                              'assets/astronaut-floating-with-balloons.json',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            VariaveisGlobais.idiomaDto.frase1DeIntroducao.toString(),
+                            style: TextStyle(
+                              fontSize: 50,
+                              backgroundColor: Colors.transparent,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
                     ),
                     Container(
                       width: screenWidth,
@@ -188,6 +205,7 @@ class OutraTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppController.instance.corTelaFundo,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -199,12 +217,15 @@ class OutraTela extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.red,
-                  height: 100,
-                  width: 200,
-                  child: Text('já tenho uma conta'),
+                child: Card(
+                  elevation: 10,
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: AppController.instance.corTelaAcima,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text('já tenho uma conta',style: TextStyle(color: AppController.instance.corLetras, fontSize: AppController.instance.botaoTamanhoLetras)),
+                  ),
                 ),
               ),
             ),
@@ -214,12 +235,15 @@ class OutraTela extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.red,
-                  height: 100,
-                  width: 200,
-                  child: Text('sou um colaborador'),
+                child: Card(
+                  elevation: 10,
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: AppController.instance.corTelaAcima,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text('sou um colaborador',style: TextStyle(color: AppController.instance.corLetras, fontSize: AppController.instance.botaoTamanhoLetras)),
+                  ),
                 ),
               ),
             ),
@@ -229,12 +253,15 @@ class OutraTela extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Colors.red,
-                  height: 100,
-                  width: 200,
-                  child: Text('sou novo... quero uma conta'),
+                child: Card(
+                  elevation: 10,
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: AppController.instance.corTelaAcima,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Text('sou novo... quero uma conta',style: TextStyle(color: AppController.instance.corLetras, fontSize: AppController.instance.botaoTamanhoLetras)),
+                  ),
                 ),
               ),
             ),
