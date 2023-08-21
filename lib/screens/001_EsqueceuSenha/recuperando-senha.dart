@@ -20,7 +20,8 @@ class _RecuperandoSenhaState extends State<RecuperandoSenha> {
 
   void enviar(BuildContext context) {
     String celular = celularController.text;
-    String endpoint = 'http://192.168.0.114:8082/usuario/recuperar-senha/+55$celular';
+    String heroku = 'sixbackend-70ed1c73ebec.herokuapp.com';
+    String endpoint = '$heroku+55$celular';
 
     http.get(Uri.parse(endpoint)).then((response) {
       if (response.statusCode == 200) {
