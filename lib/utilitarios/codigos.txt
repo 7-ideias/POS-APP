@@ -1,0 +1,29 @@
+
+
+*****************************************************************************************************
+onPressed:  (context) {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Enviar a venda para o caixa?'),
+                                content: Text('isso deixa a venda pronta para ser recebida'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Cancelar'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('ok'),
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+*****************************************************************************************************

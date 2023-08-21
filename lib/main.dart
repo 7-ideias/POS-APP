@@ -96,9 +96,9 @@ class _TelaDeCarregamentoPrincipalState
             routes: {
               '/ajuda': (_) => AjudaESuporteTela(),
               '/agenda': (_) => AgendaTela(),
-              '/cadastro_produto': (_) => CadastroProduto(),
+              // '/cadastro_produto': (_) => CadastroProduto(),
               '/cadastros': (_) => CadastrosTela(),
-              '/cadcliente': (_) => CadastroClienteTela(),
+              // '/cadcliente': (_) => CadastroClienteTela(),
               '/caixa': (_) => CaixaTela(),
               '/clientes': (_) => ClientesTela(),
               '/configs': (_) => ConfiguracoesTela(),
