@@ -24,7 +24,13 @@ import 'package:pos_app/screens/001_login/new-login-page.dart';
                       ElevatedButton(
                         onPressed: () {
                         },
-                        child: Lottie.asset('assets/New user sign up.json'),
+                        child: Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                            ),
+                            child: Lottie.asset('assets/New user sign up.json',
+                            fit: BoxFit.cover,
+                            )),
                       ),
                       const Text(textAlign: TextAlign.center,
                         'Vou criar uma \n nova conta',
