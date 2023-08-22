@@ -21,8 +21,6 @@ class VariaveisGlobais {
   static String moeda = 'R\$ ';
   // static String? moeda = usuarioDto.objPreferenciasDoAppRefleteParaTodosOsUsuarios?.moedaPadraoDoAppParaRelatoriosEComprovantes;
 
-  LottieBuilder widgetDeLoadingPadraoDoApp() => Lottie.asset('assets/loading.json');
-
   static Map<String, String> headers() => {"Content-Type": "application/json","idUser":"{$idUsuario}","idColaborador":"{$idUsuario}"};
   static final headersGlobal = {'Content-Type': 'application/json','idUser': '{$idUsuario}','idColaborador': '{$idUsuario}'};
   static String idioma = "ingles";

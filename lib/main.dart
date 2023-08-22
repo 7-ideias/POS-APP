@@ -7,6 +7,7 @@ import 'package:pos_app/screens/esqueceu-senha-digitar-sms.dart';
 import 'package:pos_app/screens/esqueceu-senha-tela.dart';
 import 'package:pos_app/screens/idioma-tela.dart';
 import 'package:pos_app/screens/moeda-tela.dart';
+import 'package:pos_app/screens/operacao-inserindo.dart';
 import 'package:pos_app/screens/produto-list-tela.dart';
 import 'package:pos_app/service/NotificationService.dart';
 import 'package:pos_app/service/info-user-service.dart';
@@ -94,6 +95,7 @@ class _TelaDeCarregamentoPrincipalState
             ),
             home: buildScaffold(),
             routes: {
+              '/inserindoProduto': (context) => InserindoProduto(),
               '/ajuda': (_) => AjudaESuporteTela(),
               '/agenda': (_) => AgendaTela(),
               // '/cadastro_produto': (_) => CadastroProduto(),

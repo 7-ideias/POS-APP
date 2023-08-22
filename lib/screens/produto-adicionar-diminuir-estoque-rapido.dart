@@ -32,7 +32,7 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppController.instance.corTelaFundo,
+        backgroundColor: AppController.instance.corTelaFundo,
         body: ListView(
           shrinkWrap: true,
           children: [

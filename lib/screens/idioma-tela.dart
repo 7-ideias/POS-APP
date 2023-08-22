@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_app/main.dart';
+import 'package:pos_app/utilitarios/tela_inteira.dart';
 import '../controller/idioma_controller.dart';
 import '../utilitarios/VariaveisGlobais.dart';
 import 'dart:async';
@@ -25,7 +26,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading == true ? Center(child: VariaveisGlobais().widgetDeLoadingPadraoDoApp()) : Container(
+      body: isLoading == true ? Center(child: TelaInteira().widgetDeLoadingPadraoDoApp()) : Container(
         alignment: Alignment.center,
         color: Colors.white,
         child: Column(

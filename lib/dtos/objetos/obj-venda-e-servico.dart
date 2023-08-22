@@ -9,6 +9,18 @@ class ObjVendaEServico {
   String? idColaboradorResponsavelPeloServico;
   String? nomeColaboradorResponsavel;
 
+  ObjVendaEServico({
+    required this.id,
+     this.idCodigoProduto,
+     this.codigoDeBarras,
+     this.descricaoProduto,
+     this.qt,
+     this.vlUnitario,
+     this.vlTotal,
+     this.idColaboradorResponsavelPeloServico,
+     this.nomeColaboradorResponsavel,
+    });
+
   ObjVendaEServico.fromJson(Map<String, dynamic> json) {
     id = json['id'] != null ? json['id'] : null;
     idCodigoProduto =

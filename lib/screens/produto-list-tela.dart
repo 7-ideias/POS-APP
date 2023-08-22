@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:pos_app/controller/produto-controller.dart';
 import 'package:pos_app/dtos/operacao-dto.dart';
 import 'package:pos_app/screens/produto-adicionar-diminuir-estoque-rapido.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
+import 'package:pos_app/utilitarios/utils.dart';
 
 import '../controller/app_controller.dart';
 import '../dtos/produto-dto-list.dart';
@@ -38,58 +40,57 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
 
   @override
   Widget build(BuildContext context) {
+
+    int _selectedIndex = 0;
+
+
+    void _onItemTapped(int index) {
+      if(index == 1){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProdutoNovoEdicaoTela(
+              idProduto: VariaveisGlobais.NOVO_PRODUTO,
+            ),
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
         title: Text('Produtos'),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.orange,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.report),
+            label: 'nada aqui',
+          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add,size: 30,),
+              label: 'novo produto',
+            ),
+        ],
+      ),
       body: Column(
         children: [
-          Container(
-            color: AppController.instance.corTelaAcima,
-            height: 150,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'itens no estoque.: ',
-                        style: TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
-                      ),
-                      isLoading == false
-                          ? Text(
-                        _temConteudo == true ? produtoDtoList.qtNoEstoque.toString() : '0',
-                              style:
-                                  TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
-                            )
-                          : Container()
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      isLoading == false
-                          ? Text(
-                        _temConteudo == true ? 'vl estoque.: '+VariaveisGlobais.moeda + produtoDtoList.vlEstoqueEmGrana.toString() : '0',
-                              style:
-                                  TextStyle(fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
-                            )
-                          : Container()
-                    ],
-                  ),
-                )
-              ],
+          Card(
+            elevation: 10,
+            child: Container(
+              height: 150,
+              width: MediaQuery.of(context).size.width * 0.95,
+              decoration: BoxDecoration(
+              color: AppController.instance.corTelaAcima,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: cartaoDeProdutos(),
+              ),
             ),
           ),
           Padding(
@@ -103,7 +104,6 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   suffixIcon: Icon(Icons.search),
                 ),
                 onChanged: (value) {
-                  print(value);
                   setState(() {
                     var listagem = produtoDtoList.produtosList;
                     produtoList = listagem
@@ -136,21 +136,21 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                               child:Container(
                                 color: AppController.instance.corTelaAcima,
                                 child: ListTile(
-                                  leading: CircleAvatar(
+                                  // isThreeLine: true,
+                                  leading: const CircleAvatar(
                                     maxRadius: 30,
                                     backgroundColor: Colors.white,
                                     child: Icon(Icons.question_mark),
                                   ),
-                                  title: Text(produtoList[index].nomeProduto,style: TextStyle(color: AppController.instance.corLetras,fontSize: 20)),
+                                  title: Text("código" + produtoList[index].codigoDeBarras +" - "+ produtoList[index].nomeProduto,style: TextStyle(color: AppController.instance.corLetras,fontSize: 20)),
+
                                   subtitle: Row(
                                     children: [
-                                      Text("estoque atual.: " +
-                                          produtoList[index]
+                                      Text("estoque atual.: ${produtoList[index]
                                               .objCalculosDeProdutoDoBackEnd
-                                              .qtNoEstoque
-                                              .toString(),style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
-                                      Text(" - preço.: " +VariaveisGlobais.moeda+
-                                          produtoList[index].precoVenda.toString(),style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
+                                              .qtNoEstoque}",style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
+                                      Text(" - preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
+                                          style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
                                     ],
                                   ),
                                   // tileColor: produtoList[index]
@@ -223,6 +223,56 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
         ],
       ),
     );
+  }
+
+  Widget cartaoDeProdutos() {
+    return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.remove_red_eye,size: 30,color: AppController.instance.corLetras),
+                    ],
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'itens no estoque.: ',
+                        style: TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
+                      ),
+                      isLoading == false
+                          ? Text(
+                        _temConteudo == true ? produtoDtoList.qtNoEstoque.toString() : '0',
+                              style:
+                                  TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
+                            )
+                          : Container()
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      isLoading == false
+                          ? Text(
+                        _temConteudo == true ? 'vl estoque.: '+ Utils.formataParaMoeda(produtoDtoList.vlEstoqueEmGrana) : '0',
+                              style:
+                                  TextStyle(fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
+                            )
+                          : Container()
+                    ],
+                  ),
+                ],
+              )
+            ],
+          );
   }
 
   ActionPane direitaEsquertaPane(int index) {
