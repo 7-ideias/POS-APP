@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controller/app_controller.dart';
-import '../utilitarios/VariaveisGlobais.dart';
+import '../utilitarios/MenuLateral.dart';
+import '../utilitarios/appbar_do_app.dart';
 import 'devolucao_tela.dart';
 import 'operacao-tela.dart';
 
@@ -19,6 +20,8 @@ class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
     var larguraTela = 0.8;
     var tamanhoDaFonte = 30.0;
     return Scaffold(
+      appBar: buildAppBar(context),
+      drawer: MenuLateral(context),
       backgroundColor: AppController.instance.corTelaFundo,
         body: Padding(
           padding: const EdgeInsets.all(10.0),
