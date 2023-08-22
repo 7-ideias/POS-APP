@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/service/info-user-service.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
+import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ValidaPage extends StatefulWidget {
@@ -83,7 +84,7 @@ class _ValidaPageState extends State<ValidaPage> {
     return Scaffold(
       body: Center(
         child: isLoading
-            ? VariaveisGlobais().widgetDeLoadingPadraoDoApp()
+            ? TelaInteira().widgetDeLoadingPadraoDoApp()
             : (status == 200 || status == 201
                 ? Lottie.asset('assets/success-mark.json')
                 : Lottie.asset('assets/failed-button.json')),

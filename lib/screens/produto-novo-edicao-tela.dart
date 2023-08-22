@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
+import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:pos_app/utilitarios/widgetsGlobais.dart';
 
 import '../dtos/produto-dto.dart';
@@ -100,12 +101,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       ],
       ),
       body: fazendoRequest == true
-          ? Center(
-              child: fazendoRequest
-                  ? Lottie.asset('assets/loading.json')
-                  : (responseCodeDaRequest == 200
-                      ? Lottie.asset('assets/success-mark.json')
-                      : Lottie.asset('assets/failed-button.json')))
+          ? responseCodeDaRequest == 200 ? TelaInteira().sucesso() : TelaInteira().widgetDeLoadingPadraoDoApp()
           : Padding(
             padding: const EdgeInsets.only(left: 8,right: 8,top: 10,bottom: 10),
             child: Container(
@@ -135,8 +131,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                     ),
                                   ),
                                   Text('qt no estoque.: '+ produtoModelo.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toStringAsFixed(0),style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
-                                  Text('vl estoque em grana.: '+Utils.formatPrice(produtoModelo.objCalculosDeProdutoDoBackEnd.vlEstoqueEmGrana).toString(),style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
-                                  Text('ultimo preço pago.: '+Utils.formatPrice(produtoModelo.objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto).toString(),style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
+                                  Text('vl estoque em grana.: '+Utils.formataParaMoeda(produtoModelo.objCalculosDeProdutoDoBackEnd.vlEstoqueEmGrana).toString(),style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
+                                  Text('ultimo preço pago.: '+Utils.formataParaMoeda(produtoModelo.objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto).toString(),style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
                                 ],
                               ),
                             ),
@@ -390,6 +386,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     );
   }
 
+
   Widget botoesSalvarECancelar(BuildContext context) {
     print(_vlDeVenda.text);
     return Column(
@@ -588,14 +585,15 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     };
     var response = await http.delete(Uri.parse(url), headers: headers);
 
-    if (response.statusCode == 200) {
-
-    }
-
     setState(() {
-      fazendoRequest = false;
       responseCodeDaRequest = response.statusCode;
     });
+
+    Timer(Duration(seconds: 2), () {
+      Navigator.pop(context);
+    });
+
+
   }
 
   void prepararCamposParaEdicao() {
