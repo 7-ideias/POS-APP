@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
@@ -21,6 +23,9 @@ class ProdutoEstoqueRapidoTela extends StatefulWidget {
 
 class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
   int _contador = 1;
+
+  bool _isLoading = false;
+
   TextEditingController numeroController = TextEditingController();
   TextEditingController _precoController = TextEditingController();
   @override
@@ -102,10 +107,6 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    // Ação ao pressionar o botão "Confirmar"
-                                    String novoPreco = _precoController.text;
-                                    // Faça o que desejar com o valor digitado
-                                    Navigator.of(context).pop();
                                   },
                                   child: Text('Confirmar'),
                                 ),
@@ -184,6 +185,7 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
                             child: Text('ok'),
                             onPressed: () async {
                               Navigator.of(context).pop();
+                              sendApiNovoOuEdicao();
                             },
                           ),
                         ],
@@ -205,4 +207,48 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
           ),
         ));
   }
+
+  Future<void> sendApiNovoOuEdicao() async {
+    setState(() {
+      _isLoading = true;
+    });
+    var url = '${VariaveisGlobais.endPoint}/produto/adicionar';
+    String idColaborador = '${VariaveisGlobais.usuarioDto.id}';
+
+    var body;
+
+    var situacao = "ENTRADA";
+    var resultado = _contador;
+    if(widget.adicionarOuBaixar == 'baixar'){
+      situacao = "SAIDA";
+      resultado = -_contador;
+    }
+
+    body = jsonEncode({
+        "objEntradaSaidaProduto" : [
+          {
+            "id" : widget.produtoList[0].id,
+            "idUserDoUsuario" : idColaborador,
+            "tipo" : situacao,
+            "dataCadastro" : null,
+            "quantidade" : resultado,
+            "valorCusto" : 123.45
+          }
+        ]
+    });
+    var headers = {
+      'Content-Type': 'application/json',
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'idColaborador': idColaborador
+    };
+    var response = await http.post(Uri.parse(url), headers: headers, body: body);
+    debugPrint(response.statusCode.toString());
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
+
+  }
+
+
 }

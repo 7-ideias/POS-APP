@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/screens/produto-list-tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_app/utilitarios/widgetsGlobais.dart';
@@ -99,181 +100,277 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
             padding: const EdgeInsets.only(left: 8,right: 8,top: 10,bottom: 10),
             child: Container(
         color: AppController.instance.corTelaAcima,
-              child: ListView(
-                  children: [
-                    //produto ativo
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+              child: Form(
+                key: _form,
+                child: ListView(
+                    children: [
+                      //produto ativo
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('produto ativo',style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
+                            Switch(
+                              value: _produtoAtivo,
+                              onChanged: edicaoDeProdutoAtivo == false ? null : (value) {
+                                setState(() {
+                                  _produtoAtivo = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      //descricao do item
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'não deixe isso vazio';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          enabled: editar,
+                          controller: _nomeProduto,
+                          decoration: buildInputDecoration('descrição do item'),
+                        ),
+                      ),
+                      //codigo de barras ou codigo do item
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'não deixe isso vazio';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _codigoProduto,
+                          enabled: editar,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          ],
+                          decoration: buildInputDecoration('código do item'),
+                        ),
+                      ),
+                      //qt entrando no estoque
+                      widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'não deixe isso vazio';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _qtInicial,
+                          enabled: editar,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          ],
+                          decoration:
+                              buildInputDecoration('quantidade da entrada inicial'),
+                        ),
+                      ):Container(),
+                      //custo
+                      widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'não deixe isso vazio';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _custo,
+                          enabled: editar,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          ],
+                          decoration: buildInputDecoration('custo'),
+                        ),
+                      ):Container(),
+                      //estoque atual
+                      widget.idProduto != VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: TextEditingController(text: produtoModelo.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toString()),
+                          enabled: false,
+                          decoration: buildInputDecoration('estoque atual'),
+                        ),
+                      ):Container(),
+                      //valor da venda
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'não deixe isso vazio';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _vlDeVenda,
+                          enabled: editar,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          ],
+                          decoration: buildInputDecoration('valor da venda'),
+                        ),
+                      ),
+
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text('produto ativo',style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
-                          Switch(
-                            value: _produtoAtivo,
-                            onChanged: edicaoDeProdutoAtivo == false ? null : (value) {
-                              setState(() {
-                                _produtoAtivo = value;
-                              });
-                            },
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'não deixe isso vazio';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                              controller: _vlDeVenda,
+                              enabled: editar,
+                              keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                              ],
+                              decoration: buildInputDecoration('valor da venda'),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'não deixe isso vazio';
+                                }
+                                return null;
+                              },
+                              style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                              controller: _vlDeVenda,
+                              enabled: editar,
+                              keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                              ],
+                              decoration: buildInputDecoration('valor da venda'),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    //descricao do item
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        enabled: editar,
-                        controller: _nomeProduto,
-                        decoration: buildInputDecoration('descrição do item'),
+
+                      //estoque mínimo
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'não deixe isso vazio';
+                          }
+                          return null;
+                        },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _estoqueMinino,
+                          enabled: editar,
+                          keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          ],
+                          decoration:
+                          buildInputDecoration('estoque mínimo'),
+                        ),
+                      ) ,
+                      //estoque maximo
+                       Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'não deixe isso vazio';
+                            }
+                            return null;
+                          },
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _estoqueMaximo,
+                          enabled: editar,
+                          keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          ],
+                          decoration:
+                          buildInputDecoration('estoque máximo'),
+                        ),
+                      ) ,
+
+
+                      //produto com comissao ao vendedor
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('comissao ao vendedor?',style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
+                            Switch(
+                              value: _comissao,
+                              onChanged: (value) {
+                                setState(() {
+                                  _comissao = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    //codigo de barras ou codigo do item
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _codigoProduto,
-                        enabled: editar,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                        ],
-                        decoration: buildInputDecoration('código do item'),
+                      //valor da comissao
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
+                          controller: _vlDaComissao,
+                          enabled: editar,
+                          keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          ],
+                          decoration: buildInputDecoration('valor da comissao'),
+                        ),
                       ),
-                    ),
-                    //qt entrando no estoque
-                    widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _qtInicial,
-                        enabled: editar,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                        ],
-                        decoration:
-                            buildInputDecoration('quantidade da entrada inicial'),
-                      ),
-                    ):Container(),
-                    //custo
-                    widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _custo,
-                        enabled: editar,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                        ],
-                        decoration: buildInputDecoration('custo'),
-                      ),
-                    ):Container(),
-                    //estoque atual
-                    widget.idProduto != VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: TextEditingController(text: produtoModelo.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toString()),
-                        enabled: false,
-                        decoration: buildInputDecoration('estoque atual'),
-                      ),
-                    ):Container(),
-                    //valor da venda
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _vlDeVenda,
-                        enabled: editar,
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                        ],
-                        decoration: buildInputDecoration('valor da venda'),
-                      ),
-                    ),
-                    //estoque mínimo
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _estoqueMinino,
-                        enabled: editar,
-                        keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                        ],
-                        decoration:
-                        buildInputDecoration('estoque mínimo'),
-                      ),
-                    ) ,
-                    //estoque maximo
-                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _estoqueMaximo,
-                        enabled: editar,
-                        keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                        ],
-                        decoration:
-                        buildInputDecoration('estoque máximo'),
-                      ),
-                    ) ,
-                    //produto com comissao ao vendedor
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('comissao ao vendedor?',style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),),
-                          Switch(
-                            value: _comissao,
-                            onChanged: (value) {
-                              setState(() {
-                                _comissao = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    //valor da comissao
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: tamanhoDaFonte,color: AppController.instance.corLetras),
-                        controller: _vlDaComissao,
-                        enabled: editar,
-                        keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                        ],
-                        decoration: buildInputDecoration('valor da comissao'),
-                      ),
-                    ),
-                    edicaoDeProdutoAtivo == false ? Container() :botoesSalvarECancelar(context),
-                    SizedBox(
-                      height: 30,
-                    )
-                  ],
-                ),
+                      edicaoDeProdutoAtivo == false ? Container() :botoesSalvarECancelar(context),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
+              ),
             ),
           ),
     );
@@ -285,33 +382,40 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                 children: [
                   GestureDetector(
                     onTap: ()async {
-                      if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
-                        await enviarNovoProduto('NOVO');
+                      if (_form.currentState!.validate()) {
+                        if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
+                          await enviarApiNovoOuEdicao('NOVO');
+                        }else{
+                          await enviarApiNovoOuEdicao('EDICAO');
+                        }
+                        if (responseCodeDaRequest == 409) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("Ops... algo nao deu certo"),
+                                content: Text("O código de produto já existe!"),
+                                actions: [
+                                  TextButton(
+                                    child: Text("ok"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                        if (responseCodeDaRequest == 200) {
+                          Navigator.pop(context);
+                        }
                       }else{
-                        await enviarNovoProduto('EDICAO');
-                      }
-                      if (responseCodeDaRequest == 409) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text("Ops... algo nao deu certo"),
-                              content: Text("O código de produto já existe!"),
-                              actions: [
-                                TextButton(
-                                  child: Text("ok"),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('no else')),
                         );
                       }
-                      if (responseCodeDaRequest == 200) {
-                        Navigator.pop(context);
-                      }
+
                     },
                     child: WidgetsGlocais.botaoMaster(context, AppController.instance.botaoConfirmar,
                         'salvar'),
@@ -342,7 +446,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     );
   }
 
-  Future<void> enviarNovoProduto(String tipoNovoOuEdicao) async {
+  Future<void> enviarApiNovoOuEdicao(String novoOuEdicao) async {
     setState(() {
       fazendoRequest = true;
     });
@@ -353,7 +457,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     var body;
     String id = '';
 
-    if(tipoNovoOuEdicao == 'NOVO'){
+    if(novoOuEdicao == 'NOVO'){
       headerDoTipo = 'NOVO';
 
     }else{

@@ -129,11 +129,11 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                       shrinkWrap: true,
                       itemCount: produtoList.length,
                       itemBuilder: (context, index) {
-                        return Slidable(
-                            endActionPane: direitaEsquertaPane(index),
-                            child:Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Slidable(
+                              endActionPane: direitaEsquertaPane(index),
+                              child:Container(
                                 color: AppController.instance.corTelaAcima,
                                 child: ListTile(
                                   leading: CircleAvatar(
@@ -161,7 +161,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                   shape: Border.all(color: AppController.instance.corLetras),
                                 ),
                               ),
-                            ),
+                          ),
                         );
                       },
                     ) : Container(),
