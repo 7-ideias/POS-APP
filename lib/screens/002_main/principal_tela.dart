@@ -17,6 +17,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
   late AnimationController _animationController;
   bool _isExpanded = false;
   final GlobalKey keyContainer = GlobalKey();
+  String opcaoSelecionada = 'Vendas';
 
   @override
   void initState() {
