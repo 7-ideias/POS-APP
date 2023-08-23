@@ -35,56 +35,8 @@ class _FinanceiroTelaState extends State<FinanceiroTela> {
                 SizedBox(
                   height: 30,
                 ),
-                GestureDetector(
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width * larguraTela,
-                      child: Stack(
-                        children: [
-                          Container(
-                            color: AppController.instance.corTelaAcima,
-                          ),
-                          Lottie.asset(
-                            'assets/financial-accounting.json',
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          'caixa',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const CaixaTela()),
-                    );
-                  },
-                ),
+                //tela de caixa
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Wrap(

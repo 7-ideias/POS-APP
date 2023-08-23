@@ -428,7 +428,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       }
 
                     },
-                    child: WidgetsGlocais.botaoMaster(context, AppController.instance.botaoConfirmar,
+                    child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
                         'salvar'),
                   ),
                   GestureDetector(
@@ -438,7 +438,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         });
                         Navigator.pop(context);
                     },
-                    child: WidgetsGlocais.botaoMaster(context, AppController.instance.botaoNegar,
+                    child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoNegar,
                         'cancelar'),
                   ),
                 ],

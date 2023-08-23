@@ -218,14 +218,14 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
                         },
                       );
                     },
-                    child: WidgetsGlocais.botaoMaster(
+                    child: UtilsWidgets.botaoMaster(
                         context, AppController.instance.botaoConfirmar, 'salvar'),
                   ),
                   GestureDetector(
                     onTap: (){
                       Navigator.pop(context);
                     },
-                    child: WidgetsGlocais.botaoMaster(
+                    child: UtilsWidgets.botaoMaster(
                         context, AppController.instance.botaoNegar, 'cancelar'),
                   ),
                 ],

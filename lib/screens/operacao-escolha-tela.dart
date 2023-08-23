@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import '../controller/app_controller.dart';
 import '../utilitarios/MenuLateral.dart';
 import '../utilitarios/appbar_do_app.dart';
+import 'caixa_tela.dart';
 import 'devolucao_tela.dart';
 import 'operacao-tela.dart';
 
@@ -30,12 +31,72 @@ class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
   }
 
   Widget buildListView(BuildContext context, double larguraTela, double tamanhoDaFonte) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
       children: [
-        SizedBox(
-          height: 30,
+        GestureDetector(
+          child: Card(
+            elevation: 10,
+            child: Container(
+              height: 200,
+              width: MediaQuery.of(context).size.width * larguraTela,
+              child: Stack(
+                children: [
+                  Container(
+                    color: AppController.instance.corTelaAcima,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: Lottie.asset(
+                          'assets/financial-accounting.json',
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'vendas a receber',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
+                              ),
+                            ),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'caixa',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CaixaTela()),
+            );
+          },
         ),
         GestureDetector(
           child: Card(

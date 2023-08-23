@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../controller/app_controller.dart';
 
-class WidgetsGlocais {
+class UtilsWidgets {
 
   static Widget botaoMaster(BuildContext context, Color colors, String texto) {
     return Card(
@@ -25,6 +26,47 @@ class WidgetsGlocais {
           ),
         ),
       ),
+    );
+  }
+
+  static Widget textFormField(bool enabled, double tamanhoLetra,String msgValidador,
+      TextEditingController controlador, TextInputType keyboardType, String labelText, String prefixText){
+
+    var filteringTextInputFormatter;
+
+    if(keyboardType == TextInputType.number){
+      filteringTextInputFormatter = FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
+    }else if(keyboardType == TextInputType.numberWithOptions(decimal: true)){
+      filteringTextInputFormatter = FilteringTextInputFormatter.allow(RegExp(r'^\d{0,8}(\.\d{0,2})?$'));
+    }
+
+    InputDecoration buildInputDecoration() {
+      return InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+        enabledBorder:
+        OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+        focusedBorder:
+        OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+        hoverColor: Colors.blue,
+        suffixIconColor: Colors.red,
+        labelText: labelText,
+        prefixText: prefixText,
+      );
+    }
+
+    return   TextFormField(
+      enabled: enabled,
+      validator: (valorAValidar) {
+        if (valorAValidar == null || valorAValidar.isEmpty) {
+          return msgValidador;
+        }
+        return null;
+      },
+      style: TextStyle(fontSize: tamanhoLetra),
+      controller: controlador,
+      keyboardType: keyboardType,
+      inputFormatters: <TextInputFormatter>[filteringTextInputFormatter],
+      decoration: buildInputDecoration(),
     );
   }
 

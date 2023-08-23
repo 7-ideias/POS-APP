@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import '../controller/app_controller.dart';
 import '../dtos/objetos/obj-venda-e-servico.dart';
@@ -27,42 +28,39 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   );
 
   TextEditingController _codigoProduto = TextEditingController();
+  TextEditingController _precoProduto = TextEditingController();
 
   int _contador = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Nova Página'),
+      appBar: AppBar( 
       ),
       body: ListView(
         children: [
           Padding(
             padding: EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                //codigo de barras
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Container(
+                      height: 50,
                       width: 200,
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'não deixe isso vazio';
-                          }
-                          return null;
-                        },
-                        style: TextStyle(fontSize: AppController.instance.botaoTamanhoLetras),
-                        controller: _codigoProduto,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                        ],
-                        decoration: buildInputDecoration('código do item'),
-                      ),
+                      child: UtilsWidgets.textFormField(true,18,'não deixe isso vazio', _codigoProduto, TextInputType.number, 'código do item',''),
                     ),
+                    GestureDetector(
+                        onTap: (){
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => Leitor()),
+                          // );
+                        },
+                        child: Container(width: 70,height: 70,
+                          child: Icon(Icons.search,size: 50,),)),
                     GestureDetector(
                         onTap: (){
                           Navigator.push(
@@ -70,10 +68,12 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                             MaterialPageRoute(builder: (context) => Leitor()),
                           );
                         },
-                        child: Container(width: 70,height: 70,color: Colors.red,))
+                        child: Container(width: 70,height: 70,
+                        child: Icon(Icons.qr_code_2,size: 50,),))
                   ],
                 ),
                 SizedBox(height: 16.0),
+                UtilsWidgets.textFormField(false,18,'não deixe isso vazio', _codigoProduto, TextInputType.number, 'descrição',''),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -121,28 +121,14 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                   ],
                 ),
                 SizedBox(height: 16.0),
+                //preco
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child:
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'não deixe isso vazio';
-                        }
-                        return null;
-                      },
-                      style: TextStyle(fontSize: AppController.instance.botaoTamanhoLetras),
-                      // controller: _vlDeVenda,
-                      keyboardType:
-                      TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                      ],
-                      decoration: buildInputDecoration('preço'),
-                    ),
+                    child : UtilsWidgets.textFormField(true,18,'não deixe isso vazio', _precoProduto,
+                        TextInputType.numberWithOptions(decimal: true), 'preço',VariaveisGlobais.moeda),
                   ),
                 ),
                 SizedBox(height: 16.0),
@@ -154,10 +140,10 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     );
                     Navigator.pop(context, objVendaEServico);
                   },
-                  child: WidgetsGlocais.botaoMaster(context, AppController.instance.botaoConfirmar,
+                  child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
                       'inserir'),
                 ),
-                WidgetsGlocais.botaoMaster(context, AppController.instance.botaoNegar,
+                UtilsWidgets.botaoMaster(context, AppController.instance.botaoNegar,
                     'cancelar'),
               ],
 
@@ -168,17 +154,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     );
   }
 
-  InputDecoration buildInputDecoration(String texto) {
-    return InputDecoration(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      enabledBorder:
-      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      focusedBorder:
-      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      labelText: texto,
-        prefixText: 'R\$',
-    );
-  }
+
 
   Future<void> retornaOsDadosDaTelaOperacaoInserindo(
       BuildContext context) async {
