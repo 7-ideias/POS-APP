@@ -5,6 +5,9 @@ import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/screens/tela_index_1_principal.dart';
 import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 
+import '../app/page/pdf_create_page.dart';
+import '../desenvolvedor/desenvolvedor.dart';
+import 'operacao-tela.dart';
 import 'tela_index_2_operacoes.dart';
 
 class Home extends StatefulWidget {
@@ -29,14 +32,44 @@ class _HomeState extends State<Home> {
         animation: AppController.instance,
         builder: (context, child) {
           return MaterialApp(
-            theme: ThemeData(
-              primarySwatch: AppController.instance.corTelaFundo,
-              brightness: Brightness.light,
-            ),
+            debugShowCheckedModeBanner: false,
+            theme: AppController.instance.buildThemeData(),
             home: Scaffold(
               bottomNavigationBar: buildCurvedNavigationBar(),
               body: body(),
             ),
+            routes: {
+              // '/inserindoProduto': (context) => InserindoProduto(),
+              // '/ajuda': (_) => AjudaESuporteTela(),
+              // '/agenda': (_) => AgendaTela(),
+              // // '/cadastro_produto': (_) => CadastroProduto(),
+              // // '/cadastros': (_) => CadastrosTela(),
+              // // '/cadcliente': (_) => CadastroClienteTela(),
+              // '/caixa': (_) => CaixaTela(),
+              // '/clientes': (_) => ClientesTela(),
+              // '/configs': (_) => ConfiguracoesTela(),
+              '/desenvolvedor': (_) => DesenvolvedorPage(),
+              // '/devolucao': (_) => DevolucaoTela(),
+              // '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
+              // '/esqueceuSenhaInformarSMS': (_) => EsqueceuSenhaDigitarSmsTela(),
+              // // '/financeiro': (_) => CadastrosTela(),
+              // '/home': (_) => Home(),
+              // '/idioma': (_) => IdiomaTela(),
+              // '/imagensIniciais': (_) => JornadaTela(),
+              // '/login': (_) => LoginPage(),
+              // '/moeda': (_) => MoedaTela(),
+              // '/operacaoNova': (_) => OperacaoNova(),
+              '/operacoes': (_) => OperacaoTela(),
+              '/pdf': (_) => PDFCreatePage(),
+              // '/pedidos': (_) => PedidosTela(),
+              // '/perfil': (_) => PerfilTela(),
+              // '/produtos': (_) => ProdutosTela(),
+              // '/relatorios': (_) => RelatoriosTela(),
+              // '/resumo': (_) => ResumoTela(),
+              // '/servicos': (_) => ServicosTela(),
+              // '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
+              // '/venda': (_) => VendaTela(),
+            },
           );
         }
     );

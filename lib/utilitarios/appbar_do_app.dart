@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../controller/app_controller.dart';
 import 'VariaveisGlobais.dart';
 
+bool dark = false;
+
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
     actions: [
@@ -44,13 +46,29 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   child: Container(
                     height: 10,
                     width: 60,
-                    color: Colors.grey,
                   ),
                 )
               ],
             ),
             SizedBox(
               height: 50,
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('tema ',style: TextStyle()),
+                ),
+                Switch(
+                  value: AppController.instance.isDartTheme,
+                  activeColor: Colors.red,
+                  onChanged: (bool value) {
+                    dark = value;
+                    AppController.instance.mudarCores(value);
+                  },
+                )
+
+              ],
             ),
             Row(
               children: [
@@ -64,7 +82,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   child: GestureDetector(
                     onTap: () {
                       AppController.instance.corPrincipal = Colors.indigo;
-                      AppController.instance.mudarCores();
+                      AppController.instance.mudarCores(dark);
                     },
                     child: CircleAvatar(
                       maxRadius: 30,
@@ -78,7 +96,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   child: GestureDetector(
                     onTap: () {
                       AppController.instance.corPrincipal = Colors.purple;
-                      AppController.instance.mudarCores();
+                      AppController.instance.mudarCores(dark);
                     },
                     child: CircleAvatar(
                       maxRadius: 30,
@@ -92,7 +110,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   child: GestureDetector(
                     onTap: () {
                       AppController.instance.corPrincipal = Colors.orange;
-                      AppController.instance.mudarCores();
+                      AppController.instance.mudarCores(dark);
                     },
                     child: CircleAvatar(
                       maxRadius: 30,

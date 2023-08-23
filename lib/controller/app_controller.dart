@@ -5,7 +5,7 @@ import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 class AppController extends ChangeNotifier {
   static AppController instance = AppController();
 
-  bool isDartTheme = false;
+  bool isDartTheme = true;
   var botaoTamanhoLetras = 25.0;
 
   //cores de ambiente
@@ -19,7 +19,8 @@ class AppController extends ChangeNotifier {
   Color botaoConfirmar = Colors.indigo;
   Color botaoNegar = Colors.indigo;
 
-  mudarCores() {
+  mudarCores(bool dark) {
+    AppController.instance.isDartTheme = dark;
     if (corPrincipal == Colors.indigo) {
       corAppBar = Colors.deepPurpleAccent;
       corTelaFundo = Colors.indigo;
@@ -42,7 +43,15 @@ class AppController extends ChangeNotifier {
       botaoConfirmar = Colors.green;
       botaoNegar = Colors.red;
     }
+    buildThemeData();
     notifyListeners();
+  }
+
+
+  ThemeData buildThemeData() {
+    return ThemeData(
+      brightness: isDartTheme == true ? Brightness.dark : Brightness.light,
+    );
   }
 
 }

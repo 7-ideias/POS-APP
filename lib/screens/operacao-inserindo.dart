@@ -35,7 +35,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
       ),
       body: ListView(
         children: [
@@ -80,6 +80,12 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
+                        onLongPress: (){
+                          setState(() {
+                            _contador <= 1 ? _contador : _contador = _contador-10;
+                            print(_contador);
+                          });
+                        },
                         onTap: (){
                           setState(() {
                             _contador <= 1 ? _contador : _contador--;
@@ -95,9 +101,8 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        height: 100,
+                        height: 50,
                         width: 100,
-                        color: Colors.white,
                         child: Center(
                           child: Text(_contador.toString(),style: TextStyle(fontSize: 30)),
                         ),
@@ -106,6 +111,12 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
+                        onLongPress: (){
+                          setState(() {
+                            _contador = _contador+10;
+                            print(_contador);
+                          });
+                        },
                         onTap: (){
                           setState(() {
                             _contador++;

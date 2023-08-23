@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/caixa_tela.dart';
 import 'package:pos_app/screens/produto-list-tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
 
 import '../controller/app_controller.dart';
 import '../utilitarios/MenuLateral.dart';
-import '../utilitarios/VariaveisGlobais.dart';
 import '../utilitarios/appbar_do_app.dart';
-import 'castro-tela.dart';
 
 class Index0Tela extends StatefulWidget {
   const Index0Tela({Key? key}) : super(key: key);
@@ -32,11 +28,6 @@ class _Index0TelaState extends State<Index0Tela> {
             color: AppController.instance.corTelaFundo,
             child: Column(
               children: [
-                SizedBox(
-                  height: 30,
-                ),
-                //tela de caixa
-
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Wrap(

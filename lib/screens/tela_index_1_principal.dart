@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/shake-icon.dart';
-
 import '../utilitarios/Donut.dart';
 import '../utilitarios/MenuLateral.dart';
 import '../utilitarios/VariaveisGlobais.dart';
@@ -115,7 +114,7 @@ class _Index1TelaState extends State<Index1Tela>
                     elevation: 10,
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.width * 0.88,
+                      width: MediaQuery.of(context).size.width * 0.95,
                       child: Container(
                         child: Column(
                           children: [

@@ -18,212 +18,103 @@ class Index2Tela extends StatefulWidget {
 class _Index2TelaState extends State<Index2Tela> {
   @override
   Widget build(BuildContext context) {
-    var larguraTela = 0.8;
-    var tamanhoDaFonte = 30.0;
+    var larguraTela = 0.9;
+    var tamanhoDaFonte = 22.0;
     return Scaffold(
       appBar: buildAppBar(context),
       drawer: MenuLateral(context),
       backgroundColor: AppController.instance.corTelaFundo,
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: buildListView(context, larguraTela, tamanhoDaFonte),
-        ));
-  }
-
-  Widget buildListView(BuildContext context, double larguraTela, double tamanhoDaFonte) {
-    return ListView(
-      children: [
-        GestureDetector(
-          child: Card(
-            elevation: 10,
-            child: Container(
-              height: 200,
-              width: MediaQuery.of(context).size.width * larguraTela,
-              child: Stack(
+        body: ListView(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              color: AppController.instance.corTelaFundo,
+              child: Column(
                 children: [
-                  Container(
-                    color: AppController.instance.corTelaAcima,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 150,
-                        width: 150,
-                        child: Lottie.asset(
-                          'assets/financial-accounting.json',
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'vendas a receber',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
-                              ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.spaceBetween,
+                      children: [
+                        //caixa
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const CaixaTela()),
+                            );
+                          },
+                          child: Card(
+                            elevation: 10,
+                            child: Container(
+                              color: AppController.instance.corTelaAcima,
+                              height: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * larguraTela/2,
+                              child: Center(
+                                  child: Text(
+                                    'caixa',
+                                    style: TextStyle(
+                                      fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                  )),
                             ),
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'caixa',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CaixaTela()),
-            );
-          },
-        ),
-        GestureDetector(
-          child: Card(
-            elevation: 10,
-            child: Container(
-              color: AppController.instance.corTelaAcima,
-              height: 200,
-              width: MediaQuery.of(context).size.width * larguraTela,
-              child: Stack(
-                children: [
-                  // Lottie.asset('assets/vendedor.json',
-                  // ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Card(
-                                elevation: 10,
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'vendas',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: tamanhoDaFonte, color: Colors.blue[900]),
-                                        ),
-                                        Text(
-                                          'e',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: tamanhoDaFonte, color: Colors.blue[900]),
-                                        ),
-                                        Text(
-                                          'serviços',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: tamanhoDaFonte, color: Colors.blue[900]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          onTap: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const OperacaoTela()),
-            );
-          },
-        ),
-        GestureDetector(
-          child: Card(
-            elevation: 10,
-            child: Container(
-              color: AppController.instance.corTelaAcima,
-              height: 200,
-              width: MediaQuery.of(context).size.width * larguraTela,
-              child: Stack(
-                children: [
-                  Lottie.asset(
-                    'assets/return-package.json',
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Card(
-                                child: FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'devolução',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: tamanhoDaFonte, color: Colors.blue[900]),
-                                    ),
-                                  ),
-                                ),
-                                elevation: 10,
-                              ),
+                        //vendas
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const OperacaoTela()),
+                            );
+                          },
+                          child: Card(
+                            elevation: 10,
+                            child: Container(
+                              color: AppController.instance.corTelaAcima,
+                              height: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * larguraTela/2,
+                              child: Center(
+                                  child: Text(
+                                    'vendas/servicos',
+                                    style: TextStyle(
+                                      fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                  )),
                             ),
-                          ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                        //devolucao
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const DevolucaoTela()),
+                            );
+                          },
+                          child: Card(
+                            elevation: 10,
+                            child: Container(
+                              color: AppController.instance.corTelaAcima,
+                              height: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * larguraTela/2,
+                              child: Center(
+                                  child: Text(
+                                    'devolução',
+                                    style: TextStyle(
+                                      fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            ),
-          ),
-          onTap: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const DevolucaoTela()),
-            );
-          },
+            )
+          ],
         ),
-      ],
     );
   }
+
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pos_app/controller/app_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../service/info-user-service.dart';
 import 'VariaveisGlobais.dart';
 
@@ -15,7 +15,7 @@ class _MenuLateralState extends State<MenuLateral> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: AppController.instance.buildThemeData().primaryColor,
       width: MediaQuery.of(context).size.width * 0.8,
       child: ListView(
         padding: EdgeInsets.zero,
