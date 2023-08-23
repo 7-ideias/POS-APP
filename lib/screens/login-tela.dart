@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/home-tela.dart';
-import 'package:pos_app/screens/002_main/principal_tela.dart';
+import 'package:pos_app/screens/tela_index_1_principal.dart';
 import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
 
 class LoginPage extends StatefulWidget {
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       // Chamar a página de cadastro do cliente
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PrincipalTela()),
+        MaterialPageRoute(builder: (context) => Index1Tela()),
       );
     } else {
       // Campos inválidos, exibir mensagem de erro ou tomar a ação necessária

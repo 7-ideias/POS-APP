@@ -2,10 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
-import 'package:pos_app/screens/002_main/principal_tela.dart';
-import 'package:pos_app/screens/financeiro_operacao.dart';
+import 'package:pos_app/screens/tela_index_1_principal.dart';
+import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 
-import 'operacao-escolha-tela.dart';
+import 'tela_index_2_operacoes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -44,10 +44,10 @@ class _HomeState extends State<Home> {
 
   Widget body() {
     return _page == 0
-        ? FinanceiroTela()
+        ? Index0Tela()
         : _page == 1
-        ? PrincipalTela()
-        : OperacaoEscolhaTela();
+        ? Index1Tela()
+        : Index2Tela();
   }
 
   CurvedNavigationBar buildCurvedNavigationBar() {

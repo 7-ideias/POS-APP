@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/shake-icon.dart';
 
-import '../../utilitarios/Donut.dart';
-import '../../utilitarios/MenuLateral.dart';
-import '../../utilitarios/VariaveisGlobais.dart';
-import '../../utilitarios/appbar_do_app.dart';
+import '../utilitarios/Donut.dart';
+import '../utilitarios/MenuLateral.dart';
+import '../utilitarios/VariaveisGlobais.dart';
+import '../utilitarios/appbar_do_app.dart';
 
-class PrincipalTela extends StatefulWidget {
+class Index1Tela extends StatefulWidget {
   @override
-  _PrincipalTelaState createState() => _PrincipalTelaState();
+  _Index1TelaState createState() => _Index1TelaState();
 }
 
-class _PrincipalTelaState extends State<PrincipalTela>
+class _Index1TelaState extends State<Index1Tela>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   bool _isExpanded = false;

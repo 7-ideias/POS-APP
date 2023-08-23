@@ -10,14 +10,14 @@ import '../utilitarios/VariaveisGlobais.dart';
 import '../utilitarios/appbar_do_app.dart';
 import 'castro-tela.dart';
 
-class FinanceiroTela extends StatefulWidget {
-  const FinanceiroTela({Key? key}) : super(key: key);
+class Index0Tela extends StatefulWidget {
+  const Index0Tela({Key? key}) : super(key: key);
 
   @override
-  State<FinanceiroTela> createState() => _FinanceiroTelaState();
+  State<Index0Tela> createState() => _Index0TelaState();
 }
 
-class _FinanceiroTelaState extends State<FinanceiroTela> {
+class _Index0TelaState extends State<Index0Tela> {
   @override
   Widget build(BuildContext context) {
     var larguraTela = 0.9;

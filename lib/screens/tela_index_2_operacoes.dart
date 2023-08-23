@@ -8,14 +8,14 @@ import 'caixa_tela.dart';
 import 'devolucao_tela.dart';
 import 'operacao-tela.dart';
 
-class OperacaoEscolhaTela extends StatefulWidget {
-  const OperacaoEscolhaTela({Key? key}) : super(key: key);
+class Index2Tela extends StatefulWidget {
+  const Index2Tela({Key? key}) : super(key: key);
 
   @override
-  State<OperacaoEscolhaTela> createState() => _OperacaoEscolhaTelaState();
+  State<Index2Tela> createState() => _Index2TelaState();
 }
 
-class _OperacaoEscolhaTelaState extends State<OperacaoEscolhaTela> {
+class _Index2TelaState extends State<Index2Tela> {
   @override
   Widget build(BuildContext context) {
     var larguraTela = 0.8;

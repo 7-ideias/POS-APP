@@ -31,7 +31,7 @@ import 'package:pos_app/screens/VendaTela.dart';
 import 'package:pos_app/screens/caixa_tela.dart';
 import 'package:pos_app/screens/castro-tela.dart';
 import 'package:pos_app/screens/devolucao_tela.dart';
-import 'package:pos_app/screens/financeiro_operacao.dart';
+import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 import 'package:pos_app/screens/operacao-nova-tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
 import 'package:pos_app/screens/operacao-tela.dart';
@@ -99,7 +99,7 @@ class _TelaDeCarregamentoPrincipalState
               '/ajuda': (_) => AjudaESuporteTela(),
               '/agenda': (_) => AgendaTela(),
               // '/cadastro_produto': (_) => CadastroProduto(),
-              '/cadastros': (_) => CadastrosTela(),
+              // '/cadastros': (_) => CadastrosTela(),
               // '/cadcliente': (_) => CadastroClienteTela(),
               '/caixa': (_) => CaixaTela(),
               '/clientes': (_) => ClientesTela(),
@@ -108,7 +108,7 @@ class _TelaDeCarregamentoPrincipalState
               '/devolucao': (_) => DevolucaoTela(),
               '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
               '/esqueceuSenhaInformarSMS': (_) => EsqueceuSenhaDigitarSmsTela(),
-              '/financeiro': (_) => FinanceiroTela(),
+              // '/financeiro': (_) => CadastrosTela(),
               '/home': (_) => Home(),
               '/idioma': (_) => IdiomaTela(),
               '/imagensIniciais': (_) => JornadaTela(),
