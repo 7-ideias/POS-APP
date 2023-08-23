@@ -63,14 +63,14 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         decoration: buildInputDecoration('código do item'),
                       ),
                     ),
-                    GestureDetector(
-                        onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Leitor()),
-                          );
-                        },
-                        child: Container(width: 70,height: 70,color: Colors.red,))
+                    // GestureDetector(
+                    //     onTap: (){
+                    //       Navigator.push(
+                    //         // context,
+                    //         // MaterialPageRoute(builder: (context) => Leitor()),
+                    //       );
+                    //     },
+                    //     child: Container(width: 70,height: 70,color: Colors.red,))
                   ],
                 ),
                 SizedBox(height: 16.0),
@@ -182,12 +182,12 @@ class _InserindoProdutoState extends State<InserindoProduto> {
 
   Future<void> retornaOsDadosDaTelaOperacaoInserindo(
       BuildContext context) async {
-    String barCode = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Leitor()),
-    );
-    setState(() {
-      _codigoProduto = TextEditingController(text: barCode);
-    });
+    // String barCode = await Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => Leitor()),
+    // );
+    // setState(() {
+    //   _codigoProduto = TextEditingController(text: barCode);
+    // });
   }
 }

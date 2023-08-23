@@ -11,7 +11,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cron: ^0.5.1
   curved_navigation_bar: ^1.0.3
-  flutter_barcode_scanner: ^2.0.0
+#  flutter_barcode_scanner: ^2.0.0
   flutter_local_notifications: ^15.1.0+1
   flutter_keyboard_visibility: ^5.0.0
   flutter_slidable: ^3.0.0
@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^2.2.0
   share: ^2.0.4
   syncfusion_flutter_charts: ^20.1.60
+firebase: ^5.0.0
 
 dev_dependencies:
   flutter_test:
