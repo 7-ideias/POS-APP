@@ -141,19 +141,156 @@ class _PrincipalTelaState extends State<PrincipalTela>
                       padding: const EdgeInsets.all(10),
                       height: MediaQuery.of(context).size.height * 0.34,
                       width: MediaQuery.of(context).size.width * 0.96,
-                      child: const Column(
+                      child:  Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text('xpto'),
-                              Text('xpto'),
-                              Text('xpto'),
-                              Text('xpto'),
-                              Text('xpto'),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    opcaoSelecionada = 'Vendas';
+                                  });
+                                },
+                                child: Container(
+                                  width:
+                                  MediaQuery.of(context).size.width * 0.195,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                    color: opcaoSelecionada == 'Vendas'
+                                        ? Colors.purple
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Text(
+                                    'Vendas',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width * 0.195,
+                                height:
+                                MediaQuery.of(context).size.height * 0.025,
+                                padding: const EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  color: opcaoSelecionada == 'Custos'
+                                      ? Colors.purple
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      opcaoSelecionada = 'Custos';
+                                    });
+                                  },
+                                  child: const Text('Custos',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width * 0.195,
+                                height:
+                                MediaQuery.of(context).size.height * 0.025,
+                                padding: const EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  color: opcaoSelecionada == 'Estoque'
+                                      ? Colors.purple
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      opcaoSelecionada = 'Estoque';
+                                    });
+                                  },
+                                  child: const Text('Estoque',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width * 0.195,
+                                height:
+                                MediaQuery.of(context).size.height * 0.025,
+                                padding: const EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  color: opcaoSelecionada == 'Caixa'
+                                      ? Colors.purple
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      opcaoSelecionada = 'Caixa';
+                                    });
+                                  },
+                                  child: const Text('Caixa',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width:
+                                MediaQuery.of(context).size.width * 0.195,
+                                height:
+                                MediaQuery.of(context).size.height * 0.025,
+                                padding: const EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  color: opcaoSelecionada == 'Pagamentos'
+                                      ? Colors.purple
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      opcaoSelecionada = 'Pagamentos';
+                                    });
+                                  },
+                                  child: const Text('Pagamentos',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                ),
+                              )
                             ],
-                          )
+                          ),
+
+
                         ],
                       ),
                     ),
