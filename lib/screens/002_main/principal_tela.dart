@@ -45,10 +45,10 @@ class _PrincipalTelaState extends State<PrincipalTela>
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FloatingActionButton(
-                child: Icon(Icons.refresh),
-                onPressed: () {},
-              ),
+              // FloatingActionButton(
+              //   child: Icon(Icons.refresh),
+              //   onPressed: () {},
+              // ),
             ],
           ),
         ],
@@ -69,29 +69,57 @@ class _PrincipalTelaState extends State<PrincipalTela>
                       SizedBox(height: 20),
                       Column(
                         children: [
+                          SizedBox(width: 20),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(width: 20),
-                              Text('Ola 😊',
-                                  style: TextStyle(
-                                      color: AppController.instance.corLetras,
-                                      fontSize: 15)),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text('Ola 😊',
+                                    style: TextStyle(
+                                        color: AppController.instance.corLetras,
+                                        fontSize: 15)),
+                              ),
+                              ShakeIcon(
+                                  icon: Icon(
+                                      color:
+                                      AppController.instance.corLetras,
+                                      size: 30,
+                                      Icons.monetization_on)),
                             ],
                           ),
                           SizedBox(width: 20),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(width: 20),
-                              Text(
-                                VariaveisGlobais
-                                        .usuarioDto.objUser?.objPessoa?.nome ??
-                                    '',
-                                style: TextStyle(
-                                  color: AppController.instance.corLetras,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  VariaveisGlobais
+                                          .usuarioDto.objUser?.objPessoa?.nome ??
+                                      'Fulaninho',
+                                  style: TextStyle(
+                                    color: AppController.instance.corLetras,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, '/operacoes');
+                                  },
+                                  child: ShakeIcon(
+                                      icon: Icon(
+                                          color: AppController
+                                              .instance.corLetras,
+                                          size: 35,
+                                          Icons.shopping_cart)),
                                 ),
                               ),
                             ],
@@ -107,52 +135,17 @@ class _PrincipalTelaState extends State<PrincipalTela>
             Center(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 80,
-                  ),
+                  const SizedBox(height: 80,),
                   Card(
                     color: AppController.instance.corTelaAcima,
                     elevation: 10,
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.width * 0.88,
+                      padding: EdgeInsets.all(10),
+                      height: MediaQuery.of(context).size.height * 0.34,
+                      width: MediaQuery.of(context).size.width * 0.96,
                       child: Container(
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, '/operacoes');
-                                    },
-                                    child: ShakeIcon(
-                                        icon: Icon(
-                                            color: AppController
-                                                .instance.corLetras,
-                                            size: 50,
-                                            Icons.shopping_cart)),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ShakeIcon(
-                                      icon: Icon(
-                                          color:
-                                              AppController.instance.corLetras,
-                                          size: 50,
-                                          Icons.monetization_on)),
-                                )
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -163,8 +156,8 @@ class _PrincipalTelaState extends State<PrincipalTela>
             ),
           ],
         ),
-        SizedBox(height: 20),
-        SizedBox(height: 20),
+
+        SizedBox(height: 10),
         _isExpanded
             ? Container()
             : Card(

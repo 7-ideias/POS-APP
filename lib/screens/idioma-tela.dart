@@ -9,6 +9,7 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'home-tela.dart';
 import 'jornada-tela.dart';
 
 class IdiomaTela extends StatefulWidget {
@@ -54,6 +55,9 @@ class _IdiomaTelaState extends State<IdiomaTela> {
               child: GestureDetector(
                 onTap: (){
                   fazerRequisicao('en-us');
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => Home())
+                  );
                 },
                 child: SizedBox(
                   height: 100,
