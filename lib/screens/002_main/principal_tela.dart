@@ -22,7 +22,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
     super.initState();
   }
@@ -39,7 +39,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
       backgroundColor: AppController.instance.corTelaFundo,
       appBar: buildAppBar(context),
       drawer: MenuLateral(context),
-      floatingActionButton: Column(
+      floatingActionButton: const Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Row(
@@ -63,72 +63,70 @@ class _PrincipalTelaState extends State<PrincipalTela>
               height: MediaQuery.of(context).size.height * 0.35,
               child: Container(
                 alignment: Alignment.bottomLeft,
-                child: Container(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Column(
-                        children: [
-                          SizedBox(width: 20),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Text('Ola 😊',
-                                    style: TextStyle(
-                                        color: AppController.instance.corLetras,
-                                        fontSize: 15)),
-                              ),
-                              ShakeIcon(
-                                  icon: Icon(
-                                      color:
-                                      AppController.instance.corLetras,
-                                      size: 30,
-                                      Icons.monetization_on)),
-                            ],
-                          ),
-                          SizedBox(width: 20),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  VariaveisGlobais
-                                          .usuarioDto.objUser?.objPessoa?.nome ??
-                                      'Fulaninho',
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    Column(
+                      children: [
+                        const SizedBox(width: 20),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text('Ola 😊',
                                   style: TextStyle(
-                                    color: AppController.instance.corLetras,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
+                                      color: AppController.instance.corLetras,
+                                      fontSize: 15)),
+                            ),
+                            ShakeIcon(
+                                icon: Icon(
+                                    color:
+                                    AppController.instance.corLetras,
+                                    size: 30,
+                                    Icons.monetization_on)),
+                          ],
+                        ),
+                        const SizedBox(width: 20),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                VariaveisGlobais
+                                        .usuarioDto.objUser?.objPessoa?.nome ??
+                                    'Fulaninho',
+                                style: TextStyle(
+                                  color: AppController.instance.corLetras,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, '/operacoes');
-                                  },
-                                  child: ShakeIcon(
-                                      icon: Icon(
-                                          color: AppController
-                                              .instance.corLetras,
-                                          size: 35,
-                                          Icons.shopping_cart)),
-                                ),
+                            ),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/operacoes');
+                                },
+                                child: ShakeIcon(
+                                    icon: Icon(
+                                        color: AppController
+                                            .instance.corLetras,
+                                        size: 35,
+                                        Icons.shopping_cart)),
                               ),
-                            ],
-                          ),
-                          SizedBox(width: 20),
-                        ],
-                      ),
-                    ],
-                  ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: 20),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -140,14 +138,23 @@ class _PrincipalTelaState extends State<PrincipalTela>
                     color: AppController.instance.corTelaAcima,
                     elevation: 10,
                     child: Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       height: MediaQuery.of(context).size.height * 0.34,
                       width: MediaQuery.of(context).size.width * 0.96,
-                      child: Container(
-                        child: Column(
-                          children: [
-                          ],
-                        ),
+                      child: const Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text('xpto'),
+                              Text('xpto'),
+                              Text('xpto'),
+                              Text('xpto'),
+                              Text('xpto'),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
@@ -157,7 +164,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
           ],
         ),
 
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         _isExpanded
             ? Container()
             : Card(
@@ -243,7 +250,7 @@ Table ResumoTable() {
             TableCell(
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text('operação',
                     style: TextStyle(
                         color: AppController.instance.corLetras,
@@ -254,7 +261,7 @@ Table ResumoTable() {
             TableCell(
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text('valor do dia',
                     style: TextStyle(
                         color: AppController.instance.corLetras,
@@ -268,7 +275,7 @@ Table ResumoTable() {
           children: [
             TableCell(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text('vendas',
                     style: TextStyle(
                         color: AppController.instance.corLetras,
@@ -278,7 +285,7 @@ Table ResumoTable() {
             ),
             TableCell(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text('R\$ 1200,00',
                     textAlign: TextAlign.right,
                     style: TextStyle(
@@ -293,7 +300,7 @@ Table ResumoTable() {
           children: [
             TableCell(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text('orçamentos',
                     style: TextStyle(
                         color: AppController.instance.corLetras,
@@ -303,7 +310,7 @@ Table ResumoTable() {
             ),
             TableCell(
               child: Container(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Text('R\$ 1200,00',
                     textAlign: TextAlign.right,
                     style: TextStyle(
