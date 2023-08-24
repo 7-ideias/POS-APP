@@ -133,8 +133,13 @@ class _RecuperacaoSenhaConfirmacaoState
                 ),
               ),
               onPressed: () {
-                enviar(context);
+                // enviar(context);
                 // Implementar a lógica para enviar o código
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NovaSenhaPage()),
+                );
+
               },
               child: const Text(
                 style: TextStyle(
