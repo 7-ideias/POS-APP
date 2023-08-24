@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  fl_chart: ^0.63.0
   cron: ^0.5.1
   curved_navigation_bar: ^1.0.3
 #  flutter_barcode_scanner: ^2.0.0

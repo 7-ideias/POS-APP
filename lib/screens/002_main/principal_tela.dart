@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/utilitarios/grafico/bar_graph.dart';
 import 'package:pos_app/utilitarios/shake-icon.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import '../../utilitarios/Donut.dart';
 import '../../utilitarios/MenuLateral.dart';
@@ -14,6 +16,15 @@ class PrincipalTela extends StatefulWidget {
 
 class _PrincipalTelaState extends State<PrincipalTela>
     with SingleTickerProviderStateMixin {
+  List<double> diasSemana = [
+    4.40,
+    2.50,
+    42.42,
+    10.50,
+    100.20,
+    88.99,
+    90.10,
+  ];
   late AnimationController _animationController;
   bool _isExpanded = false;
   final GlobalKey keyContainer = GlobalKey();
@@ -83,8 +94,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                             ),
                             ShakeIcon(
                                 icon: Icon(
-                                    color:
-                                    AppController.instance.corLetras,
+                                    color: AppController.instance.corLetras,
                                     size: 30,
                                     Icons.monetization_on)),
                           ],
@@ -111,13 +121,11 @@ class _PrincipalTelaState extends State<PrincipalTela>
                               alignment: Alignment.topCenter,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/operacoes');
+                                  Navigator.pushNamed(context, '/operacoes');
                                 },
                                 child: ShakeIcon(
                                     icon: Icon(
-                                        color: AppController
-                                            .instance.corLetras,
+                                        color: AppController.instance.corLetras,
                                         size: 35,
                                         Icons.shopping_cart)),
                               ),
@@ -134,7 +142,9 @@ class _PrincipalTelaState extends State<PrincipalTela>
             Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 80,),
+                  const SizedBox(
+                    height: 80,
+                  ),
                   Card(
                     color: AppController.instance.corTelaAcima,
                     elevation: 10,
@@ -142,7 +152,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                       padding: const EdgeInsets.all(10),
                       height: MediaQuery.of(context).size.height * 0.34,
                       width: MediaQuery.of(context).size.width * 0.96,
-                      child:  Column(
+                      child: Column(
                         children: [
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -156,8 +166,8 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     });
                                   },
                                   child: Container(
-                                    width:
-                                    MediaQuery.of(context).size.width * 0.195,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.195,
                                     height: MediaQuery.of(context).size.height *
                                         0.025,
                                     padding: const EdgeInsets.all(2),
@@ -173,16 +183,15 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.195,
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.025,
+                                      MediaQuery.of(context).size.width * 0.195,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     color: opcaoSelecionada == 'Custos'
@@ -196,21 +205,21 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         opcaoSelecionada = 'Custos';
                                       });
                                     },
-                                    child: const Text('Custos',
+                                    child: const Text(
+                                      'Custos',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.195,
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.025,
+                                      MediaQuery.of(context).size.width * 0.195,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     color: opcaoSelecionada == 'Estoque'
@@ -224,21 +233,21 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         opcaoSelecionada = 'Estoque';
                                       });
                                     },
-                                    child: const Text('Estoque',
+                                    child: const Text(
+                                      'Estoque',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.195,
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.025,
+                                      MediaQuery.of(context).size.width * 0.195,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     color: opcaoSelecionada == 'Caixa'
@@ -252,21 +261,21 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         opcaoSelecionada = 'Caixa';
                                       });
                                     },
-                                    child: const Text('Caixa',
+                                    child: const Text(
+                                      'Caixa',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.3,
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.025,
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     color: opcaoSelecionada == 'Pagamentos'
@@ -280,21 +289,21 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         opcaoSelecionada = 'Pagamentos';
                                       });
                                     },
-                                    child: const Text('Pagamentos',
+                                    child: const Text(
+                                      'Pagamentos',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.195,
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.025,
+                                      MediaQuery.of(context).size.width * 0.195,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     color: opcaoSelecionada == 'Receber'
@@ -308,21 +317,21 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         opcaoSelecionada = 'Receber';
                                       });
                                     },
-                                    child: const Text('Receber',
+                                    child: const Text(
+                                      'Receber',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                  MediaQuery.of(context).size.width * 0.250,
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.025,
+                                      MediaQuery.of(context).size.width * 0.250,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.025,
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     color: opcaoSelecionada == 'Tendências'
@@ -336,32 +345,35 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                         opcaoSelecionada = 'Tendências';
                                       });
                                     },
-                                    child: const Text('Tendências',
+                                    child: const Text(
+                                      'Tendências',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17
-                                      ),
+                                          fontSize: 17),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-
-
+                          Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 1,
+                              height: MediaQuery.of(context).size.height * 0.293,
+                              child: MyBarGraph(diasSemana: diasSemana,),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-
                   ),
                 ],
               ),
             ),
           ],
         ),
-
         const SizedBox(height: 10),
         _isExpanded
             ? Container()
@@ -432,7 +444,6 @@ class _PrincipalTelaState extends State<PrincipalTela>
       ]),
     );
   }
-
 
   double height() => 30;
 }
