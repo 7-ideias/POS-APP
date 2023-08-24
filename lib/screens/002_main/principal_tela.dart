@@ -17,7 +17,7 @@ class PrincipalTela extends StatefulWidget {
 class _PrincipalTelaState extends State<PrincipalTela>
     with SingleTickerProviderStateMixin {
   List<double> diasSemana = [
-    4.40,
+    4.0,
     2.50,
     42.42,
     10.50,
@@ -25,10 +25,95 @@ class _PrincipalTelaState extends State<PrincipalTela>
     88.99,
     90.10,
   ];
+  void atualizarArrayCustos() {
+    List<double> novoArray = [
+      60.50,
+      80.00,
+      50.20,
+      100.50,
+      150.20,
+      190.00,
+      145.50,
+    ];
+    diasSemana = novoArray;
+  }
+  void atualizarArrayVendas() {
+    List<double> novoArray = [
+      4.0,
+      2.50,
+      42.42,
+      10.50,
+      100.20,
+      88.99,
+      90.10,
+    ];
+    diasSemana = novoArray;
+  }
+  void atualizarArrayEstoque() {
+    List<double> novoArray = [
+      170.0,
+      190.50,
+      160.42,
+      120.50,
+      100.20,
+      88.99,
+      90.10,
+    ];
+    diasSemana = novoArray;
+  }
+  void atualizarArrayCaixa() {
+    List<double> novoArray = [
+      80.0,
+      90.50,
+      110.42,
+      120.50,
+      140.20,
+      190.99,
+      170.10,
+    ];
+    diasSemana = novoArray;
+  }
+  void atualizarArrayPagamento() {
+    List<double> novoArray = [
+      80.0,
+      90.50,
+      110.42,
+      120.50,
+      140.20,
+      190.99,
+      170.10,
+    ];
+    diasSemana = novoArray;
+  }
+  void atualizarArrayReceber() {
+    List<double> novoArray = [
+      100.0,
+      90.50,
+      130.42,
+      120.50,
+      120.20,
+      190.99,
+      170.10,
+    ];
+    diasSemana = novoArray;
+  }
+  void atualizarArrayTendencias() {
+    List<double> novoArray = [
+      40.0,
+      90.50,
+      25.42,
+      199.50,
+      120.20,
+      130.99,
+      170.10,
+    ];
+    diasSemana = novoArray;
+  }
   late AnimationController _animationController;
   bool _isExpanded = false;
   final GlobalKey keyContainer = GlobalKey();
   String opcaoSelecionada = 'Vendas';
+
 
   @override
   void initState() {
@@ -163,6 +248,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                   onTap: () {
                                     setState(() {
                                       opcaoSelecionada = 'Vendas';
+                                      atualizarArrayVendas();
                                     });
                                   },
                                   child: Container(
@@ -203,6 +289,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     onTap: () {
                                       setState(() {
                                         opcaoSelecionada = 'Custos';
+                                        atualizarArrayCustos();
                                       });
                                     },
                                     child: const Text(
@@ -231,6 +318,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     onTap: () {
                                       setState(() {
                                         opcaoSelecionada = 'Estoque';
+                                        atualizarArrayEstoque();
                                       });
                                     },
                                     child: const Text(
@@ -259,6 +347,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     onTap: () {
                                       setState(() {
                                         opcaoSelecionada = 'Caixa';
+                                        atualizarArrayCaixa();
                                       });
                                     },
                                     child: const Text(
@@ -287,6 +376,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     onTap: () {
                                       setState(() {
                                         opcaoSelecionada = 'Pagamentos';
+                                        atualizarArrayPagamento();
                                       });
                                     },
                                     child: const Text(
@@ -315,6 +405,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     onTap: () {
                                       setState(() {
                                         opcaoSelecionada = 'Receber';
+                                        atualizarArrayReceber();
                                       });
                                     },
                                     child: const Text(
@@ -343,6 +434,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
                                     onTap: () {
                                       setState(() {
                                         opcaoSelecionada = 'Tendências';
+                                        atualizarArrayTendencias();
                                       });
                                     },
                                     child: const Text(
