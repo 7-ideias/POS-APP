@@ -28,7 +28,6 @@ class _IdiomaTelaState extends State<IdiomaTela> {
     return Scaffold(
       body: isLoading == true ? Center(child: TelaInteira().widgetDeLoadingPadraoDoApp()) : Container(
         alignment: Alignment.center,
-        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -25,7 +25,6 @@ AppBar buildAppBar(BuildContext context) {
     ],
     title: Text(
       VariaveisGlobais.NOME_SISTEMA,
-      style: TextStyle(color: AppController.instance.corLetras),
     ),
   );
 }

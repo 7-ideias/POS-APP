@@ -6,11 +6,8 @@ import 'package:pos_app/screens/tela_index_1_principal.dart';
 import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
 
 class LoginPage extends StatefulWidget {
-  // String tipoUsuarioOuColaborador;
 
-  LoginPage({Key? key /*, required this.tipoUsuarioOuColaborador*/
-      })
-      : super(key: key);
+  LoginPage({Key? key }) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -43,12 +40,6 @@ class _LoginPageState extends State<LoginPage> {
   late var senha;
 
   void _validateFields() {
-    // setState(() {
-    //   isUserValid = userController.text.isNotEmpty;
-    //   isPasswordValid = passwordController.text.isNotEmpty;
-    //   validarSenhaDigitada();
-    // });
-
     debugPrint('posicao1DaSenha -> ' + posicao1DaSenha.text);
     debugPrint('posicao2DaSenha -> ' + posicao2DaSenha.text);
     debugPrint('posicao3DaSenha -> ' + posicao3DaSenha.text);
@@ -76,19 +67,18 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(builder: (context) => Index1Tela()),
       );
     } else {
-      // Campos inválidos, exibir mensagem de erro ou tomar a ação necessária
       print('Campos inválidos');
     }
   }
 
-  void _pular() {
-    setState(() {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
-    });
-  }
+  // void _pular() {
+  //   setState(() {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => Home()),
+  //     );
+  //   });
+  // }
 
   @override
   void initState() {
@@ -113,9 +103,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: ListView(
         children: [
-          SizedBox(
-            height: 50,
-          ),
+          SizedBox(height: 50),
           Stack(
             children: [
               Center(
@@ -125,9 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           arguments.toString() == 'novo'
               ? Center(
                   child: Padding(

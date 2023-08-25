@@ -205,7 +205,6 @@ class OutraTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppController.instance.corTelaFundo,
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -221,10 +220,9 @@ class OutraTela extends StatelessWidget {
                   elevation: 10,
                   child: Container(
                     alignment: Alignment.center,
-                    color: AppController.instance.corTelaAcima,
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text('já tenho uma conta',style: TextStyle(color: AppController.instance.corLetras, fontSize: AppController.instance.botaoTamanhoLetras)),
+                    child: Text('já tenho uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
                   ),
                 ),
               ),
@@ -239,10 +237,9 @@ class OutraTela extends StatelessWidget {
                   elevation: 10,
                   child: Container(
                     alignment: Alignment.center,
-                    color: AppController.instance.corTelaAcima,
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text('sou um colaborador',style: TextStyle(color: AppController.instance.corLetras, fontSize: AppController.instance.botaoTamanhoLetras)),
+                    child: Text('sou um colaborador',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
                   ),
                 ),
               ),
@@ -257,10 +254,9 @@ class OutraTela extends StatelessWidget {
                   elevation: 10,
                   child: Container(
                     alignment: Alignment.center,
-                    color: AppController.instance.corTelaAcima,
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text('sou novo... quero uma conta',style: TextStyle(color: AppController.instance.corLetras, fontSize: AppController.instance.botaoTamanhoLetras)),
+                    child: Text('sou novo... quero uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
                   ),
                 ),
               ),

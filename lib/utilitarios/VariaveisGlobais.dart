@@ -12,10 +12,9 @@ class VariaveisGlobais {
   static final String NOME_SISTEMA = 'SIX POS';
   static final String NOVO_PRODUTO = 'novo produto';
   static final String minhaVariavel = 'Valor da minha variável';
-  static final String endPoint = 'https://sixbackend-70ed1c73ebec.herokuapp.com';
-  // static final String endPoint = 'http://localhost:8082'; //local
+  // static final String endPoint = 'https://sixbackend-70ed1c73ebec.herokuapp.com';
   // static final String endPoint = 'http://192.168.0.107:8082'; //hp
-  // static final String endPoint = 'http://192.168.1.113:8082'; //qintess
+  static final String endPoint = 'http://192.168.1.113:8082'; //qintess
   static const String PREFERENCIASDOUSUARIO = 'preferenciasDoUsuario';//é o nome da chave do objeto salvo em memoria
   static const String IDIOMADOAPP = 'idiomaDoApp';//é o nome da chave do objeto salvo em memoria
   static UsuarioDto usuarioDto = UsuarioDto();

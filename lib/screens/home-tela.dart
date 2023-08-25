@@ -7,6 +7,7 @@ import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 
 import '../app/page/pdf_create_page.dart';
 import '../desenvolvedor/desenvolvedor.dart';
+import 'login-tela.dart';
 import 'operacao-nova-tela.dart';
 import 'operacao-tela.dart';
 import 'tela_index_2_operacoes.dart';
@@ -98,7 +99,7 @@ class _HomeState extends State<Home> {
         SizedBox(
           height: 60,
           width: 60,
-          child: Lottie.asset('assets/financeiro.json', fit: BoxFit.contain),
+          child: Lottie.asset('assets/cadastros.json', fit: BoxFit.contain),
         ),
         SizedBox(
           height: 60,
@@ -108,7 +109,7 @@ class _HomeState extends State<Home> {
         SizedBox(
           height: 60,
           width: 60,
-          child: Lottie.asset('assets/seller.json', fit: BoxFit.contain),
+          child: Lottie.asset('assets/sell-in.json', fit: BoxFit.contain),
         ),
       ],
       onTap: (index) {

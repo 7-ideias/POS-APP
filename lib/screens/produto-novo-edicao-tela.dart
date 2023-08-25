@@ -39,15 +39,17 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   var _idProduto = TextEditingController();
   var _nomeProduto = TextEditingController();
   var _codigoProduto = TextEditingController();
-  var _qtInicial = TextEditingController();
+  // var _qtInicial = TextEditingController();
   var _modeloProduto = TextEditingController();
   var _custo = TextEditingController();
   var _vlDeVenda = TextEditingController();
-  var _estoqueMaximo = TextEditingController();
-  var _estoqueMinino = TextEditingController();
+  var _estoqueMaximo = 1;
+  var _estoqueMinino = 1;
   var _produtoAtivo = true;
   var _comissao = false;
   var _vlDaComissao = TextEditingController(text: '0.00');
+
+  var _qtEstoqueInicial = 1;
 
 
   @override
@@ -94,12 +96,12 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       ),
       body: fazendoRequest == true
           ? responseCodeDaRequest == 200 ? TelaInteira().sucesso() : TelaInteira().widgetDeLoadingPadraoDoApp()
-          : Padding(
-            padding: const EdgeInsets.only(left: 8,right: 8,top: 10,bottom: 10),
-            child: Container(
-              child: Form(
-                key: _form,
-                child: ListView(
+          : Container(
+        alignment: Alignment.center,
+            child: Form(
+              key: _form,
+              child: SingleChildScrollView(
+                child: Column(
                     children: [
                       //só aparece esse card na edicao
                       widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Container() :Stack(
@@ -172,12 +174,27 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                           ],
-                          decoration: buildInputDecoration('código de barras'),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                            // enabledBorder:
+                            // OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                            // focusedBorder:
+                            // OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                            labelText: 'código de barras',
+                            suffixIcon: GestureDetector(
+                                onTap: (){
+                                  debugPrint('clicou');//TODO IMPLEMENTAR
+                                },
+                                child: Icon(Icons.qr_code_2_outlined))
+
+                          ),
+
                         ),
                       ),
 
                       //descricao do item
-                      _codigoProduto.text.length > 0 ? Padding(
+                      _codigoProduto.text.length > 0 ?
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           onChanged: (v){
@@ -198,155 +215,271 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         ),
                       ): Container(),
 
-                      //qt entrando no estoque
-                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                      //qt para o estoque
+                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'não deixe isso vazio';
-                            }
-                            return null;
-                          },
-                          style: TextStyle(fontSize: tamanhoDaFonte,),
-                          controller: _qtInicial,
-                          enabled: editar,
-                          keyboardType:
-                              TextInputType.numberWithOptions(decimal: true),
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                          ],
-                          decoration:
-                              buildInputDecoration('quantidade da entrada inicial'),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            border:  Border.all( 
+                            )
+                          ),
+                          child: Column(
+                            children: [
+                              Text('quantidade inicial'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      setState(() {
+                                        _qtEstoqueInicial <= 1 ? _qtEstoqueInicial : _qtEstoqueInicial--;
+                                        print(_qtEstoqueInicial);
+                                      });
+                                    },
+                                    child: CircleAvatar(
+                                      maxRadius: 25,
+                                      child: Text('-',style: TextStyle(fontSize: 30)),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                        child: Text(_qtEstoqueInicial.toString(),style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _qtEstoqueInicial++;
+                                          print(_qtEstoqueInicial);
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('+',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ):Container(),
 
                       //custo e preco
-                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: //custo
-                            widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'não deixe isso vazio';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(fontSize: tamanhoDaFonte,),
-                                controller: _custo,
-                                enabled: editar,
-                                keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                                ],
-                                decoration: buildInputDecoration('custo'),
-                              ),
-                            ):Container(),
+                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ?
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              border:  Border.all(
+                              )
                           ),
-                          Spacer(),
-                          //valor da venda
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child:
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'não deixe isso vazio';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(fontSize: tamanhoDaFonte,),
-                                controller: _vlDeVenda,
-                                enabled: editar,
-                                keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          child: Column(
+                            children: [
+                              Text('preços'),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    child: //custo
+                                    widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'não deixe isso vazio';
+                                          }
+                                          return null;
+                                        },
+                                        style: TextStyle(fontSize: tamanhoDaFonte,),
+                                        controller: _custo,
+                                        enabled: editar,
+                                        keyboardType:
+                                        TextInputType.numberWithOptions(decimal: true),
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                                        ],
+                                        decoration: buildInputDecoration('custo'),
+                                      ),
+                                    ):Container(),
+                                  ),
+                                  Spacer(),
+                                  //valor da venda
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    child:
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'não deixe isso vazio';
+                                          }
+                                          return null;
+                                        },
+                                        style: TextStyle(fontSize: tamanhoDaFonte,),
+                                        controller: _vlDeVenda,
+                                        enabled: editar,
+                                        keyboardType:
+                                        TextInputType.numberWithOptions(decimal: true),
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                                        ],
+                                        decoration: buildInputDecoration('preço'),
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                decoration: buildInputDecoration('preço'),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ):Container(),
 
-                      //qtidade no estoque
-                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'não deixe isso vazio';
-                                }
-                                return null;
-                              },
-                                style: TextStyle(fontSize: tamanhoDaFonte,),
-                                controller: _estoqueMinino,
-                                enabled: editar,
-                                keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
-                                ],
-                                decoration:
-                                buildInputDecoration('estoque mínimo'),
-                              ),
-                            ) ,
+                      //qtidade minima
+                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              border:  Border.all(
+                              )
                           ),
-                          Spacer(),
-                          //valor da venda
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child:
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'não deixe isso vazio';
-                                  }
-                                  return null;
-                                },
-                                style: TextStyle(fontSize: tamanhoDaFonte,),
-                                controller: _estoqueMaximo,
-                                enabled: editar,
-                                keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                          child: Column(
+                            children: [
+                              Text('estoque mínimo'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _estoqueMinino <= 1 ? _estoqueMinino : _estoqueMinino--;
+                                          print(_estoqueMinino);
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('-',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                        child: Text(_estoqueMinino.toString(),style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _estoqueMinino++;
+                                          print(_estoqueMinino);
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('+',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
                                 ],
-                                decoration:
-                                buildInputDecoration('estoque máximo'),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ):Container(),
 
-                      SizedBox(
-                        height: 20,
-                      ),
+                      //qtidade maxima no estoque
+                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              border:  Border.all(
+                              )
+                          ),
+                          child: Column(
+                            children: [
+                              Text('estoque máximo'),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _estoqueMaximo <= 1 ? _estoqueMaximo : _estoqueMaximo--;
+                                          print(_estoqueMaximo);
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('-',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                        child: Text(_estoqueMaximo.toString(),style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _estoqueMaximo++;
+                                          print(_estoqueMaximo);
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('+',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ):Container(),
 
-                      Divider(
+                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Divider(
                         color: Colors.white,
                         height: 5,
                         thickness: 5,
-                      ),
+                      ):Container(),
 
                       //produto com comissao ao vendedor
                       _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Container(
@@ -365,6 +498,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           ],
                         ),
                       ):Container(),
+
                       //valor da comissao
                       _comissao==true && _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -382,10 +516,12 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         ),
                       ):Container(),
 
+                      SizedBox(height: 30),
+
                       edicaoDeProdutoAtivo == false ? Container() : botoesSalvarECancelar(context),
-                      SizedBox(
-                        height: 30,
-                      )
+
+                      SizedBox(height: 30)
+
                     ],
                   ),
               ),
@@ -499,8 +635,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
         "podeAlterarOValorNaHora": false
       },
       "modeloProduto": "UNIDADE, KILO, SEM_MODELO",
-      "estoqueMaximo": _estoqueMaximo.text,
-      "estoqueMinimo": _estoqueMinino.text,
+      "estoqueMaximo": _estoqueMaximo,
+      "estoqueMinimo": _estoqueMinino,
       "precoVenda":  VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text),
       "objComissao": {
         "produtoTemComissaoEspecial": _comissao,
@@ -508,7 +644,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       },
       "objEntradaSaidaProduto": [
         {
-          "quantidade": _qtInicial.text,
+          "quantidade": _qtEstoqueInicial,
           "valorCusto": VariaveisGlobais.converterMoedaEmDoble(_custo.text),
           "valorDaVenda": VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text)
         }
@@ -565,8 +701,6 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       _produtoAtivo = produtoModelo.ativo;
 
       _modeloProduto = TextEditingController(text: produtoModelo.modeloProduto);
-      _estoqueMaximo = TextEditingController(text: produtoModelo.estoqueMaximo.toString());
-      _estoqueMinino = TextEditingController(text: produtoModelo.estoqueMinimo.toString());
 
       _produtoAtivo = true;
       _comissao = produtoModelo.objComissao.produtoTemComissaoEspecial!;

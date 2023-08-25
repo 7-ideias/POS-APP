@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_app/screens/idioma-tela.dart';
+import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/service/NotificationService.dart';
 import 'package:pos_app/service/info-user-service.dart';
 import 'package:pos_app/service/verifica-atualizacoes-para-cada-usuario.dart';
@@ -60,6 +61,10 @@ class _TelaDeCarregamentoPrincipalState
             debugShowCheckedModeBanner: false,
             theme: AppController.instance.buildThemeData(),
             home: buildScaffold(),
+            // routes: {
+            //   '/login': (_) => LoginPage(),
+            //   '/home': (_) => Home(),
+            // },
           );
         }
     );
@@ -89,13 +94,13 @@ class _TelaDeCarregamentoPrincipalState
   Scaffold buildScaffold() {
     return Scaffold(
     body: Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.redAccent, Colors.black],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   gradient: LinearGradient(
+      //     colors: [Colors.redAccent, Colors.black],
+      //     begin: Alignment.topCenter,
+      //     end: Alignment.bottomCenter,
+      //   ),
+      // ),
       child: VariaveisGlobais.usuarioDto.liberadoParaAcessar == false
             ? const IdiomaTela()
             : const Home() ,

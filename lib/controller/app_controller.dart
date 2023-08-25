@@ -6,7 +6,7 @@ class AppController extends ChangeNotifier {
   static AppController instance = AppController();
 
   bool isDartTheme = true;
-  var botaoTamanhoLetras = 25.0;
+  var botaoTamanhoLetras = 20.0;
 
   //cores de ambiente
   MaterialAccentColor corAppBar = Colors.deepPurpleAccent;

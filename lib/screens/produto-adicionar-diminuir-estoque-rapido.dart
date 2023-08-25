@@ -136,9 +136,11 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
                     // 'ultimo preço.:   ${widget.produtoList[0].objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto}',
                     style: TextStyle(
                         fontSize: 20, ),
-                  ),
+                  )
                 ):Container(),
                 SizedBox(height: 30,),
+
+                //contador
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -184,6 +186,7 @@ class _ProdutoEstoqueRapidoTelaState extends State<ProdutoEstoqueRapidoTela> {
                     ),
                   ],
                 ),
+
                 SizedBox(height: 30,),
                 GestureDetector(
                   onTap:  () {
