@@ -51,7 +51,7 @@ class _RecuperacaoSenhaConfirmacaoState
       if (response.statusCode == 200) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => NovaSenhaPage()),
+          MaterialPageRoute(builder: (context) => NovaSenhaPage(numeroCelular)),
         );
         // Requisição bem-sucedida, faça algo com a resposta aqui
         print(response.body);

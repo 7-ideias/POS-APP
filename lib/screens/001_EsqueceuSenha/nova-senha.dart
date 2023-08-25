@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/002_main/home_tela.dart';
 import 'package:validatorless/validatorless.dart';
+import 'package:http/http.dart' as http;
 
 class NovaSenhaPage extends StatefulWidget {
+   late final String numeroCelular;
+
+  NovaSenhaPage( this.numeroCelular);
+
   @override
   State<NovaSenhaPage> createState() => _NovaSenhaPageState();
 }
@@ -18,6 +24,29 @@ class _NovaSenhaPageState extends State<NovaSenhaPage> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> updateRequisicao() async {
+
+      String numeroCelular = this.widget.numeroCelular;
+      String novaSenha = confirmaSenhaController.text;
+
+      String celular = numeroCelular;
+      Map<String, String> body = {
+        'numeroUsuario': "$celular",
+        'novaSenha': '$novaSenha',
+      };
+      final endpoint = Uri.parse('https://localhost:8082/usuario/troca-senha');
+      final resposta = await http.put(endpoint, body: body);
+      if (resposta.statusCode == 200) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ));
+      } else {
+        print('erro na requisicao: ${resposta.statusCode}');
+      }
+    }
+
     return Scaffold(
       body: Container(
         color: const Color(0xFF003366),
@@ -88,7 +117,8 @@ class _NovaSenhaPageState extends State<NovaSenhaPage> {
                 validator: Validatorless.multiple([
                   Validatorless.max(
                       6, 'A senha deve conter no maximo 6 dígitos.'),
-                  Validatorless.compare(novaSenhaController, 'As senhas devem ser iguais.')
+                  Validatorless.compare(
+                      novaSenhaController, 'As senhas devem ser iguais.')
                 ]),
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
@@ -126,7 +156,7 @@ class _NovaSenhaPageState extends State<NovaSenhaPage> {
                 ),
                 onPressed: () {
                   formKey.currentState?.validate();
-
+                  updateRequisicao();
                   // Implementar a lógica para enviar o código
                 },
                 child: const Text(
