@@ -75,10 +75,12 @@ class _Index2TelaState extends State<Index2Tela> {
                               height: MediaQuery.of(context).size.width * 0.4,
                               width: MediaQuery.of(context).size.width * larguraTela/2,
                               child: Center(
-                                  child: Text(
-                                    'vendas/servicos',
-                                    style: TextStyle(
-                                      fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                  child: Flexible(
+                                    child: Text(
+                                      'vendas/servicos ',
+                                      style: TextStyle(
+                                        fontSize: tamanhoDaFonte, ),
+                                    ),
                                   )),
                             ),
                           ),

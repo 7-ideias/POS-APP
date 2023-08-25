@@ -270,7 +270,29 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           backgroundColor: Colors.red,
           icon: Icons.clear,
           onPressed:  (context) {
-            excluirProdutoPorID(produtoList[index].id);
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Confirmação'),
+                    content: Text('quer realmente apagar?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Cancelar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Confirmar'),
+                        onPressed: () async {
+                          excluirProdutoPorID(produtoList[index].id);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
           },
         ),
 
@@ -278,7 +300,6 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
 
     );
   }
-
 
   ActionPane direitaEsquertaPane(int index) {
     return ActionPane(

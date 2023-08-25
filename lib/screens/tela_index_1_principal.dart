@@ -72,10 +72,9 @@ class _Index1TelaState extends State<Index1Tela>
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SizedBox(width: 20),
-                              Text('Ola 😊',
+                              Text('Ola',
                                   style: TextStyle(
-                                      color: AppController.instance.corLetras,
-                                      fontSize: 15)),
+                                      fontSize: 18)),
                             ],
                           ),
                           SizedBox(width: 20),
@@ -88,7 +87,6 @@ class _Index1TelaState extends State<Index1Tela>
                                         .usuarioDto.objUser?.objPessoa?.nome ??
                                     '',
                                 style: TextStyle(
-                                  color: AppController.instance.corLetras,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
                                 ),
@@ -110,50 +108,75 @@ class _Index1TelaState extends State<Index1Tela>
                     height: 80,
                   ),
                   Card(
-                    color: AppController.instance.corTelaAcima,
+                    // color: AppController.instance.corTelaAcima,
                     elevation: 10,
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.3,
                       width: MediaQuery.of(context).size.width * 0.95,
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                      //icones laterais no card
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 30,
+                            left: 30,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context, '/operacoes');
-                                    },
-                                    child: ShakeIcon(
-                                        icon: Icon(
-                                            color: AppController
-                                                .instance.corLetras,
-                                            size: 50,
-                                            Icons.shopping_cart)),
-                                  ),
-                                )
+                                Text('operacoes do dia R\$ 1000,88',style: TextStyle(fontSize: 18),),
+                                Text('vendas - 2',style: TextStyle(fontSize: 18),),
+                                Text('servicos - 3',style: TextStyle(fontSize: 18),),
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: ShakeIcon(
-                                      icon: Icon(
-                                          color:
-                                              AppController.instance.corLetras,
-                                          size: 50,
-                                          Icons.monetization_on)),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+
+                                      },
+                                      child: Icon(
+                                          size: 30,
+                                          Icons.remove_red_eye),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, '/operacoes');
+                                      },
+                                      child: Icon(
+                                              size: 30,
+                                              Icons.shopping_cart),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child:  Icon(
+                                            size: 30,
+                                            Icons.monetization_on),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -167,7 +190,6 @@ class _Index1TelaState extends State<Index1Tela>
         _isExpanded
             ? Container()
             : Card(
-                color: AppController.instance.corTelaAcima,
                 child: Column(
                   children: [
                     Padding(
@@ -175,7 +197,6 @@ class _Index1TelaState extends State<Index1Tela>
                       child: Text('DIA',
                           style: TextStyle(
                             fontSize: 22,
-                            color: AppController.instance.corLetras,
                           )),
                     ),
                     Donut(context),
@@ -189,7 +210,6 @@ class _Index1TelaState extends State<Index1Tela>
         _isExpanded
             ? Container()
             : Card(
-                color: AppController.instance.corTelaAcima,
                 child: Column(
                   children: [
                     Padding(
@@ -197,7 +217,6 @@ class _Index1TelaState extends State<Index1Tela>
                       child: Text('MÊS',
                           style: TextStyle(
                             fontSize: 18,
-                            color: AppController.instance.corLetras,
                           )),
                     ),
                     Donut(context),
@@ -211,7 +230,6 @@ class _Index1TelaState extends State<Index1Tela>
         _isExpanded
             ? Container()
             : Card(
-                color: AppController.instance.corTelaAcima,
                 child: Column(
                   children: [
                     Padding(
@@ -219,7 +237,6 @@ class _Index1TelaState extends State<Index1Tela>
                       child: Text('resumo do dia',
                           style: TextStyle(
                             fontSize: 18,
-                            color: AppController.instance.corLetras,
                           )),
                     ),
                     Donut(context),
@@ -241,7 +258,6 @@ class _Index1TelaState extends State<Index1Tela>
 Table ResumoTable() {
   return Table(
       border: TableBorder.all(
-        color: AppController.instance.corLetras,
       ),
       children: [
         TableRow(
@@ -252,7 +268,6 @@ Table ResumoTable() {
                 padding: EdgeInsets.all(8),
                 child: Text('operação',
                     style: TextStyle(
-                        color: AppController.instance.corLetras,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ),
@@ -263,7 +278,6 @@ Table ResumoTable() {
                 padding: EdgeInsets.all(8),
                 child: Text('valor do dia',
                     style: TextStyle(
-                        color: AppController.instance.corLetras,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ),
@@ -277,7 +291,6 @@ Table ResumoTable() {
                 padding: EdgeInsets.all(8),
                 child: Text('vendas',
                     style: TextStyle(
-                        color: AppController.instance.corLetras,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ),
@@ -288,7 +301,6 @@ Table ResumoTable() {
                 child: Text('R\$ 1200,00',
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        color: AppController.instance.corLetras,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ),
@@ -302,7 +314,6 @@ Table ResumoTable() {
                 padding: EdgeInsets.all(8),
                 child: Text('orçamentos',
                     style: TextStyle(
-                        color: AppController.instance.corLetras,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ),
@@ -313,7 +324,6 @@ Table ResumoTable() {
                 child: Text('R\$ 1200,00',
                     textAlign: TextAlign.right,
                     style: TextStyle(
-                        color: AppController.instance.corLetras,
                         fontWeight: FontWeight.bold,
                         fontSize: 18)),
               ),
