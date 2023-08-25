@@ -28,7 +28,10 @@ class _NewLoginPageState extends State<NewLoginPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ValidaPage(
-              celular: celularController.text, senha: senhaController.text),
+            /*
+            gambiarra pra aparecer +55 pro usuario, mas nao enviar pro baack
+             */
+            celular: celularController.text.replaceAll('+', ''), senha: senhaController.text),
         ),
       );
     }
@@ -78,8 +81,11 @@ class _NewLoginPageState extends State<NewLoginPage> {
                   showPhoneCode: true,
                   onSelect: (Country country) {
                     setState(() {
+                      /*
+                         gambiarra pra aparecer +55 pro usuario, mas nao enviar pro baack
+                      */
                       countryCode = '+${country.phoneCode}';
-                      celularController.text = countryCode.toString();
+                      celularController.text = countryCode;
                     });
                   },
                 );
@@ -136,7 +142,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
               obscureText: _obscureText,
             ),
             const SizedBox(
-              height: 20,
+              height: 80,
             ),
             Container(
               width: 276,
@@ -175,7 +181,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
               ),
             ),
             const SizedBox(
-              height: 95,
+              height: 70,
             ),
             Container(
               width: 371,
