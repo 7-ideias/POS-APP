@@ -1,14 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/001_login/LoginPage.dart';
 import 'package:pos_app/screens/002_main/home_tela.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:http/http.dart' as http;
 
 class NovaSenhaPage extends StatefulWidget {
-   late final String numeroCelular;
+  late final String numeroCelular;
 
-  NovaSenhaPage( this.numeroCelular);
+  NovaSenhaPage(this.numeroCelular);
 
   @override
   State<NovaSenhaPage> createState() => _NovaSenhaPageState();
@@ -19,28 +22,29 @@ class _NovaSenhaPageState extends State<NovaSenhaPage> {
   TextEditingController confirmaSenhaController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     Future<void> updateRequisicao() async {
-
       String numeroCelular = this.widget.numeroCelular;
       String novaSenha = confirmaSenhaController.text;
-
+      String uri = 'http://192.168.0.114:8082/usuario/troca-senha';
       String celular = numeroCelular;
       Map<String, String> body = {
-        'numeroUsuario': "$celular",
+        'numeroUsuario': "+55$celular",
         'novaSenha': '$novaSenha',
       };
-      final endpoint = Uri.parse('https://localhost:8082/usuario/troca-senha');
-      final resposta = await http.put(endpoint, body: body);
+      String bodyJson = jsonEncode(body);
+
+      final endpoint = Uri.parse(uri);
+      final resposta = await http.put(endpoint,
+          headers: {'Content-Type': 'application/json'}, body: bodyJson);
       if (resposta.statusCode == 200) {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(),
+              builder: (context) => LoginPage(),
             ));
       } else {
         print('erro na requisicao: ${resposta.statusCode}');
@@ -157,6 +161,11 @@ class _NovaSenhaPageState extends State<NovaSenhaPage> {
                 onPressed: () {
                   formKey.currentState?.validate();
                   updateRequisicao();
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => LoginPage(),
+                  //     ));
                   // Implementar a lógica para enviar o código
                 },
                 child: const Text(

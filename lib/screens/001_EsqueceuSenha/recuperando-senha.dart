@@ -18,9 +18,11 @@ class _RecuperandoSenhaState extends State<RecuperandoSenha> {
 
   final TextEditingController senhaController = TextEditingController();
 
+  String get numeroCelular => celularController.text;
+
   void enviar(BuildContext context) {
     String celular = celularController.text;
-    String heroku = 'sixbackend-70ed1c73ebec.herokuapp.com';
+    String heroku = 'http://192.168.0.114:8082/usuario/recuperar-senha/';
     String endpoint = '$heroku+55$celular';
 
     http.get(Uri.parse(endpoint)).then((response) {
@@ -108,10 +110,10 @@ class _RecuperandoSenhaState extends State<RecuperandoSenha> {
                 ElevatedButton(
                   onPressed: () {
                     formKey.currentState?.validate();
-                    // enviar(context);
+                    enviar(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RecuperacaoSenhaConfirmacao("123")),
+                      MaterialPageRoute(builder: (context) => RecuperacaoSenhaConfirmacao(numeroCelular)),
                     );
                   },
                   style: ElevatedButton.styleFrom(

@@ -26,6 +26,8 @@ class _RecuperacaoSenhaConfirmacaoState
   final String endpoint =
       "http://192.168.0.114:8082/usuario/verificacao-4-digitos";
 
+  String get numeroCelular => numeroCelular;
+
   void enviar(BuildContext context) {
     String numeroCelular = this.widget.numeroCelular;
     String numero1 = controllers[0].text;
@@ -133,12 +135,11 @@ class _RecuperacaoSenhaConfirmacaoState
                 ),
               ),
               onPressed: () {
-                // enviar(context);
-                // Implementar a lógica para enviar o código
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NovaSenhaPage()),
-                );
+                enviar(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => NovaSenhaPage(numeroCelular)),
+                // );
 
               },
               child: const Text(
