@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pos_app/dtos/produto-dto.dart';
 import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import '../controller/app_controller.dart';
+import '../controller/produto-controller.dart';
 import '../dtos/objetos/obj-venda-e-servico.dart';
 import '../utilitarios/widgetsGlobais.dart';
+import 'operacao-escolhendo-produto.dart';
 
 class InserindoProduto extends StatefulWidget {
   InserindoProduto({Key? key}) : super(key: key);
@@ -15,52 +18,100 @@ class InserindoProduto extends StatefulWidget {
 }
 
 class _InserindoProdutoState extends State<InserindoProduto> {
+
+
+  late ProdutoDto produtoDto;
+
+  TextEditingController _codigoProduto = TextEditingController();
+  TextEditingController _vlUnitario = TextEditingController();
+  TextEditingController _novo = TextEditingController();
+  TextEditingController _acheiProduto = TextEditingController();
+
+  bool _isAcheiProduto = false;
+
+  int _contador = 1;
+
+  bool verEstoque = false;
+  bool jaTemUmProduto = false;
+
   ObjVendaEServico objVendaEServico = ObjVendaEServico(
     id: '',
     idCodigoProduto: '',
     codigoDeBarras: '',
     descricaoProduto: '',
     qt: 1,
-    vlUnitario: 0.00,
+    vlUnitario:  0.00,
     vlTotal: 0.00,
     idColaboradorResponsavelPeloServico: '',
     nomeColaboradorResponsavel: '',
   );
 
-  TextEditingController _codigoProduto = TextEditingController();
-  TextEditingController _precoProduto = TextEditingController();
-
-  int _contador = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Center(child: Text('escolha o produto')),
+        automaticallyImplyLeading: false,
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(16.0),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
+                //instrução para o usuario nao ficar perdido
+                jaTemUmProduto == false ? Container(
+                  color: Colors.red,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('mensagem para o usuario escolher um produto ou nao vai funfar'))
+                      ],
+                    ),
+                  ),
+                ) : Container(),
+
                 //codigo de barras
-                Row(
+                jaTemUmProduto == false ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
+
                     Container(
                       height: 50,
                       width: 200,
-                      child: UtilsWidgets.textFormField(true,18,'não deixe isso vazio', _codigoProduto, TextInputType.number, 'código do item',''),
+                      child: TextFormField(
+                        onChanged: (valor){
+                          _novo = TextEditingController(text: valor);
+                          buscaDigitando(valor);
+                        },
+                        controller: _codigoProduto,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                        decoration: UtilsWidgets.buildInputDecoration('código produto',''),
+                      ),
                     ),
+
+                    //digitacao do codigo
+                    // Container(
+                    //   height: 50,
+                    //   width: 200,
+                    //   child: UtilsWidgets.textFormField(false,true,18,'não deixe isso vazio', _codigoProduto, TextInputType.number, 'código do item','', TextDirection.ltr),
+                    // ),
+
+                    // buscar
                     GestureDetector(
                         onTap: (){
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => Leitor()),
-                          // );
+                          retornoDaInformacao(context);
                         },
                         child: Container(width: 70,height: 70,
                           child: Icon(Icons.search,size: 50,),)),
+
+                    // leitor de codigo
                     GestureDetector(
                         onTap: (){
                           Navigator.push(
@@ -71,10 +122,25 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         child: Container(width: 70,height: 70,
                         child: Icon(Icons.qr_code_2,size: 50,),))
                   ],
-                ),
+                ):Container(),
                 SizedBox(height: 16.0),
-                UtilsWidgets.textFormField(false,18,'não deixe isso vazio', _codigoProduto, TextInputType.number, 'descrição',''),
-                Row(
+
+                Container(
+                  child: Text(_acheiProduto.text),
+                ),
+
+                SizedBox(height: 16.0),
+
+
+
+                jaTemUmProduto == true ? UtilsWidgets.textFormField(false, false,18,'não deixe isso vazio', TextEditingController(text: produtoDto.codigoDeBarras),
+                    TextInputType.number, 'CODIGO BARRAS','', TextDirection.ltr):Container(),
+                SizedBox(height: 16.0),
+                //descricao do produto
+                jaTemUmProduto == true ? UtilsWidgets.textFormField(false, false,18,'não deixe isso vazio', TextEditingController(text: produtoDto.nomeProduto),
+                    TextInputType.number, 'descrição','', TextDirection.ltr): Container(),
+                //contador
+                jaTemUmProduto == true ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
@@ -130,51 +196,129 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                       ),
                     ),
                   ],
-                ),
-                SizedBox(height: 16.0),
-                //preco
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                ): Container(),
+                SizedBox(height: 10.0),
+                //estoque
+                jaTemUmProduto == true ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child:
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child : UtilsWidgets.textFormField(verEstoque, false,18,'não deixe isso vazio',
+                            TextEditingController(text: produtoDto.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toString()),
+                            TextInputType.numberWithOptions(decimal: true), 'estoque atual','', TextDirection.rtl),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              verEstoque = ! verEstoque;
+                            });
+                          },
+                          child: Icon(Icons.remove_red_eye,size: 30,)),
+                    ),
+                  ],
+                ): Container(),
+                SizedBox(height: 10.0),
+                //_vlUnitario
+                jaTemUmProduto == true ? Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
                   child:
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child : UtilsWidgets.textFormField(true,18,'não deixe isso vazio', _precoProduto,
-                        TextInputType.numberWithOptions(decimal: true), 'preço',VariaveisGlobais.moeda),
+                    child : UtilsWidgets.textFormField(false,true,18,'não deixe isso vazio', _vlUnitario,
+                        TextInputType.numberWithOptions(decimal: true), 'preço',VariaveisGlobais.moeda, TextDirection.ltr),
                   ),
-                ),
+                ): Container(),
                 SizedBox(height: 16.0),
-                GestureDetector(
+                //botao confirmar
+                jaTemUmProduto == true ? GestureDetector(
                   onTap: (){
+                    print('vlUnitario${_vlUnitario.value.text}');
                     objVendaEServico = ObjVendaEServico(
-                        id: _codigoProduto.text,
-                        vlTotal: 10.00
+                        id: "id",
+                        idCodigoProduto: produtoDto.id,
+                        codigoDeBarras: produtoDto.codigoDeBarras,
+                        descricaoProduto: produtoDto.nomeProduto,
+                        idColaboradorResponsavelPeloServico: VariaveisGlobais.idColaborador,
+                        qt: double.parse(_contador.toString()),
+                        vlUnitario: double.parse(_vlUnitario.value.text),
+                        vlTotal: double.parse(_vlUnitario.value.text) *_contador
                     );
                     Navigator.pop(context, objVendaEServico);
                   },
                   child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
                       'inserir'),
+                ): Container(),
+
+                //achei o produto
+                _isAcheiProduto == true ? GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      jaTemUmProduto =true;
+                      _vlUnitario = TextEditingController(text: produtoDto.precoVenda.toString());
+                      _isAcheiProduto = false;
+                    });
+                  },
+                  child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
+                      'confirmar o produto?'),
+                ) : Container(),
+
+                //botao cancelar
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                  child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoNegar,
+                      'cancelar'),
                 ),
-                UtilsWidgets.botaoMaster(context, AppController.instance.botaoNegar,
-                    'cancelar'),
               ],
 
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 
+   void  buscaDigitando(String idProdutoABuscar) {
+
+      var produtoList = VariaveisGlobais.produtoList;
+      var list = produtoList.where((item) => item.codigoDeBarras.toLowerCase() == _novo.text).toList();
+
+      print(list.isEmpty?"nao achei" : list[0].nomeProduto);
+
+      if(list.isEmpty){
+        setState(() {
+          _isAcheiProduto = false;
+          _acheiProduto = TextEditingController(text: '');
+        });
+      }else{
+        setState(() {
+          produtoDto = list.first;
+          _isAcheiProduto = true;
+          _acheiProduto = TextEditingController(text: 'encontrei o produto.: ' + produtoDto.nomeProduto);
+        });
+      }
 
 
-  Future<void> retornaOsDadosDaTelaOperacaoInserindo(
-      BuildContext context) async {
-    String barCode = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => Leitor()),
-    );
+  }
+
+  Future<void> retornoDaInformacao(BuildContext context) async {
+    produtoDto =  await Navigator.push(
+       context,
+       MaterialPageRoute(builder: (context) => EscolhaOProduto()),
+     );
     setState(() {
-      _codigoProduto = TextEditingController(text: barCode);
+      jaTemUmProduto =true;
+      _vlUnitario = TextEditingController(text: produtoDto.precoVenda.toString());
     });
   }
+
+
 }

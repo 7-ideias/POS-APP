@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pos_app/controller/produto-controller.dart';
-import 'package:pos_app/dtos/operacao-dto.dart';
 import 'package:pos_app/screens/produto-adicionar-diminuir-estoque-rapido.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 import 'package:pos_app/utilitarios/utils.dart';
-
-import '../controller/app_controller.dart';
 import '../dtos/produto-dto-list.dart';
 import '../dtos/produto-dto.dart';
 import 'package:http/http.dart' as http;
@@ -44,9 +39,9 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
     int _selectedIndex = 0;
 
 
-    void _onItemTapped(int index) {
+    Future<void> _onItemTapped(int index) async {
       if(index == 1){
-        Navigator.push(
+        await Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ProdutoNovoEdicaoTela(
@@ -54,16 +49,16 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             ),
           ),
         );
+        getProdutoList();
       }
     }
 
     return Scaffold(
-      backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
-        title: Text('Produtos'),
+        automaticallyImplyLeading: false,
+        title: Center(child: Text('Produtos')),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.orange,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: [
@@ -82,11 +77,8 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           Card(
             elevation: 10,
             child: Container(
-              height: 150,
+              height: MediaQuery.of(context).size.height * .15,
               width: MediaQuery.of(context).size.width * 0.95,
-              decoration: BoxDecoration(
-              color: AppController.instance.corTelaAcima,
-              ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: cartaoDeProdutos(),
@@ -96,7 +88,6 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              color: Colors.white,
               child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -129,39 +120,34 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                       shrinkWrap: true,
                       itemCount: produtoList.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Slidable(
-                              endActionPane: direitaEsquertaPane(index),
-                              child:Container(
-                                color: AppController.instance.corTelaAcima,
-                                child: ListTile(
-                                  // isThreeLine: true,
-                                  leading: const CircleAvatar(
-                                    maxRadius: 30,
-                                    backgroundColor: Colors.white,
-                                    child: Icon(Icons.question_mark),
-                                  ),
-                                  title: Text("código" + produtoList[index].codigoDeBarras +" - "+ produtoList[index].nomeProduto,style: TextStyle(color: AppController.instance.corLetras,fontSize: 20)),
-
-                                  subtitle: Row(
-                                    children: [
-                                      Text("estoque atual.: ${produtoList[index]
-                                              .objCalculosDeProdutoDoBackEnd
-                                              .qtNoEstoque}",style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
-                                      Text(" - preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
-                                          style: TextStyle(color: AppController.instance.corLetras,fontSize: 13)),
-                                    ],
-                                  ),
-                                  // tileColor: produtoList[index]
-                                  //     .objCalculosDeProdutoDoBackEnd
-                                  //     .qtNoEstoque < 10
-                                  //     ? Colors.red
-                                  //     : null,
-                                  shape: Border.all(color: AppController.instance.corLetras),
+                        return Slidable(
+                            startActionPane: esquerdaDireitaPane(index),
+                            endActionPane: direitaEsquertaPane(index),
+                            child:Container(
+                              child: ListTile(
+                                isThreeLine: true,
+                                leading: const CircleAvatar(
+                                  maxRadius: 30,
+                                  child: Icon(Icons.question_mark),
                                 ),
+                                title: Text(produtoList[index].codigoDeBarras +" - "+ produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
+
+                                subtitle: Row(
+                                  children: [
+                                    Text("estoque atual.: ${produtoList[index]
+                                            .objCalculosDeProdutoDoBackEnd
+                                            .qtNoEstoque}",style: TextStyle(fontSize: 13)),
+                                    Text(" - preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
+                                        style: TextStyle(fontSize: 13)),
+                                  ],
+                                ),
+                                // tileColor: produtoList[index]
+                                //     .objCalculosDeProdutoDoBackEnd
+                                //     .qtNoEstoque < 10
+                                //     ? Colors.red
+                                //     : null,
                               ),
-                          ),
+                            ),
                         );
                       },
                     ) : Container(),
@@ -169,76 +155,77 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           ),
         ],
       ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          mostrarTudo == true ?FloatingActionButton.extended(
-            backgroundColor: Colors.green,
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProdutoNovoEdicaoTela(
-                    idProduto: VariaveisGlobais.NOVO_PRODUTO,
-                  ),
-                ),
-              );
-            },
-            label: Row(
-              children: [
-                Icon(Icons.add),
-                Text('  adicionar novo produto',style: TextStyle(fontSize: tamanhoDaFonte),),
-              ],
-            ),
-          ):Container(),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton.extended(
-            onPressed: () {
-              setState(() {
-                mostrarTudo = !mostrarTudo;
-              });
-            },
-            label: mostrarTudo == false ? Row(
-              children: [
-                Icon(Icons.add),
-                Text(' mais ações', style: TextStyle(fontSize: tamanhoDaFonte)),
-              ],
-            ) : Row(
-              children: [
-                Icon(Icons.hide_source),
-                Text(' esconder ações', style: TextStyle(fontSize: tamanhoDaFonte)),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          FloatingActionButton(onPressed: getProdutoList,child: Icon(Icons.refresh),)
-        ],
-      ),
+
+      // floatingActionButton: Column(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   crossAxisAlignment: CrossAxisAlignment.end,
+      //   children: [
+      //     SizedBox(
+      //       height: 10,
+      //     ),
+      //     mostrarTudo == true ?FloatingActionButton.extended(
+      //       backgroundColor: Colors.green,
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => ProdutoNovoEdicaoTela(
+      //               idProduto: VariaveisGlobais.NOVO_PRODUTO,
+      //             ),
+      //           ),
+      //         );
+      //       },
+      //       label: Row(
+      //         children: [
+      //           Icon(Icons.add),
+      //           Text('  adicionar novo produto',style: TextStyle(fontSize: tamanhoDaFonte),),
+      //         ],
+      //       ),
+      //     ):Container(),
+      //     SizedBox(
+      //       height: 10,
+      //     ),
+      //     FloatingActionButton.extended(
+      //       onPressed: () {
+      //         setState(() {
+      //           mostrarTudo = !mostrarTudo;
+      //         });
+      //       },
+      //       label: mostrarTudo == false ? Row(
+      //         children: [
+      //           Icon(Icons.add),
+      //           Text(' mais ações', style: TextStyle(fontSize: tamanhoDaFonte)),
+      //         ],
+      //       ) : Row(
+      //         children: [
+      //           Icon(Icons.hide_source),
+      //           Text(' esconder ações', style: TextStyle(fontSize: tamanhoDaFonte)),
+      //         ],
+      //       ),
+      //     ),
+      //     SizedBox(
+      //       height: 10,
+      //     ),
+      //     FloatingActionButton(onPressed: getProdutoList,child: Icon(Icons.refresh),)
+      //   ],
+      // ),
     );
   }
 
   Widget cartaoDeProdutos() {
     return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Icon(Icons.remove_red_eye,size: 30,color: AppController.instance.corLetras),
+                      Icon(Icons.remove_red_eye,size: 30),
                     ],
                   ),
                 ],
               ),
+              Spacer(),
               Column(
                 children: [
                   Row(
@@ -246,13 +233,13 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                     children: [
                       Text(
                         'itens no estoque.: ',
-                        style: TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
+                        style: TextStyle(fontSize: tamanhoDaFonte ),
                       ),
                       isLoading == false
                           ? Text(
                         _temConteudo == true ? produtoDtoList.qtNoEstoque.toString() : '0',
                               style:
-                                  TextStyle(fontSize: tamanhoDaFonte, color: Colors.white),
+                                  TextStyle(fontSize: tamanhoDaFonte ),
                             )
                           : Container()
                     ],
@@ -264,7 +251,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                           ? Text(
                         _temConteudo == true ? 'vl estoque.: '+ Utils.formataParaMoeda(produtoDtoList.vlEstoqueEmGrana) : '0',
                               style:
-                                  TextStyle(fontSize: tamanhoDaFonte, color: AppController.instance.corLetras),
+                                  TextStyle(fontSize: tamanhoDaFonte),
                             )
                           : Container()
                     ],
@@ -274,6 +261,24 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             ],
           );
   }
+
+  ActionPane esquerdaDireitaPane(int index) {
+    return ActionPane(
+      motion: const StretchMotion(),
+      children: [
+        SlidableAction(
+          backgroundColor: Colors.red,
+          icon: Icons.clear,
+          onPressed:  (context) {
+            excluirProdutoPorID(produtoList[index].id);
+          },
+        ),
+
+      ],
+
+    );
+  }
+
 
   ActionPane direitaEsquertaPane(int index) {
     return ActionPane(
@@ -337,6 +342,25 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       ],
 
     );
+  }
+
+  Future<void> excluirProdutoPorID (String id) async {
+
+    setState(() {
+      isLoading = true;
+    });
+
+    var url = '${VariaveisGlobais.endPoint}/produto/apagar/' + id;
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
+    var headers = {
+      'Content-Type': 'application/json',
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'idColaborador': idDeQuemEstaCadastrando
+    };
+    var response = await http.delete(Uri.parse(url), headers: headers);
+
+    await getProdutoList();
+
   }
 
 

@@ -15,4 +15,11 @@ class ObjInformacoesDoCadastro {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['idDeQuemCadastrou'] = this.idDeQuemCadastrou;
+    data['dataCadastro'] = this.dataCadastro?.toIso8601String();
+    return data;
+  }
+
 }

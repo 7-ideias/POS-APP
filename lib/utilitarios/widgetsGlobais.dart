@@ -29,8 +29,8 @@ class UtilsWidgets {
     );
   }
 
-  static Widget textFormField(bool enabled, double tamanhoLetra,String msgValidador,
-      TextEditingController controlador, TextInputType keyboardType, String labelText, String prefixText){
+  static Widget textFormField(bool obscureText, bool enabled, double tamanhoLetra,String msgValidador,
+      TextEditingController controlador, TextInputType keyboardType, String labelText, String prefixText, TextDirection direcao){
 
     var filteringTextInputFormatter;
 
@@ -40,22 +40,10 @@ class UtilsWidgets {
       filteringTextInputFormatter = FilteringTextInputFormatter.allow(RegExp(r'^\d{0,8}(\.\d{0,2})?$'));
     }
 
-    InputDecoration buildInputDecoration() {
-      return InputDecoration(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-        enabledBorder:
-        OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-        focusedBorder:
-        OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-        hoverColor: Colors.blue,
-        suffixIconColor: Colors.red,
-        labelText: labelText,
-        prefixText: prefixText,
-      );
-    }
-
     return   TextFormField(
       enabled: enabled,
+      obscureText: obscureText,
+      textDirection: direcao,
       validator: (valorAValidar) {
         if (valorAValidar == null || valorAValidar.isEmpty) {
           return msgValidador;
@@ -66,10 +54,22 @@ class UtilsWidgets {
       controller: controlador,
       keyboardType: keyboardType,
       inputFormatters: <TextInputFormatter>[filteringTextInputFormatter],
-      decoration: buildInputDecoration(),
+      decoration: buildInputDecoration(labelText, prefixText),
     );
   }
 
+  static InputDecoration buildInputDecoration(String labelText,String prefixText ) {
+    return InputDecoration(
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      enabledBorder:
+      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      focusedBorder:
+      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      hintText: 'exemplo',
+      labelText: labelText,
+      prefixText: prefixText,
+    );
+  }
 
 
   //modelo alert

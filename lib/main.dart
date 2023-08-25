@@ -2,42 +2,12 @@ import 'dart:async';
 
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
-import 'package:pos_app/screens/003_register/clientes/CadastroClienteTela.dart';
-import 'package:pos_app/screens/esqueceu-senha-digitar-sms.dart';
-import 'package:pos_app/screens/esqueceu-senha-tela.dart';
 import 'package:pos_app/screens/idioma-tela.dart';
-import 'package:pos_app/screens/moeda-tela.dart';
-import 'package:pos_app/screens/operacao-inserindo.dart';
-import 'package:pos_app/screens/produto-list-tela.dart';
 import 'package:pos_app/service/NotificationService.dart';
 import 'package:pos_app/service/info-user-service.dart';
 import 'package:pos_app/service/verifica-atualizacoes-para-cada-usuario.dart';
-import 'package:pos_app/app/page/pdf_create_page.dart';
-import 'package:pos_app/desenvolvedor/desenvolvedor.dart';
-import 'package:pos_app/screens/jornada-tela.dart';
-import 'package:pos_app/desenvolvedor/tela_de_id.dart';
-import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/screens/home-tela.dart';
-import 'package:pos_app/screens/003_register/products/CadastroProduto.dart';
-import 'package:pos_app/screens/AgendaTela.dart';
-import 'package:pos_app/screens/AjudaESuporteTela.dart';
-import 'package:pos_app/screens/ClientesTela.dart';
-import 'package:pos_app/screens/ConfiguracoesTela.dart';
-import 'package:pos_app/screens/PedidosTela.dart';
-import 'package:pos_app/screens/PerfilTela.dart';
-import 'package:pos_app/screens/ResumoTela.dart';
-import 'package:pos_app/screens/ServicosTela.dart';
-import 'package:pos_app/screens/VendaTela.dart';
-import 'package:pos_app/screens/caixa_tela.dart';
-import 'package:pos_app/screens/castro-tela.dart';
-import 'package:pos_app/screens/devolucao_tela.dart';
-import 'package:pos_app/screens/tela_index_0_cadastros.dart';
-import 'package:pos_app/screens/operacao-nova-tela.dart';
-import 'package:pos_app/screens/relatorios_tela.dart';
-import 'package:pos_app/screens/operacao-tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
-
-import '../../service/info-user-service.dart';
 import 'controller/app_controller.dart';
 
 void main() async {

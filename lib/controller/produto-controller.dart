@@ -5,20 +5,19 @@ import '../dtos/produto-dto.dart';
 import '../utilitarios/VariaveisGlobais.dart';
 
 class ProdutoController {
-//
-//   List<ProdutoDto> produtoList = [];
-//
-//   Future<void> atualizarListaDeProdutos() async {
-//     http.Response fazRequisicao = await ProdutoController().fazRequisicao();
-//     if (fazRequisicao.statusCode == 200){
-//       var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
-//       buscarProdutoList.then((listaProdutos) {
-//         produtoList = listaProdutos.produtosList;
-//       }).catchError((erro) {
-//         print(erro);
-//       });
-//     }
-//   }
+
+
+  Future<void> atualizarListaDeProdutos() async {
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao();
+    if (fazRequisicao.statusCode == 200){
+      var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
+      buscarProdutoList.then((listaProdutos) {
+        VariaveisGlobais.produtoList = listaProdutos.produtosList;
+      }).catchError((erro) {
+        print(erro);
+      });
+    }
+  }
 
 
   Future<http.Response> fazRequisicao() async {

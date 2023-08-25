@@ -9,11 +9,14 @@ class ObjCalculosDeOperacaoDoBackEnd {
       });
 
   ObjCalculosDeOperacaoDoBackEnd.fromJson(Map<String, dynamic> json) {
-    // vlTotal = json['vlTotal'] != null ? json['vlTotal'] : null;
-    // operacaoTotalmenteRecebida = json['operacaoTotalmenteRecebida'] != null
-    //     ? json['operacaoTotalmenteRecebida']
-    //     : null;
     vlTotal = json['vlTotal'];
     operacaoTotalmenteRecebida = json['operacaoTotalmenteRecebida'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['vlTotal'] = this.vlTotal;
+    data['operacaoTotalmenteRecebida'] = this.operacaoTotalmenteRecebida;
+    return data;
   }
 }

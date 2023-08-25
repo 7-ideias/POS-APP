@@ -7,6 +7,7 @@ import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 
 import '../app/page/pdf_create_page.dart';
 import '../desenvolvedor/desenvolvedor.dart';
+import 'operacao-nova-tela.dart';
 import 'operacao-tela.dart';
 import 'tela_index_2_operacoes.dart';
 
@@ -58,7 +59,7 @@ class _HomeState extends State<Home> {
               // '/imagensIniciais': (_) => JornadaTela(),
               // '/login': (_) => LoginPage(),
               // '/moeda': (_) => MoedaTela(),
-              // '/operacaoNova': (_) => OperacaoNova(),
+              '/operacaoNova': (_) => OperacaoNova(),
               '/operacoes': (_) => OperacaoTela(),
               '/pdf': (_) => PDFCreatePage(),
               // '/pedidos': (_) => PedidosTela(),

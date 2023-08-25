@@ -9,35 +9,44 @@ class ObjVendaEServico {
   String? idColaboradorResponsavelPeloServico;
   String? nomeColaboradorResponsavel;
 
-  ObjVendaEServico({
-    required this.id,
-     this.idCodigoProduto,
-     this.codigoDeBarras,
-     this.descricaoProduto,
-     this.qt,
-     this.vlUnitario,
-     this.vlTotal,
-     this.idColaboradorResponsavelPeloServico,
-     this.nomeColaboradorResponsavel,
-    });
+  ObjVendaEServico(
+      {
+        this.id,
+        this.idCodigoProduto,
+        this.codigoDeBarras,
+        this.descricaoProduto,
+        this.qt,
+        this.vlUnitario,
+        this.vlTotal,
+        this.idColaboradorResponsavelPeloServico,
+        this.nomeColaboradorResponsavel
+      });
 
   ObjVendaEServico.fromJson(Map<String, dynamic> json) {
-    id = json['id'] != null ? json['id'] : null;
-    idCodigoProduto =
-        json['idCodigoProduto'] != null ? json['idCodigoProduto'] : null;
-    codigoDeBarras =
-        json['codigoDeBarras'] != null ? json['codigoDeBarras'] : null;
-    descricaoProduto =
-        json['descricaoProduto'] != null ? json['descricaoProduto'] : null;
-    qt = json['qt'] != null ? json['qt'] : null;
-    vlUnitario = json['vlUnitario'] != null ? json['vlUnitario'] : null;
+    id = json['id'];
+    idCodigoProduto = json['idCodigoProduto'];
+    codigoDeBarras = json['codigoDeBarras'];
+    descricaoProduto = json['descricaoProduto'];
+    qt = json['qt'];
+    vlUnitario = json['vlUnitario'];
+    vlTotal = json['vlTotal'];
     idColaboradorResponsavelPeloServico =
-        json['idColaboradorResponsavelPeloServico'] != null
-            ? json['idColaboradorResponsavelPeloServico']
-            : null;
-    nomeColaboradorResponsavel = json['nomeColaboradorResponsavel'] != null
-        ? json['nomeColaboradorResponsavel']
-        : null;
+    json['idColaboradorResponsavelPeloServico'];
+    nomeColaboradorResponsavel = json['nomeColaboradorResponsavel'];
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['idCodigoProduto'] = this.idCodigoProduto;
+    data['codigoDeBarras'] = this.codigoDeBarras;
+    data['descricaoProduto'] = this.descricaoProduto;
+    data['qt'] = this.qt;
+    data['vlUnitario'] = this.vlUnitario;
+    data['vlTotal'] = this.vlTotal;
+    data['idColaboradorResponsavelPeloServico'] =
+        this.idColaboradorResponsavelPeloServico;
+    data['nomeColaboradorResponsavel'] = this.nomeColaboradorResponsavel;
+    return data;
+  }
 }
