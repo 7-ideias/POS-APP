@@ -49,9 +49,10 @@ class _TelaDeCarregamentoPrincipalState
       ),
       home: SplashPage(),
       routes: {
-        '/home':(_) => PrimeiroUso(),
-        // '/home': (_) => Home(),
-        '/login': (_) => NewLoginPage(),
+        // '/home':(_) => PrimeiroUso(),
+        '/home': (_) => Home(),
+        // '/login': (_) => NewLoginPage(),
+        '/login': (_) => PrimeiroUso(),
         '/agenda': (_) => AgendaTela(),
         '/ajuda': (_) => AjudaESuporteTela(),
         '/caixa': (_) => CaixaTela(),

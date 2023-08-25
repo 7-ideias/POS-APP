@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:pos_app/screens/001_login/new-login-page.dart';
  class PrimeiroUso extends StatelessWidget {
   @override
@@ -21,49 +22,62 @@ import 'package:pos_app/screens/001_login/new-login-page.dart';
                 children: [
                   Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                        },
-                        child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              spreadRadius: 4,
+                              blurRadius: 5,
+                              offset: Offset(10, 10),
                             ),
-                            child: Lottie.asset('assets/New user sign up.json',
-                            fit: BoxFit.cover,
-                            )),
+                          ],
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                          },
+                          child: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(25)),
+                              ),
+                              child: Lottie.asset('assets/New user sign up.json',
+                              fit: BoxFit.cover,
+                              )),
+                        ),
                       ),
                       const Text(textAlign: TextAlign.center,
-                        'Vou criar uma \n nova conta',
+                        'Quero criar uma \n nova conta',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      const Opacity(
-                        opacity: 0.5,
-                        child: Text(textAlign: TextAlign.center,
-                          'Descrição do título aqui',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
                     ],
-                  ),
-                  const SizedBox(
-                    width: 20,
                   ),
                   Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // Navegar para o segundo caminho
-                        },
-                        child: Lottie.asset(
-                          'assets/Relaxed Employee.json',
-                          fit: BoxFit.cover,
+                      Container(
+                        padding: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              spreadRadius: 4,
+                              blurRadius: 5,
+                              offset: Offset(10, 10),
+                            ),
+                          ],
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Navegar para o segundo caminho
+                          },
+                          child: Lottie.asset(
+                            'assets/Relaxed Employee.json',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       const Text(textAlign: TextAlign.center,
@@ -74,37 +88,34 @@ import 'package:pos_app/screens/001_login/new-login-page.dart';
                           color: Colors.white,
                         ),
                       ),
-                      const Opacity(
-                        opacity: 0.5,
-                        child: Text(textAlign: TextAlign.center,
-                          'Descrição do título aqui',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+
                     ],
                   ),
                   Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            PageRouteBuilder(
-                              transitionDuration: const Duration(milliseconds: 800),
-                              pageBuilder: (_, __, ___) => const NewLoginPage(),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                return ScaleTransition(
-                                  scale: animation,
-                                  child: child,
-                                );
-                              },
+                      Container(
+                        padding: EdgeInsets.only(bottom: 10),
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              spreadRadius: 4,
+                              blurRadius: 5,
+                              offset: Offset(10, 10),
                             ),
-                          );
-                        },
-                        child: Lottie.asset('assets/User Interface.json'),
+                          ],
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context, 
+                              PageTransition(child: NewLoginPage(), type: PageTransitionType.fade,
+                                duration: Duration(microseconds: 200),
+                              ),
+                            );
+                          },
+                          child: Lottie.asset('assets/User Interface.json'),
+                        ),
                       ),
                       const Text(textAlign: TextAlign.center,
                         'Já possuo conta, quero entrar',
@@ -112,16 +123,6 @@ import 'package:pos_app/screens/001_login/new-login-page.dart';
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                        ),
-                      ),
-                      const Opacity(
-                        opacity: 0.5,
-                        child: Text(textAlign: TextAlign.center,
-                          'Descrição do título aqui',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.white,
-                          ),
                         ),
                       ),
                     ],

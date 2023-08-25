@@ -76,7 +76,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
               key: formKey,
               onTap: (){
                 showCountryPicker(
-                  favorite: ['BR'],
+                  favorite: ['BR', 'US'],
                   context: context,
                   showPhoneCode: true,
                   onSelect: (Country country) {
