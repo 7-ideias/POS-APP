@@ -4,6 +4,7 @@ import 'package:pos_app/screens/001_EsqueceuSenha/recuperando-senha.dart';
 import 'package:pos_app/screens/001_login/valida-user-page.dart';
 import 'package:http/http.dart' as http;
 import 'package:validatorless/validatorless.dart';
+import 'package:country_picker/country_picker.dart';
 
 class NewLoginPage extends StatefulWidget {
   const NewLoginPage({super.key});
@@ -17,6 +18,9 @@ class _NewLoginPageState extends State<NewLoginPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController celularController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
+
+  String countryCode = '';
+
   @override
   Widget build(BuildContext context) {
     void _validateFields() {
@@ -24,7 +28,6 @@ class _NewLoginPageState extends State<NewLoginPage> {
         context,
         MaterialPageRoute(
           builder: (context) => ValidaPage(
-
               celular: celularController.text, senha: senhaController.text),
         ),
       );
@@ -51,6 +54,7 @@ class _NewLoginPageState extends State<NewLoginPage> {
               height: 135,
             ),
             TextFormField(
+              controller: celularController,
               validator: Validatorless.multiple([
                 Validatorless.number("Insira somente numeros"),
                 Validatorless.regex(RegExp(r'^\d{11}$'), "Número de celular inválido")
@@ -67,6 +71,19 @@ class _NewLoginPageState extends State<NewLoginPage> {
                 color: Colors.white,
               ),
               key: formKey,
+              onTap: (){
+                showCountryPicker(
+                  favorite: ['BR'],
+                  context: context,
+                  showPhoneCode: true,
+                  onSelect: (Country country) {
+                    setState(() {
+                      countryCode = '+${country.phoneCode}';
+                      celularController.text = countryCode.toString();
+                    });
+                  },
+                );
+              },
             ),
             Container(
               alignment: Alignment.centerRight,
