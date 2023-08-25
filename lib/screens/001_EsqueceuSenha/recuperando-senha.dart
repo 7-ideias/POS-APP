@@ -26,11 +26,12 @@ class _RecuperandoSenhaState extends State<RecuperandoSenha> {
     String endpoint = '$heroku+55$celular';
 
     http.get(Uri.parse(endpoint)).then((response) {
-      if (response.statusCode == 200) {
+      if (response.statusCode == 202) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => RecuperacaoSenhaConfirmacao(celular)),
         );
+        print("Deu bom: ${response.statusCode}");
       } else {
         // Requisição falhou, lide com o erro aqui
         print("Erro na requisição: ${response.statusCode}");
@@ -111,10 +112,10 @@ class _RecuperandoSenhaState extends State<RecuperandoSenha> {
                   onPressed: () {
                     formKey.currentState?.validate();
                     enviar(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RecuperacaoSenhaConfirmacao(numeroCelular)),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => RecuperacaoSenhaConfirmacao(numeroCelular)),
+                    // );
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),

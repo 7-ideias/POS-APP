@@ -55,14 +55,11 @@ class _RecuperacaoSenhaConfirmacaoState
           context,
           MaterialPageRoute(builder: (context) => NovaSenhaPage(numeroCelular)),
         );
-        // Requisição bem-sucedida, faça algo com a resposta aqui
         print(response.body);
       } else {
-        // Requisição falhou, lide com o erro aqui
         print("Erro na requisição: ${response.statusCode}");
       }
     }).catchError((error) {
-      // Erro ao fazer a requisição, lide com o erro aqui
       print("Erro: $error");
     });
   }
@@ -136,11 +133,6 @@ class _RecuperacaoSenhaConfirmacaoState
               ),
               onPressed: () {
                 enviar(context);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => NovaSenhaPage(numeroCelular)),
-                // );
-
               },
               child: const Text(
                 style: TextStyle(
