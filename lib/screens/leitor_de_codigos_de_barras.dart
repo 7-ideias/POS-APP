@@ -4,11 +4,9 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Leitor extends StatefulWidget {
   const Leitor({Key? key}) : super(key: key);
-
   @override
   State<Leitor> createState() => _LeitorState();
 }
-
 class _LeitorState extends State<Leitor> {
 
   String result = '';
