@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/controller/idioma_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../screens/idioma-tela.dart';
 import '../service/info-user-service.dart';
 import 'VariaveisGlobais.dart';
 
@@ -54,12 +56,14 @@ class _MenuLateralState extends State<MenuLateral> {
                           String? jsonString = prefs.getString(
                               VariaveisGlobais.PREFERENCIASDOUSUARIO);
                           if (jsonString != null) {
-                            prefs
-                                .remove(VariaveisGlobais.PREFERENCIASDOUSUARIO);
+                            prefs.remove(VariaveisGlobais.PREFERENCIASDOUSUARIO);
                             setState(() {
                               infoUserService();
                             });
-                            Navigator.pushReplacementNamed(context, '/idioma');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => IdiomaTela()),
+                            );
                           }
                         },
                       ),

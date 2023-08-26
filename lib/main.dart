@@ -61,10 +61,10 @@ class _TelaDeCarregamentoPrincipalState
             debugShowCheckedModeBanner: false,
             theme: AppController.instance.buildThemeData(),
             home: buildScaffold(),
-            // routes: {
-            //   '/login': (_) => LoginPage(),
-            //   '/home': (_) => Home(),
-            // },
+            routes: {
+              '/login': (_) => LoginPage(),
+              '/home': (_) => Home(),
+            },
           );
         }
     );

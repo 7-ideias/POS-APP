@@ -7,6 +7,7 @@ import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 
 import '../app/page/pdf_create_page.dart';
 import '../desenvolvedor/desenvolvedor.dart';
+import 'idioma-tela.dart';
 import 'login-tela.dart';
 import 'operacao-nova-tela.dart';
 import 'operacao-tela.dart';
@@ -56,7 +57,7 @@ class _HomeState extends State<Home> {
               // '/esqueceuSenhaInformarSMS': (_) => EsqueceuSenhaDigitarSmsTela(),
               // // '/financeiro': (_) => CadastrosTela(),
               // '/home': (_) => Home(),
-              // '/idioma': (_) => IdiomaTela(),
+              '/idioma': (_) => IdiomaTela(),
               // '/imagensIniciais': (_) => JornadaTela(),
               // '/login': (_) => LoginPage(),
               // '/moeda': (_) => MoedaTela(),

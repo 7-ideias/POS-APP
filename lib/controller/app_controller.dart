@@ -5,7 +5,7 @@ import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 class AppController extends ChangeNotifier {
   static AppController instance = AppController();
 
-  bool isDartTheme = true;
+  bool isDartTheme = false;
   var botaoTamanhoLetras = 20.0;
 
   //cores de ambiente
