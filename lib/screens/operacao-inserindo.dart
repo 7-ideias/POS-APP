@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pos_app/dtos/produto-dto.dart';
 import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
@@ -30,8 +31,9 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   bool _isAcheiProduto = false;
 
   int _contador = 1;
+  double vlTotalMultiplicado = 0.00;
 
-  bool verEstoque = false;
+  bool verEstoque = true;
   bool jaTemUmProduto = false;
 
   ObjVendaEServico objVendaEServico = ObjVendaEServico(
@@ -45,6 +47,12 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     idColaboradorResponsavelPeloServico: '',
     nomeColaboradorResponsavel: '',
   );
+
+  @override
+  void initState() {
+    calcularPrecoTotalMultiplicado();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +122,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     // leitor de codigo
                     GestureDetector(
                         onTap: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Leitor()),
-                          );
+                          scan();
                         },
                         child: Container(width: 70,height: 70,
                         child: Icon(Icons.qr_code_2,size: 50,),))
@@ -150,16 +155,18 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                           setState(() {
                             _contador <= 1 ? _contador : _contador = _contador-10;
                             print(_contador);
+                            calcularPrecoTotalMultiplicado();
                           });
                         },
                         onTap: (){
                           setState(() {
                             _contador <= 1 ? _contador : _contador--;
                             print(_contador);
+                            calcularPrecoTotalMultiplicado();
                           });
                         },
                         child: CircleAvatar(
-                          maxRadius: 50,
+                          maxRadius: 30,
                           child: Text('-',style: TextStyle(fontSize: 30)),
                         ),
                       ),
@@ -181,16 +188,18 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                           setState(() {
                             _contador = _contador+10;
                             print(_contador);
+                            calcularPrecoTotalMultiplicado();
                           });
                         },
                         onTap: (){
                           setState(() {
                             _contador++;
                             print(_contador);
+                            calcularPrecoTotalMultiplicado();
                           });
                         },
                         child: CircleAvatar(
-                          maxRadius: 50,
+                          maxRadius: 30,
                           child: Text('+',style: TextStyle(fontSize: 30)),
                         ),
                       ),
@@ -198,6 +207,91 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                   ],
                 ): Container(),
                 SizedBox(height: 10.0),
+
+                jaTemUmProduto == true ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        border:  Border.all(
+                        )
+                    ),
+                    child: Column(
+                      children: [
+                        Text('preços'),
+                        Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: //custo
+                               Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'não deixe isso vazio';
+                                    }
+                                    return null;
+                                  },
+                                  controller: _vlUnitario,
+                                  // enabled: editar,
+                                  keyboardType:
+                                  TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                                  ],
+                                  decoration: buildInputDecoration('preço unitário'),
+                                ),
+                              ) ,
+                            ),
+                            Spacer(),
+                            //valor da venda
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child:
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'não deixe isso vazio';
+                                    }
+                                    return null;
+                                  },
+                                  controller: TextEditingController(text: vlTotalMultiplicado.toString()),
+                                  // enabled: editar,
+                                  keyboardType:
+                                  TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                                  ],
+                                  decoration: buildInputDecoration('preço total'),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ): Container(),
+
+                SizedBox(height: 10.0),
+
+                //_vlUnitario
+                // jaTemUmProduto == true ? Container(
+                //   width: MediaQuery.of(context).size.width * 0.4,
+                //   child:
+                //   Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child : UtilsWidgets.textFormField(false,true,18,'não deixe isso vazio', _vlUnitario,
+                //         TextInputType.numberWithOptions(decimal: true), 'preço unitário',VariaveisGlobais.moeda, TextDirection.ltr),
+                //   ),
+                // ): Container(),
+                // SizedBox(height: 16.0),
+
                 //estoque
                 jaTemUmProduto == true ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -225,17 +319,8 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                   ],
                 ): Container(),
                 SizedBox(height: 10.0),
-                //_vlUnitario
-                jaTemUmProduto == true ? Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child:
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child : UtilsWidgets.textFormField(false,true,18,'não deixe isso vazio', _vlUnitario,
-                        TextInputType.numberWithOptions(decimal: true), 'preço',VariaveisGlobais.moeda, TextDirection.ltr),
-                  ),
-                ): Container(),
-                SizedBox(height: 16.0),
+
+
                 //botao confirmar
                 jaTemUmProduto == true ? GestureDetector(
                   onTap: (){
@@ -286,6 +371,30 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     );
   }
 
+  void calcularPrecoTotalMultiplicado(){
+    var resultado = 0.00;
+    try{
+      resultado = double.parse(_contador.toString()) * double.parse(_vlUnitario.text);
+    }catch(ex){
+
+    }
+    setState(() {
+      vlTotalMultiplicado = resultado;
+    });
+  }
+
+  InputDecoration buildInputDecoration(String texto) {
+    return InputDecoration(
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      enabledBorder:
+      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      focusedBorder:
+      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      labelText: texto,
+
+    );
+  }
+
    void  buscaDigitando(String idProdutoABuscar) {
 
       var produtoList = VariaveisGlobais.produtoList;
@@ -320,5 +429,19 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     });
   }
 
+  Future<void> scan() async {
+    String barCode;
+    try {
+      barCode = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'cancelar', true, ScanMode.BARCODE);
+    } on PlatformException {
+      barCode = 'falhou';
+    }
+    if (!mounted) return;
+    setState(() {
+      _codigoProduto = TextEditingController(text: barCode);
+      buscaDigitando(barCode);
+    });
+  }
 
 }

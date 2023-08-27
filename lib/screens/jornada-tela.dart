@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 class JornadaTela extends StatefulWidget {

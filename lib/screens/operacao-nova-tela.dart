@@ -39,7 +39,7 @@ bool carregando = true;
     (_isLoading == true && confirmacaoDeSucessoNaAPI == true ? TelaInteira().sucesso():
     TelaInteira().widgetDeLoadingPadraoDoApp()):Scaffold(
       appBar: AppBar(),
-      body: Column(
+      body: objVendaEServicoList.length > 0 ?Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           //card
@@ -90,7 +90,7 @@ bool carregando = true;
                 },
               )),
         ],
-      ),
+      ):Container(child: Center(child: Text('nada ainda'),),),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -213,8 +213,8 @@ bool carregando = true;
       "servicoList": [
         {
           "idCodigoProduto": "e098ab9b06aa48149a0f34ca5c95d4cc",
-          "codigoDeBarras": "ssssssssssss",
-          "descricaoProduto": "ssssssssssss",
+          "codigoDeBarras": "ISSO EH SEMPRE CALCULADO DEPOIS PELO BACKEND",
+          "descricaoProduto": "ISSO EH SEMPRE CALCULADO DEPOIS PELO BACKEND",
           "qt": 10.55,
           "vlUnitario": "15.22",
           "vlTotal": "150.22",

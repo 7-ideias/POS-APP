@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
+import 'package:pos_app/screens/esqueceu-senha-tela.dart';
 import 'package:pos_app/screens/idioma-tela.dart';
 import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/service/NotificationService.dart';
@@ -62,6 +63,7 @@ class _TelaDeCarregamentoPrincipalState
             theme: AppController.instance.buildThemeData(),
             home: buildScaffold(),
             routes: {
+            //   '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
               '/login': (_) => LoginPage(),
               '/home': (_) => Home(),
             },

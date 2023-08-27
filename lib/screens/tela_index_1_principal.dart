@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/shake-icon.dart';
+import '../controller/operacao-controller.dart';
 import '../utilitarios/Donut.dart';
 import '../utilitarios/MenuLateral.dart';
 import '../utilitarios/VariaveisGlobais.dart';
@@ -17,12 +18,15 @@ class _Index1TelaState extends State<Index1Tela>
   bool _isExpanded = false;
   final GlobalKey keyContainer = GlobalKey();
 
+  String numeroDeVendas = '0';
+
   @override
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
+    atualizarParametrosDaTela();
     super.initState();
   }
 
@@ -35,7 +39,6 @@ class _Index1TelaState extends State<Index1Tela>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppController.instance.corTelaFundo,
       appBar: buildAppBar(context),
       drawer: MenuLateral(context),
       floatingActionButton: Column(
@@ -45,8 +48,10 @@ class _Index1TelaState extends State<Index1Tela>
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
-                child: Icon(Icons.refresh),
-                onPressed: () {},
+                child: const Icon(Icons.refresh),
+                onPressed: () {
+                    atualizarParametrosDaTela();
+                },
               ),
             ],
           ),
@@ -57,7 +62,6 @@ class _Index1TelaState extends State<Index1Tela>
           children: [
             Container(
               key: keyContainer,
-              color: AppController.instance.corTelaFundo,
               alignment: Alignment.center,
               height: MediaQuery.of(context).size.height * 0.35,
               child: Container(
@@ -68,7 +72,7 @@ class _Index1TelaState extends State<Index1Tela>
                       SizedBox(height: 20),
                       Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SizedBox(width: 20),
@@ -123,7 +127,7 @@ class _Index1TelaState extends State<Index1Tela>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('operacoes do dia R\$ 1000,88',style: TextStyle(fontSize: 18),),
-                                Text('vendas - 2',style: TextStyle(fontSize: 18),),
+                                Text('vendas - '+ numeroDeVendas,style: TextStyle(fontSize: 18),),
                                 Text('servicos - 3',style: TextStyle(fontSize: 18),),
                               ],
                             ),
@@ -251,8 +255,13 @@ class _Index1TelaState extends State<Index1Tela>
     );
   }
 
+  Future<void> atualizarParametrosDaTela() async {
+    await OperacaoController().atualizarOperacoes();
+    setState(() {
+      numeroDeVendas =   VariaveisGlobais.operacoesBackEnd.quantidadeDeOps.toString();
+    });
+  }
 
-  double height() => 30;
 }
 
 Table ResumoTable() {

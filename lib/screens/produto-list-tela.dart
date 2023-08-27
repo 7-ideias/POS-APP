@@ -55,7 +55,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         title: Center(child: Text('Produtos')),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -100,7 +100,9 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                     produtoList = listagem
                         .where((produto) => produto.nomeProduto
                             .toLowerCase()
-                            .contains(value.toLowerCase()))
+                            .contains(value.toLowerCase()) || produto.codigoDeBarras
+                        .toLowerCase()
+                        .contains(value.toLowerCase()))
                         .toList();
                   });
                 },
@@ -130,15 +132,21 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                   maxRadius: 30,
                                   child: Icon(Icons.question_mark),
                                 ),
-                                title: Text(produtoList[index].codigoDeBarras +" - "+ produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
+                                title: Text(produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
 
-                                subtitle: Row(
+                                subtitle: Column(
                                   children: [
-                                    Text("estoque atual.: ${produtoList[index]
-                                            .objCalculosDeProdutoDoBackEnd
-                                            .qtNoEstoque}",style: TextStyle(fontSize: 13)),
-                                    Text(" - preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
-                                        style: TextStyle(fontSize: 13)),
+                                    Row(children: [Text('código.: '+produtoList[index].codigoDeBarras)],),
+                                    Row(
+                                      children: [
+                                        Text("estoque atual.: ${produtoList[index]
+                                                .objCalculosDeProdutoDoBackEnd
+                                                .qtNoEstoque}",style: TextStyle(fontSize: 13)),
+                                        Text(" - preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
+                                            style: TextStyle(fontSize: 13)),
+                                      ],
+                                    ),
+
                                   ],
                                 ),
                                 // tileColor: produtoList[index]
@@ -209,6 +217,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       //     FloatingActionButton(onPressed: getProdutoList,child: Icon(Icons.refresh),)
       //   ],
       // ),
+
     );
   }
 
@@ -287,6 +296,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                         child: Text('Confirmar'),
                         onPressed: () async {
                           excluirProdutoPorID(produtoList[index].id);
+                          Navigator.of(context).pop();
                         },
                       ),
                     ],

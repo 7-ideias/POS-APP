@@ -9,6 +9,8 @@ import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'home-tela.dart';
+
 class ValidaPage extends StatefulWidget {
   final String celular;
   final String senha;
@@ -58,7 +60,8 @@ class _ValidaPageState extends State<ValidaPage> {
         });
 
         Timer(Duration(seconds: 3), () {
-          Navigator.pushReplacementNamed(context, '/home');
+          // Navigator.pushReplacementNamed(context, '/home');
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Home()),(Route<dynamic> route) => false);
         });
       } else {
         setState(() {

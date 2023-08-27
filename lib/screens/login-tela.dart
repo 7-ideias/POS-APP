@@ -331,7 +331,6 @@ class _LoginPageState extends State<LoginPage> {
       //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
       exclude: <String>['KN', 'MF'],
       favorite: <String>['BR'],
-      //Optional. Shows phone code before the country name.
       showPhoneCode: true,
       onSelect: (Country country) {
         print(country.phoneCode);
@@ -365,4 +364,5 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
 }

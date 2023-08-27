@@ -48,4 +48,5 @@ class _LeitorState extends State<Leitor> {
       result = barCode;
     });
   }
+
 }

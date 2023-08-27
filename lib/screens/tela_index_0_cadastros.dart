@@ -25,7 +25,6 @@ class _Index0TelaState extends State<Index0Tela> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
-            color: AppController.instance.corTelaFundo,
             child: Column(
               children: [
                 Padding(
@@ -45,14 +44,13 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
-                            color: AppController.instance.corTelaAcima,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
                                 child: Text(
                               'produtos',
                               style: TextStyle(
-                                  fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                  fontSize: tamanhoDaFonte ),
                             )),
                           ),
                         ),
@@ -68,14 +66,13 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
-                            color: AppController.instance.corTelaAcima,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
                                 child: Text(
                                   'clientes',
                                   style: TextStyle(
-                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                    fontSize: tamanhoDaFonte ),
                                 )),
                           ),
                         ),
@@ -91,14 +88,13 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
-                            color: AppController.instance.corTelaAcima,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
                                 child: Text(
                                   'colaboradores',
                                   style: TextStyle(
-                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                    fontSize: tamanhoDaFonte ),
                                 )),
                           ),
                         ),
@@ -114,14 +110,13 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
-                            color: AppController.instance.corTelaAcima,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
                                 child: Text(
                                   'relatorios',
                                   style: TextStyle(
-                                    fontSize: tamanhoDaFonte, color: AppController.instance.corLetras,),
+                                    fontSize: tamanhoDaFonte ),
                                 )),
                           ),
                         ),
