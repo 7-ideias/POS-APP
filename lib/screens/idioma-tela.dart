@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_app/main.dart';
+import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import '../controller/idioma_controller.dart';
 import '../utilitarios/VariaveisGlobais.dart';
@@ -37,6 +38,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
                   fazerRequisicao('pt-br');
                 },
                 child: SizedBox(

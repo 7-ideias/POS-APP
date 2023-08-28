@@ -7,7 +7,7 @@ class MyBarGraph extends StatelessWidget {
 
   Widget tituloInferior(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Colors.black,
+      color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
