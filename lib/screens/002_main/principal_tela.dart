@@ -25,6 +25,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     88.99,
     90.10,
   ];
+
   void atualizarArrayCustos() {
     List<double> novoArray = [
       60.50,
@@ -37,6 +38,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   void atualizarArrayVendas() {
     List<double> novoArray = [
       4.0,
@@ -49,6 +51,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   void atualizarArrayEstoque() {
     List<double> novoArray = [
       170.0,
@@ -61,6 +64,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   void atualizarArrayCaixa() {
     List<double> novoArray = [
       80.0,
@@ -73,6 +77,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   void atualizarArrayPagamento() {
     List<double> novoArray = [
       80.0,
@@ -85,6 +90,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   void atualizarArrayReceber() {
     List<double> novoArray = [
       100.0,
@@ -97,6 +103,7 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   void atualizarArrayTendencias() {
     List<double> novoArray = [
       40.0,
@@ -109,11 +116,11 @@ class _PrincipalTelaState extends State<PrincipalTela>
     ];
     diasSemana = novoArray;
   }
+
   late AnimationController _animationController;
   bool _isExpanded = false;
   final GlobalKey keyContainer = GlobalKey();
   String opcaoSelecionada = 'Vendas';
-
 
   @override
   void initState() {
@@ -453,8 +460,11 @@ class _PrincipalTelaState extends State<PrincipalTela>
                           Center(
                             child: Container(
                               width: MediaQuery.of(context).size.width * 1,
-                              height: MediaQuery.of(context).size.height * 0.293,
-                              child: MyBarGraph(diasSemana: diasSemana,),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.293,
+                              child: MyBarGraph(
+                                diasSemana: diasSemana,
+                              ),
                             ),
                           ),
                         ],
@@ -471,24 +481,43 @@ class _PrincipalTelaState extends State<PrincipalTela>
             ? Container()
             : Card(
                 color: AppController.instance.corTelaAcima,
-                child: Column(
+                child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('DIA',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: AppController.instance.corLetras,
-                          )),
+                      padding: const EdgeInsets.only(top: 25.0),
+                      child: Donut(context),
                     ),
-                    Donut(context),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 10, right: 10, bottom: 20),
-                      child: ResumoTable(),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('DIA',
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: AppController.instance.corLetras,
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 115.0),
+                          child: Text( 'total aqui',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 170, left: 10, right: 10, bottom: 20),
+                          child: ResumoTable(),
+                        ),
+                      ],
                     ),
                   ],
-                )),
+                ),
+              ),
         _isExpanded
             ? Container()
             : Card(

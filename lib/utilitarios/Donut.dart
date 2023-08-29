@@ -14,10 +14,6 @@ class Donut extends StatelessWidget {
       ChartData('Jack', 34, const Color.fromRGBO(228, 0, 124, 1)),
       ChartData('Others', 52, const Color.fromRGBO(255, 189, 57, 1))
     ];
-    // final List<Color> coresIndex = [
-    //   chartData.last.color
-    // ];
-
     return Container(
       child: SfCircularChart(
         series: <CircularSeries>[
