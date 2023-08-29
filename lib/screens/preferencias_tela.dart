@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ConfiguracoesTela extends StatefulWidget {
+class PreferenciasTela extends StatefulWidget {
 
   @override
-  State<ConfiguracoesTela> createState() => _ConfiguracoesTelaState();
+  State<PreferenciasTela> createState() => _PreferenciasTelaState();
 }
 
-class _ConfiguracoesTelaState extends State<ConfiguracoesTela> {
+class _PreferenciasTelaState extends State<PreferenciasTela> {
 
   bool detalhes = false;
 
@@ -112,6 +112,37 @@ class _ConfiguracoesTelaState extends State<ConfiguracoesTela> {
                   ),
                 ),
                 mostrarDetalhes('com essa acao voce podera fazer ordens de serviço. Voce ainda poderá limitar o colaborador que podera bla bla '),
+              SizedBox(height: 30),
+
+      ExpansionPanelList(
+        expansionCallback: (int index, bool isExpanded) {},
+        children: [
+          ExpansionPanel(
+            headerBuilder: (BuildContext context, bool isExpanded) {
+              return ListTile(
+                title: Text('Item 1'),
+              );
+            },
+            body: ListTile(
+              title: Text('Item 1 child'),
+              subtitle: Text('Details goes here'),
+            ),
+            isExpanded: true,
+          ),
+          ExpansionPanel(
+            headerBuilder: (BuildContext context, bool isExpanded) {
+              return ListTile(
+                title: Text('Item 2'),
+              );
+            },
+            body: ListTile(
+              title: Text('Item 2 child'),
+              subtitle: Text('Details goes here'),
+            ),
+            isExpanded: false,
+          ),
+        ],
+      )
               ],
             ),
           ),

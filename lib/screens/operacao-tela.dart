@@ -1,11 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/controller/operacao-controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
-import '../utilitarios/utils.dart';
 
 class OperacaoTela extends StatefulWidget {
   const OperacaoTela({Key? key}) : super(key: key);
@@ -44,6 +41,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Center(child: Text('Operações'),)),
       // bottomNavigationBar: BottomNavigationBar(
       //   currentIndex: _selectedIndex,
       //   onTap: _onItemTapped,
@@ -59,7 +57,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
       //   ],
       // ),
       body: isLoading == true ?  TelaInteira().widgetDeLoadingPadraoDoApp():
-      VariaveisGlobais.operacoesBackEnd.ops!.isEmpty ? naoTemOperacoes():temOperacoes(context),
+      VariaveisGlobais.operacoesBackEnd.ops == null ? naoTemOperacoes():temOperacoes(context),
 
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -185,23 +183,24 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     leading: CircleAvatar(
                       child: Text((index+1).toString()),
                     ),
-                    title: Text(VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao.toString()),
-                    subtitle: Row(
+                    title: Text('${VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
+                    subtitle: Column(
                       children: [
-                        Column(
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Icon(Icons.circle,color: Colors.red,),
-                                Text(' NAO RECEBIDO'),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.circle,color: Colors.blue,),
-                                Text(' NAO RECEBIDO'),
-                              ],
-                            ),
+                            Text(VariaveisGlobais.moeda+VariaveisGlobais.operacoesBackEnd.ops![index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString()),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.circle,color: Colors.red,),
+                            Text(VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true? 'ARRUMAR':'ARRUMAR'),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.circle,color: Colors.blue,),
+                            Text(' NAO RECEBIDO'),
                           ],
                         ),
                       ],
@@ -215,69 +214,6 @@ class _OperacaoTelaState extends State<OperacaoTela> {
         )
       ],
     );
-  }
-
-  Stack getOperacoesModeloCarrousel(BuildContext context) {
-    return Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.6, width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                color: AppController.instance.buildThemeData().dialogBackgroundColor,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30))
-            ),
-          ),
-          Positioned(
-              top: 20,
-              child: ElevatedButton(onPressed: (){}, child: Text('enviar para o caixa'))),
-          Positioned(
-            child: SizedBox(
-              height: 400,
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  disableCenter: true,
-                ),
-                items: VariaveisGlobais.operacoesBackEnd.ops
-                    ?.map((item) =>
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:
-                      Container(
-                        height: 300,
-                        color: AppController.instance.buildThemeData().primaryColor,
-                        child: Stack(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: Text('1692995990',style: TextStyle(color: Colors.red,fontSize: 30))),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(60.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(item.objCalculosDeOperacaoDoBackEnd!.vlTotal.toString()),
-                                  Text('valor'+Utils.formataParaMoeda(item.objCalculosDeOperacaoDoBackEnd!.vlTotal)),
-                                  Text('itens de venda.: X'),
-                                  Text('itens de servico.: X'),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                )
-                    .toList(),
-              ),
-            ),
-          ),
-        ],
-      );
   }
 
   ActionPane esquerdaDireitaPane(int index) {

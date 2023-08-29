@@ -521,10 +521,11 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
                       SizedBox(height: 30),
 
-                      edicaoDeProdutoAtivo == false ? Container() : botoesSalvarECancelar(context),
+                      if(edicaoDeProdutoAtivo == true) botoesSalvarECancelar(context),
 
-                      SizedBox(height: 30)
+                      SizedBox(height: 30),
 
+                      if (widget.idProduto != VariaveisGlobais.NOVO_PRODUTO) getLogs(),
                     ],
                   ),
               ),
@@ -533,6 +534,19 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     );
   }
 
+  //TODO FAZER A IMPLEMENTACAO DOS LOGS
+  Widget getLogs(){
+    return Container(child: Column(children: [
+      Text('logs do produto'),
+      // ListView.builder(scrollDirection: Axis.vertical,
+      //     shrinkWrap: true,
+      //     itemCount: produtoModelo.LOGS AINDA NAO EXISTEM,
+      //     itemBuilder: (context, index) {
+      //
+      //     }
+      // ),
+    ],),);
+  }
 
   Widget botoesSalvarECancelar(BuildContext context) {
     print(_vlDeVenda.text);

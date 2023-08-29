@@ -2,8 +2,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
-import 'package:pos_app/screens/tela_index_1_principal.dart';
 import 'package:pos_app/screens/tela_index_0_cadastros.dart';
+import 'package:pos_app/screens/tela_index_1_principal.dart';
 
 import '../app/page/pdf_create_page.dart';
 import '../desenvolvedor/desenvolvedor.dart';
@@ -87,29 +87,26 @@ class _HomeState extends State<Home> {
   }
 
   CurvedNavigationBar buildCurvedNavigationBar() {
+    var tamanhoDoIcone = 35.0;
     return CurvedNavigationBar(
       // color: Colors.white10,
       index: 1,
-      backgroundColor: _page == 0
-          ? AppController.instance.corTelaFundo
-          : _page == 1
-          ? AppController.instance.corTelaFundo
-          : AppController.instance.corTelaFundo,
+      backgroundColor: AppController.instance.buildThemeData().primaryColorDark,
       key: _bottomNavigationKey,
       items: <Widget>[
         SizedBox(
-          height: 60,
-          width: 60,
+          height: tamanhoDoIcone,
+          width: tamanhoDoIcone,
           child: Lottie.asset('assets/cadastros.json', fit: BoxFit.contain),
         ),
         SizedBox(
-          height: 60,
-          width: 60,
+          height: tamanhoDoIcone,
+          width: tamanhoDoIcone,
           child: Lottie.asset('assets/home_icon.json', fit: BoxFit.contain),
         ),
         SizedBox(
-          height: 60,
-          width: 60,
+          height: tamanhoDoIcone,
+          width: tamanhoDoIcone,
           child: Lottie.asset('assets/sell-in.json', fit: BoxFit.contain),
         ),
       ],

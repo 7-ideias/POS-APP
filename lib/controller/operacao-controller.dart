@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:pos_app/dtos/operacao-dto-list.dart';
-import 'package:pos_app/dtos/operacao-dto.dart';
 
 import '../dtos/operacao-dto-nova.dart';
 import '../utilitarios/VariaveisGlobais.dart';
@@ -28,7 +26,8 @@ class OperacaoController {
       var result = OperacaoController().buscarProdutoList(fazRequisicao);
       result.then((value) => VariaveisGlobais.operacoesBackEnd = value);
     }else{
-      VariaveisGlobais.operacoesBackEnd.ops?.clear();
+      // VariaveisGlobais.operacoesBackEnd.ops?.clear();
+      VariaveisGlobais.operacoesBackEnd.ops = null;
     }
   }
 
@@ -38,7 +37,7 @@ class OperacaoController {
     return responseModel;
   }
 
-  Future<void> excluirOperacaoPorID (String id) async {
+  Future<http.Response> excluirOperacaoPorID (String id) async {
     var url = '${VariaveisGlobais.endPoint}/operacao/apagar/' + id;
     String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
     var headers = {
@@ -47,6 +46,7 @@ class OperacaoController {
       'idColaborador': idDeQuemEstaCadastrando
     };
     var response = await http.delete(Uri.parse(url), headers: headers);
+    return response;
   }
 
 }

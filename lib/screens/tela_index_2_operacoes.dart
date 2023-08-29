@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 import '../controller/app_controller.dart';
 import '../utilitarios/MenuLateral.dart';
@@ -21,6 +20,7 @@ class _Index2TelaState extends State<Index2Tela> {
     var larguraTela = 0.9;
     var tamanhoDaFonte = 22.0;
     return Scaffold(
+      backgroundColor: AppController.instance.buildThemeData().primaryColorDark,
       appBar: buildAppBar(context),
       drawer: MenuLateral(context),
         body: SingleChildScrollView(
@@ -67,10 +67,13 @@ class _Index2TelaState extends State<Index2Tela> {
                           height: MediaQuery.of(context).size.width * 0.4,
                           width: MediaQuery.of(context).size.width * larguraTela/2,
                           child: Center(
-                              child: Text(
-                                'vendas/servicos ',
-                                style: TextStyle(
-                                  fontSize: tamanhoDaFonte, ),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'vendas/servicos ',
+                                  style: TextStyle(
+                                    fontSize: tamanhoDaFonte)
+                                ),
                               )),
                         ),
                       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
-import 'package:pos_app/utilitarios/shake-icon.dart';
+
 import '../controller/operacao-controller.dart';
 import '../utilitarios/Donut.dart';
 import '../utilitarios/MenuLateral.dart';
@@ -19,6 +19,10 @@ class _Index1TelaState extends State<Index1Tela>
   final GlobalKey keyContainer = GlobalKey();
 
   String numeroDeVendas = '0';
+
+  bool mostrarOpcoes = false;
+
+  double espacoEntreOsFloatings = 20.0;
 
   @override
   void initState() {
@@ -39,12 +43,44 @@ class _Index1TelaState extends State<Index1Tela>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppController.instance.buildThemeData().primaryColorDark,
       appBar: buildAppBar(context),
       drawer: MenuLateral(context),
       floatingActionButton: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+
+          mostrarOpcoes == true ? FloatingActionButton.extended(
+
+            backgroundColor: Colors.green,
+            onPressed: () async {
+
+            },
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add),
+                Text('nova venda/serviço' ),
+              ],
+            ),
+          ):Container(),
+          SizedBox(height: espacoEntreOsFloatings),
           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                child: Icon(mostrarOpcoes == true ? Icons.minimize_outlined: Icons.add),
+                onPressed: () {
+                   setState(() {
+                     mostrarOpcoes = !mostrarOpcoes;
+                   });
+                },
+              ),
+            ],
+          ),
+          SizedBox(height: espacoEntreOsFloatings),
+          if(mostrarOpcoes==false)Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               FloatingActionButton(
@@ -57,7 +93,7 @@ class _Index1TelaState extends State<Index1Tela>
           ),
         ],
       ),
-      body: ListView(children: [
+      body: mostrarOpcoes == true?  Container() :ListView(children: [
         Stack(
           children: [
             Container(

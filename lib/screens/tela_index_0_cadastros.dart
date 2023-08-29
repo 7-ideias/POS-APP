@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pos_app/screens/preferencias_tela.dart';
 import 'package:pos_app/screens/produto-list-tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
 
@@ -21,6 +22,7 @@ class _Index0TelaState extends State<Index0Tela> {
     return Scaffold(
       appBar: buildAppBar(context),
       drawer: MenuLateral(context),
+      backgroundColor: AppController.instance.buildThemeData().primaryColorDark,
       body: ListView(
         children: [
           Container(
@@ -117,6 +119,27 @@ class _Index0TelaState extends State<Index0Tela> {
                                   'relatorios',
                                   style: TextStyle(
                                     fontSize: tamanhoDaFonte ),
+                                )),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PreferenciasTela()),
+                          );
+                        },
+                        child: Card(
+                          elevation: 10,
+                          child: Container(
+                            height: MediaQuery.of(context).size.width * 0.4,
+                            width: MediaQuery.of(context).size.width * larguraTela/2,
+                            child: Center(
+                                child: Text(
+                                  'preferencias',
+                                  style: TextStyle(
+                                      fontSize: tamanhoDaFonte ),
                                 )),
                           ),
                         ),

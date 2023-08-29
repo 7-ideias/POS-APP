@@ -21,7 +21,6 @@ class _DevolucaoTelaState extends State<DevolucaoTela> {
         textAlign: TextAlign.center,
       ))),
       body: Container(
-        color: AppController.instance.corTelaFundo,
           child: ListView(
             children: [
               Card(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../controller/app_controller.dart';
-
 class CaixaTela extends StatefulWidget {
   const CaixaTela({Key? key}) : super(key: key);
 
@@ -13,7 +11,6 @@ class _CaixaTelaState extends State<CaixaTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppController.instance.corTelaFundo,
       appBar: AppBar(
           title: Center(
               child: Text(
