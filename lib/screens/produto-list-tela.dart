@@ -55,66 +55,66 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       //       ),
       //   ],
       // ),
-      body:  AnimatedOpacity(
-        opacity: mostrarTudo == true ? 0.2 : 1,
-        duration: Duration(seconds: 1),
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Card(
-                  elevation: 10,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .15,
-                    width: MediaQuery.of(context).size.width * 0.95,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: cartaoDeProdutos(),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'digite para buscar',
-                        suffixIcon: Icon(Icons.search),
+      body:  SafeArea(
+        child: AnimatedOpacity(
+          opacity: mostrarTudo == true ? 0.2 : 1,
+          duration: Duration(seconds: 1),
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  Card(
+                    elevation: 10,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .15,
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: cartaoDeProdutos(),
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          var listagem = produtoDtoList.produtosList;
-                          produtoList = listagem
-                              .where((produto) => produto.nomeProduto
-                                  .toLowerCase()
-                                  .contains(value.toLowerCase()) || produto.codigoDeBarras
-                              .toLowerCase()
-                              .contains(value.toLowerCase()))
-                              .toList();
-                        });
-                      },
                     ),
                   ),
-                ),
-                Expanded(
-                  child: isLoading
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : RefreshIndicator(
-                          onRefresh: () => getProdutoList(),
-                          child: _temConteudo == true ?
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: produtoList.length,
-                            itemBuilder: (context, index) {
-                              return Slidable(
-                                  startActionPane: esquerdaDireitaPane(index),
-                                  endActionPane: direitaEsquertaPane(index),
-                                  child:Container(
-                                    child: ListTile(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'digite para buscar',
+                          suffixIcon: Icon(Icons.search),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            var listagem = produtoDtoList.produtosList;
+                            produtoList = listagem
+                                .where((produto) => produto.nomeProduto
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()) || produto.codigoDeBarras
+                                .toLowerCase()
+                                .contains(value.toLowerCase()))
+                                .toList();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: () => getProdutoList(),
+                            child: _temConteudo == true ?
+                            ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: produtoList.length,
+                              itemBuilder: (context, index) {
+                                return Slidable(
+                                    startActionPane: esquerdaDireitaPane(index),
+                                    endActionPane: direitaEsquertaPane(index),
+                                    child:ListTile(
                                       isThreeLine: true,
                                       leading: const CircleAvatar(
                                         maxRadius: 30,
@@ -164,18 +164,18 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                       //     ? Colors.red
                                       //     : null,
                                     ),
-                                  ),
-                              );
-                            },
-                          ) : Container(),
-                        ),
-                ),
-              ],
-            ),
-            if(mostrarTudo == true)Container(
-              color: Colors.transparent,
-            ),
-          ],
+                                );
+                              },
+                            ) : Container(),
+                          ),
+                  ),
+                ],
+              ),
+              if(mostrarTudo == true)Container(
+                color: Colors.transparent,
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: Column(

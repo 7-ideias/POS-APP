@@ -50,9 +50,7 @@ class _Index1TelaState extends State<Index1Tela>
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-
           mostrarOpcoes == true ? FloatingActionButton.extended(
-
             backgroundColor: Colors.green,
             onPressed: () async {
 
@@ -93,201 +91,207 @@ class _Index1TelaState extends State<Index1Tela>
           ),
         ],
       ),
-      body: mostrarOpcoes == true?  Container() :ListView(children: [
-        Stack(
-          children: [
-            Container(
-              key: keyContainer,
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * 0.35,
-              child: Container(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
-                      Column(
-                        children: [
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+      body:
+      AnimatedOpacity(
+        opacity: mostrarOpcoes == true ? 0.1 : 1,
+        duration: Duration(seconds: 1),
+          child: Stack(
+            children: [
+              ListView(children: [
+                Stack(
+                  children: [
+                    Container(
+                      key: keyContainer,
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height * 0.35,
+                      child: Container(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          child: Column(
                             children: [
-                              SizedBox(width: 20),
-                              Text('Ola',
-                                  style: TextStyle(
-                                      fontSize: 18)),
-                            ],
-                          ),
-                          SizedBox(width: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              SizedBox(width: 20),
-                              Text(
-                                VariaveisGlobais
-                                        .usuarioDto.objUser?.objPessoa?.nome ??
-                                    '',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
+                              SizedBox(height: 20),
+                              Column(
+                                children: [
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(width: 20),
+                                      Text('Ola',
+                                          style: TextStyle(
+                                              fontSize: 18)),
+                                    ],
+                                  ),
+                                  SizedBox(width: 20),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SizedBox(width: 20),
+                                      Text(
+                                        VariaveisGlobais
+                                                .usuarioDto.objUser?.objPessoa?.nome ??
+                                            '',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(width: 20),
+                                ],
                               ),
                             ],
                           ),
-                          SizedBox(width: 20),
-                        ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 80,
-                  ),
-                  Card(
-                    // color: AppController.instance.corTelaAcima,
-                    elevation: 10,
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.3,
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      //icones laterais no card
-                      child: Stack(
+                    ),
+                    Center(
+                      child: Column(
                         children: [
-                          Positioned(
-                            top: 30,
-                            left: 30,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('operacoes do dia R\$ 1000,88',style: TextStyle(fontSize: 18),),
-                                Text('vendas - '+ numeroDeVendas,style: TextStyle(fontSize: 18),),
-                                Text('servicos - 3',style: TextStyle(fontSize: 18),),
-                              ],
+                          SizedBox(
+                            height: 80,
+                          ),
+                          Card(
+                            // color: AppController.instance.corTelaAcima,
+                            elevation: 10,
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: MediaQuery.of(context).size.width * 0.95,
+                              //icones laterais no card
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: 30,
+                                    left: 30,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('operacoes do dia R\$ 1000,88',style: TextStyle(fontSize: 18),),
+                                        Text('vendas - '+ numeroDeVendas,style: TextStyle(fontSize: 18),),
+                                        Text('servicos - 3',style: TextStyle(fontSize: 18),),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+
+                                              },
+                                              child: Icon(
+                                                  size: 30,
+                                                  Icons.remove_red_eye),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.pushNamed(
+                                                    context, '/operacoes');
+                                              },
+                                              child: Icon(
+                                                      size: 30,
+                                                      Icons.shopping_cart),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child:  Icon(
+                                                    size: 30,
+                                                    Icons.monetization_on),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-
-                                      },
-                                      child: Icon(
-                                          size: 30,
-                                          Icons.remove_red_eye),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/operacoes');
-                                      },
-                                      child: Icon(
-                                              size: 30,
-                                              Icons.shopping_cart),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child:  Icon(
-                                            size: 30,
-                                            Icons.monetization_on),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                SizedBox(height: espacoEntreOsFloatings * 2),
+                if(_isExpanded == false) Card(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('DIA',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                  )),
+                            ),
+                            Donut(context),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 10, right: 10, bottom: 20),
+                              child: ResumoTable(),
+                            ),
+                          ],
+                        )),
+                if(_isExpanded == false) Card(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('MÊS',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ),
+                            Donut(context),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 10, right: 10, bottom: 20),
+                              child: ResumoTable(),
+                            ),
+                          ],
+                        )),
+                if(_isExpanded == false) Card(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('resumo do dia',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ),
+                            Donut(context),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10, left: 10, right: 10, bottom: 20),
+                              child: ResumoTable(),
+                            ),
+                          ],
+                        )),
+              ],
               ),
-            ),
-          ],
+              if(mostrarOpcoes == true)Container(
+                color: Colors.transparent,
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 20),
-        SizedBox(height: 20),
-        _isExpanded
-            ? Container()
-            : Card(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('DIA',
-                          style: TextStyle(
-                            fontSize: 22,
-                          )),
-                    ),
-                    Donut(context),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 10, right: 10, bottom: 20),
-                      child: ResumoTable(),
-                    ),
-                  ],
-                )),
-        _isExpanded
-            ? Container()
-            : Card(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('MÊS',
-                          style: TextStyle(
-                            fontSize: 18,
-                          )),
-                    ),
-                    Donut(context),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 10, right: 10, bottom: 20),
-                      child: ResumoTable(),
-                    ),
-                  ],
-                )),
-        _isExpanded
-            ? Container()
-            : Card(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('resumo do dia',
-                          style: TextStyle(
-                            fontSize: 18,
-                          )),
-                    ),
-                    Donut(context),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10, left: 10, right: 10, bottom: 20),
-                      child: ResumoTable(),
-                    ),
-                  ],
-                )),
-      ]),
     );
   }
 
