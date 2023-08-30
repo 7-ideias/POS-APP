@@ -72,6 +72,7 @@ class _HomeState extends State<Home> {
               // '/servicos': (_) => ServicosTela(),
               // '/tela_de_identificacao_ou_cadastro': (_) => TelaInicio(),
               // '/venda': (_) => VendaTela(),
+              '/index2Tela': (_) => Index2Tela(),
             },
           );
         }

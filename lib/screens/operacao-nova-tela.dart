@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
 import 'package:pos_app/dtos/objetos/obj-agenda.dart';
 import 'package:pos_app/dtos/objetos/obj-calculos-de-operacao-do-back-end.dart';
-import 'package:pos_app/dtos/objetos/obj-servico.dart';
 import 'package:pos_app/utilitarios/utils.dart';
+
 import '../controller/app_controller.dart';
 import '../controller/produto-controller.dart';
 import '../dtos/objetos/obj-venda-e-servico.dart';
@@ -30,6 +31,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   bool _isLoading = false;
   bool confirmacaoDeSucessoNaAPI = false;
+  bool mostrarOpcoes = false;
 
 bool carregando = true;
 
@@ -95,28 +97,124 @@ bool carregando = true;
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          //send para a api
-          objVendaEServicoList.length > 0 ?FloatingActionButton(
+          if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
+            backgroundColor: AppController.instance.botaoConfirmar,
             onPressed: () {
-              sendApiNovaOperacao();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Confirmação'),
+                    content: Text('gravar a operação?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Cancelar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Confirmar'),
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                          sendApiNovaOperacao();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ) ;
             },
-            child: Icon(
-              Icons.save,
-              size: 30,
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.save),
+                Text(' salvar' ),
+              ],
             ),
-          ) : Container(),
+          ) ,
           SizedBox(height: 20,),
-          //adicionar novo
-          FloatingActionButton(
+          if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
+            backgroundColor: AppController.instance.botaoNegar,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Confirmação'),
+                    content: Text('abandonar a operação?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Cancelar'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Confirmar'),
+                        onPressed: () async {
+                          Navigator.pushNamedAndRemoveUntil(context, "/home", (Route<dynamic> route) => false);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ) ;
+
+            },
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.cancel),
+                Text(' cancelar' ),
+              ],
+            ),
+          ) ,
+          SizedBox(height: 20,),
+          if(mostrarOpcoes==true)FloatingActionButton.extended(
             onPressed: () {
               atualizarProdutos();
               retornaOsDadosDaTelaOperacaoInserindo(context);
             },
-            child: Icon(
-              Icons.add,
-              size: 30,
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add),
+                Text('adicionar serviços' ),
+              ],
             ),
           ),
+          if(mostrarOpcoes==true)SizedBox(height: 20,),
+          //adicionar novo
+          if(mostrarOpcoes==true)FloatingActionButton.extended(
+            onPressed: () {
+              atualizarProdutos();
+              retornaOsDadosDaTelaOperacaoInserindo(context);
+            },
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add),
+                Text('adicionar produtos' ),
+              ],
+            ),
+          ),
+          if(mostrarOpcoes==true)SizedBox(height: 20,),
+          FloatingActionButton.extended(
+            backgroundColor: Colors.greenAccent,
+            onPressed: () {
+              setState(() {
+                mostrarOpcoes = !mostrarOpcoes;
+              });
+            },
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add),
+                Text('mostrar opções' ),
+              ],
+            ),
+          )
         ],
       ),
     );

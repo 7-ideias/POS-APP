@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/screens/produto-list-tela.dart';
 
 import '../controller/operacao-controller.dart';
 import '../utilitarios/Donut.dart';
@@ -50,10 +51,33 @@ class _Index1TelaState extends State<Index1Tela>
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          mostrarOpcoes == true ? FloatingActionButton.extended(
-            backgroundColor: Colors.green,
-            onPressed: () async {
-
+          if(mostrarOpcoes == true) FloatingActionButton.extended(
+            backgroundColor: Colors.blue,
+            onPressed: () {
+              setState(() {
+                mostrarOpcoes = false;
+              });
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProdutosTela()),
+              );
+            },
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add),
+                Text('novo produto' ),
+              ],
+            ),
+          ),
+          SizedBox(height: espacoEntreOsFloatings),
+          if(mostrarOpcoes == true) FloatingActionButton.extended(
+            backgroundColor: Colors.greenAccent,
+            onPressed: () {
+              setState(() {
+                mostrarOpcoes = false;
+              });
+              Navigator.pushNamed(context, '/operacaoNova');
             },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -62,13 +86,13 @@ class _Index1TelaState extends State<Index1Tela>
                 Text('nova venda/serviço' ),
               ],
             ),
-          ):Container(),
+          ),
           SizedBox(height: espacoEntreOsFloatings),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FloatingActionButton(
-                child: Icon(mostrarOpcoes == true ? Icons.minimize_outlined: Icons.add),
+              if(mostrarOpcoes==false)FloatingActionButton(
+                child: Text('+', style: TextStyle(fontSize: 30)),
                 onPressed: () {
                    setState(() {
                      mostrarOpcoes = !mostrarOpcoes;
@@ -286,8 +310,15 @@ class _Index1TelaState extends State<Index1Tela>
                         )),
               ],
               ),
-              if(mostrarOpcoes == true)Container(
-                color: Colors.transparent,
+              if(mostrarOpcoes == true)GestureDetector(
+                onTap: (){
+                  setState(() {
+                    mostrarOpcoes = false;
+                  });
+                },
+                child: Container(
+                  color: Colors.transparent,
+                ),
               ),
             ],
           ),

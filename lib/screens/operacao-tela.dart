@@ -14,7 +14,7 @@ class OperacaoTela extends StatefulWidget {
 class _OperacaoTelaState extends State<OperacaoTela> {
   bool existemOperacoes = false;
   bool isLoading = true;
-  bool mostrarTudo = true;
+  bool mostrarTudo = false;
   double soma = 0.00;
   int qtOperacoes = 0;
   int? _value = 1;
@@ -117,102 +117,113 @@ class _OperacaoTelaState extends State<OperacaoTela> {
 
   Widget temOperacoes(BuildContext context) {
 
-    return Column(
-      children: [
-        //card superior
-        Column(
-          children: [
-            Card(
-              elevation: 10,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.15,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.quantidadeDeOps}',
-                           ),
+    return AnimatedOpacity(
+      opacity: mostrarTudo == true ? 0.2 : 1,
+      duration: Duration(seconds: 1),
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              //card superior
+              Column(
+                children: [
+                  Card(
+                    elevation: 10,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.quantidadeDeOps}',
+                                 ),
+                            ),
+                            Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.ops?.length.toString()}',
+                               ),
+                          ],
+                        ),
                       ),
-                      Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.ops?.length.toString()}',
-                         ),
+                    ),
+                  ),
+                  Wrap(
+                    spacing: 20,
+                    children: [
+                  ChoiceChip(label: Text('teste'), selected: true,),
+                  ChoiceChip(label: Text('teste'), selected: false,),
+                  ChoiceChip(label: Text('teste'), selected: true,),
                     ],
                   ),
-                ),
-              ),
-            ),
-            Wrap(
-              spacing: 20,
-              children: [
-            ChoiceChip(label: Text('teste'), selected: true,),
-            ChoiceChip(label: Text('teste'), selected: false,),
-            ChoiceChip(label: Text('teste'), selected: true,),
-              ],
-            ),
-            Wrap(
-              spacing: 5.0,
-              children: List<Widget>.generate(4,(int index) {
-                  return ChoiceChip(
-                    label: Text('Item $index'),
-                    selected: _value == index,
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _value = selected ? index : null;
-                      });
-                    },
-                  );
-                },
-              ).toList(),
-            ),
-          ],
-        ),
-
-        Expanded(
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: VariaveisGlobais.operacoesBackEnd.ops?.length,
-              itemBuilder: (context, index) {
-                return Slidable(
-                  startActionPane: esquerdaDireitaPane(index),
-                  child: ListTile(
-                    tileColor: !index.isOdd ? Colors.blueGrey : null,
-                    leading: CircleAvatar(
-                      child: Text((index+1).toString()),
-                    ),
-                    title: Text('${VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
-                    subtitle: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(VariaveisGlobais.moeda+VariaveisGlobais.operacoesBackEnd.ops![index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString()),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.circle,color: Colors.red,),
-                            Text(VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true? 'ARRUMAR':'ARRUMAR'),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.circle,color: Colors.blue,),
-                            Text(' NAO RECEBIDO'),
-                          ],
-                        ),
-                      ],
-                    ),
-                     // tileColor: index.isOdd? Colors.blue : Colors.blueGrey,
-                    isThreeLine: true,
+                  Wrap(
+                    spacing: 5.0,
+                    children: List<Widget>.generate(4,(int index) {
+                        return ChoiceChip(
+                          label: Text('Item $index'),
+                          selected: _value == index,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _value = selected ? index : null;
+                            });
+                          },
+                        );
+                      },
+                    ).toList(),
                   ),
-                );
-                // return ListTile(title: Text(VariaveisGlobais.operacoesBackEnd.ops![index].id.toString()));
-              }),
-        )
-      ],
+                ],
+              ),
+
+              Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: VariaveisGlobais.operacoesBackEnd.ops?.length,
+                    itemBuilder: (context, index) {
+                      return Slidable(
+                        startActionPane: esquerdaDireitaPane(index),
+                        child: ListTile(
+                          tileColor: !index.isOdd ? Colors.blueGrey : null,
+                          leading: CircleAvatar(
+                            child: Text((index+1).toString()),
+                          ),
+                          title: Text('${VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
+                          subtitle: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(VariaveisGlobais.moeda+VariaveisGlobais.operacoesBackEnd.ops![index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString()),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.circle,color: Colors.red,),
+                                  Text(VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true? 'ARRUMAR':'ARRUMAR'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.circle,color: Colors.blue,),
+                                  Text(' NAO RECEBIDO'),
+                                ],
+                              ),
+                            ],
+                          ),
+                           // tileColor: index.isOdd? Colors.blue : Colors.blueGrey,
+                          isThreeLine: true,
+                        ),
+                      );
+                      // return ListTile(title: Text(VariaveisGlobais.operacoesBackEnd.ops![index].id.toString()));
+                    }),
+              )
+            ],
+          ),
+          if(mostrarTudo == true)Container(
+            color: Colors.transparent,
+          ),
+        ],
+      ),
     );
   }
 
