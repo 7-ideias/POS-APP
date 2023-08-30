@@ -56,117 +56,124 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       //   ],
       // ),
       body:  AnimatedOpacity(
-        opacity: mostrarTudo == true ? 0.3 : 1,
+        opacity: mostrarTudo == true ? 0.2 : 1,
         duration: Duration(seconds: 1),
-        child: Column(
+        child: Stack(
           children: [
-            Card(
-              elevation: 10,
-              child: Container(
-                height: MediaQuery.of(context).size.height * .15,
-                width: MediaQuery.of(context).size.width * 0.95,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: cartaoDeProdutos(),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'digite para buscar',
-                    suffixIcon: Icon(Icons.search),
-                  ),
-                  onChanged: (value) {
-                    setState(() {
-                      var listagem = produtoDtoList.produtosList;
-                      produtoList = listagem
-                          .where((produto) => produto.nomeProduto
-                              .toLowerCase()
-                              .contains(value.toLowerCase()) || produto.codigoDeBarras
-                          .toLowerCase()
-                          .contains(value.toLowerCase()))
-                          .toList();
-                    });
-                  },
-                ),
-              ),
-            ),
-            Expanded(
-              child: isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : RefreshIndicator(
-                      onRefresh: () => getProdutoList(),
-                      child: _temConteudo == true ?
-                      ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: produtoList.length,
-                        itemBuilder: (context, index) {
-                          return Slidable(
-                              startActionPane: esquerdaDireitaPane(index),
-                              endActionPane: direitaEsquertaPane(index),
-                              child:Container(
-                                child: ListTile(
-                                  isThreeLine: true,
-                                  leading: const CircleAvatar(
-                                    maxRadius: 30,
-                                    child: Icon(Icons.question_mark),
-                                  ),
-                                  title: Text(produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
-
-                                  subtitle: Column(
-                                    children: [
-                                      Row(children: [Text('código.: '+produtoList[index].codigoDeBarras,style: TextStyle(fontSize: 16))],),
-                                      Row(
-                                        children: [
-                                          Text("preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
-                                              style: TextStyle(fontSize: 16)),
-                                        ],
-                                      ),
-
-                                      Row(
-                                        children: [
-                                          Text("estoque atual.: ${produtoList[index]
-                                                  .objCalculosDeProdutoDoBackEnd
-                                                  .qtNoEstoque}",style: TextStyle(fontSize: 16)),
-                                        ],
-                                      ),
-                                      if(produtoList[index].estoqueMinimo<=produtoList[index]
-                                          .objCalculosDeProdutoDoBackEnd
-                                          .qtNoEstoque)Row(
-                                        children: [
-                                          CircleAvatar(backgroundColor: Colors.red,radius: 10,),
-                                          Text('  abaixo do estoque mínimo',style: TextStyle(fontSize: 16)),
-                                        ],
-                                      ),
-                                      if(produtoList[index].estoqueMaximo>=produtoList[index]
-                                          .objCalculosDeProdutoDoBackEnd
-                                          .qtNoEstoque)Row(
-                                        children: [
-                                          CircleAvatar(backgroundColor: Colors.green,radius: 10,),
-                                          Text('  acima do estoque ideal',style: TextStyle(fontSize: 16)),
-                                        ],
-                                      ),
-
-                                    ],
-                                  ),
-                                  // tileColor: produtoList[index]
-                                  //     .objCalculosDeProdutoDoBackEnd
-                                  //     .qtNoEstoque < 10
-                                  //     ? Colors.red
-                                  //     : null,
-                                ),
-                              ),
-                          );
-                        },
-                      ) : Container(),
+            Column(
+              children: [
+                Card(
+                  elevation: 10,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * .15,
+                    width: MediaQuery.of(context).size.width * 0.95,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: cartaoDeProdutos(),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'digite para buscar',
+                        suffixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          var listagem = produtoDtoList.produtosList;
+                          produtoList = listagem
+                              .where((produto) => produto.nomeProduto
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()) || produto.codigoDeBarras
+                              .toLowerCase()
+                              .contains(value.toLowerCase()))
+                              .toList();
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () => getProdutoList(),
+                          child: _temConteudo == true ?
+                          ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: produtoList.length,
+                            itemBuilder: (context, index) {
+                              return Slidable(
+                                  startActionPane: esquerdaDireitaPane(index),
+                                  endActionPane: direitaEsquertaPane(index),
+                                  child:Container(
+                                    child: ListTile(
+                                      isThreeLine: true,
+                                      leading: const CircleAvatar(
+                                        maxRadius: 30,
+                                        child: Icon(Icons.question_mark),
+                                      ),
+                                      title: Text(produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
+
+                                      subtitle: Column(
+                                        children: [
+                                          Row(children: [Text('código.: '+produtoList[index].codigoDeBarras,style: TextStyle(fontSize: 16))],),
+                                          Row(
+                                            children: [
+                                              Text("preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
+                                                  style: TextStyle(fontSize: 16)),
+                                            ],
+                                          ),
+
+                                          Row(
+                                            children: [
+                                              Text("estoque atual.: ${produtoList[index]
+                                                      .objCalculosDeProdutoDoBackEnd
+                                                      .qtNoEstoque}",style: TextStyle(fontSize: 16)),
+                                            ],
+                                          ),
+                                          if(produtoList[index].estoqueMinimo<=produtoList[index]
+                                              .objCalculosDeProdutoDoBackEnd
+                                              .qtNoEstoque)Row(
+                                            children: [
+                                              CircleAvatar(backgroundColor: Colors.red,radius: 10,),
+                                              Text('  abaixo do estoque mínimo',style: TextStyle(fontSize: 16)),
+                                            ],
+                                          ),
+                                          if(produtoList[index].estoqueMaximo>=produtoList[index]
+                                              .objCalculosDeProdutoDoBackEnd
+                                              .qtNoEstoque)Row(
+                                            children: [
+                                              CircleAvatar(backgroundColor: Colors.green,radius: 10,),
+                                              Text('  acima do estoque ideal',style: TextStyle(fontSize: 16)),
+                                            ],
+                                          ),
+
+                                        ],
+                                      ),
+                                      // tileColor: produtoList[index]
+                                      //     .objCalculosDeProdutoDoBackEnd
+                                      //     .qtNoEstoque < 10
+                                      //     ? Colors.red
+                                      //     : null,
+                                    ),
+                                  ),
+                              );
+                            },
+                          ) : Container(),
+                        ),
+                ),
+              ],
+            ),
+            if(mostrarTudo == true)Container(
+              color: Colors.transparent,
             ),
           ],
         ),
