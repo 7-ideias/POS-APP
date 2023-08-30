@@ -7,6 +7,6 @@ class Utils {
   static formatDate(DateTime date) => DateFormat.yMd().format(date);
 
   static SizedBox getEspacamento() {
-    return SizedBox( height: 12.00, );
+    return const SizedBox( height: 12.00, );
   }
 }

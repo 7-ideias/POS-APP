@@ -219,8 +219,15 @@ class _OperacaoTelaState extends State<OperacaoTela> {
               )
             ],
           ),
-          if(mostrarTudo == true)Container(
-            color: Colors.transparent,
+          if(mostrarTudo == true)GestureDetector(
+            onTap: (){
+              setState(() {
+                mostrarTudo = false;
+              });
+            },
+            child: Container(
+              color: Colors.transparent,
+            ),
           ),
         ],
       ),

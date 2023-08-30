@@ -60,7 +60,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                 ),
                 Switch(
                   value: AppController.instance.isDartTheme,
-                  activeColor: Colors.red,
+                  activeColor: Colors.green,
                   onChanged: (bool value) {
                     dark = value;
                     AppController.instance.mudarCores(value);
@@ -69,12 +69,14 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
 
               ],
             ),
-            Row(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text('Escolha a cor do app ',style: TextStyle()),
+            ),
+            Wrap(
+              direction: Axis.horizontal,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Escolha a cor do app ',style: TextStyle()),
-                ),
+
                 //cor azul
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -104,6 +106,32 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   ),
                 ),
                 //cor laranja
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      AppController.instance.corPrincipal = Colors.orange;
+                      AppController.instance.mudarCores(dark);
+                    },
+                    child: CircleAvatar(
+                      maxRadius: 30,
+                      backgroundColor: Colors.green,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      AppController.instance.corPrincipal = Colors.orange;
+                      AppController.instance.mudarCores(dark);
+                    },
+                    child: CircleAvatar(
+                      maxRadius: 30,
+                      backgroundColor: Colors.pink,
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(

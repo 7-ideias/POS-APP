@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/screens/produto-list-tela.dart';
 
@@ -136,13 +137,12 @@ class _Index1TelaState extends State<Index1Tela>
                               SizedBox(height: 20),
                               Column(
                                 children: [
-                                  const Row(
+                                  Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       SizedBox(width: 20),
                                       Text('Ola',
-                                          style: TextStyle(
-                                              fontSize: 18)),
+                                          style: GoogleFonts.bebasNeue(fontSize: 22)),
                                     ],
                                   ),
                                   SizedBox(width: 20),
@@ -154,9 +154,9 @@ class _Index1TelaState extends State<Index1Tela>
                                         VariaveisGlobais
                                                 .usuarioDto.objUser?.objPessoa?.nome ??
                                             '',
-                                        style: TextStyle(
+                                        style: GoogleFonts.bebasNeue(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 20,
+                                          fontSize: 25,
                                         ),
                                       ),
                                     ],
@@ -190,9 +190,12 @@ class _Index1TelaState extends State<Index1Tela>
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('operacoes do dia R\$ 1000,88',style: TextStyle(fontSize: 18),),
-                                        Text('vendas - '+ numeroDeVendas,style: TextStyle(fontSize: 18),),
-                                        Text('servicos - 3',style: TextStyle(fontSize: 18),),
+                                        Text('operacoes do dia R\$ 1000,88',style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                        Text('vendas - '+ numeroDeVendas,style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                        Text('servicos - 3',style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                        Text('-----------------------------------',style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                        Divider(),
+                                        Text('operações nao recebidas',style: GoogleFonts.bebasNeue(fontSize: 22)),
                                       ],
                                     ),
                                   ),
