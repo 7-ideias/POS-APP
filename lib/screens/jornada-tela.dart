@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
-import 'package:pos_app/screens/login-tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 class JornadaTela extends StatefulWidget {
@@ -207,62 +206,64 @@ class OutraTela extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: (){
-                Navigator.of(context).pushNamed('/login',arguments: 'usuario');
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text('já tenho uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              children: [
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('/login',arguments: 'usuario');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 10,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Text('já tenho uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-                Navigator.of(context).pushNamed('/login',arguments: 'colaborador');
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text('sou um colaborador',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('/login',arguments: 'colaborador');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 10,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Text('sou um colaborador',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            GestureDetector(
-              onTap: (){
-                Navigator.of(context).pushNamed('/login',arguments: 'novo');
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text('sou novo... quero uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('/login',arguments: 'novo');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      elevation: 10,
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: Text('sou novo... quero uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
