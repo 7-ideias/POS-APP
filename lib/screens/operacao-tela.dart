@@ -227,6 +227,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
     );
   }
 
+
   ActionPane esquerdaDireitaPane(int index) {
     return ActionPane(
       motion: const StretchMotion(),
