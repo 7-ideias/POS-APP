@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 class JornadaTela extends StatefulWidget {
@@ -54,36 +54,40 @@ class _JornadaTelaState extends State<JornadaTela> {
                           width: screenWidth,
                           child: Align(
                             alignment: Alignment.center,
+                            child: Lottie.asset('assets/astronaut.json',fit: BoxFit.cover)
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(VariaveisGlobais.idiomaDto.frase1DeIntroducao.toString(),
+                            style : GoogleFonts.bebasNeue(fontSize: 50),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          width: screenWidth,
+                          child: Align(
+                            alignment: Alignment.center,
                             child: Lottie.asset(
-                              'assets/astronaut.json',
+                              'assets/astronaut-floating.json',
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
                         Container(
                           alignment: Alignment.bottomCenter,
-                          child: Text(
-                            VariaveisGlobais.idiomaDto.frase1DeIntroducao.toString(),
-                            style: TextStyle(
-                              fontSize: 50,
-                              backgroundColor: Colors.transparent,
-                            ),
+                          child: Text(VariaveisGlobais.idiomaDto.frase2DeIntroducao.toString(),
+                            style : GoogleFonts.bebasNeue(fontSize: 50),
                             textAlign: TextAlign.center,
                           ),
                         )
                       ],
                     ),
-                    Container(
-                      width: screenWidth,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Lottie.asset(
-                          'assets/astronaut-floating.json',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Column(
+                    Stack(
                       children: [
                         Container(
                           width: screenWidth,
@@ -98,72 +102,96 @@ class _JornadaTelaState extends State<JornadaTela> {
                         Container(
                           alignment: Alignment.bottomCenter,
                           child: Text(
-                            VariaveisGlobais.idiomaDto.frase1DeIntroducao.toString(),
-                            style: TextStyle(
-                              fontSize: 50,
-                              backgroundColor: Colors.transparent,
-                            ),
+                            VariaveisGlobais.idiomaDto.frase3DeIntroducao.toString(),
+                            style : GoogleFonts.bebasNeue(fontSize: 50),
                             textAlign: TextAlign.center,
                           ),
                         )
                       ],
                     ),
-                    Container(
-                      width: screenWidth,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Lottie.asset(
-                          'assets/astronaut-with-space-shuttle.json',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: screenWidth,
-                      child: Stack(
-                        children: [
-                          Align(
+                    Stack(
+                      children: [
+                        Container(
+                          width: screenWidth,
+                          child: Align(
                             alignment: Alignment.center,
                             child: Lottie.asset(
-                              'assets/astronaut-sitting-planet-waving-hand.json',
+                              'assets/astronaut-with-space-shuttle.json',
                               fit: BoxFit.cover,
                             ),
                           ),
-                          Positioned(
-                            right: 16.0,
-                            bottom: 16.0,
-                            child: IconButton(
-                              icon: Icon(Icons.arrow_forward),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    transitionDuration:
-                                        Duration(milliseconds: 500),
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        OutraTela(),
-                                    transitionsBuilder: (context, animation,
-                                        secondaryAnimation, child) {
-                                      var begin = Offset(1.0, 0.0);
-                                      var end = Offset.zero;
-                                      var curve = Curves.ease;
+                        ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            VariaveisGlobais.idiomaDto.frase4DeIntroducao.toString(),
+                            style : GoogleFonts.bebasNeue(fontSize: 50),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          width: screenWidth,
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: Lottie.asset(
+                                  'assets/astronaut-sitting-planet-waving-hand.json',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                right: 16.0,
+                                bottom: 16.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: IconButton(
+                                    icon: Icon(Icons.arrow_forward,size: 60,),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          transitionDuration:
+                                              Duration(milliseconds: 500),
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              OutraTela(),
+                                          transitionsBuilder: (context, animation,
+                                              secondaryAnimation, child) {
+                                            var begin = Offset(1.0, 0.0);
+                                            var end = Offset.zero;
+                                            var curve = Curves.ease;
 
-                                      var tween = Tween(begin: begin, end: end)
-                                          .chain(CurveTween(curve: curve));
+                                            var tween = Tween(begin: begin, end: end)
+                                                .chain(CurveTween(curve: curve));
 
-                                      return SlideTransition(
-                                        position: animation.drive(tween),
-                                        child: child,
+                                            return SlideTransition(
+                                              position: animation.drive(tween),
+                                              child: child,
+                                            );
+                                          },
+                                        ),
                                       );
                                     },
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            VariaveisGlobais.idiomaDto.frase5DeIntroducao.toString(),
+                            style : GoogleFonts.bebasNeue(fontSize: 50),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
                     ),
                   ],
                 ),
@@ -219,10 +247,11 @@ class OutraTela extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       child: Container(
+                        color: Colors.black,
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.2,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Text('já tenho uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                        child: Text('já tenho uma conta',style : GoogleFonts.bebasNeue(fontSize: 30,color: Colors.white)),
                       ),
                     ),
                   ),
@@ -236,10 +265,11 @@ class OutraTela extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       child: Container(
+                        color: Colors.black,
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.2,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Text('sou um colaborador',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                        child: Text('sou um colaborador',style : GoogleFonts.bebasNeue(fontSize: 30,color: Colors.white)),
                       ),
                     ),
                   ),
@@ -253,10 +283,11 @@ class OutraTela extends StatelessWidget {
                     child: Card(
                       elevation: 10,
                       child: Container(
+                        color: Colors.black,
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height * 0.2,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: Text('sou novo... quero uma conta',style: TextStyle( fontSize: AppController.instance.botaoTamanhoLetras)),
+                        child: Text('sou novo.\nQuero uma conta',style : GoogleFonts.bebasNeue(fontSize: 30,color: Colors.white)),
                       ),
                     ),
                   ),

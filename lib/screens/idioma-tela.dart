@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:pos_app/main.dart';
-import 'package:pos_app/utilitarios/tela_inteira.dart';
-import '../controller/idioma_controller.dart';
-import '../utilitarios/VariaveisGlobais.dart';
 import 'dart:async';
-import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
+import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../controller/idioma_controller.dart';
+import '../utilitarios/VariaveisGlobais.dart';
 import 'jornada-tela.dart';
 
 class IdiomaTela extends StatefulWidget {
@@ -26,68 +26,134 @@ class _IdiomaTelaState extends State<IdiomaTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading == true ? Center(child: TelaInteira().widgetDeLoadingPadraoDoApp()) : Container(
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: isLoading == true ? Center(child: TelaInteira().widgetDeLoadingPadraoDoApp()) : 
+      SingleChildScrollView(
+        child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: (){
-                  fazerRequisicao('pt-br');
-                },
-                child: SizedBox(
-                  height: 100,
-                  width: 200,
-                  child: Container(
-                    color: Colors.green,
-                    alignment: Alignment.center,
-                    child: Text('portugues brasil'),
-                  ),
+            Container(
+              color: Colors.deepPurple,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+            ),
+            Positioned(
+              right: 0,
+              child: Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width * 0.5,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30))
+              ),
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width,
+              child: Lottie.asset('assets/people-doing-international-communication.json', fit: BoxFit.contain),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.deepPurple,
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(30))
+                ),
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+            Positioned(
+              left: 45,
+              bottom: 100,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Wrap(
+                      spacing: 30,
+                      runSpacing: 30,
+                      direction: Axis.horizontal,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            fazerRequisicao('pt-br');
+                          },
+                          child: SizedBox(
+                            height: altura(),
+                            width: altura(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(10)),
+                              alignment: Alignment.center,
+                              child: Text('portugues\nbrasil',style : GoogleFonts.bebasNeue(fontSize: 22,color: Colors.white)),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            fazerRequisicao('en-us');
+                          },
+                          child: SizedBox(
+                            height: altura(),
+                            width: altura(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.blueAccent,
+                                  borderRadius: BorderRadius.circular(10)),
+                              alignment: Alignment.center,
+                              child: Text('ingles',style : GoogleFonts.bebasNeue(fontSize: 22,color: Colors.white)),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            fazerRequisicao('es-419');
+                          },
+                          child: SizedBox(
+                            height: altura(),
+                            width: altura(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.orange,
+                                  borderRadius: BorderRadius.circular(10)),
+                              alignment: Alignment.center,
+                              child: Text('espanhol\nlatino',style : GoogleFonts.bebasNeue(fontSize: 22,color: Colors.white)),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            // fazerRequisicao('es-419');
+                          },
+                          child: SizedBox(
+                            height: altura(),
+                            width: altura(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.redAccent,
+                                  borderRadius: BorderRadius.circular(10)),
+                              alignment: Alignment.center,
+                              child: Text('portugues\nangola',style : GoogleFonts.bebasNeue(fontSize: 22,color: Colors.white)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: (){
-                  fazerRequisicao('en-us');
-                },
-                child: SizedBox(
-                  height: 100,
-                  width: 200,
-                  child: Container(
-                    color: Colors.redAccent,
-                    alignment: Alignment.center,
-                    child: Text('ingles'),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: (){
-                  fazerRequisicao('es-419');
-                },
-                child: SizedBox(
-                  height: 100,
-                  width: 200,
-                  child: Container(
-                    color: Colors.orange,
-                    alignment: Alignment.center,
-                    child: Text('espanhol america latina'),
-                  ),
-                ),
-              ),
-            ),
-            Text(VariaveisGlobais.idiomaDto.bomDia.toString())
           ],
         ),
       ),
     );
   }
+
+  double altura() => 140;
 
 
   Future<void> fazerRequisicao(String idiomaEscolhido) async {
