@@ -2,9 +2,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pos_app/screens/home-tela.dart';
-import 'package:pos_app/screens/tela_index_1_principal.dart';
 import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
+import 'package:pos_app/screens/tela_index_1_principal.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -118,8 +117,8 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 20),
-            arguments.toString() == 'novo'
-                ? Center(
+            if(arguments.toString() == 'novo')
+                Center(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -127,19 +126,17 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(fontSize: 30, color: Colors.red),
                       ),
                     ),
-                  )
-                : Container(),
+                  ),
             SizedBox(
               height: 20
             ),
             Container(
-              color: Colors.white,
               padding: EdgeInsets.all(20.0),
               child: Center(
                 child: Column(
                   children: [
-                    arguments.toString() == 'colaborador'
-                        ? SizedBox(
+                    if(arguments.toString() == 'colaborador')
+                        SizedBox(
                             width: double.infinity * 0.8,
                             child: TextField(
                               style: TextStyle(fontSize: 22),
@@ -149,8 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                 labelText: 'celular do titular',
                               ),
                             ),
-                          )
-                        : Container(),
+                          ),
                     SizedBox(
                       height: 20
                     ),

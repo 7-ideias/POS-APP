@@ -26,7 +26,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoading == true ? Center(child: TelaInteira().widgetDeLoadingPadraoDoApp()) : 
+      body: isLoading == true ? TelaInteira().widgetDeLoadingPadraoDoApp() :
       SingleChildScrollView(
         child: Stack(
           children: [
@@ -79,7 +79,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            fazerRequisicao('pt-br');
+                            getIdioma('pt-br');
                           },
                           child: SizedBox(
                             height: altura(),
@@ -95,7 +95,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            fazerRequisicao('en-us');
+                            getIdioma('en-us');
                           },
                           child: SizedBox(
                             height: altura(),
@@ -111,7 +111,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            fazerRequisicao('es-419');
+                            getIdioma('es-419');
                           },
                           child: SizedBox(
                             height: altura(),
@@ -156,7 +156,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
   double altura() => 140;
 
 
-  Future<void> fazerRequisicao(String idiomaEscolhido) async {
+  Future<void> getIdioma(String idiomaEscolhido) async {
 
     setState(() {
       isLoading = true;
@@ -179,7 +179,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
         setState(() {
           Idioma.instance.mudarIdioma();
           status = response.statusCode;
-          isLoading = false;
+          // isLoading = false;
         });
           Navigator.push(
             context,
