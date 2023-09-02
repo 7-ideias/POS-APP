@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Leitor extends StatefulWidget {
   const Leitor({Key? key}) : super(key: key);
@@ -24,9 +24,9 @@ class _LeitorState extends State<Leitor> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('result ' + result),
-                  ElevatedButton(onPressed: scan, child:
-                  Text('scanear')
-                  )
+                  // ElevatedButton(onPressed: scan, child:
+                  // Text('scanear')
+                  // )
                 ],
               ),
             ),
@@ -35,18 +35,18 @@ class _LeitorState extends State<Leitor> {
     );
   }
 
-  Future<void> scan() async {
-    String barCode;
-    try {
-      barCode = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'cancelar', true, ScanMode.BARCODE);
-    } on PlatformException {
-      barCode = 'falhou';
-    }
-    if (!mounted) return;
-    setState(() {
-      result = barCode;
-    });
-  }
+  // Future<void> scan() async {
+  //   String barCode;
+  //   try {
+  //     barCode = await FlutterBarcodeScanner.scanBarcode(
+  //         '#ff6666', 'cancelar', true, ScanMode.BARCODE);
+  //   } on PlatformException {
+  //     barCode = 'falhou';
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     result = barCode;
+  //   });
+  // }
 
 }

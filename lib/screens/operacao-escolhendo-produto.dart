@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -47,18 +49,27 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
           shrinkWrap: true,
           itemCount: VariaveisGlobais.produtoList.length,
           itemBuilder: (context, index) {
+            String stringQueVem =  VariaveisGlobais.produtoList[index].nomeProduto;
+            List<int> isoBytes = latin1.encode(stringQueVem);
+            String stringConvertida = utf8.decode(isoBytes);
             return GestureDetector(
               onTap: (){
                 var produtoDto = VariaveisGlobais.produtoList[index];
                 Navigator.pop(context,produtoDto);
               },
-              child: ListTile(
-                leading: const CircleAvatar(
-                  maxRadius: 30,
-                  child: Icon(Icons.question_mark),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: ListTile(
+                    leading: const CircleAvatar(
+                      maxRadius: 30,
+                      child: Icon(Icons.question_mark),
+                    ),
+                    title: Text("código" + VariaveisGlobais.produtoList[index].codigoDeBarras +" - "
+                        + stringConvertida,style: TextStyle(fontSize: 20,)),
+                  ),
                 ),
-                title: Text("código" + VariaveisGlobais.produtoList[index].codigoDeBarras +" - "
-                    + VariaveisGlobais.produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
               ),
             );
           },

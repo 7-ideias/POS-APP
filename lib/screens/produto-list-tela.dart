@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -111,6 +112,9 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                               shrinkWrap: true,
                               itemCount: produtoList.length,
                               itemBuilder: (context, index) {
+                                String stringQueVem =  VariaveisGlobais.produtoList[index].nomeProduto;
+                                List<int> isoBytes = latin1.encode(stringQueVem);
+                                String stringConvertida = utf8.decode(isoBytes);
                                 return Slidable(
                                     startActionPane: esquerdaDireitaPane(index),
                                     endActionPane: direitaEsquertaPane(index),
@@ -120,7 +124,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                         maxRadius: 30,
                                         child: Icon(Icons.question_mark),
                                       ),
-                                      title: Text(produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
+                                      title: Text(stringConvertida,style: TextStyle(fontSize: 20)),
 
                                       subtitle: Column(
                                         children: [

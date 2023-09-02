@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pos_app/dtos/produto-dto.dart';
 import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
@@ -122,7 +122,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     // leitor de codigo
                     GestureDetector(
                         onTap: (){
-                          scan();
+                          // scan();
                         },
                         child: Container(width: 70,height: 70,
                         child: Icon(Icons.qr_code_2,size: 50,),))
@@ -429,19 +429,19 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     });
   }
 
-  Future<void> scan() async {
-    String barCode;
-    try {
-      barCode = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'cancelar', true, ScanMode.BARCODE);
-    } on PlatformException {
-      barCode = 'falhou';
-    }
-    if (!mounted) return;
-    setState(() {
-      _codigoProduto = TextEditingController(text: barCode);
-      buscaDigitando(barCode);
-    });
-  }
+  // Future<void> scan() async {
+  //   String barCode;
+  //   try {
+  //     barCode = await FlutterBarcodeScanner.scanBarcode(
+  //         '#ff6666', 'cancelar', true, ScanMode.BARCODE);
+  //   } on PlatformException {
+  //     barCode = 'falhou';
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _codigoProduto = TextEditingController(text: barCode);
+  //     buscaDigitando(barCode);
+  //   });
+  // }
 
 }
