@@ -46,6 +46,7 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
@@ -68,6 +69,7 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
@@ -90,6 +92,7 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
@@ -112,6 +115,7 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(
@@ -133,6 +137,7 @@ class _Index0TelaState extends State<Index0Tela> {
                         child: Card(
                           elevation: 10,
                           child: Container(
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                             height: MediaQuery.of(context).size.width * 0.4,
                             width: MediaQuery.of(context).size.width * larguraTela/2,
                             child: Center(

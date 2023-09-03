@@ -171,8 +171,15 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   ),
                 ],
               ),
-              if(mostrarTudo == true)Container(
-                color: Colors.transparent,
+              if(mostrarTudo == true)GestureDetector(
+                onTap: (){
+                  setState(() {
+                    mostrarTudo = !mostrarTudo;
+                  });
+                },
+                child: Container(
+                  color: Colors.transparent,
+                ),
               ),
             ],
           ),
@@ -411,8 +418,22 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       'idColaborador': idDeQuemEstaCadastrando
     };
     var response = await http.delete(Uri.parse(url), headers: headers);
-
-    await getProdutoList();
+    if (response.statusCode == 409){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        elevation: 10,
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red,
+        content: Text("não é possível apagar pois existem vendas para esse produto"),
+      ));
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        elevation: 10,
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.green,
+        content: Text("apaguei com sucesso"),
+      ));
+    }
+      await getProdutoList();
 
   }
 

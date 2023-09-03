@@ -176,7 +176,7 @@ class _Index1TelaState extends State<Index1Tela>
                             height: 80,
                           ),
                           Card(
-                            // color: AppController.instance.corTelaAcima,
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                             elevation: 10,
                             child: SizedBox(
                               height: MediaQuery.of(context).size.height * 0.3,
@@ -258,6 +258,7 @@ class _Index1TelaState extends State<Index1Tela>
                 ),
                 SizedBox(height: espacoEntreOsFloatings * 2),
                 if(_isExpanded == false) Card(
+                    color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                         child: Column(
                           children: [
                             Padding(
@@ -276,6 +277,7 @@ class _Index1TelaState extends State<Index1Tela>
                           ],
                         )),
                 if(_isExpanded == false) Card(
+                    color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                         child: Column(
                           children: [
                             Padding(
@@ -294,6 +296,7 @@ class _Index1TelaState extends State<Index1Tela>
                           ],
                         )),
                 if(_isExpanded == false) Card(
+                    color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
                         child: Column(
                           children: [
                             Padding(
