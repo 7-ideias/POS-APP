@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:pos_app/dtos/produto-dto.dart';
-import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import '../controller/app_controller.dart';
-import '../controller/produto-controller.dart';
 import '../dtos/objetos/obj-venda-e-servico.dart';
 import '../utilitarios/widgetsGlobais.dart';
 import 'operacao-escolhendo-produto.dart';
@@ -68,22 +66,6 @@ class _InserindoProdutoState extends State<InserindoProduto> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-                //instrução para o usuario nao ficar perdido
-                jaTemUmProduto == false ? Container(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text('mensagem para o usuario escolher um produto ou nao vai funfar'))
-                      ],
-                    ),
-                  ),
-                ) : Container(),
-
                 //codigo de barras
                 jaTemUmProduto == false ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -128,10 +110,13 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         child: Icon(Icons.qr_code_2,size: 50,),))
                   ],
                 ):Container(),
-                SizedBox(height: 16.0),
-
+                SizedBox(height: 30.0),
                 Container(
-                  child: Text(_acheiProduto.text),
+                  child: Column(
+                    children: [
+                      Text(_acheiProduto.text,style: TextStyle(fontSize: 22)),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: 16.0),
@@ -245,7 +230,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                 ),
                               ) ,
                             ),
-                            Spacer(),
+                            const Spacer(),
                             //valor da venda
                             Container(
                               width: MediaQuery.of(context).size.width * 0.4,
@@ -259,7 +244,9 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                     }
                                     return null;
                                   },
-                                  controller: TextEditingController(text: vlTotalMultiplicado.toString()),
+                                  controller:  TextEditingController(text: vlTotalMultiplicado.toString()).text == '0.0' ?
+                                  TextEditingController(text: _vlUnitario.text)
+                                      : TextEditingController(text: vlTotalMultiplicado.toString()) ,
                                   // enabled: editar,
                                   keyboardType:
                                   TextInputType.numberWithOptions(decimal: true),
@@ -372,11 +359,11 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   }
 
   void calcularPrecoTotalMultiplicado(){
+    print('vou calcular');
     var resultado = 0.00;
     try{
       resultado = double.parse(_contador.toString()) * double.parse(_vlUnitario.text);
     }catch(ex){
-
     }
     setState(() {
       vlTotalMultiplicado = resultado;
@@ -411,7 +398,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
         setState(() {
           produtoDto = list.first;
           _isAcheiProduto = true;
-          _acheiProduto = TextEditingController(text: 'encontrei o produto.: ' + produtoDto.nomeProduto);
+          _acheiProduto = TextEditingController(text: 'encontrei o produto.: \n' + produtoDto.nomeProduto);
         });
       }
 

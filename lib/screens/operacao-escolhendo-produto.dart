@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:pos_app/dtos/produto-dto.dart';
-import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
-import 'package:pos_app/utilitarios/tela_inteira.dart';
 
-import '../controller/app_controller.dart';
 import '../controller/produto-controller.dart';
-import '../dtos/objetos/obj-venda-e-servico.dart';
-import '../utilitarios/widgetsGlobais.dart';
 
 class EscolhaOProduto extends StatefulWidget {
   EscolhaOProduto({Key? key}) : super(key: key);
@@ -57,8 +49,8 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
                   maxRadius: 30,
                   child: Icon(Icons.question_mark),
                 ),
-                title: Text("código" + VariaveisGlobais.produtoList[index].codigoDeBarras +" - "
-                    + VariaveisGlobais.produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
+                title: Text('código${VariaveisGlobais.produtoList[index].codigoDeBarras} - ${VariaveisGlobais.produtoList[index].nomeProduto}',
+                    style: TextStyle(fontSize: 20)),
               ),
             );
           },

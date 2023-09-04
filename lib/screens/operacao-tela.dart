@@ -26,39 +26,10 @@ class _OperacaoTelaState extends State<OperacaoTela> {
     getOperacaoList();
   }
 
-  int _selectedIndex = 1;
-
-  // Future<void> _onItemTapped(int index) async {
-  //   if(index == 0){
-  //
-  //   }
-  //   if(index == 1){
-  //     await Navigator.pushNamed(context, '/operacaoNova');
-  //     getOperacaoList();
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Center(child: Text('Operações'),)),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: _selectedIndex,
-      //   onTap: _onItemTapped,
-      //   items: [
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.search),
-      //       label: 'buscar',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.add,size: 30,),
-      //       label: 'nova venda/serviço',
-      //     ),
-      //   ],
-      // ),
-      body: isLoading == true ?  TelaInteira().widgetDeLoadingPadraoDoApp():
-      VariaveisGlobais.operacoesBackEnd.ops == null ? naoTemOperacoes():temOperacoes(context),
-
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -107,13 +78,16 @@ class _OperacaoTelaState extends State<OperacaoTela> {
           // FloatingActionButton(onPressed: (){},child: Icon(Icons.refresh),)
         ],
       ),
-
+      body: isLoading == true ?  TelaInteira().widgetDeLoadingPadraoDoApp():
+      VariaveisGlobais.operacoesBackEnd.ops == null ? naoTemOperacoes():temOperacoes(context),
     );
   }
 
-  Widget naoTemOperacoes() => Center(
-    child: Text('nada aqui'),
+  Widget naoTemOperacoes() {
+    return Center (
+    child: Text('não existem operações no sistema'),
   );
+  }
 
   Widget temOperacoes(BuildContext context) {
 
