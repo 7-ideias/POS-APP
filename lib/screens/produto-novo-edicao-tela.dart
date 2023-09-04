@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pos_app/controller/app_controller.dart';
@@ -186,7 +185,6 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             labelText: 'código de barras',
                             suffixIcon: GestureDetector(
                                 onTap: (){
-                                  scan();
                                 },
                                 child: Icon(Icons.qr_code_2_outlined))
 
@@ -738,20 +736,20 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     _vlDeVenda = TextEditingController(text: NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(produtoModelo.precoVenda));
   }
 
-  Future<void> scan() async {
-    String barCode;
-    try {
-      barCode = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'cancelar', true, ScanMode.BARCODE);
-    } on PlatformException {
-      barCode = 'falhou';
-    }
-    if (!mounted) return;
-    setState(() {
-      resultadoDoSacanner = barCode;
-      _codigoProduto = TextEditingController(text: resultadoDoSacanner);
-    });
-  }
+  // Future<void> scan() async {
+  //   String barCode;
+  //   try {
+  //     barCode = await FlutterBarcodeScanner.scanBarcode(
+  //         '#ff6666', 'cancelar', true, ScanMode.BARCODE);
+  //   } on PlatformException {
+  //     barCode = 'falhou';
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     resultadoDoSacanner = barCode;
+  //     _codigoProduto = TextEditingController(text: resultadoDoSacanner);
+  //   });
+  // }
 
 }
 

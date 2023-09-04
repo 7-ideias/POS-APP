@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/home-tela.dart';
+import 'package:pos_app/screens/leitor_de_codigos_de_barras.dart';
+import 'package:pos_app/screens/tela_index_1_principal.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -79,6 +82,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                       children: [
                         GestureDetector(
                           onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home(),));
                             getIdioma('pt-br');
                           },
                           child: SizedBox(
@@ -95,6 +99,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                         ),
                         GestureDetector(
                           onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Leitor(),));
                             getIdioma('en-us');
                           },
                           child: SizedBox(
