@@ -1,9 +1,12 @@
-import 'package:country_picker/country_picker.dart';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
-import 'package:pos_app/screens/tela_index_1_principal.dart';
+
+import '../controller/app_controller.dart';
+import '../service/voltar_a_tela_de_encolha.dart';
+import '../utilitarios/widgetsGlobais.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -15,6 +18,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _celularController = TextEditingController();
+  // TextEditingController _celularDoTitularController = TextEditingController();
+  TextEditingController _identificacaoIdTitular = TextEditingController(text: '+5535992736863');
   final TextEditingController senhaController = TextEditingController();
 
     TextEditingController posicao1DaSenha = TextEditingController();
@@ -39,39 +44,28 @@ class _LoginPageState extends State<LoginPage> {
   late var celular;
   late var senha;
 
-  String pais = '';
+  String usuarioColaboradorNovo = '';
 
-  void _validateFields() {
-    debugPrint('posicao1DaSenha -> ' + posicao1DaSenha.text);
-    debugPrint('posicao2DaSenha -> ' + posicao2DaSenha.text);
-    debugPrint('posicao3DaSenha -> ' + posicao3DaSenha.text);
-    debugPrint('posicao4DaSenha -> ' + posicao4DaSenha.text);
-    debugPrint('posicao5DaSenha -> ' + posicao5DaSenha.text);
-    debugPrint('posicao6DaSenha -> ' + posicao6DaSenha.text);
+  String paisTitular = '';
+  String paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador = '+55';
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ValidaPage(
-            celular: '$pais${_celularController.text}', senha: posicao1DaSenha.text+posicao2DaSenha.text
-            +posicao3DaSenha.text+posicao4DaSenha.text+posicao5DaSenha.text+posicao6DaSenha.text),
-      ),
-    );
-  }
+  bool ehColaborador = false;
+  String celularDoTitular = '';
 
-  void validarSenhaDigitada() {
-    if (isUserValid && isPasswordValid) {
-      // Campos válidos, fazer a lógica de autenticação aqui
-      print('Campos válidos');
-      // Chamar a página de cadastro do cliente
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Index1Tela()),
-      );
-    } else {
-      print('Campos inválidos');
-    }
-  }
+
+  // void validarSenhaDigitada() {
+  //   if (isUserValid && isPasswordValid) {
+  //     // Campos válidos, fazer a lógica de autenticação aqui
+  //     print('Campos válidos');
+  //     // Chamar a página de cadastro do cliente
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => Index1Tela()),
+  //     );
+  //   } else {
+  //     print('Campos inválidos');
+  //   }
+  // }
 
   // void _pular() {
   //   setState(() {
@@ -101,6 +95,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final countryPicker = const FlCountryCodePicker();
+    CountryCode? countryCode;
     var arguments = ModalRoute.of(context)?.settings.arguments;
     return Scaffold(
       body: SingleChildScrollView(
@@ -117,16 +113,19 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             SizedBox(height: 20),
-            if(arguments.toString() == 'novo')
-                Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'novo usuário!!!',
-                        style: TextStyle(fontSize: 30, color: Colors.red),
-                      ),
-                    ),
+            // if(arguments.toString() == 'novo')
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    arguments.toString().toUpperCase(),
+                    style: TextStyle(fontSize: 30),
                   ),
+                ),
+              ),
             SizedBox(
               height: 20
             ),
@@ -135,21 +134,64 @@ class _LoginPageState extends State<LoginPage> {
               child: Center(
                 child: Column(
                   children: [
+
+                    /**
+                     * ! logando o colaborador
+                     */
                     if(arguments.toString() == 'colaborador')
                         SizedBox(
                             width: double.infinity * 0.8,
                             child: TextField(
+                              controller: _identificacaoIdTitular,
                               style: TextStyle(fontSize: 22),
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(),
-                                labelText: 'celular do titular',
+                                labelText: 'identificacao',
                               ),
                             ),
                           ),
+
                     SizedBox(
-                      height: 20
+                        height: 20
                     ),
+                      // SizedBox(
+                      //   width: double.infinity * 0.8,
+                      //   child: TextFormField(
+                      //     // focusNode: focoInicialNoCelular,
+                      //     controller: _celularDoTitularController,
+                      //     style: TextStyle(fontSize: 30),
+                      //     keyboardType: TextInputType.number,
+                      //     textDirection: TextDirection.ltr,
+                      //     decoration: InputDecoration(
+                      //       prefixIcon: Padding(
+                      //         padding: const EdgeInsets.all(8.0),
+                      //         child: GestureDetector(
+                      //           onTap: (){
+                      //             opcaoPaises('titular');
+                      //           },
+                      //           child: Container(
+                      //             width: 130,
+                      //             child: Row(
+                      //               children: [
+                      //                 Icon(Icons.phone,size: 35),
+                      //                 SizedBox(width: 20),
+                      //                 Text(paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador,style: TextStyle(fontSize: 30)),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       border: OutlineInputBorder(),
+                      //       labelText: 'celular',
+                      //       errorText: isUserValid ? null : 'Campo obrigatório',
+                      //     ),
+                      //   ),
+                      // ),
+                    // SizedBox(
+                    //   height: 20
+                    // ),
+
                     SizedBox(
                       width: double.infinity * 0.8,
                       child: TextFormField(
@@ -162,16 +204,27 @@ class _LoginPageState extends State<LoginPage> {
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
-                                onTap: (){
-                                  opcaoPaises();
+                                onTap: () async {
+                                  final code = await countryPicker.showPicker(context: context);
+                                  setState(() {
+                                    countryCode = code;
+                                    paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador = countryCode!.dialCode;
+                                  });
+                                  // opcaoPaises('');
                                 },
                                 child: Container(
                                   width: 130,
                                   child: Row(
                                     children: [
-                                      Icon(Icons.phone,size: 35),
-                                      SizedBox(width: 20),
-                                      Text(pais,style: TextStyle(fontSize: 30)),
+                                      SizedBox(width: 10),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.redAccent,
+                                          borderRadius: BorderRadius.all(Radius.circular(10))
+                                        ),
+                                          padding: EdgeInsets.only(right: 15,left: 15,top: 15,bottom: 15
+                                          ),
+                                          child: Text(paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold))),
                                     ],
                                   ),
                                 ),
@@ -230,34 +283,85 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         : Container(),
                     SizedBox(height: 20.0),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 50,
-                        width: double.infinity * 0.8,
-                        child: ElevatedButton(
-                          focusNode: focoNoLogin,
-                          onPressed: _validateFields,
-                          child: arguments.toString() == 'novo'
-                              ? Text('cadastrar novo usuário',
-                                  style: TextStyle(fontSize: 18))
-                              : Text('login', style: TextStyle(fontSize: 18)),
-                        ),
-                      ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Container(
+                    //     height: 50,
+                    //     width: double.infinity * 0.8,
+                    //     child: ElevatedButton(
+                    //       focusNode: focoNoLogin,
+                    //       onPressed: _validateFields,
+                    //       child: arguments.toString() == 'novo'
+                    //           ? Text('cadastrar novo usuário',
+                    //               style: TextStyle(fontSize: 18))
+                    //           : Text('login', style: TextStyle(fontSize: 18)),
+                    //     ),
+                    //   ),
+                    // ),
+                    GestureDetector(
+                      onTap: () async {
+
+                        setState(() {
+                          if(ModalRoute.of(context)?.settings.arguments.toString().toUpperCase() == 'COLABORADOR'){
+                            ehColaborador = true;
+                            celularDoTitular = _identificacaoIdTitular.text;
+                            usuarioColaboradorNovo = 'COLABORADOR';
+                          }
+
+                          if(ModalRoute.of(context)?.settings.arguments.toString().toUpperCase() == 'USUARIO'){
+                            // ehColaborador = true;
+                            // celularDoTitular = _identificacaoIdTitular.text;
+                            usuarioColaboradorNovo = 'USUARIO';
+                          }
+
+                          if(ModalRoute.of(context)?.settings.arguments.toString().toUpperCase() == 'NOVO'){
+                            // ehColaborador = true;
+                            // celularDoTitular = _identificacaoIdTitular.text;
+                            usuarioColaboradorNovo = 'NOVO';
+                          }
+
+                        });
+
+                       Navigator.pushReplacement(
+                         context,
+                         MaterialPageRoute(
+                           builder: (context) => ValidaPage(
+                             celular: '$paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador${_celularController.text}',
+                             senha: posicao1DaSenha.text+posicao2DaSenha.text+posicao3DaSenha.text+posicao4DaSenha.text+posicao5DaSenha.text+posicao6DaSenha.text,
+                             celularTitular: '$paisTitular$celularDoTitular',
+                             usuarioColaboradorNovo: usuarioColaboradorNovo,
+                           ),
+                         ),
+                       );
+                      },
+                      child: UtilsWidgets.botaoMaster(
+                          context,
+                          AppController.instance.botaoConfirmar,
+                          arguments.toString() == 'novo'
+                              ? 'cadastrar novo usuário'
+                              : 'login'),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 50,
-                        color: Colors.red,
-                        width: double.infinity * 0.8,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text('voltar', style: TextStyle(fontSize: 18)),
-                        ),
-                      ),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Container(
+                    //     height: 50,
+                    //     color: Colors.red,
+                    //     width: double.infinity * 0.8,
+                    //     child: ElevatedButton(
+                    //       onPressed: () {
+                    //         voltarEscolha(context);
+                    //       },
+                    //       child: Text('voltar', style: TextStyle(fontSize: 18)),
+                    //     ),
+                    //   ),
+                    // ),
+                    GestureDetector(
+                      onTap: () {
+                        voltarEscolha(context);
+                      },
+                      child: UtilsWidgets.botaoMaster(
+                          context,
+                          AppController.instance.botaoNegar,'voltar'),
                     ),
                   ],
                 ),
@@ -268,6 +372,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
 
 
 
@@ -299,7 +404,7 @@ class _LoginPageState extends State<LoginPage> {
             } else if (posicao == 5) {
               focusNode6.requestFocus();
             } else if (posicao == 6) {
-              focoNoLogin.requestFocus();
+              // focoNoLogin.requestFocus();
             }
           },
           focusNode: focusNode,
@@ -321,44 +426,50 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void opcaoPaises() {
-    showCountryPicker(
-      context: context,
-      //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
-      exclude: <String>['KN', 'MF'],
-      favorite: <String>['BR'],
-      showPhoneCode: true,
-      onSelect: (Country country) {
-        print(country.phoneCode);
-        setState(() {
-          pais = '+${country.phoneCode}';
-        });
-      },
-      // Optional. Sets the theme for the country list picker.
-      countryListTheme: CountryListThemeData(
-        // Optional. Sets the border radius for the bottomsheet.
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(40.0),
-          topRight: Radius.circular(40.0),
-        ),
-        // Optional. Styles the search field.
-        inputDecoration: InputDecoration(
-          labelText: 'procurar',
-          hintText: 'digite algo',
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: const Color(0xFF8C98A8).withOpacity(0.2),
-            ),
-          ),
-        ),
-        // Optional. Styles the text in the search field
-        searchTextStyle: TextStyle(
-          color: Colors.blue,
-          fontSize: 25,
-        ),
-      ),
-    );
-  }
+
+
+  // void opcaoPaises(String titular) {
+  //   showCountryPicker(
+  //     context: context,
+  //     //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
+  //     exclude: <String>['KN', 'MF'],
+  //     favorite: <String>['BR'],
+  //     showPhoneCode: true,
+  //     onSelect: (Country country) {
+  //       print(country.phoneCode);
+  //       setState(() {
+  //         if(titular == 'titular'){
+  //           paisTitular = '+${country.phoneCode}';
+  //         }else{
+  //           paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador = '+${country.phoneCode}';
+  //         }
+  //       });
+  //     },
+  //     // Optional. Sets the theme for the country list picker.
+  //     countryListTheme: CountryListThemeData(
+  //       // Optional. Sets the border radius for the bottomsheet.
+  //       borderRadius: BorderRadius.only(
+  //         topLeft: Radius.circular(40.0),
+  //         topRight: Radius.circular(40.0),
+  //       ),
+  //       // Optional. Styles the search field.
+  //       inputDecoration: InputDecoration(
+  //         labelText: 'procurar',
+  //         hintText: 'digite algo',
+  //         prefixIcon: const Icon(Icons.search),
+  //         border: OutlineInputBorder(
+  //           borderSide: BorderSide(
+  //             color: const Color(0xFF8C98A8).withOpacity(0.2),
+  //           ),
+  //         ),
+  //       ),
+  //       // Optional. Styles the text in the search field
+  //       searchTextStyle: TextStyle(
+  //         color: Colors.blue,
+  //         fontSize: 25,
+  //       ),
+  //     ),
+  //   );
+  // }
 
 }

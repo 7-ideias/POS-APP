@@ -9,13 +9,25 @@ import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../service/voltar_a_tela_de_encolha.dart';
 import 'home-tela.dart';
+import 'jornada-tela.dart';
 
 class ValidaPage extends StatefulWidget {
   final String celular;
   final String senha;
+  final String celularTitular;
 
-  ValidaPage({required this.celular, required this.senha});
+  /**
+   * USUARIO - se chegar usuario é porque quer apenas logar
+   * COLABORADOR - o colaborador nao pode ser cadastrado por ele mesmo. Apenas pelo seu USUARIO (DONO DA CONTA)
+   * NOVO - esse será um novo USUARIO
+   */
+  final String usuarioColaboradorNovo;
+
+
+  ValidaPage({required this.celular, required this.senha,
+    required this.celularTitular, required this.usuarioColaboradorNovo});
 
   @override
   _ValidaPageState createState() => _ValidaPageState();
@@ -32,11 +44,32 @@ class _ValidaPageState extends State<ValidaPage> {
   }
 
   Future<void> fazerRequisicao() async {
-    final url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
+
+    String url = '';
+
+    if(widget.usuarioColaboradorNovo == 'NOVO'){
+      url = '${VariaveisGlobais.endPoint}/usuario/novo';
+    }
+    if(widget.usuarioColaboradorNovo == 'COLABORADOR'){
+      url = '${VariaveisGlobais.endPoint}/usuario/autorizador-colaborador';
+    }
+    if(widget.usuarioColaboradorNovo == 'USUARIO'){
+      url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
+    }
+
+
+    // if(widget.colaborador == true){
+    //   url = '${VariaveisGlobais.endPoint}/usuario/autorizador-colaborador';
+    // }else{
+    //   url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
+    // }
+
     print('URL.: ' + url);
+    print('printando');
 
     var headers = {
-      'idUser':'appPOS',
+      'idUser':'5dab33ff2a8c4d6690547e33708fa2b1',
+      'celularDoTitular' : widget.celularTitular,
       // 'idUsuario': '40eb39abc2f44908ae5dfc16687cc977',
       // 'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
       'Content-Type': 'application/json',
@@ -63,13 +96,23 @@ class _ValidaPageState extends State<ValidaPage> {
           // Navigator.pushReplacementNamed(context, '/home');
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Home()),(Route<dynamic> route) => false);
         });
-      } else {
+      }
+      // if (response.statusCode == 409 && widget.usuarioColaboradorNovo == 'NOVO') {
+      //   setState(() {
+      //     status = response.statusCode;
+      //     isLoading = false;
+      //   });
+      //   Timer(Duration(seconds: 2), () {
+      //   });
+      //
+      // }
+      else {
         setState(() {
           status = response.statusCode;
           isLoading = false;
         });
         Timer(Duration(seconds: 2), () {
-          Navigator.pushReplacementNamed(context, '/login');
+          voltarEscolha(context);
         });
       }
     } catch (error) {

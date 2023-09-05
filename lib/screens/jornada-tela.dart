@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
+import '../service/voltar_a_tela_de_encolha.dart';
+
 class JornadaTela extends StatefulWidget {
   @override
   _JornadaTelaState createState() => _JornadaTelaState();
@@ -152,30 +154,7 @@ class _JornadaTelaState extends State<JornadaTela> {
                                   child: IconButton(
                                     icon: Icon(Icons.arrow_forward,size: 60,),
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        PageRouteBuilder(
-                                          transitionDuration:
-                                              Duration(milliseconds: 500),
-                                          pageBuilder: (context, animation,
-                                                  secondaryAnimation) =>
-                                              OutraTela(),
-                                          transitionsBuilder: (context, animation,
-                                              secondaryAnimation, child) {
-                                            var begin = Offset(1.0, 0.0);
-                                            var end = Offset.zero;
-                                            var curve = Curves.ease;
-
-                                            var tween = Tween(begin: begin, end: end)
-                                                .chain(CurveTween(curve: curve));
-
-                                            return SlideTransition(
-                                              position: animation.drive(tween),
-                                              child: child,
-                                            );
-                                          },
-                                        ),
-                                      );
+                                      voltarEscolha(context);
                                     },
                                   ),
                                 ),
