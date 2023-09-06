@@ -23,7 +23,7 @@ class ProdutoController {
   Future<http.Response> fazRequisicao() async {
     var headers = {
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
-      'idColaborador': '40eb39abc2f44908ae5dfc16687cc977',
+      'idColaborador': '${VariaveisGlobais.usuarioDto.idUsuario}',
       'Content-Type': 'application/json',
     };
     var body = {

@@ -24,6 +24,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Center(child: Text('escolha o produto')),
         automaticallyImplyLeading: false,
       ),
       floatingActionButton: FloatingActionButton(
@@ -49,8 +50,13 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
                   maxRadius: 30,
                   child: Icon(Icons.question_mark),
                 ),
-                title: Text('código${VariaveisGlobais.produtoList[index].codigoDeBarras} - ${VariaveisGlobais.produtoList[index].nomeProduto}',
-                    style: TextStyle(fontSize: 20)),
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('${VariaveisGlobais.produtoList[index].codigoDeBarras}'),
+                    Text('${VariaveisGlobais.produtoList[index].nomeProduto}'),
+                  ],
+                ),
               ),
             );
           },

@@ -151,9 +151,7 @@ class _Index1TelaState extends State<Index1Tela>
                                     children: [
                                       SizedBox(width: 20),
                                       Text(
-                                        VariaveisGlobais
-                                                .usuarioDto.objUser?.objPessoa?.nome ??
-                                            '',
+                                        VariaveisGlobais.usuarioDto.objPessoa?.nome ??'',
                                         style: GoogleFonts.bebasNeue(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 25,
@@ -335,7 +333,7 @@ class _Index1TelaState extends State<Index1Tela>
   Future<void> atualizarParametrosDaTela() async {
     await OperacaoController().atualizarOperacoes();
     setState(() {
-      numeroDeVendas =   VariaveisGlobais.operacoesBackEnd.quantidadeDeOps.toString();
+      numeroDeVendas =  VariaveisGlobais.operacoesBackEnd.quantidadeDeOps == null? '0' : VariaveisGlobais.operacoesBackEnd.quantidadeDeOps.toString();
     });
   }
 

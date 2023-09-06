@@ -40,7 +40,22 @@ class AppController extends ChangeNotifier {
       corLetras = Colors.white;
       botaoConfirmar = Colors.green;
       botaoNegar = Colors.red;
+    } else if (corPrincipal == Colors.green) {
+      corAppBar = Colors.greenAccent;
+      // corTelaFundo = Colors.orange;
+      corTelaAcima = Colors.greenAccent;
+      corLetras = Colors.white;
+      botaoConfirmar = Colors.green;
+      botaoNegar = Colors.red;
+    } else if (corPrincipal == Colors.pink) {
+      corAppBar = Colors.pinkAccent;
+      // corTelaFundo = Colors.orange;
+      corTelaAcima = Colors.pinkAccent;
+      corLetras = Colors.white;
+      botaoConfirmar = Colors.green;
+      botaoNegar = Colors.red;
     }
+
     buildThemeData();
     notifyListeners();
   }

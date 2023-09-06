@@ -34,6 +34,13 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
     context: context,
     builder: (_) {
       return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+          border: Border.all(color: Colors.transparent), // Definindo a borda como transparente
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -56,7 +63,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('tema ',style: TextStyle()),
+                  child: Text('tema ', style: TextStyle()),
                 ),
                 Switch(
                   value: AppController.instance.isDartTheme,
@@ -65,18 +72,16 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                     dark = value;
                     AppController.instance.mudarCores(value);
                   },
-                )
-
+                ),
               ],
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Escolha a cor do app ',style: TextStyle()),
+              child: Text('Escolha a cor do app ', style: TextStyle()),
             ),
             Wrap(
               direction: Axis.horizontal,
               children: [
-
                 //cor azul
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -105,12 +110,12 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                     ),
                   ),
                 ),
-                //cor laranja
+                //cor verde
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      AppController.instance.corPrincipal = Colors.orange;
+                      AppController.instance.corPrincipal = Colors.green;
                       AppController.instance.mudarCores(dark);
                     },
                     child: CircleAvatar(
@@ -119,11 +124,12 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                     ),
                   ),
                 ),
+                //cor pink
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
-                      AppController.instance.corPrincipal = Colors.orange;
+                      AppController.instance.corPrincipal = Colors.pink;
                       AppController.instance.mudarCores(dark);
                     },
                     child: CircleAvatar(
@@ -132,6 +138,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                     ),
                   ),
                 ),
+                //cor laranja
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(

@@ -409,7 +409,7 @@ class _LoginPageState extends State<LoginPage> {
           },
           focusNode: focusNode,
           controller: controller,
-          maxLength: 1,
+          // maxLength: 1,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
           ],

@@ -623,7 +623,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       fazendoRequest = true;
     });
     var url = '${VariaveisGlobais.endPoint}/produto/cadastro';
-    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.idUsuario}';
 
     String headerDoTipo;
     var body;
@@ -699,7 +699,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       fazendoRequest = true;
     });
     var url = '${VariaveisGlobais.endPoint}/produto/detalhado/' + id;
-    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.idUsuario}';
     var headers = {
       'Content-Type': 'application/json',
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',

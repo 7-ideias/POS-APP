@@ -139,20 +139,25 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                                       .qtNoEstoque}",style: TextStyle(fontSize: 16)),
                                             ],
                                           ),
-                                          if(produtoList[index].estoqueMinimo<=produtoList[index]
-                                              .objCalculosDeProdutoDoBackEnd
-                                              .qtNoEstoque)Row(
+                                          if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque < produtoList[index].estoqueMinimo)Row(
                                             children: [
                                               CircleAvatar(backgroundColor: Colors.red,radius: 10,),
                                               Text('  abaixo do estoque mínimo',style: TextStyle(fontSize: 16)),
                                             ],
                                           ),
-                                          if(produtoList[index].estoqueMaximo>=produtoList[index]
+                                          if(produtoList[index]
                                               .objCalculosDeProdutoDoBackEnd
-                                              .qtNoEstoque)Row(
+                                              .qtNoEstoque > produtoList[index].estoqueMaximo)Row(
+                                            children: [
+                                              CircleAvatar(backgroundColor: Colors.orange,radius: 10,),
+                                              Text('  acima do estoque ideal',style: TextStyle(fontSize: 16)),
+                                            ],
+                                          ),
+                                          if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque >= produtoList[index].estoqueMinimo &&
+                                              produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque <= produtoList[index].estoqueMaximo)Row(
                                             children: [
                                               CircleAvatar(backgroundColor: Colors.green,radius: 10,),
-                                              Text('  acima do estoque ideal',style: TextStyle(fontSize: 16)),
+                                              Text('  estoque ideal',style: TextStyle(fontSize: 16)),
                                             ],
                                           ),
 
@@ -194,8 +199,8 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           ),
           if(mostrarTudo == true) FloatingActionButton.extended(
             backgroundColor: Colors.green,
-            onPressed: () {
-              Navigator.push(
+            onPressed: () async {
+              await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProdutoNovoEdicaoTela(
@@ -203,6 +208,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   ),
                 ),
               );
+              getProdutoList();
             },
             label: Row(
               children: [
@@ -411,7 +417,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
     });
 
     var url = '${VariaveisGlobais.endPoint}/produto/apagar/' + id;
-    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.id}';
+    String idDeQuemEstaCadastrando = '${VariaveisGlobais.usuarioDto.idUsuario}';
     var headers = {
       'Content-Type': 'application/json',
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
