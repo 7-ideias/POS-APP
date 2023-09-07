@@ -747,6 +747,19 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     // } on PlatformException {
     //   barCode = 'falhou';
     // }
+
+    var mobileScanner = MobileScanner(
+      // fit: BoxFit.contain,
+      onDetect: (capture) {
+        final List<Barcode> barcodes = capture.barcodes;
+        final Uint8List? image = capture.image;
+        for (final barcode in barcodes) {
+          debugPrint('Barcode found! ${barcode.rawValue}');
+        }
+      },
+    );
+
+
     if (!mounted) return;
     setState(() {
       resultadoDoSacanner = barCode;
