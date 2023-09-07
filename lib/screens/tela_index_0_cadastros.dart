@@ -6,6 +6,7 @@ import 'package:pos_app/screens/relatorios_tela.dart';
 import '../controller/app_controller.dart';
 import '../utilitarios/MenuLateral.dart';
 import '../utilitarios/appbar_do_app.dart';
+import 'cadastrando-novo-colaborador.dart';
 
 class Index0Tela extends StatefulWidget {
   const Index0Tela({Key? key}) : super(key: key);
@@ -84,10 +85,7 @@ class _Index0TelaState extends State<Index0Tela> {
                       //tela colaboradores
                       GestureDetector(
                         onTap: (){
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => RelatoriosTela()),
-                          // );
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NovoColaborador(),));
                         },
                         child: Card(
                           elevation: 10,
