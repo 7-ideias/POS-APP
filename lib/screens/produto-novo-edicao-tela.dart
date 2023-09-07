@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:pos_app/controller/app_controller.dart';
@@ -739,13 +740,13 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   }
 
   Future<void> scan() async {
-    String barCode;
-    try {
-      barCode = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'cancelar', true, ScanMode.BARCODE);
-    } on PlatformException {
-      barCode = 'falhou';
-    }
+    String barCode = 'XXXXX';
+    // try {
+    //   barCode = await FlutterBarcodeScanner.scanBarcode(
+    //       '#ff6666', 'cancelar', true, ScanMode.BARCODE);
+    // } on PlatformException {
+    //   barCode = 'falhou';
+    // }
     if (!mounted) return;
     setState(() {
       resultadoDoSacanner = barCode;

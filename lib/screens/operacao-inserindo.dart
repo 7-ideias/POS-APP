@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pos_app/dtos/produto-dto.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
@@ -417,13 +417,13 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   }
 
   Future<void> scan() async {
-    String barCode;
-    try {
-      barCode = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'cancelar', true, ScanMode.BARCODE);
-    } on PlatformException {
-      barCode = 'falhou';
-    }
+    String barCode = 'XXXXX';
+    // try {
+    //   barCode = await FlutterBarcodeScanner.scanBarcode(
+    //       '#ff6666', 'cancelar', true, ScanMode.BARCODE);
+    // } on PlatformException {
+    //   barCode = 'falhou';
+    // }
     if (!mounted) return;
     setState(() {
       _codigoProduto = TextEditingController(text: barCode);
