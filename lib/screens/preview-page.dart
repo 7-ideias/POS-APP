@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:pos_app/screens/cadastrando-novo-colaborador.dart';
 
 class PreviewPage extends StatelessWidget {
   File file;
 
-  PreviewPage({super.key, required this.file});
+  PreviewPage({Key? key, required this.file}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +39,12 @@ class PreviewPage extends StatelessWidget {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.pop(context, file);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NovoColaborador(file: file),
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -60,7 +64,8 @@ class PreviewPage extends StatelessWidget {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.push(context,
+                              Navigator.push(
+                                context,
                                 MaterialPageRoute(
                                   builder: (_) => CameraCamera(
                                     onFile: (file) {
@@ -68,7 +73,8 @@ class PreviewPage extends StatelessWidget {
                                       Navigator.pop(context);
                                     },
                                   ),
-                                ),);
+                                ),
+                              );
                             },
                           ),
                         ),

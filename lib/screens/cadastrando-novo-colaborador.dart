@@ -7,32 +7,31 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:camera_camera/camera_camera.dart';
-import 'package:pos_app/screens/home-tela.dart';
 import 'package:pos_app/screens/preview-page.dart';
 
 class NovoColaborador extends StatefulWidget {
-  const NovoColaborador({super.key});
+  final File file;
+  const NovoColaborador({super.key, required this.file});
 
   @override
   State<NovoColaborador> createState() => _NovoColaboradorState();
 }
 
 class _NovoColaboradorState extends State<NovoColaborador> {
+
   late File arquivo = File('');
 
   final picker = ImagePicker();
 
   Future chamaAGaleria() async {
-    final file = await picker.
-    pickImage(source: ImageSource.gallery);
+    final file = await picker.pickImage(source: ImageSource.gallery);
 
-
-    if(file != null){
+    if (file != null) {
       setState(() {
         arquivo = File(file.path);
       });
-    };
-
+    }
+    ;
   }
 
   @override
@@ -67,8 +66,8 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.height * 0.155 / 2,
                   backgroundColor: Colors.grey,
-                  backgroundImage: arquivo != null && arquivo.path.isNotEmpty
-                      ? AssetImage(arquivo.path)
+                  backgroundImage: widget.file != null &&  widget.file.path.isNotEmpty
+                      ? AssetImage( widget.file.path)
                       : AssetImage('assets/male-profile-picture.png'),
                 ),
               ),
@@ -78,46 +77,62 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                   onTap: () => showModalBottomSheet(
                     context: context,
                     builder: (BuildContext context) {
-                      return Container(
-                        height: 120,
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: Icon(Icons.camera_alt),
-                              title: Text('Camera'),
-                              onTap: () {
-                                Navigator.pop(context); // Fechar a janela
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => CameraCamera(
-                                            onFile: (file) {
-                                              Navigator.pop(context);
-                                              setState(() {});
-                                            },
-                                          )),
-                                );
-                              },
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.photo),
-                              title: Text('Galeria'),
-                              onTap: () {
-                                chamaAGaleria();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      return buildJanelinhaQueSobe(context);
                     },
                   ),
-                  child: Lottie.asset(
-                    'assets/instagram-camera.json',
-                    height: MediaQuery.of(context).size.height * 0.155 / 1.5,
-                  ),
+                  child:  widget.file != null &&  widget.file.path.isNotEmpty
+                      ? GestureDetector(
+                          onTap: () => showModalBottomSheet(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return buildJanelinhaQueSobe(context);
+                              }),
+                        )
+                      : Lottie.asset(
+                          'assets/instagram-camera.json',
+                          height:
+                              MediaQuery.of(context).size.height * 0.155 / 1.5,
+                        ),
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container buildJanelinhaQueSobe(BuildContext context) {
+    return Container(
+      height: 120,
+      child: Column(
+        children: [
+          ListTile(
+            leading: Icon(Icons.camera_alt),
+            title: Text('Camera'),
+            onTap: () {
+              Navigator.pop(context); // Fechar a janela
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => CameraCamera(
+                          onFile: (file) {
+                            showPreview(file);
+                            Navigator.pop(context);
+                            setState(() {
+                              arquivo = file;
+                            });
+                          },
+                        )),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.photo),
+            title: Text('Galeria'),
+            onTap: () {
+              chamaAGaleria();
+            },
           ),
         ],
       ),
