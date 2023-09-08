@@ -1,9 +1,39 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:camera_camera/camera_camera.dart';
+import 'package:pos_app/screens/home-tela.dart';
+import 'package:pos_app/screens/preview-page.dart';
 
-class NovoColaborador extends StatelessWidget {
+class NovoColaborador extends StatefulWidget {
   const NovoColaborador({super.key});
+
+  @override
+  State<NovoColaborador> createState() => _NovoColaboradorState();
+}
+
+class _NovoColaboradorState extends State<NovoColaborador> {
+  late File arquivo = File('');
+
+  final picker = ImagePicker();
+
+  Future chamaAGaleria() async {
+    final file = await picker.
+    pickImage(source: ImageSource.gallery);
+
+
+    if(file != null){
+      setState(() {
+        arquivo = File(file.path);
+      });
+    };
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,29 +53,68 @@ class NovoColaborador extends StatelessWidget {
                 color: AppController.instance.corPrincipal,
                 child: Image.asset('assets/employee-data-folder.png'),
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height*0.22,
+                height: MediaQuery.of(context).size.height * 0.22,
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height*0.09,
+                top: MediaQuery.of(context).size.height * 0.09,
                 child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.height*0.155 /1.8,
+                  radius: MediaQuery.of(context).size.height * 0.155 / 1.8,
                   backgroundColor: Colors.white,
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height*0.1,
+                top: MediaQuery.of(context).size.height * 0.1,
                 child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.height*0.155 / 2,
+                  radius: MediaQuery.of(context).size.height * 0.155 / 2,
                   backgroundColor: Colors.grey,
-                  backgroundImage: AssetImage('assets/male-profile-picture.png'),
+                  backgroundImage: arquivo != null && arquivo.path.isNotEmpty
+                      ? AssetImage(arquivo.path)
+                      : AssetImage('assets/male-profile-picture.png'),
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height*0.13,
+                top: MediaQuery.of(context).size.height * 0.13,
                 child: GestureDetector(
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Container(
+                        height: 120,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: Icon(Icons.camera_alt),
+                              title: Text('Camera'),
+                              onTap: () {
+                                Navigator.pop(context); // Fechar a janela
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => CameraCamera(
+                                            onFile: (file) {
+                                              Navigator.pop(context);
+                                              setState(() {});
+                                            },
+                                          )),
+                                );
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.photo),
+                              title: Text('Galeria'),
+                              onTap: () {
+                                chamaAGaleria();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                   child: Lottie.asset(
-                      height: MediaQuery.of(context).size.height*0.155 / 1.5,
-                      'assets/instagram-camera.json'),
+                    'assets/instagram-camera.json',
+                    height: MediaQuery.of(context).size.height * 0.155 / 1.5,
+                  ),
                 ),
               ),
             ],
@@ -53,5 +122,19 @@ class NovoColaborador extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  showPreview(file) async {
+    file = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PreviewPage(file: file),
+        ));
+    if (file != null) {
+      setState(() {
+        arquivo = file;
+      });
+      Get.back();
+    }
   }
 }

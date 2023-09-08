@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pos_app/screens/esqueceu-senha-tela.dart';
 import 'package:pos_app/screens/idioma-tela.dart';
 import 'package:pos_app/screens/login-tela.dart';
@@ -58,7 +59,7 @@ class _TelaDeCarregamentoPrincipalState
     return AnimatedBuilder(
         animation: AppController.instance,
         builder: (context, child) {
-          return MaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: AppController.instance.buildThemeData(),
             home: buildScaffold(),

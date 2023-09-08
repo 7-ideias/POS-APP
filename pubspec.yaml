@@ -33,7 +33,9 @@ dependencies:
   shared_preferences: ^2.2.0
   share: ^2.0.4
   syncfusion_flutter_charts: ^20.1.60
-
+  camera_camera: ^3.0.0
+  image_picker: ^1.0.4
+  get: ^4.6.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
