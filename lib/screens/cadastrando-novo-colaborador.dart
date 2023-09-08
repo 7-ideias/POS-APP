@@ -11,6 +11,7 @@ import 'package:pos_app/screens/preview-page.dart';
 
 class NovoColaborador extends StatefulWidget {
   final File file;
+
   const NovoColaborador({super.key, required this.file});
 
   @override
@@ -18,7 +19,6 @@ class NovoColaborador extends StatefulWidget {
 }
 
 class _NovoColaboradorState extends State<NovoColaborador> {
-
   late File arquivo = File('');
 
   final picker = ImagePicker();
@@ -66,21 +66,15 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.height * 0.155 / 2,
                   backgroundColor: Colors.grey,
-                  backgroundImage: widget.file != null &&  widget.file.path.isNotEmpty
-                      ? AssetImage( widget.file.path)
-                      : AssetImage('assets/male-profile-picture.png'),
+                  backgroundImage:
+                      widget.file != null && widget.file.path.isNotEmpty
+                          ? AssetImage(widget.file.path)
+                          : AssetImage('assets/male-profile-picture.png'),
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.13,
-                child: GestureDetector(
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return buildJanelinhaQueSobe(context);
-                    },
-                  ),
-                  child:  widget.file != null &&  widget.file.path.isNotEmpty
+                  top: MediaQuery.of(context).size.height * 0.13,
+                  child: widget.file != null && widget.file.path.isNotEmpty
                       ? GestureDetector(
                           onTap: () => showModalBottomSheet(
                               context: context,
@@ -88,13 +82,20 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                 return buildJanelinhaQueSobe(context);
                               }),
                         )
-                      : Lottie.asset(
-                          'assets/instagram-camera.json',
-                          height:
-                              MediaQuery.of(context).size.height * 0.155 / 1.5,
-                        ),
-                ),
-              ),
+                      : GestureDetector(
+                          onTap: () => showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return buildJanelinhaQueSobe(context);
+                            },
+                          ),
+                          child: Lottie.asset(
+                            'assets/instagram-camera.json',
+                            height: MediaQuery.of(context).size.height *
+                                0.155 /
+                                1.5,
+                          ),
+                        )),
             ],
           ),
         ],
