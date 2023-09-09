@@ -6,7 +6,9 @@ import 'package:pos_app/screens/login-resulltado-da-validacao.dart';
 
 import '../controller/app_controller.dart';
 import '../service/voltar_a_tela_de_encolha.dart';
+import '../utilitarios/VariaveisGlobais.dart';
 import '../utilitarios/widgetsGlobais.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
 
@@ -53,28 +55,100 @@ class _LoginPageState extends State<LoginPage> {
   String celularDoTitular = '';
 
 
-  // void validarSenhaDigitada() {
-  //   if (isUserValid && isPasswordValid) {
-  //     // Campos válidos, fazer a lógica de autenticação aqui
-  //     print('Campos válidos');
-  //     // Chamar a página de cadastro do cliente
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => Index1Tela()),
-  //     );
-  //   } else {
-  //     print('Campos inválidos');
-  //   }
-  // }
+  void validarSenhaDigitada() {
 
-  // void _pular() {
-  //   setState(() {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => Home()),
-  //     );
-  //   });
-  // }
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    if(posicao1DaSenha.text.isEmpty ||
+        posicao2DaSenha.text.isEmpty ||
+        posicao3DaSenha.text.isEmpty ||
+        posicao4DaSenha.text.isEmpty ||
+        posicao5DaSenha.text.isEmpty ||
+        posicao6DaSenha.text.isEmpty){
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        elevation: 10,
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red,
+        content: Text("verifique a senha digitada\n"
+            "é obrigatório ter 6 dígitos"),
+      ));
+
+    }else {
+      setState(() {
+        if (ModalRoute
+            .of(context)
+            ?.settings
+            .arguments
+            .toString()
+            .toUpperCase() == 'COLABORADOR') {
+          ehColaborador = true;
+          celularDoTitular = _identificacaoIdTitular.text;
+          usuarioColaboradorNovo = 'COLABORADOR';
+        }
+
+        if (ModalRoute
+            .of(context)
+            ?.settings
+            .arguments
+            .toString()
+            .toUpperCase() == 'USUARIO') {
+          // ehColaborador = true;
+          // celularDoTitular = _identificacaoIdTitular.text;
+          usuarioColaboradorNovo = 'USUARIO';
+        }
+
+        if (ModalRoute
+            .of(context)
+            ?.settings
+            .arguments
+            .toString()
+            .toUpperCase() == 'NOVO') {
+          // ehColaborador = true;
+          // celularDoTitular = _identificacaoIdTitular.text;
+          usuarioColaboradorNovo = 'NOVO';
+        }
+      });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ValidaPage(
+                celular: '$paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador${_celularController
+                    .text}',
+                senha: posicao1DaSenha.text + posicao2DaSenha.text +
+                    posicao3DaSenha.text + posicao4DaSenha.text +
+                    posicao5DaSenha.text + posicao6DaSenha.text,
+                celularTitular: '$paisTitular$celularDoTitular',
+                usuarioColaboradorNovo: usuarioColaboradorNovo,
+              ),
+        ),
+      );
+
+      //   if (isUserValid && isPasswordValid) {
+      //     // Campos válidos, fazer a lógica de autenticação aqui
+      //     print('Campos válidos');
+      //     // Chamar a página de cadastro do cliente
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => Index1Tela()),
+      //     );
+      //   } else {
+      //     print('Campos inválidos');
+      //   }
+      // }
+
+      // void _pular() {
+      //   setState(() {
+      //     Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => Home()),
+      //     );
+      //   });
+
+    }
+  }
 
   @override
   void initState() {
@@ -268,8 +342,7 @@ class _LoginPageState extends State<LoginPage> {
                     arguments.toString() != 'novo'
                         ? GestureDetector(
                             onTap: () {
-                              Navigator.pushReplacementNamed(
-                                  context, '/esqueceuSenha');
+                              _validarSeOCelularFoiDigitado();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -300,39 +373,7 @@ class _LoginPageState extends State<LoginPage> {
                     // ),
                     GestureDetector(
                       onTap: () async {
-
-                        setState(() {
-                          if(ModalRoute.of(context)?.settings.arguments.toString().toUpperCase() == 'COLABORADOR'){
-                            ehColaborador = true;
-                            celularDoTitular = _identificacaoIdTitular.text;
-                            usuarioColaboradorNovo = 'COLABORADOR';
-                          }
-
-                          if(ModalRoute.of(context)?.settings.arguments.toString().toUpperCase() == 'USUARIO'){
-                            // ehColaborador = true;
-                            // celularDoTitular = _identificacaoIdTitular.text;
-                            usuarioColaboradorNovo = 'USUARIO';
-                          }
-
-                          if(ModalRoute.of(context)?.settings.arguments.toString().toUpperCase() == 'NOVO'){
-                            // ehColaborador = true;
-                            // celularDoTitular = _identificacaoIdTitular.text;
-                            usuarioColaboradorNovo = 'NOVO';
-                          }
-
-                        });
-
-                       Navigator.pushReplacement(
-                         context,
-                         MaterialPageRoute(
-                           builder: (context) => ValidaPage(
-                             celular: '$paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador${_celularController.text}',
-                             senha: posicao1DaSenha.text+posicao2DaSenha.text+posicao3DaSenha.text+posicao4DaSenha.text+posicao5DaSenha.text+posicao6DaSenha.text,
-                             celularTitular: '$paisTitular$celularDoTitular',
-                             usuarioColaboradorNovo: usuarioColaboradorNovo,
-                           ),
-                         ),
-                       );
+                        validarSenhaDigitada();
                       },
                       child: UtilsWidgets.botaoMaster(
                           context,
@@ -409,7 +450,7 @@ class _LoginPageState extends State<LoginPage> {
           },
           focusNode: focusNode,
           controller: controller,
-          // maxLength: 1,
+          maxLength: 1,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
           ],
@@ -426,9 +467,72 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _validarSeOCelularFoiDigitado() {
+
+    if(_celularController.text.isEmpty || _celularController.text.length > 12){
+      print("vazio");
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        elevation: 10,
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red,
+        content: Text("informe um número de celular válido"),
+      ));
+    }  else{
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirme o n° do celular'),
+            content: Text('$paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador${_celularController.text}'
+                ,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+              ),
+              TextButton(
+                child: Text('Confirmar'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  send('$paisDoCaraQueQuerLogarPodeSerOTitularOuColaborador${_celularController.text}');
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> send (String celular) async {
+
+    setState(() {
+      // isLoading = true;
+    });
+
+    var url = '${VariaveisGlobais.endPoint}/usuario/recuperar-senha/' + celular;
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+    var response = await http.get(Uri.parse(url), headers: headers);
+    if (response.statusCode >= 200 && response.statusCode < 300){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        elevation: 10,
+        duration: Duration(seconds: 10),
+        backgroundColor: Colors.green,
+        content: Text("verifique o codigo sms em seu aparelho"),
+      ));
+    }
+  }
 
 
-  // void opcaoPaises(String titular) {
+
+
+// void opcaoPaises(String titular) {
   //   showCountryPicker(
   //     context: context,
   //     //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
