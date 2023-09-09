@@ -63,9 +63,9 @@ class _TelaDeCarregamentoPrincipalState
             theme: AppController.instance.buildThemeData(),
             home: buildScaffold(),
             routes: {
-            //   '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
               '/login': (_) => LoginPage(),
               '/home': (_) => Home(),
+              '/esqueceuSenha': (_) => EsqueceuTelaSenha(),
             },
           );
         }

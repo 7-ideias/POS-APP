@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
@@ -14,6 +14,8 @@ import 'package:pos_app/utilitarios/widgetsGlobais.dart';
 
 import '../dtos/produto-dto.dart';
 import '../utilitarios/utils.dart';
+
+
 
 class ProdutoNovoEdicaoTela extends StatefulWidget {
   String idProduto;
@@ -55,6 +57,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
   String resultadoDoSacanner = '';
 
+  Barcode? scannedBarcode;
 
   @override
   void initState() {
@@ -226,7 +229,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
-                            border:  Border.all( 
+                            border:  Border.all(
                             )
                           ),
                           child: Column(
@@ -747,19 +750,6 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     // } on PlatformException {
     //   barCode = 'falhou';
     // }
-
-    var mobileScanner = MobileScanner(
-      // fit: BoxFit.contain,
-      onDetect: (capture) {
-        final List<Barcode> barcodes = capture.barcodes;
-        final Uint8List? image = capture.image;
-        for (final barcode in barcodes) {
-          debugPrint('Barcode found! ${barcode.rawValue}');
-        }
-      },
-    );
-
-
     if (!mounted) return;
     setState(() {
       resultadoDoSacanner = barCode;

@@ -41,6 +41,7 @@ class UtilsWidgets {
     }
 
     return   TextFormField(
+      textAlign: TextAlign.right,
       enabled: enabled,
       obscureText: obscureText,
       textDirection: direcao,

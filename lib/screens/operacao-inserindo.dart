@@ -28,6 +28,8 @@ class _InserindoProdutoState extends State<InserindoProduto> {
 
   bool _isAcheiProduto = false;
 
+  bool liberBotaoInserirComValorValido = true;
+
   int _contador = 1;
   double vlTotalMultiplicado = 0.00;
 
@@ -48,7 +50,6 @@ class _InserindoProdutoState extends State<InserindoProduto> {
 
   @override
   void initState() {
-    calcularPrecoTotalMultiplicado();
     super.initState();
   }
 
@@ -212,12 +213,19 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  onChanged: (valor){
+                                    setState(() {
+                                    calcularPrecoTotalMultiplicado();
+                                    });
+                                  },
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'não deixe isso vazio';
                                     }
                                     return null;
                                   },
+                                    style: TextStyle(fontSize: 20),
+                                    textAlign: TextAlign.right,
                                   controller: _vlUnitario,
                                   // enabled: editar,
                                   keyboardType:
@@ -226,24 +234,34 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
                                   ],
-                                  decoration: buildInputDecoration('preço unitário'),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                                    enabledBorder:
+                                    OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                                    focusedBorder:
+                                    OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                                    labelText: 'preço unitário',
+                                  )
                                 ),
                               ) ,
                             ),
-                            const Spacer(),
+                            if(liberBotaoInserirComValorValido == true)const Spacer(),
                             //valor da venda
-                            Container(
+                            if(liberBotaoInserirComValorValido == true)Container(
                               width: MediaQuery.of(context).size.width * 0.4,
                               child:
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: TextFormField(
+                                  enabled: false,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'não deixe isso vazio';
                                     }
                                     return null;
                                   },
+                                  style: TextStyle(fontSize: 20,),
+                                  textAlign: TextAlign.right,
                                   controller:  TextEditingController(text: vlTotalMultiplicado.toString()).text == '0.0' ?
                                   TextEditingController(text: _vlUnitario.text)
                                       : TextEditingController(text: vlTotalMultiplicado.toString()) ,
@@ -254,8 +272,13 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                     FilteringTextInputFormatter.allow(
                                         RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
                                   ],
-                                  decoration: buildInputDecoration('preço total'),
-                                ),
+                                  decoration: InputDecoration(
+                                          border: OutlineInputBorder(borderRadius:BorderRadius.circular(60)),
+                                          enabledBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(60)),
+                                          focusedBorder: OutlineInputBorder(borderRadius:BorderRadius.circular(60)),
+                                          labelText: 'preço total',
+                                        ),
+                                      ),
                               ),
                             ),
                           ],
@@ -363,24 +386,18 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     var resultado = 0.00;
     try{
       resultado = double.parse(_contador.toString()) * double.parse(_vlUnitario.text);
+      liberBotaoInserirComValorValido = true;
     }catch(ex){
+      print('erro');
+      setState(() {
+        liberBotaoInserirComValorValido = false;
+      });
     }
     setState(() {
       vlTotalMultiplicado = resultado;
     });
   }
 
-  InputDecoration buildInputDecoration(String texto) {
-    return InputDecoration(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      enabledBorder:
-      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      focusedBorder:
-      OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      labelText: texto,
-
-    );
-  }
 
    void  buscaDigitando(String idProdutoABuscar) {
 

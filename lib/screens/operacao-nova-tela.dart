@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   //contrucao do objeto
   List<ObjVendaEServico> objVendaEServicoList = [];
-
+  DateTime dataDaOperacao = DateTime.now();
   double somaValorTotal = 0.00;
 
   bool _isLoading = false;
@@ -40,6 +41,9 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return _isLoading == true ?
     (_isLoading == true && confirmacaoDeSucessoNaAPI == true ? TelaInteira().sucesso():
     TelaInteira().widgetDeLoadingPadraoDoApp()):Scaffold(
@@ -49,79 +53,84 @@ class _OperacaoNovaState extends State<OperacaoNova> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
-            backgroundColor: AppController.instance.botaoConfirmar,
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Confirmação'),
-                    content: Text('gravar a operação?'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('Cancelar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text('Confirmar'),
-                        onPressed: () async {
-                          Navigator.of(context).pop();
-                          sendApiNovaOperacao();
-                        },
-                      ),
-                    ],
-                  );
+          if(mostrarOpcoes==true)Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
+                backgroundColor: AppController.instance.botaoConfirmar,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmação'),
+                        content: Text('gravar a operação?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Cancelar'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Confirmar'),
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              sendApiNovaOperacao();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ) ;
                 },
-              ) ;
-            },
-            label: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(Icons.save),
-                Text(' salvar' ),
-              ],
-            ),
-          ) ,
-          SizedBox(height: 20,),
-          if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
-            backgroundColor: AppController.instance.botaoNegar,
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Confirmação'),
-                    content: Text('abandonar a operação?'),
-                    actions: <Widget>[
-                      TextButton(
-                        child: Text('Cancelar'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text('Confirmar'),
-                        onPressed: () async {
-                          Navigator.pushNamedAndRemoveUntil(context, "/home", (Route<dynamic> route) => false);
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ) ;
+                label: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(Icons.save),
+                    Text(' salvar' ),
+                  ],
+                ),
+              ) ,
+              SizedBox(width: 20,),
+              if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
+                backgroundColor: AppController.instance.botaoNegar,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmação'),
+                        content: Text('abandonar a operação?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Cancelar'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: Text('Confirmar'),
+                            onPressed: () async {
+                              Navigator.pushNamedAndRemoveUntil(context, "/home", (Route<dynamic> route) => false);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ) ;
 
-            },
-            label: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(Icons.cancel),
-                Text(' cancelar' ),
-              ],
-            ),
-          ) ,
+                },
+                label: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(Icons.cancel),
+                    Text(' cancelar' ),
+                  ],
+                ),
+              ) ,
+            ],
+          ),
           SizedBox(height: 20,),
           if(mostrarOpcoes==true)FloatingActionButton.extended(
             onPressed: () {
@@ -183,8 +192,6 @@ class _OperacaoNovaState extends State<OperacaoNova> {
           Card(
             elevation: 10,
             child: Container(
-              height: MediaQuery.of(context).size.height * .15,
-              width: MediaQuery.of(context).size.width * 0.95,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -192,29 +199,90 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                   children: [
                     Row(
                       children: [
-                        Text('cliente nao informado',
-                            style: TextStyle(
-                                fontSize:
-                                    AppController.instance.botaoTamanhoLetras)),
+                        GestureDetector(
+                          onTap: (){
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              elevation: 10,
+                              duration: Duration(seconds: 5),
+                              backgroundColor: Colors.red,
+                              content: Text("deve chamar a lista de ciente"),
+                            ));
+                        },
+                          child: Row(
+                            children: [
+                              Icon(Icons.edit),
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Text(' cliente nao informado', ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            showCupertinoModalPopup(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white
+                                  ),
+                                  height: 200,
+                                  child: CupertinoDatePicker(
+                                    mode: CupertinoDatePickerMode.date,
+                                    onDateTimeChanged: (DateTime newDate) {
+                                      print(newDate);
+                                      setState(() {
+                                        dataDaOperacao = newDate;
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+
+                            // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            //   elevation: 10,
+                            //   duration: Duration(seconds: 5),
+                            //   backgroundColor: Colors.red,
+                            //   content: Text("alterar a data"),
+                            // ));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.change_circle),
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: Colors.yellowAccent,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Text(dataDaOperacao.toIso8601String(), ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     Row(
                       children: [
                         Text(
                           'itens.: ' + objVendaEServicoList.length.toString(),
-                          style: TextStyle(
-                              fontSize:
-                                  AppController.instance.botaoTamanhoLetras),
                         )
                       ],
                     ),
                     Row(
                       children: [
                         Text(
-                            'valor.: ' + Utils.formataParaMoeda(somaValorTotal),
-                            style: TextStyle(
-                                fontSize:
-                                    AppController.instance.botaoTamanhoLetras))
+                            'valor.: ' + Utils.formataParaMoeda(somaValorTotal), )
                       ],
                     ),
                   ],
@@ -222,159 +290,164 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               ),
             ),
           ),
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: objVendaEServicoList.length,
-          //     itemBuilder: (context, index) {
-          //       return Slidable(
-          //         endActionPane: direitaEsquertaPane(index),
-          //         child: Card(
-          //           elevation: 10,
-          //           child: ListTile(
-          //             title: Text(
-          //               objVendaEServicoList[index]
-          //                   .descricaoProduto
-          //                   .toString(),
-          //             ),
-          //             subtitle: Text(objVendaEServicoList[index]
-          //                 .vlTotal
-          //                 .toString()),
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-          Container(
-            padding: EdgeInsets.only(left: 5, right: 5,top: 30),
-            color: Colors.yellowAccent.shade100,
-            height: tamanhoDoCupom,
-            width: MediaQuery.of(context).size.width * .95,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('TICKET - OPERACAO'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('NOME FANTASIA'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('ENDERECO'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('SAO PAULO - SP'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                            '------------------------------------------------------------------------------------'),
-                      ],
-                    ),
-                    Table(
-                      columnWidths: {
-                        0: FlexColumnWidth(20),
-                        1: FlexColumnWidth(30),
-                        2: FlexColumnWidth(10),
-                        3: FlexColumnWidth(20),
-                      },
-                      children: [
-                        TableRow(children: [
-                          Text('CODIGO', textAlign: TextAlign.center),
-                          Text('DESCRICAO', textAlign: TextAlign.center),
-                          Text('QT', textAlign: TextAlign.center),
-                          Text('VALOR', textAlign: TextAlign.center),
-                        ])
-                      ],
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: objVendaEServicoList.length,
-                        itemBuilder: (context, index) {
-                          return Slidable(
-                              endActionPane: direitaEsquertaPane(index),
-                              child: Column(
-                                children: [
-                                  Table(
-                                    columnWidths: {
-                                      0: FlexColumnWidth(20),
-                                      1: FlexColumnWidth(30),
-                                      2: FlexColumnWidth(10),
-                                      3: FlexColumnWidth(20),
-                                    },
-                                    children: [
-                                      TableRow(
-                                        children: [
-                                          Text(objVendaEServicoList[index]
-                                              .codigoDeBarras
-                                              .toString()),
-                                          Text(objVendaEServicoList[index]
-                                              .descricaoProduto
-                                              .toString()),
-                                          Text(
-                                              objVendaEServicoList[index]
-                                                  .qt
-                                                  .toString(),
-                                              textAlign: TextAlign.center),
-                                          Text(
-                                              Utils.formataParaMoeda(
-                                                  objVendaEServicoList[index]
-                                                      .vlTotal),
-                                              textAlign: TextAlign.end)
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                              // ListTile(
-                              //   title: Text(
-                              //     objVendaEServicoList[index].descricaoProduto.toString(),
-                              //   ),
-                              //   subtitle: Text(objVendaEServicoList[index].vlTotal.toString()),
-                              // ),
-                              );
-                        },
+          Expanded(
+            child: ListView.builder(
+              itemCount: objVendaEServicoList.length,
+              itemBuilder: (context, index) {
+                return Slidable(
+                  startActionPane: direitaEsquertaPane(index),
+                  child: Card(
+                    elevation: 10,
+                    child: ListTile(
+                      title: Text(
+                        objVendaEServicoList[index]
+                            .descricaoProduto
+                            .toString(),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text('quantidade.: '+objVendaEServicoList[index].qt.toString()),
+                          Text('valor unitário.: '+Utils.formataParaMoeda(objVendaEServicoList[index].vlUnitario)),
+                          Text('valor total.: '+Utils.formataParaMoeda(objVendaEServicoList[index].vlTotal)),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                Positioned(
-                    bottom: 100,
-                    right: 0,
-                    child: Container(
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                              Text('TOTAL' + Utils.formataParaMoeda(somaValorTotal),textAlign: TextAlign.end,style: TextStyle(fontSize: 30),)
-                            ],)
-                          ],
-                        ))),
-                ClipPath(
-                  clipper: BottomSerratedClipper(),
-                  child: Container(
-                    height: tamanhoDoCupom,
-                    color: AppController.instance.buildThemeData().primaryColor,
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
+          // Container(
+          //   padding: EdgeInsets.only(left: 5, right: 5,top: 30),
+          //   color: Colors.yellowAccent.shade100,
+          //   height: tamanhoDoCupom,
+          //   width: MediaQuery.of(context).size.width * .95,
+          //   child: Stack(
+          //     children: [
+          //       Column(
+          //         children: [
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               Text('TICKET - OPERACAO'),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             children: [
+          //               Text('NOME FANTASIA'),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             children: [
+          //               Text('ENDERECO'),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.start,
+          //             children: [
+          //               Text('SAO PAULO - SP'),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: [
+          //               Text(
+          //                   '------------------------------------------------------------------------------------'),
+          //             ],
+          //           ),
+          //           Table(
+          //             columnWidths: {
+          //               0: FlexColumnWidth(20),
+          //               1: FlexColumnWidth(30),
+          //               2: FlexColumnWidth(10),
+          //               3: FlexColumnWidth(20),
+          //             },
+          //             children: [
+          //               TableRow(children: [
+          //                 Text('CODIGO', textAlign: TextAlign.center),
+          //                 Text('DESCRICAO', textAlign: TextAlign.center),
+          //                 Text('QT', textAlign: TextAlign.center),
+          //                 Text('VALOR', textAlign: TextAlign.center),
+          //               ])
+          //             ],
+          //           ),
+          //           Expanded(
+          //             child: ListView.builder(
+          //               itemCount: objVendaEServicoList.length,
+          //               itemBuilder: (context, index) {
+          //                 return Slidable(
+          //                     endActionPane: direitaEsquertaPane(index),
+          //                     child: Column(
+          //                       children: [
+          //                         Table(
+          //                           columnWidths: {
+          //                             0: FlexColumnWidth(20),
+          //                             1: FlexColumnWidth(30),
+          //                             2: FlexColumnWidth(10),
+          //                             3: FlexColumnWidth(20),
+          //                           },
+          //                           children: [
+          //                             TableRow(
+          //                               children: [
+          //                                 Text(objVendaEServicoList[index]
+          //                                     .codigoDeBarras
+          //                                     .toString()),
+          //                                 Text(objVendaEServicoList[index]
+          //                                     .descricaoProduto
+          //                                     .toString()),
+          //                                 Text(
+          //                                     objVendaEServicoList[index]
+          //                                         .qt
+          //                                         .toString(),
+          //                                     textAlign: TextAlign.center),
+          //                                 Text(
+          //                                     Utils.formataParaMoeda(
+          //                                         objVendaEServicoList[index]
+          //                                             .vlTotal),
+          //                                     textAlign: TextAlign.end)
+          //                               ],
+          //                             ),
+          //                           ],
+          //                         ),
+          //                       ],
+          //                     )
+          //                     // ListTile(
+          //                     //   title: Text(
+          //                     //     objVendaEServicoList[index].descricaoProduto.toString(),
+          //                     //   ),
+          //                     //   subtitle: Text(objVendaEServicoList[index].vlTotal.toString()),
+          //                     // ),
+          //                     );
+          //               },
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //       Positioned(
+          //           bottom: 100,
+          //           right: 0,
+          //           child: Container(
+          //               child: Column(
+          //                 children: [
+          //                   Row(
+          //                     children: [
+          //                     Text('TOTAL' + Utils.formataParaMoeda(somaValorTotal),textAlign: TextAlign.end,style: TextStyle(fontSize: 30),)
+          //                   ],)
+          //                 ],
+          //               ))),
+          //       ClipPath(
+          //         clipper: BottomSerratedClipper(),
+          //         child: Container(
+          //           height: tamanhoDoCupom,
+          //           color: AppController.instance.buildThemeData().primaryColor,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

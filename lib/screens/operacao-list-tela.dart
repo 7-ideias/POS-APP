@@ -4,6 +4,8 @@ import 'package:pos_app/controller/operacao-controller.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 
+import '../app/page/report_pdf.dart';
+
 class OperacaoTela extends StatefulWidget {
   const OperacaoTela({Key? key}) : super(key: key);
 
@@ -106,30 +108,31 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.15,
                       width: MediaQuery.of(context).size.width * 0.9,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.quantidadeDeOps}',
-                                 ),
-                            ),
-                            Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.ops?.length.toString()}',
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.quantidadeDeOps}',
                                ),
-                          ],
-                        ),
+                          ),
+                          Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.ops?.length.toString()}',
+                             ),
+                        ],
                       ),
                     ),
                   ),
                   Wrap(
                     spacing: 20,
                     children: [
-                  ChoiceChip(label: Text('teste'), selected: true,),
-                  ChoiceChip(label: Text('teste'), selected: false,),
-                  ChoiceChip(label: Text('teste'), selected: true,),
+                      ChoiceChip(label: Text('hoje'), selected: true,onSelected: (bool selected) {
+                        setState(() {
+                          print('selecionado');
+                        });
+                      },),
+                      ChoiceChip(label: Text('ultimos 7 dias'), selected: false,),
+                      ChoiceChip(label: Text('ultimo mes'), selected: true,),
                     ],
                   ),
                   Wrap(
@@ -157,6 +160,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     itemBuilder: (context, index) {
                       return Slidable(
                         startActionPane: esquerdaDireitaPane(index),
+                        endActionPane: direitaEsquerdaPane(index),
                         child: ListTile(
                           tileColor: !index.isOdd ? Colors.blueGrey : null,
                           leading: CircleAvatar(
@@ -173,7 +177,8 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                               Row(
                                 children: [
                                   Icon(Icons.circle,color: Colors.red,),
-                                  Text(VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true? 'ARRUMAR':'ARRUMAR'),
+                                  Text(VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true?
+                                  'ARRUMAR':'ARRUMAR'),
                                 ],
                               ),
                               Row(
@@ -205,6 +210,46 @@ class _OperacaoTelaState extends State<OperacaoTela> {
           ),
         ],
       ),
+    );
+  }
+
+  ActionPane direitaEsquerdaPane(int index) {
+    return ActionPane(
+      motion: const StretchMotion(),
+      children: [
+        SlidableAction(
+          backgroundColor: Colors.blue,
+          icon: Icons.print,
+          onPressed:  (context) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Imprimir?'),
+                  // content: Text('quer realmente apagar?'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('Cancelar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text('Confirmar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        reportView(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+
+      ],
+
     );
   }
 

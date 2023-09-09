@@ -4,7 +4,7 @@ class ObjVendaEServico {
   String? codigoDeBarras;
   String? descricaoProduto;
   double? qt;
-  double? vlUnitario;
+  double vlUnitario = 0.00;
   double vlTotal = 0.00;
   String? idColaboradorResponsavelPeloServico;
   String? nomeColaboradorResponsavel;
@@ -16,7 +16,7 @@ class ObjVendaEServico {
         this.codigoDeBarras,
         this.descricaoProduto,
         this.qt,
-        this.vlUnitario,
+        required this.vlUnitario,
         required this.vlTotal,
         this.idColaboradorResponsavelPeloServico,
         this.nomeColaboradorResponsavel
