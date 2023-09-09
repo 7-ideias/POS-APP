@@ -75,15 +75,22 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                 ),
               ),
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.13,
+                  top: MediaQuery.of(context).size.height * 0.11,
                   child: widget.file != null && widget.file.path.isNotEmpty
-                      ? GestureDetector(
-                          onTap: () => showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return buildJanelinhaQueSobe(context);
-                              }),
-                        )
+                      ? Container(alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          width: 150,
+                          height: 150,
+                        child: GestureDetector(
+                            onTap: () => showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return buildJanelinhaQueSobe(context);
+                                }),
+                          ),
+                      )
                       : GestureDetector(
                           onTap: () => showModalBottomSheet(
                             context: context,
