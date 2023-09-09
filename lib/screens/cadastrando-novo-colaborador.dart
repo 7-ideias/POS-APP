@@ -98,13 +98,34 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                         )),
             ],
           ),
-          SizedBox(height: 30,),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Informaçōes',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                Text(
+                  'Pessoais ',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ), //'informações pessoais'
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
             child: Card(
-              color: Colors.purple,
               child: Container(
-                height: MediaQuery.of(context).size.height*0.8,
+                height: MediaQuery.of(context).size.height * 0.79,
                 color: AppController.instance.corPrincipal,
                 child: Column(
                   children: [
@@ -112,19 +133,19 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       padding: const EdgeInsets.all(12.0),
                       child: TextFormField(
                         decoration: InputDecoration(
-                          label: Text('Nome'),
-                          labelStyle: TextStyle(
-                            color: AppController.instance.corLetras,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300
-                          ),
-                          border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                          suffixIcon: Icon(Icons.person,
-                            color: AppController.instance.corTelaAcima,
-                          )
-                        ),
+                            label: Text('Nome'),
+                            labelStyle: TextStyle(
+                                color: AppController.instance.corLetras,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(width: 0.5)),
+                            suffixIcon: Icon(
+                              Icons.person,
+                              color: AppController.instance.corTelaAcima,
+                            )),
                       ),
-                    ),//nome
+                    ), //nome
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: TextFormField(
@@ -133,15 +154,15 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             labelStyle: TextStyle(
                                 color: AppController.instance.corLetras,
                                 fontSize: 20,
-                                fontWeight: FontWeight.w300
-                            ),
-                            border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                            suffixIcon: Icon(Icons.email,
+                                fontWeight: FontWeight.w300),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(width: 0.5)),
+                            suffixIcon: Icon(
+                              Icons.email,
                               color: AppController.instance.corTelaAcima,
-                            )
-                        ),
+                            )),
                       ),
-                    ),//email
+                    ), //email
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: TextFormField(
@@ -150,15 +171,15 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             labelStyle: TextStyle(
                                 color: AppController.instance.corLetras,
                                 fontSize: 20,
-                                fontWeight: FontWeight.w300
-                            ),
-                            border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                            suffixIcon: Icon(Icons.phone,
+                                fontWeight: FontWeight.w300),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(width: 0.5)),
+                            suffixIcon: Icon(
+                              Icons.phone,
                               color: AppController.instance.corTelaAcima,
-                            )
-                        ),
+                            )),
                       ),
-                    ),//telefone
+                    ), //telefone
                     Row(
                       children: [
                         Expanded(
@@ -170,13 +191,13 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                   labelStyle: TextStyle(
                                       color: AppController.instance.corLetras,
                                       fontSize: 20,
-                                      fontWeight: FontWeight.w300
-                                  ),
-                                  border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                                  suffixIcon: Icon(Icons.account_box_outlined,
+                                      fontWeight: FontWeight.w300),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 0.5)),
+                                  suffixIcon: Icon(
+                                    Icons.account_box_outlined,
                                     color: AppController.instance.corTelaAcima,
-                                  )
-                              ),
+                                  )),
                             ),
                           ),
                         ),
@@ -189,77 +210,166 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                   labelStyle: TextStyle(
                                       color: AppController.instance.corLetras,
                                       fontSize: 20,
-                                      fontWeight: FontWeight.w300
-                                  ),
-                                  border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                                  suffixIcon: Icon(Icons.people_alt_outlined,
+                                      fontWeight: FontWeight.w300),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 0.5)),
+                                  suffixIcon: Icon(
+                                    Icons.people_alt_outlined,
                                     color: AppController.instance.corTelaAcima,
-                                  )
-                              ),
+                                  )),
                             ),
                           ),
                         ),
                       ],
                     ), //rg e cpf
                     Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
-                        child: TextFormField(
-                          keyboardType: TextInputType.datetime,
-                          decoration: InputDecoration(
-                              label: Text('Data de nascimento'),
-                              labelStyle: TextStyle(
-                                  color: AppController.instance.corLetras,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300
-                              ),
-                              border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                              suffixIcon: Icon(Icons.cake,
-                                color: AppController.instance.corTelaAcima,
-                              )
-                          ),
-                        ),
-                      ), // data nascimento
+                      padding: const EdgeInsets.only(
+                          left: 12.0, right: 12.0, top: 12.0, bottom: 8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.datetime,
+                        decoration: InputDecoration(
+                            label: Text('Data de nascimento'),
+                            labelStyle: TextStyle(
+                                color: AppController.instance.corLetras,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(width: 0.5)),
+                            suffixIcon: Icon(
+                              Icons.cake,
+                              color: AppController.instance.corTelaAcima,
+                            )),
+                      ),
+                    ), // data nascimento
                     Row(
                       children: [
                         Expanded(
-                          child: Text('———Dados endereço———',
-                          textAlign: TextAlign.center,
+                          child: Text(
+                            '———Dados endereço———',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              color: AppController.instance.corLetras,
-                              fontSize: 20
-                            ),
+                                fontWeight: FontWeight.w300,
+                                color: AppController.instance.corLetras,
+                                fontSize: 20),
                           ),
                         )
                       ],
-                    ),
+                    ), //'---dados endereco---'
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-                        child: Card(
-                          color: AppController.instance.corTelaAcima,
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.datetime,
-                              decoration: InputDecoration(
-                                  label: Text('CEP'),
-                                  labelStyle: TextStyle(
-                                      color: AppController.instance.corLetras,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w300
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 8.0, bottom: 8.0),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Card(
+                                color: AppController.instance.corTelaAcima,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        keyboardType: TextInputType.datetime,
+                                        decoration: InputDecoration(
+                                            label: Text('CEP'),
+                                            labelStyle: TextStyle(
+                                                color: AppController.instance.corLetras,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w300),
+                                            border: OutlineInputBorder(
+                                                borderSide: BorderSide(width: 0.5)),
+                                            suffixIcon: Icon(
+                                              Icons.home,
+                                              color: AppController.instance.corPrincipal,
+                                            )),
+                                      ),  // cep
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.datetime,
+                                          decoration: InputDecoration(
+                                              label: Text('Endereço'),
+                                              labelStyle: TextStyle(
+                                                  color: AppController.instance.corLetras,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w300),
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(width: 0.5)),
+                                              suffixIcon: Icon(
+                                                Icons.home,
+                                                color: AppController.instance.corPrincipal,
+                                              )),
+                                        ),
+                                      ), // endereco
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(right: 4.0),
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    label: Text('Bairro'),
+                                                    labelStyle: TextStyle(
+                                                        color: AppController.instance.corLetras,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w300),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(width: 0.5)),
+                                                    suffixIcon: Icon(
+                                                      Icons.account_box_outlined,
+                                                      color: AppController.instance.corTelaAcima,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 4.0),
+                                            child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    label: Text('UF'),
+                                                    labelStyle: TextStyle(
+                                                        color: AppController.instance.corLetras,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w300),
+                                                    border: OutlineInputBorder(
+                                                        borderSide: BorderSide(width: 0.5)),
+                                                    suffixIcon: Icon(
+                                                      Icons.people_alt_outlined,
+                                                      color: AppController.instance.corTelaAcima,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.datetime,
+                                          decoration: InputDecoration(
+                                              label: Text('Complemento'),
+                                              labelStyle: TextStyle(
+                                                  color: AppController.instance.corLetras,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w300),
+                                              border: OutlineInputBorder(
+                                                  borderSide: BorderSide(width: 0.5)),
+                                              suffixIcon: Icon(
+                                                Icons.home,
+                                                color: AppController.instance.corPrincipal,
+                                              )),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  border: OutlineInputBorder(borderSide: BorderSide(width: 0.5)),
-                                  suffixIcon: Icon(Icons.home,
-                                    color: AppController.instance.corTelaAcima,
-                                  )
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                    ),
-
+                    ), //CEP
                   ],
                 ),
               ),
