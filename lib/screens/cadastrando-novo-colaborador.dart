@@ -20,12 +20,13 @@ class NovoColaborador extends StatefulWidget {
 }
 
 class _NovoColaboradorState extends State<NovoColaborador> {
-
   final picker = ImagePicker();
 
   DateTime date = DateTime.now();
 
   TextEditingController controllerData = TextEditingController();
+
+  bool light = true;
 
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
@@ -77,20 +78,21 @@ class _NovoColaboradorState extends State<NovoColaborador> {
               Positioned(
                   top: MediaQuery.of(context).size.height * 0.11,
                   child: widget.file != null && widget.file.path.isNotEmpty
-                      ? Container(alignment: Alignment.center,
+                      ? Container(
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           width: 150,
                           height: 150,
-                        child: GestureDetector(
+                          child: GestureDetector(
                             onTap: () => showModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
                                   return buildJanelinhaQueSobe(context);
                                 }),
                           ),
-                      )
+                        )
                       : GestureDetector(
                           onTap: () => showModalBottomSheet(
                             context: context,
@@ -453,9 +455,35 @@ class _NovoColaboradorState extends State<NovoColaborador> {
             ),
           ),
           Container(
-            color: Colors.pink,
+            color: AppController.instance.corPrincipal,
             width: MediaQuery.of(context).size.width * 0.5,
             height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            color: AppController.instance.corLetras),
+                        'Colaborador pode fazer venda?'),
+                    Switch(
+                      // This bool value toggles the switch.
+                      value: light,
+                      activeColor: Colors.red,
+                      onChanged: (bool value) {
+                        // This is called when the user toggles the switch.
+                        setState(() {
+                          light = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
