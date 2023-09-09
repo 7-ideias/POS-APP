@@ -11,16 +11,15 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:pos_app/screens/preview-page.dart';
 
 class NovoColaborador extends StatefulWidget {
-  final File file;
+  File file;
 
-  const NovoColaborador({super.key, required this.file});
+  NovoColaborador({super.key, required this.file});
 
   @override
   State<NovoColaborador> createState() => _NovoColaboradorState();
 }
 
 class _NovoColaboradorState extends State<NovoColaborador> {
-  late File arquivo = File('');
 
   final picker = ImagePicker();
 
@@ -30,10 +29,9 @@ class _NovoColaboradorState extends State<NovoColaborador> {
 
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
-
     if (file != null) {
       setState(() {
-        arquivo = File(file.path);
+        widget.file = File(file.path);
       });
     }
     ;
@@ -475,7 +473,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             showPreview(file);
                             Navigator.pop(context);
                             setState(() {
-                              arquivo = file;
+                              widget.file = file;
                             });
                           },
                         )),
@@ -502,7 +500,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
         ));
     if (file != null) {
       setState(() {
-        arquivo = file;
+        widget.file = file;
       });
       Get.back();
     }
