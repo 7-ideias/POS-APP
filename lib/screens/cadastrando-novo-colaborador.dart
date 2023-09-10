@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:pos_app/screens/preview-page.dart';
+import 'package:http/http.dart' as http;
 
 class NovoColaborador extends StatefulWidget {
   File file;
@@ -26,7 +28,16 @@ class _NovoColaboradorState extends State<NovoColaborador> {
 
   TextEditingController controllerData = TextEditingController();
 
-  bool light = true;
+  bool fazVenda = true;
+  bool cadastraProduto = true;
+  bool veEstoque = true;
+  bool editaProduto = true;
+  bool lancaServico = true;
+  bool prestaServico = true;
+  bool editaCliente = true;
+  bool geraRelatorio = true;
+  bool recebeNoCaixa = true;
+  bool veQuantoVendeu = true;
 
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
@@ -442,35 +453,260 @@ class _NovoColaboradorState extends State<NovoColaborador> {
           ),
           Container(
             color: AppController.instance.corPrincipal,
-            width: MediaQuery.of(context).size.width * 0.5,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        style: TextStyle(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height*0.7,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width*0.4,
+                        height: MediaQuery.of(context).size.height*0.03,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: AppController.instance.corTelaAcima
+                        ),
+                        child: Text(style:  TextStyle(
+                            color: AppController.instance.corLetras,
                             fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            color: AppController.instance.corLetras),
-                        'Colaborador pode fazer venda?'),
-                    Switch(
-                      // This bool value toggles the switch.
-                      value: light,
-                      activeColor: Colors.red,
-                      onChanged: (bool value) {
-                        // This is called when the user toggles the switch.
-                        setState(() {
-                          light = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
+                            fontWeight: FontWeight.w700),
+                            'Permissões'),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode fazer venda?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: fazVenda,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            fazVenda = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode cadastrar produto?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: cadastraProduto,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            cadastraProduto = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Pode ver estoque do produto?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: veEstoque,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            veEstoque = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode editar um produto?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: editaProduto,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            editaProduto = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode lançar serviço?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: lancaServico,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            lancaServico = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'O colaborador presta serviço?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: prestaServico,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            prestaServico = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode editar um cliente?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: editaCliente,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            editaCliente = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode gerar relatórios?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: geraRelatorio,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            geraRelatorio = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode receber no caixa?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: recebeNoCaixa,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            recebeNoCaixa = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                              color: AppController.instance.corLetras),
+                          'Colaborador pode ver quanto vendeu?'),
+                      Switch(
+                        // This bool value toggles the switch.
+                        value: veQuantoVendeu,
+                        activeColor: Colors.red,
+                        onChanged: (bool value) {
+                          // This is called when the user toggles the switch.
+                          setState(() {
+                            veQuantoVendeu = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  ElevatedButton(onPressed: (){
+                    fazerRequisicao();
+                    },
+                      child: Text('Cadastrar'))
+                ],
+              ),
             ),
           ),
+
         ],
       ),
     );
@@ -548,4 +784,77 @@ class _NovoColaboradorState extends State<NovoColaborador> {
       ),
     );
   }
+
+Future<void> fazerRequisicao() async {
+  final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
+
+  final payload = {
+    "celularDeAcesso": "+5535988887777",
+    "objPessoa": {
+      "atencao": "atencao",
+      "nome": "nome",
+      "nomeDeGuerra": "nomeDeGuerra",
+      "celular": "+5535988887777",
+      "senha": "000000",
+      "cpf": "cpf",
+      "rg": "rg",
+      "dataDeNascimento": "dataDeNascimento",
+      "email": "email",
+      "objEndereco": {
+        "cep": "cep",
+        "logradouro": "logradouro",
+        "complemento": "complemento",
+        "bairro": "bairro",
+        "localidade": "localidade",
+        "uf": "uf"
+      },
+      "objetoLinhaDeCredito": {
+        "limite": 1.99
+      }
+    },
+    "objAutorizacoes": {
+      "podeFazerDevolucao": true,
+      "podeCadastrarProduto": true,
+      "objProdutosPode": {
+        "podeVerEstoqueDeProduto": true,
+        "podeEditarProduto": true,
+        "valorDaComissao": 0.00
+      },
+      "objVendasPode": {
+        "fazVenda": true,
+        "comissaoDeVendas": 0.00
+      },
+      "objAssistenciaTecnicaPode": {
+        "lancaServico": true,
+        "ehUmTecnicoEFazAssistenciaTecnica": true,
+        "comissaoDeAssistencia": 0.00
+      },
+      "objClientesPode": {
+        "podeEditarCliente": true
+      },
+      "objRelatoriosPode": {
+        "geraRelatorioDeVendas": true
+      },
+      "objLancamentosFinanceirosPode": {
+        "podeReceberNoCaixa": true,
+        "podeVerQuantoVendeu": true
+      }
+    }
+  };
+
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode(payload),
+  );
+
+  if (response.statusCode == 200) {
+    // Requisição bem-sucedida
+    print('Requisição enviada com sucesso!');
+    print('Resposta da API: ${response.body}');
+  } else {
+    // Requisição falhou
+    print('Falha na requisição. Código de status: ${response.statusCode}');
+  }
+}
 }
