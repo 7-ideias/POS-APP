@@ -66,6 +66,7 @@ class AppController extends ChangeNotifier {
       brightness: isDartTheme == true ? Brightness.dark : Brightness.light,
       primaryColorDark: corPrincipal,
       appBarTheme: AppBarTheme(backgroundColor: corTelaAcima),
+      fontFamily: 'Roboto',
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         // backgroundColor: Colors.grey
       )

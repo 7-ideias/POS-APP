@@ -46,7 +46,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
             style: TextStyle(color: AppController.instance.corLetras),
             'Novo colaborador'),
       ),
-      body: ListView(
+          body: ListView(
         children: [
           Stack(
             clipBehavior: Clip.none,
@@ -116,20 +116,6 @@ class _NovoColaboradorState extends State<NovoColaborador> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Informaçōes',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300,
-                        color: AppController.instance.corLetras),
-                  ),
-                  Text(
-                    'Pessoais ',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300,
-                        color: AppController.instance.corLetras),
-                  ),
                 ],
               ),
             ),
