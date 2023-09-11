@@ -12,10 +12,12 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:pos_app/screens/preview-page.dart';
 import 'package:http/http.dart' as http;
 
+
 class NovoColaborador extends StatefulWidget {
   File file;
 
-  NovoColaborador({super.key, required this.file});
+
+    NovoColaborador({super.key, required this.file});
 
   @override
   State<NovoColaborador> createState() => _NovoColaboradorState();
@@ -33,6 +35,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   TextEditingController ufController = TextEditingController();
   TextEditingController complementoController = TextEditingController();
 
+  String? foto;
   String? nome;
   String? email;
   String? tel;
@@ -855,6 +858,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   }
 
   Future<void> fazerRequisicao() async {
+    foto = widget.file.path;
     nome = nomeController.text;
     tel = telController.text;
     cpf = cpfController.text;
@@ -865,8 +869,16 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     bairro = bairroController.text;
     complemento = complementoController.text;
     final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
+    Future<List<int>> getImageBytes() async {
+      File path = File(widget.file.path);
+      path.existsSync();
+      return await path.readAsBytes();
+    }
+    List<int> imageBytes = await getImageBytes();
+    String imageEm64 = base64Encode(imageBytes);
 
     final payload = {
+      "fotoDePerfil": imageEm64,
       "celularDeAcesso": "551102108432",
       "objPessoa": {
         "atencao": "atencao",
