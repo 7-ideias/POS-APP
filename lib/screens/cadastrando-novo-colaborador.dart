@@ -19,7 +19,6 @@ class NovoColaborador extends StatefulWidget {
 
   @override
   State<NovoColaborador> createState() => _NovoColaboradorState();
-
 }
 
 class _NovoColaboradorState extends State<NovoColaborador> {
@@ -61,7 +60,6 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   bool recebeNoCaixa = true;
   bool veQuantoVendeu = true;
 
-
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
@@ -80,7 +78,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
             style: TextStyle(color: AppController.instance.corLetras),
             'Novo colaborador'),
       ),
-          body: ListView(
+      body: ListView(
         children: [
           Stack(
             clipBehavior: Clip.none,
@@ -149,8 +147,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
               padding: const EdgeInsets.only(right: 20.0, left: 20.0, top: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                ],
+                children: [],
               ),
             ),
           ), //'informações pessoais'
@@ -186,6 +183,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
                           controller: emailController,
                           decoration: InputDecoration(
                               label: Text('Email'),
@@ -204,6 +202,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
+                          keyboardType: TextInputType.phone,
                           controller: telController,
                           decoration: InputDecoration(
                               label: Text('Telefone de acesso'),
@@ -225,6 +224,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 controller: rgController,
                                 decoration: InputDecoration(
                                     label: Text('RG'),
@@ -246,6 +246,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 controller: cpfController,
                                 decoration: InputDecoration(
                                     label: Text('CPF'),
@@ -336,7 +337,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                       children: [
                                         TextFormField(
                                           controller: cepController,
-                                          keyboardType: TextInputType.datetime,
+                                          keyboardType: TextInputType.number,
                                           decoration: InputDecoration(
                                               label: Text('CEP'),
                                               labelStyle: TextStyle(
@@ -487,7 +488,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
           Container(
             color: AppController.instance.corPrincipal,
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height*0.7,
+            height: MediaQuery.of(context).size.height * 0.7,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
@@ -496,17 +497,17 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width*0.4,
-                        height: MediaQuery.of(context).size.height*0.03,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.03,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppController.instance.corTelaAcima
-                        ),
-                        child: Text(style:  TextStyle(
-                            color: AppController.instance.corLetras,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700),
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppController.instance.corTelaAcima),
+                        child: Text(
+                            style: TextStyle(
+                                color: AppController.instance.corLetras,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700),
                             'Permissões'),
                       )
                     ],
@@ -731,15 +732,50 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       ),
                     ],
                   ),
-                  ElevatedButton(onPressed: (){
-                    fazerRequisicao();
-                    },
-                      child: Text('Cadastrar'))
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.height * 0.06,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppController.instance.corPrincipal,
+                              AppController.instance.corTelaAcima
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 4,
+                              blurRadius: 4,
+                              offset: Offset(
+                                  2, 4),
+                            ),
+                          ]),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              backgroundColor: Colors.transparent),
+                          onPressed: () {
+                            fazerRequisicao();
+                          },
+                          child: Text(
+                              style: TextStyle(
+                                fontSize: 30,
+                                color: AppController.instance.corLetras.withOpacity(0.6),
+                                fontWeight: FontWeight.w700,
+                              ),
+                              'Cadastrar')),
+                    ),
+                  )
                 ],
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -818,7 +854,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     );
   }
 
-Future<void> fazerRequisicao() async {
+  Future<void> fazerRequisicao() async {
     nome = nomeController.text;
     tel = telController.text;
     cpf = cpfController.text;
@@ -828,75 +864,69 @@ Future<void> fazerRequisicao() async {
     endereco = enderecoController.text;
     bairro = bairroController.text;
     complemento = complementoController.text;
-  final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
+    final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
 
-  final payload = {
-    "celularDeAcesso": "551102108432",
-    "objPessoa": {
-      "atencao": "atencao",
-      "nome": nome,
-      "nomeDeGuerra": "nomeDeGuerra",
-      "celular": tel,
-      "senha": "000000",
-      "cpf": cpf,
-      "rg": rg,
-      "dataDeNascimento": "$date",
-      "email": email,
-      "objEndereco": {
-        "cep": cep,
-        "logradouro": endereco,
-        "complemento": complemento,
-        "bairro": bairro,
-        "localidade": "localidade",
-        "uf": uf
+    final payload = {
+      "celularDeAcesso": "551102108432",
+      "objPessoa": {
+        "atencao": "atencao",
+        "nome": nome,
+        "nomeDeGuerra": "nomeDeGuerra",
+        "celular": tel,
+        "senha": "000000",
+        "cpf": cpf,
+        "rg": rg,
+        "dataDeNascimento": "$date",
+        "email": email,
+        "objEndereco": {
+          "cep": cep,
+          "logradouro": endereco,
+          "complemento": complemento,
+          "bairro": bairro,
+          "localidade": "localidade",
+          "uf": uf
+        },
+        "objetoLinhaDeCredito": {"limite": 1.99}
       },
-      "objetoLinhaDeCredito": {
-        "limite": 1.99
+      "objAutorizacoes": {
+        "podeFazerDevolucao": true,
+        "podeCadastrarProduto": '$cadastraProduto',
+        "objProdutosPode": {
+          "podeVerEstoqueDeProduto": '$veEstoque',
+          "podeEditarProduto": '$editaProduto',
+          "valorDaComissao": 0.00
+        },
+        "objVendasPode": {"fazVenda": '$fazVenda', "comissaoDeVendas": 0.00},
+        "objAssistenciaTecnicaPode": {
+          "lancaServico": '$lancaServico',
+          "ehUmTecnicoEFazAssistenciaTecnica": true,
+          "comissaoDeAssistencia": 0.00
+        },
+        "objClientesPode": {"podeEditarCliente": '$editaCliente'},
+        "objRelatoriosPode": {"geraRelatorioDeVendas": '$geraRelatorio'},
+        "objLancamentosFinanceirosPode": {
+          "podeReceberNoCaixa": '$recebeNoCaixa',
+          "podeVerQuantoVendeu": '$veQuantoVendeu'
+        }
       }
-    },
-    "objAutorizacoes": {
-      "podeFazerDevolucao": true,
-      "podeCadastrarProduto": '$cadastraProduto',
-      "objProdutosPode": {
-        "podeVerEstoqueDeProduto": '$veEstoque',
-        "podeEditarProduto": '$editaProduto',
-        "valorDaComissao": 0.00
+    };
+
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {
+        'Content-Type': 'application/json',
+        'idUser': '5dab33ff2a8c4d6690547e33708fa2b1'
       },
-      "objVendasPode": {
-        "fazVenda": '$fazVenda',
-        "comissaoDeVendas": 0.00
-      },
-      "objAssistenciaTecnicaPode": {
-        "lancaServico": '$lancaServico',
-        "ehUmTecnicoEFazAssistenciaTecnica": true,
-        "comissaoDeAssistencia": 0.00
-      },
-      "objClientesPode": {
-        "podeEditarCliente": '$editaCliente'
-      },
-      "objRelatoriosPode": {
-        "geraRelatorioDeVendas": '$geraRelatorio'
-      },
-      "objLancamentosFinanceirosPode": {
-        "podeReceberNoCaixa": '$recebeNoCaixa',
-        "podeVerQuantoVendeu": '$veQuantoVendeu'
-      }
+      body: jsonEncode(payload),
+    );
+
+    if (response.statusCode == 201) {
+      // Requisição bem-sucedida
+      print('Requisição enviada com sucesso!');
+      print('Resposta da API: ${response.statusCode}');
+    } else {
+      // Requisição falhou
+      print('Falha na requisição. Código de status: ${response.statusCode}');
     }
-  };
-
-  final response = await http.post(
-    Uri.parse(apiUrl),
-    headers: {'Content-Type': 'application/json', 'idUser': '5dab33ff2a8c4d6690547e33708fa2b1'},
-    body: jsonEncode(payload),
-  );
-
-  if (response.statusCode == 201) {
-    // Requisição bem-sucedida
-    print('Requisição enviada com sucesso!');
-    print('Resposta da API: ${response.statusCode}');
-  } else {
-    // Requisição falhou
-    print('Falha na requisição. Código de status: ${response.statusCode}');
   }
-}
 }
