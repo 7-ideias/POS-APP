@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:lottie/lottie.dart';
+import 'package:pos_app/screens/tela_index_0_cadastros.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,6 +81,7 @@ class _IdiomaTelaState extends State<IdiomaTela> {
                         GestureDetector(
                           onTap: (){
                             getIdioma('pt-br');
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Index0Tela(),));
                           },
                           child: SizedBox(
                             height: altura(),

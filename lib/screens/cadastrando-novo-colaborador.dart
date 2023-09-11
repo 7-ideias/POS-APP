@@ -39,6 +39,17 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   bool recebeNoCaixa = true;
   bool veQuantoVendeu = true;
 
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController telController = TextEditingController();
+  TextEditingController rgController = TextEditingController();
+  TextEditingController cpfController = TextEditingController();
+  TextEditingController cepController = TextEditingController();
+  TextEditingController enderecoController = TextEditingController();
+  TextEditingController bairroController = TextEditingController();
+  TextEditingController ufController = TextEditingController();
+  TextEditingController complementoController = TextEditingController();
+
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
@@ -145,6 +156,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
+                          controller: nomeController,
                           decoration: InputDecoration(
                               label: Text('Nome'),
                               labelStyle: TextStyle(
@@ -162,6 +174,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
+                          controller: emailController,
                           decoration: InputDecoration(
                               label: Text('Email'),
                               labelStyle: TextStyle(
@@ -179,6 +192,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: TextFormField(
+                          controller: telController,
                           decoration: InputDecoration(
                               label: Text('Telefone de acesso'),
                               labelStyle: TextStyle(
@@ -199,6 +213,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
+                                controller: rgController,
                                 decoration: InputDecoration(
                                     label: Text('RG'),
                                     labelStyle: TextStyle(
@@ -219,6 +234,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: TextFormField(
+                                controller: cpfController,
                                 decoration: InputDecoration(
                                     label: Text('CPF'),
                                     labelStyle: TextStyle(
@@ -307,6 +323,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                     child: Column(
                                       children: [
                                         TextFormField(
+                                          controller: cepController,
                                           keyboardType: TextInputType.datetime,
                                           decoration: InputDecoration(
                                               label: Text('CEP'),
@@ -328,6 +345,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                           padding: const EdgeInsets.only(
                                               top: 8.0, bottom: 8.0),
                                           child: TextFormField(
+                                            controller: enderecoController,
                                             keyboardType:
                                                 TextInputType.datetime,
                                             decoration: InputDecoration(
@@ -355,6 +373,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                                 padding: const EdgeInsets.only(
                                                     right: 4.0),
                                                 child: TextFormField(
+                                                  controller: bairroController,
                                                   decoration: InputDecoration(
                                                       label: Text('Bairro'),
                                                       labelStyle: TextStyle(
@@ -385,6 +404,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                                 padding: const EdgeInsets.only(
                                                     left: 4.0),
                                                 child: TextFormField(
+                                                  controller: ufController,
                                                   decoration: InputDecoration(
                                                       label: Text('UF'),
                                                       labelStyle: TextStyle(
@@ -416,6 +436,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                           padding: const EdgeInsets.only(
                                               top: 8.0, bottom: 8.0),
                                           child: TextFormField(
+                                            controller: complementoController,
                                             keyboardType:
                                                 TextInputType.datetime,
                                             decoration: InputDecoration(
@@ -789,24 +810,24 @@ Future<void> fazerRequisicao() async {
   final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
 
   final payload = {
-    "celularDeAcesso": "+5535988887777",
+    "celularDeAcesso": "5511936184882",
     "objPessoa": {
       "atencao": "atencao",
-      "nome": "nome",
+      "nome": "$nomeController",
       "nomeDeGuerra": "nomeDeGuerra",
-      "celular": "+5535988887777",
+      "celular": "+5511937162801",
       "senha": "000000",
-      "cpf": "cpf",
-      "rg": "rg",
-      "dataDeNascimento": "dataDeNascimento",
-      "email": "email",
+      "cpf": "$cpfController",
+      "rg": "$rgController",
+      "dataDeNascimento": "$date",
+      "email": "$emailController",
       "objEndereco": {
-        "cep": "cep",
-        "logradouro": "logradouro",
-        "complemento": "complemento",
-        "bairro": "bairro",
+        "cep": "$cepController",
+        "logradouro": "$enderecoController",
+        "complemento": "$complementoController",
+        "bairro": "$bairroController",
         "localidade": "localidade",
-        "uf": "uf"
+        "uf": "$ufController"
       },
       "objetoLinhaDeCredito": {
         "limite": 1.99
@@ -814,37 +835,37 @@ Future<void> fazerRequisicao() async {
     },
     "objAutorizacoes": {
       "podeFazerDevolucao": true,
-      "podeCadastrarProduto": true,
+      "podeCadastrarProduto": '$cadastraProduto',
       "objProdutosPode": {
-        "podeVerEstoqueDeProduto": true,
-        "podeEditarProduto": true,
+        "podeVerEstoqueDeProduto": '$veEstoque',
+        "podeEditarProduto": '$editaProduto',
         "valorDaComissao": 0.00
       },
       "objVendasPode": {
-        "fazVenda": true,
+        "fazVenda": '$fazVenda',
         "comissaoDeVendas": 0.00
       },
       "objAssistenciaTecnicaPode": {
-        "lancaServico": true,
+        "lancaServico": '$lancaServico',
         "ehUmTecnicoEFazAssistenciaTecnica": true,
         "comissaoDeAssistencia": 0.00
       },
       "objClientesPode": {
-        "podeEditarCliente": true
+        "podeEditarCliente": '$editaCliente'
       },
       "objRelatoriosPode": {
-        "geraRelatorioDeVendas": true
+        "geraRelatorioDeVendas": '$geraRelatorio'
       },
       "objLancamentosFinanceirosPode": {
-        "podeReceberNoCaixa": true,
-        "podeVerQuantoVendeu": true
+        "podeReceberNoCaixa": '$recebeNoCaixa',
+        "podeVerQuantoVendeu": '$veQuantoVendeu'
       }
     }
   };
 
   final response = await http.post(
     Uri.parse(apiUrl),
-    headers: {'Content-Type': 'application/json'},
+    headers: {'Content-Type': 'application/json', 'idUser': '5dab33ff2a8c4d6690547e33708fa2b1'},
     body: jsonEncode(payload),
   );
 
