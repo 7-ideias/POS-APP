@@ -12,6 +12,8 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:pos_app/screens/preview-page.dart';
 import 'package:http/http.dart' as http;
 
+import 'ListaDeColaboradores.dart';
+
 
 class NovoColaborador extends StatefulWidget {
   File file;
@@ -76,6 +78,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppController.instance.corPrincipal,
       appBar: AppBar(
         title: Text(
             style: TextStyle(color: AppController.instance.corLetras),
@@ -933,7 +936,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     );
 
     if (response.statusCode == 201) {
-      // Requisição bem-sucedida
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ListaDeColaboradores(),));
       print('Requisição enviada com sucesso!');
       print('Resposta da API: ${response.statusCode}');
     } else {
