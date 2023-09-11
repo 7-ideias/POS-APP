@@ -19,9 +19,31 @@ class NovoColaborador extends StatefulWidget {
 
   @override
   State<NovoColaborador> createState() => _NovoColaboradorState();
+
 }
 
 class _NovoColaboradorState extends State<NovoColaborador> {
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController telController = TextEditingController();
+  TextEditingController rgController = TextEditingController();
+  TextEditingController cpfController = TextEditingController();
+  TextEditingController cepController = TextEditingController();
+  TextEditingController enderecoController = TextEditingController();
+  TextEditingController bairroController = TextEditingController();
+  TextEditingController ufController = TextEditingController();
+  TextEditingController complementoController = TextEditingController();
+
+  String? nome;
+  String? email;
+  String? tel;
+  String? rg;
+  String? cpf;
+  String? cep;
+  String? endereco;
+  String? bairro;
+  String? uf;
+  String? complemento;
   final picker = ImagePicker();
 
   DateTime date = DateTime.now();
@@ -39,16 +61,6 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   bool recebeNoCaixa = true;
   bool veQuantoVendeu = true;
 
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController telController = TextEditingController();
-  TextEditingController rgController = TextEditingController();
-  TextEditingController cpfController = TextEditingController();
-  TextEditingController cepController = TextEditingController();
-  TextEditingController enderecoController = TextEditingController();
-  TextEditingController bairroController = TextEditingController();
-  TextEditingController ufController = TextEditingController();
-  TextEditingController complementoController = TextEditingController();
 
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
@@ -807,27 +819,36 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   }
 
 Future<void> fazerRequisicao() async {
+    nome = nomeController.text;
+    tel = telController.text;
+    cpf = cpfController.text;
+    rg = rgController.text;
+    email = emailController.text;
+    cep = cepController.text;
+    endereco = enderecoController.text;
+    bairro = bairroController.text;
+    complemento = complementoController.text;
   final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
 
   final payload = {
-    "celularDeAcesso": "5511936184882",
+    "celularDeAcesso": "551102108432",
     "objPessoa": {
       "atencao": "atencao",
-      "nome": "$nomeController",
+      "nome": nome,
       "nomeDeGuerra": "nomeDeGuerra",
-      "celular": "+5511937162801",
+      "celular": tel,
       "senha": "000000",
-      "cpf": "$cpfController",
-      "rg": "$rgController",
+      "cpf": cpf,
+      "rg": rg,
       "dataDeNascimento": "$date",
-      "email": "$emailController",
+      "email": email,
       "objEndereco": {
-        "cep": "$cepController",
-        "logradouro": "$enderecoController",
-        "complemento": "$complementoController",
-        "bairro": "$bairroController",
+        "cep": cep,
+        "logradouro": endereco,
+        "complemento": complemento,
+        "bairro": bairro,
         "localidade": "localidade",
-        "uf": "$ufController"
+        "uf": uf
       },
       "objetoLinhaDeCredito": {
         "limite": 1.99
@@ -869,10 +890,10 @@ Future<void> fazerRequisicao() async {
     body: jsonEncode(payload),
   );
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 201) {
     // Requisição bem-sucedida
     print('Requisição enviada com sucesso!');
-    print('Resposta da API: ${response.body}');
+    print('Resposta da API: ${response.statusCode}');
   } else {
     // Requisição falhou
     print('Falha na requisição. Código de status: ${response.statusCode}');
