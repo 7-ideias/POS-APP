@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pos_app/screens/ListaDeColaboradores.dart';
 import 'package:pos_app/screens/preferencias_tela.dart';
 import 'package:pos_app/screens/produto-list-tela.dart';
 import 'package:pos_app/screens/relatorios_tela.dart';
@@ -87,7 +88,7 @@ class _Index0TelaState extends State<Index0Tela> {
                       //tela colaboradores
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => NovoColaborador(file: File(''),),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ListaDeColaboradores(),));
                         },
                         child: Card(
                           elevation: 10,
