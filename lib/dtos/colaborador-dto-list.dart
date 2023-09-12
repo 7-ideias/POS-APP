@@ -1,25 +1,16 @@
-class ColaboradoresList {
-  List<Colaboradores>? colaboradoresList;
+import 'objetos/obj-colaborador.dart';
 
+class ColaboradoresList {
+  List<ObjColaborador>? colaboradoresList;
 
   ColaboradoresList({this.colaboradoresList});
 
   factory ColaboradoresList.fromJson(Map<String, dynamic> json) {
     List<dynamic> colaboradorJson = json['colaboradoresList'];
-    List<Colaboradores> colaboradorList = colaboradorJson
-        .map((elemento) => Colaboradores.fromJson(elemento))
+    List<ObjColaborador> colaboradorList = colaboradorJson
+        .map((elemento) => ObjColaborador.fromJson(elemento))
         .toList();
 
     return ColaboradoresList(colaboradoresList: colaboradorList);
-  }
-}
-
-class Colaboradores {
-  String? id;
-
-  Colaboradores({this.id});
-
-  Colaboradores.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
   }
 }
