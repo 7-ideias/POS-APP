@@ -25,12 +25,12 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
 
   bool temConteudo = false;
 
-  List<Colaboradores>? colaboradoresList;
+  late ColaboradoresList colaboradoresList;
   // List<ObjColaborador> colaboradorList = [];
   @override
   void initState() {
     super.initState();
-    // getColaboradorList();
+    getColaboradorList();
   }
 
   @override
@@ -186,11 +186,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
     var response = await http.get(Uri.parse('${VariaveisGlobais.endPoint}/usuario/lista-colaboradores'), headers: headers,);
     if( response.statusCode == 200){
       Map<String, dynamic> jsonResponse = json.decode(response.body);
-      colaboradoresList
-
-      // colaboradorList = jsonDecode(response.body);
-      print(colaboradorListcolaboradoresList);
-
+      colaboradoresList = ColaboradoresList.fromJson(jsonResponse);
      setState(() {
        temConteudo = true;
        isLoading = false;
