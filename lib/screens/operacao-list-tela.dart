@@ -4,9 +4,7 @@ import 'package:pos_app/controller/operacao-controller.dart';
 import 'package:pos_app/dtos/operacao-dto-nova.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
-import 'package:intl/intl.dart';
 import '../app/page/report_pdf.dart';
-import '../dtos/objetos/obj-venda-e-servico.dart';
 import '../utilitarios/utils.dart';
 
 class OperacaoTela extends StatefulWidget {
@@ -25,10 +23,12 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   int? _value = 1;
   String texto = '';
 
+  late OperacoesDoBackEnd operacoesBackEnd;
+
   @override
   void initState() {
     super.initState();
-    getOperacaoList();
+    getOperacaoList(1);
   }
 
   @override
@@ -46,7 +46,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             backgroundColor: Colors.green,
             onPressed: () async {
               await Navigator.pushNamed(context, '/operacaoNova');
-              getOperacaoList();
+              getOperacaoList(1);
               mostrarTudo = !mostrarTudo;
             },
             label: Row(
@@ -84,7 +84,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
         ],
       ),
       body: isLoading == true ?  TelaInteira().widgetDeLoadingPadraoDoApp():
-      VariaveisGlobais.operacoesBackEnd.ops == null ? naoTemOperacoes():temOperacoes(context),
+      operacoesBackEnd.ops == null ? naoTemOperacoes():temOperacoes(context),
     );
   }
 
@@ -109,44 +109,27 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                   Card(
                     elevation: 10,
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.15,
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.95,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.quantidadeDeOps}',
-                               ),
-                          ),
-                          Text('quantidade de operacoes abertas:${VariaveisGlobais.operacoesBackEnd.ops?.length.toString()}',
-                             ),
+                          Text('OPERAÇÕES: ${operacoesBackEnd.ops?.length.toString()}'),
                         ],
                       ),
                     ),
                   ),
                   Wrap(
-                    spacing: 20,
-                    children: [
-                      ChoiceChip(label: Text('hoje'), selected: true,onSelected: (bool selected) {
-                        setState(() {
-                          print('selecionado');
-                        });
-                      },),
-                      ChoiceChip(label: Text('ultimos 7 dias'), selected: false,),
-                      ChoiceChip(label: Text('ultimo mes'), selected: true,),
-                    ],
-                  ),
-                  Wrap(
                     spacing: 5.0,
-                    children: List<Widget>.generate(4,(int index) {
-                        return ChoiceChip(
-                          label: Text('Item $index'),
+                    children: List<Widget>.generate(2,(int index) {
+                      List<String> nomes = ['hoje', 'todos'];
+                      return ChoiceChip(
+                          label:  Text(nomes[index]),
                           selected: _value == index,
                           onSelected: (bool selected) {
                             setState(() {
-                              _value = selected ? index : null;
+                              _value = selected ? index : 1;
+                              getOperacaoList(index);
                             });
                           },
                         );
@@ -159,11 +142,11 @@ class _OperacaoTelaState extends State<OperacaoTela> {
               Expanded(
                 child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: VariaveisGlobais.operacoesBackEnd.ops?.length,
+                    itemCount: operacoesBackEnd.ops?.length,
                     itemBuilder: (context, index) {
 
                       double somaVlTotal = 0.00;
-                      VariaveisGlobais.operacoesBackEnd.ops![index].vendaList?.forEach((element) {somaVlTotal+=element.vlTotal;});
+                      operacoesBackEnd.ops![index].vendaList?.forEach((element) {somaVlTotal+=element.vlTotal;});
 
                       return Slidable(
                         startActionPane: esquerdaDireitaPane(index),
@@ -174,14 +157,14 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('OPERACAO - ${VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
+                                Text('OPERACAO - ${operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
                               ],
                             ),
                             subtitle: Column(
                               children: [
                                 Row(
                                   children: [
-                                    Text('DATA.: ${Utils.converterData(VariaveisGlobais.operacoesBackEnd.ops![index].objInformacoesDoCadastro!.dataCadastro.toString())}'),
+                                    Text('DATA.: ${Utils.converterData(operacoesBackEnd.ops![index].objInformacoesDoCadastro!.dataCadastro.toString())}'),
                                   ],
                                 ),
                                 Row(
@@ -190,7 +173,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                                   ],
                                 ),
                                 Divider(),
-                                VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true ?
+                                operacoesBackEnd.ops![index].statusQuitada == true ?
                                 Row(
                                   children: [
                                     Icon(Icons.circle,color: Colors.green,),
@@ -210,7 +193,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                           ),
                         ),
                       );
-                      // return ListTile(title: Text(VariaveisGlobais.operacoesBackEnd.ops![index].id.toString()));
+                      // return ListTile(title: Text(operacoesBackEnd.ops![index].id.toString()));
                     }),
               ),
               SizedBox(height: 100,)
@@ -236,14 +219,15 @@ class _OperacaoTelaState extends State<OperacaoTela> {
       motion: const StretchMotion(),
       children: [
         SlidableAction(
-          backgroundColor: Colors.blue,
-          icon: Icons.print,
+          backgroundColor: Colors.blueAccent,
+          icon: Icons.remove_red_eye_outlined,
+          label: 'detalhes',
           onPressed:  (context) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text('Imprimir?'),
+                  title: Text('compartilhar?'),
                   // content: Text('quer realmente apagar?'),
                   actions: <Widget>[
                     TextButton(
@@ -255,7 +239,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     TextButton(
                       child: Text('Confirmar'),
                       onPressed: () {
-                        Ops? operacao = VariaveisGlobais.operacoesBackEnd.ops?[index];
+                        Ops? operacao = operacoesBackEnd.ops?[index];
                         Navigator.of(context).pop();
                         reportView(context, index, operacao);
                       },
@@ -269,6 +253,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
         SlidableAction(
           backgroundColor: Colors.green,
           icon: Icons.monetization_on,
+          label: 'receber',
           onPressed:  (context) {
             showDialog(
               context: context,
@@ -286,7 +271,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     TextButton(
                       child: Text('Confirmar'),
                       onPressed: () {
-                        // Ops? operacao = VariaveisGlobais.operacoesBackEnd.ops?[index];
+                        // Ops? operacao = operacoesBackEnd.ops?[index];
                         Navigator.of(context).pop();
                         // reportView(context, index, operacao);
                       },
@@ -310,6 +295,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
         SlidableAction(
           backgroundColor: Colors.red,
           icon: Icons.clear,
+          label: 'apagar',
           onPressed:  (context) {
             showDialog(
               context: context,
@@ -328,8 +314,8 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                       child: Text('Confirmar'),
                       onPressed: () async {
                         Navigator.of(context).pop();
-                        await OperacaoController().excluirOperacaoPorID(VariaveisGlobais.operacoesBackEnd.ops![index].id.toString());
-                        getOperacaoList();
+                        await OperacaoController().excluirOperacaoPorID(operacoesBackEnd.ops![index].id.toString());
+                        getOperacaoList(1);
                         },
                     ),
                   ],
@@ -338,23 +324,30 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             );
           },
         ),
-
       ],
-
     );
   }
 
-
-  Future<void> getOperacaoList() async {
+  Future<void> getOperacaoList(int filtro) async {
     setState(() {
       isLoading = true;
     });
-     await OperacaoController().atualizarOperacoes();
+
+    await OperacaoController().atualizarOperacoes();
+    operacoesBackEnd = VariaveisGlobais.operacoesBackEnd;
+     operacoesBackEnd.ops = VariaveisGlobais.operacoesBackEnd.ops;
+
+    if(filtro==0){
+      operacoesBackEnd.ops = operacoesBackEnd.ops?.where((ops) =>
+      Utils.converterData(ops.objInformacoesDoCadastro!.dataCadastro.toString()) ==
+          Utils.converterData(DateTime.now().toString())).toList();
+      print( Utils.converterData(DateTime.now().toString()));
+    }else{
+      operacoesBackEnd.ops = VariaveisGlobais.operacoesBackEnd.ops;
+    }
+
     setState(() {
       isLoading = false;
     });
   }
-
-
-
 }
