@@ -5,62 +5,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pos_app/app/page/pdf_view_page.dart';
+import '../../dtos/objetos/obj-venda-e-servico.dart';
+import '../../dtos/operacao-dto-nova.dart';
 
-reportView(context) async {
+reportView(context, int index, Ops? operacao) async {
   final Document pdf = Document();
 
-  pdf.addPage(
-    MultiPage(
-        pageFormat:
-            PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
-        crossAxisAlignment: CrossAxisAlignment.start,
-
-        header: (Context context) {
-          if (context.pageNumber == 1) {
-            return SizedBox();
-          }
-
-          return Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-              padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 0.5, color: PdfColors.grey)),
-              child: Text('Report',
-                  style: Theme.of(context)
-                      .defaultTextStyle
-                      .copyWith(color: PdfColors.grey)));
-        },
-        footer: (Context context) {
-          return Container(
-              alignment: Alignment.centerRight,
-              margin: const EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
-              child: Text('Page ${context.pageNumber} of ${context.pagesCount}',
-                  style: Theme.of(context)
-                      .defaultTextStyle
-                      .copyWith(color: PdfColors.grey)));
-        },
-        build: (Context context) => <Widget>[
-              Header(
-                  level: 0,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('RELATORIO', textScaleFactor: 2),
-                        PdfLogo()
-                      ])),
-              Header(level: 1, text: 'Texto no header RR\$'),
-              Paragraph(
-                  text:
-                      'BLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLABLA BLA'),
-              Padding(padding: const EdgeInsets.all(10)),
-              Table.fromTextArray(context: context, data: const <List<String>>[
-                <String>['Year', 'Ipsum', 'Lorem'],
-                <String>['2000', 'Ipsum 1.0', 'Lorem 1'],
-                <String>['2001', 'Ipsum 1.1', 'Lorem 2'],
-              ],),
-            ]),
-  );
+  paginaDeVenda(pdf, index, operacao);
 
   final String dir = (await getApplicationDocumentsDirectory()).path;
   final String path = '$dir/report.pdf';
@@ -73,4 +24,92 @@ reportView(context) async {
       builder: (_) => PdfViewerPage(path: path),
     ),
   );
+}
+
+void paginaDeVenda(Document pdf, int index, Ops? operacao) {
+  List<ObjVendaEServico>? opsList = operacao?.vendaList;
+  List<Map<String, dynamic>> data = [];
+  if (opsList != null) {
+    data = opsList.map((venda) {
+      return {
+        'codigo': venda.codigoDeBarras,
+        'Descricao do produto': venda.descricaoProduto,
+        'quantidade': venda.qt,
+        'valor unitario': venda.vlUnitario,
+        'valor total': venda.vlTotal
+      };
+    }).toList();
+  }
+
+  double sum = 0.0;
+  data.forEach((row) {
+    sum += row['valor total'];
+  });
+
+  List<List<dynamic>> tableData = [];
+  tableData.add(data[0].keys.toList()); // Adiciona a primeira linha com os nomes das colunas
+
+  data.forEach((row) {
+    tableData.add(row.values.toList());
+  });
+
+  tableData.add(['', '', '', '', sum]);
+
+  pdf.addPage(
+    MultiPage(
+        pageFormat:
+            PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        header: (Context context) {
+          if (context.pageNumber == 1) {
+            return SizedBox();
+          }
+
+          return Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 0.5, color: PdfColors.grey)),
+              child: Text('Comprovante',
+                  style: Theme.of(context)
+                      .defaultTextStyle
+                      .copyWith(color: PdfColors.grey)));
+        },
+        footer: (Context context) {
+          return Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+              child: Text(
+                  'Página ${context.pageNumber} de ${context.pagesCount}',
+                  style: Theme.of(context)
+                      .defaultTextStyle
+                      .copyWith(color: PdfColors.grey)));
+        },
+        build: (Context context) {
+          return vendaList(operacao, context, tableData);
+        }),
+  );
+}
+
+List<Widget> vendaList(
+    Ops? operacao, Context context, List<List<dynamic>> tableData) {
+  return <Widget>[
+    Center(child: Text('SUA LOJA')),
+    SizedBox(height: 20),
+    Text('DOCUMENTO AUXILIAR DE VENDA'),
+    SizedBox(height: 5),
+    Text('ENDERECO: RUA BERNARDINO RAMOS 285'),
+    SizedBox(height: 5),
+    Text('CNPJ: 27111222000109 - INSCRICAO: ISENTO'),
+    SizedBox(height: 5),
+    Text('CONTATO: 35992736863 - carlos@seteideias.com.br'),
+    SizedBox(height: 20),
+    Text('NUMERO DO DOCUMENTO - ${operacao!.codigoProprioDaOperacao}'),
+    Paragraph(text: 'CLIENTE'),
+    Padding(padding: const EdgeInsets.all(10)),
+    TableHelper.fromTextArray(context: context, data: tableData),
+    SizedBox(height: 20),
+    Text('SEM VALOR FISCAL'),
+  ];
 }

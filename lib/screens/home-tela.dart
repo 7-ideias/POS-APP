@@ -63,7 +63,7 @@ class _HomeState extends State<Home> {
               // '/moeda': (_) => MoedaTela(),
               '/operacaoNova': (_) => OperacaoNova(),
               '/operacoes': (_) => OperacaoTela(),
-              '/pdf': (_) => PDFCreatePage(),
+              // '/pdf': (_) => PDFCreatePage(),
               // '/pedidos': (_) => PedidosTela(),
               // '/perfil': (_) => PerfilTela(),
               // '/produtos': (_) => ProdutosTela(),

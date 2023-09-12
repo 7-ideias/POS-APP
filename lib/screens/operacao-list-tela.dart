@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pos_app/controller/operacao-controller.dart';
+import 'package:pos_app/dtos/operacao-dto-nova.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 
 import '../app/page/report_pdf.dart';
+import '../dtos/objetos/obj-venda-e-servico.dart';
+import '../utilitarios/utils.dart';
 
 class OperacaoTela extends StatefulWidget {
   const OperacaoTela({Key? key}) : super(key: key);
@@ -158,39 +161,40 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     shrinkWrap: true,
                     itemCount: VariaveisGlobais.operacoesBackEnd.ops?.length,
                     itemBuilder: (context, index) {
+
+                      double somaVlTotal = 0.00;
+                      VariaveisGlobais.operacoesBackEnd.ops![index].vendaList?.forEach((element) {somaVlTotal+=element.vlTotal;});
+
                       return Slidable(
                         startActionPane: esquerdaDireitaPane(index),
                         endActionPane: direitaEsquerdaPane(index),
-                        child: ListTile(
-                          tileColor: !index.isOdd ? Colors.blueGrey : null,
-                          leading: CircleAvatar(
-                            child: Text((index+1).toString()),
+                        child: Card(
+                          elevation: 5,
+                          child: ListTile(
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('OPERACAO - ${VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
+                              ],
+                            ),
+                            subtitle: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(Utils.formataParaMoeda(somaVlTotal)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.circle,color: Colors.redAccent,),
+                                    Text(' NAO RECEBIDO'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                             // tileColor: index.isOdd? Colors.blue : Colors.blueGrey,
+                            isThreeLine: true,
                           ),
-                          title: Text('${VariaveisGlobais.operacoesBackEnd.ops![index].codigoProprioDaOperacao}'),
-                          subtitle: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(VariaveisGlobais.moeda+VariaveisGlobais.operacoesBackEnd.ops![index].objCalculosDeOperacaoDoBackEnd!.vlTotal.toString()),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.circle,color: Colors.red,),
-                                  Text(VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true?
-                                  'ARRUMAR':'ARRUMAR'),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.circle,color: Colors.blue,),
-                                  Text(' NAO RECEBIDO'),
-                                ],
-                              ),
-                            ],
-                          ),
-                           // tileColor: index.isOdd? Colors.blue : Colors.blueGrey,
-                          isThreeLine: true,
                         ),
                       );
                       // return ListTile(title: Text(VariaveisGlobais.operacoesBackEnd.ops![index].id.toString()));
@@ -237,8 +241,9 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     TextButton(
                       child: Text('Confirmar'),
                       onPressed: () {
+                        Ops? operacao = VariaveisGlobais.operacoesBackEnd.ops?[index];
                         Navigator.of(context).pop();
-                        reportView(context);
+                        reportView(context, index, operacao);
                       },
                     ),
                   ],
