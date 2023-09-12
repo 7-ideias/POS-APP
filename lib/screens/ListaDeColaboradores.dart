@@ -13,15 +13,18 @@ class ListaDeColaboradores extends StatefulWidget {
 
 class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
   bool mostrarOpcoes = false;
+  bool isLoading = true;
+
+  bool temConteudo = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppController.instance.corPrincipal,
       appBar: AppBar(
-          title: Text(
-              style: TextStyle(color: AppController.instance.corLetras),
-              'Seus colaboradores'),
+        title: Text(
+            style: TextStyle(color: AppController.instance.corLetras),
+            'Seus colaboradores'),
       ),
       floatingActionButton: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -71,9 +74,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 FloatingActionButton(
                   child: const Icon(Icons.refresh),
                   onPressed: () {
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                 ),
               ],
@@ -81,7 +82,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
         ],
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           if (mostrarOpcoes) {
             setState(() {
               mostrarOpcoes = false;
@@ -93,17 +94,34 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
           duration: Duration(seconds: 1),
           child: ListView(
             children: [
-              if (mostrarOpcoes == true)
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      mostrarOpcoes = false;
-                    });
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                  ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    mostrarOpcoes = false;
+                  });
+                },
+                child: Container(
+                  color: Colors.transparent,
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: () => (_),
+                        child: temConteudo == true
+                            ? Container(
+                                width: MediaQuery.of(context).size.width * 1,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.8,
+                                color: Colors.red,
+                              )
+                            : Container(),
+                      ),
+              ),
             ],
           ),
         ),
