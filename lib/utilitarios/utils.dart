@@ -10,4 +10,10 @@ class Utils {
   static SizedBox getEspacamento() {
     return const SizedBox( height: 12.00, );
   }
+
+  static String converterData(String dataString) {
+    DateTime data = DateTime.parse(dataString);
+    DateFormat formato = DateFormat('dd/MM/yyyy');
+    return formato.format(data);
+  }
 }

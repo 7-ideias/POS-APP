@@ -78,14 +78,14 @@ class Ops {
     idUsuario = json['idUsuario'];
     codigoProprioDaOperacao = json['codigoProprioDaOperacao'];
     descricao = json['descricao'];
-    // objInformacoesDoCadastro = json['objInformacoesDoCadastro'] != null
-    //     ? new ObjInformacoesDoCadastro.fromJson(
-    //     json['objInformacoesDoCadastro'])
-    //     : null;
-    // tipoDeOperacaoEnum = json['tipoDeOperacaoEnum'];
-    // statusQuitada = json['statusQuitada'];
-    // operacaoFinalizadaEProntaParaOCaixa =
-    // json['operacaoFinalizadaEProntaParaOCaixa'];
+    objInformacoesDoCadastro = json['objInformacoesDoCadastro'] != null
+        ? new ObjInformacoesDoCadastro.fromJson(
+        json['objInformacoesDoCadastro'])
+        : null;
+    tipoDeOperacaoEnum = json['tipoDeOperacaoEnum'];
+    statusQuitada = json['statusQuitada'];
+    operacaoFinalizadaEProntaParaOCaixa =
+    json['operacaoFinalizadaEProntaParaOCaixa'];
     objCalculosDeOperacaoDoBackEnd = ObjCalculosDeOperacaoDoBackEnd.fromJson( json['objCalculosDeOperacaoDoBackEnd']);
     // objAgenda = json['objAgenda'];
     if (json['vendaList'] != null) {

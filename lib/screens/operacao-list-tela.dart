@@ -4,7 +4,7 @@ import 'package:pos_app/controller/operacao-controller.dart';
 import 'package:pos_app/dtos/operacao-dto-nova.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
-
+import 'package:intl/intl.dart';
 import '../app/page/report_pdf.dart';
 import '../dtos/objetos/obj-venda-e-servico.dart';
 import '../utilitarios/utils.dart';
@@ -169,7 +169,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                         startActionPane: esquerdaDireitaPane(index),
                         endActionPane: direitaEsquerdaPane(index),
                         child: Card(
-                          elevation: 5,
+                          // elevation: 5,
                           child: ListTile(
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,13 +181,26 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(Utils.formataParaMoeda(somaVlTotal)),
+                                    Text('DATA.: ${Utils.converterData(VariaveisGlobais.operacoesBackEnd.ops![index].objInformacoesDoCadastro!.dataCadastro.toString())}'),
                                   ],
                                 ),
                                 Row(
                                   children: [
+                                    Text(Utils.formataParaMoeda(somaVlTotal)),
+                                  ],
+                                ),
+                                Divider(),
+                                VariaveisGlobais.operacoesBackEnd.ops![index].statusQuitada == true ?
+                                Row(
+                                  children: [
+                                    Icon(Icons.circle,color: Colors.green,),
+                                    Text(' RECEBIDA'),
+                                  ],
+                                ):
+                                Row(
+                                  children: [
                                     Icon(Icons.circle,color: Colors.redAccent,),
-                                    Text(' NAO RECEBIDO'),
+                                    Text(' NAO RECEBIDA'),
                                   ],
                                 ),
                               ],
@@ -199,7 +212,8 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                       );
                       // return ListTile(title: Text(VariaveisGlobais.operacoesBackEnd.ops![index].id.toString()));
                     }),
-              )
+              ),
+              SizedBox(height: 100,)
             ],
           ),
           if(mostrarTudo == true)GestureDetector(
@@ -252,7 +266,37 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             );
           },
         ),
-
+        SlidableAction(
+          backgroundColor: Colors.green,
+          icon: Icons.monetization_on,
+          onPressed:  (context) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('receber?'),
+                  // content: Text('quer realmente apagar?'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: Text('Cancelar'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: Text('Confirmar'),
+                      onPressed: () {
+                        // Ops? operacao = VariaveisGlobais.operacoesBackEnd.ops?[index];
+                        Navigator.of(context).pop();
+                        // reportView(context, index, operacao);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
       ],
 
     );
@@ -310,6 +354,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
       isLoading = false;
     });
   }
+
 
 
 }

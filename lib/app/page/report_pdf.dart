@@ -7,6 +7,7 @@ import 'package:pdf/widgets.dart';
 import 'package:pos_app/app/page/pdf_view_page.dart';
 import '../../dtos/objetos/obj-venda-e-servico.dart';
 import '../../dtos/operacao-dto-nova.dart';
+import '../../utilitarios/utils.dart';
 
 reportView(context, int index, Ops? operacao) async {
   final Document pdf = Document();
@@ -32,10 +33,10 @@ void paginaDeVenda(Document pdf, int index, Ops? operacao) {
   if (opsList != null) {
     data = opsList.map((venda) {
       return {
-        'codigo': venda.codigoDeBarras,
-        'Descricao do produto': venda.descricaoProduto,
+        'código': venda.codigoDeBarras,
+        'descrição do produto': venda.descricaoProduto,
         'quantidade': venda.qt,
-        'valor unitario': venda.vlUnitario,
+        'valor unitário': venda.vlUnitario,
         'valor total': venda.vlTotal
       };
     }).toList();
@@ -96,20 +97,45 @@ List<Widget> vendaList(
     Ops? operacao, Context context, List<List<dynamic>> tableData) {
   return <Widget>[
     Center(child: Text('SUA LOJA')),
-    SizedBox(height: 20),
-    Text('DOCUMENTO AUXILIAR DE VENDA'),
+    Divider(),
+    SizedBox(height: 5),
+    Center(
+      child: Text('DOCUMENTO AUXILIAR DE VENDA'),
+    ),
     SizedBox(height: 5),
     Text('ENDERECO: RUA BERNARDINO RAMOS 285'),
     SizedBox(height: 5),
     Text('CNPJ: 27111222000109 - INSCRICAO: ISENTO'),
     SizedBox(height: 5),
     Text('CONTATO: 35992736863 - carlos@seteideias.com.br'),
+    Divider(),
     SizedBox(height: 20),
-    Text('NUMERO DO DOCUMENTO - ${operacao!.codigoProprioDaOperacao}'),
+    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Text('ordem - '),
+      Text('${operacao!.codigoProprioDaOperacao}',
+          style: TextStyle(fontWeight: FontWeight.bold)),
+    ]),
+    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Text('data - '),
+      Text(
+          Utils.converterData(
+              operacao.objInformacoesDoCadastro!.dataCadastro.toString()),
+          style: TextStyle(fontWeight: FontWeight.bold)),
+    ]),
     Paragraph(text: 'CLIENTE'),
     Padding(padding: const EdgeInsets.all(10)),
     TableHelper.fromTextArray(context: context, data: tableData),
     SizedBox(height: 20),
-    Text('SEM VALOR FISCAL'),
+    SizedBox(height: 5),
+    Positioned(
+      right: 0,
+      child: BarcodeWidget(
+        drawText: false,
+        barcode: Barcode.qrCode(),
+        data: operacao!.codigoProprioDaOperacao.toString(),
+        // width: 200,
+        height: 50,
+      ),
+    ),
   ];
 }
