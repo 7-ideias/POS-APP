@@ -1,8 +1,16 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
+import 'package:pos_app/dtos/objetos/obj-colaborador.dart';
 import 'package:pos_app/screens/cadastrando-novo-colaborador.dart';
+import 'package:http/http.dart' as http;
+
+
+import '../dtos/colaborador-dto-list.dart';
+import '../utilitarios/VariaveisGlobais.dart';
 
 class ListaDeColaboradores extends StatefulWidget {
   const ListaDeColaboradores({super.key});
@@ -13,9 +21,17 @@ class ListaDeColaboradores extends StatefulWidget {
 
 class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
   bool mostrarOpcoes = false;
-  bool isLoading = true;
+  bool isLoading = false;
 
   bool temConteudo = false;
+
+  List<Colaboradores>? colaboradoresList;
+  // List<ObjColaborador> colaboradorList = [];
+  @override
+  void initState() {
+    super.initState();
+    // getColaboradorList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +90,8 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 FloatingActionButton(
                   child: const Icon(Icons.refresh),
                   onPressed: () {
-                    setState(() {});
+                    print("xxxxxxxx");
+                   getColaboradorList();
                   },
                 ),
               ],
@@ -108,18 +125,46 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 padding: const EdgeInsets.all(12.0),
                 child: isLoading
                     ? Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                        ),
                       )
                     : RefreshIndicator(
-                        onRefresh: () => (_),
+                        onRefresh: () => getColaboradorList(),
                         child: temConteudo == true
-                            ? Container(
-                                width: MediaQuery.of(context).size.width * 1,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.8,
-                                color: Colors.red,
-                              )
-                            : Container(),
+                            ? Expanded(
+                              child: Container(
+                                  width: MediaQuery.of(context).size.width * 1,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.8,
+                                  color: AppController.instance.corTelaAcima,
+                                child: Expanded(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: MediaQuery.of(context).size.width * 1,
+                                        height: MediaQuery.of(context).size.height * 0.2,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 2, color: Colors.white)
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            CircleAvatar(
+                                              // backgroundImage: _getFoto(colaboradorList[0].foto),
+                                              backgroundColor: Colors.white,
+                                              radius: 60,
+                                            ),
+                                            Row(
+
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ),
+                            )
+                            : Container(child: Text('NAO TEM NENHUM COLABORADOR CADASTRADO AINDA'),),
                       ),
               ),
             ],
@@ -128,4 +173,45 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
       ),
     );
   }
+
+  Future<http.Response> getColaboradorList() async {
+    setState(() {
+      isLoading = true;
+      temConteudo = false;
+    });
+    var headers = {
+      'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
+      'Content-Type': 'application/json',
+    };
+    var response = await http.get(Uri.parse('${VariaveisGlobais.endPoint}/usuario/lista-colaboradores'), headers: headers,);
+    if( response.statusCode == 200){
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      colaboradoresList
+
+      // colaboradorList = jsonDecode(response.body);
+      print(colaboradorListcolaboradoresList);
+
+     setState(() {
+       temConteudo = true;
+       isLoading = false;
+     });
+    }
+    else{
+      temConteudo == false;
+    }
+    setState(() {
+      isLoading = false;
+    });
+    return response;
+  }
+
+  ImageProvider _getFoto(String? fotoBase64) {
+  if (fotoBase64 != null) {
+    List<int> imageBytes = base64.decode(fotoBase64);
+    Uint8List bytes = Uint8List.fromList(imageBytes);
+    return MemoryImage(bytes);
+  } else {
+    return AssetImage('caminho/para/imagem_padrao.png');
+  }
+}
 }
