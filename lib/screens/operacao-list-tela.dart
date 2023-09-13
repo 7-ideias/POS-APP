@@ -22,13 +22,14 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   int qtOperacoes = 0;
   int? _value = 1;
   String texto = '';
+  int filtro = 1;
 
   late OperacoesDoBackEnd operacoesBackEnd;
 
   @override
   void initState() {
     super.initState();
-    getOperacaoList(1);
+    getOperacaoList(filtro);
   }
 
   @override
@@ -42,11 +43,11 @@ class _OperacaoTelaState extends State<OperacaoTela> {
           SizedBox(
             height: 10,
           ),
-          mostrarTudo == true ?FloatingActionButton.extended(
+          if(mostrarTudo == true) FloatingActionButton.extended(
             backgroundColor: Colors.green,
             onPressed: () async {
               await Navigator.pushNamed(context, '/operacaoNova');
-              getOperacaoList(1);
+              getOperacaoList(filtro);
               mostrarTudo = !mostrarTudo;
             },
             label: Row(
@@ -55,7 +56,22 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                 Text('nova venda/serviço' ),
               ],
             ),
-          ):Container(),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          if(mostrarTudo == true) FloatingActionButton.extended(
+            backgroundColor: Colors.redAccent,
+            onPressed: () async {
+              mostrarTudo = !mostrarTudo;
+            },
+            label: Row(
+              children: [
+                Icon(Icons.question_mark),
+                Text('ajuda' ),
+              ],
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
@@ -77,10 +93,12 @@ class _OperacaoTelaState extends State<OperacaoTela> {
               ],
             ),
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          // FloatingActionButton(onPressed: (){},child: Icon(Icons.refresh),)
+          SizedBox(
+            height: 10,
+          ),
+          if(mostrarTudo == false)FloatingActionButton(onPressed: (){
+            getOperacaoList(filtro);
+          },child: Icon(Icons.refresh),)
         ],
       ),
       body: isLoading == true ?  TelaInteira().widgetDeLoadingPadraoDoApp():
@@ -119,6 +137,35 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'digite para buscar',
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: GestureDetector(
+                              onTap: (){
+                                //FIXME
+                              },
+                              child: Icon(Icons.clear)),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            // var listagem = produtoDtoList.produtosList;
+                            // produtoList = listagem
+                            //     .where((produto) => produto.nomeProduto
+                            //     .toLowerCase()
+                            //     .contains(value.toLowerCase()) || produto.codigoDeBarras
+                            //     .toLowerCase()
+                            //     .contains(value.toLowerCase()))
+                            //     .toList();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
                   Wrap(
                     spacing: 5.0,
                     children: List<Widget>.generate(2,(int index) {
@@ -129,7 +176,8 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                           onSelected: (bool selected) {
                             setState(() {
                               _value = selected ? index : 1;
-                              getOperacaoList(index);
+                              filtro = index;
+                              getOperacaoList(filtro);
                             });
                           },
                         );
@@ -315,7 +363,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                       onPressed: () async {
                         Navigator.of(context).pop();
                         await OperacaoController().excluirOperacaoPorID(operacoesBackEnd.ops![index].id.toString());
-                        getOperacaoList(1);
+                        getOperacaoList(filtro);
                         },
                     ),
                   ],
