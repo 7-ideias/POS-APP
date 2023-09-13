@@ -19,9 +19,11 @@ class ObjColaborador {
     id = json['id'];
     ativo = json['ativo'];
     celularDeAcesso = json['celularDeAcesso'];
-    senhaParaPermitirOAcessoDoColaborador = json['senhaParaPermitirOAcessoDoColaborador'];
+    senhaParaPermitirOAcessoDoColaborador =
+        json['senhaParaPermitirOAcessoDoColaborador'];
     objInformacoesDoCadastro = json['objInformacoesDoCadastro'] != null
-        ? new ObjInformacoesDoCadastro.fromJson(json['objInformacoesDoCadastro'])
+        ? new ObjInformacoesDoCadastro.fromJson(
+            json['objInformacoesDoCadastro'])
         : null;
     objDadosFuncionais = json['objDadosFuncionais'] != null
         ? new ObjDadosFuncionais.fromJson(json['objDadosFuncionais'])
@@ -33,5 +35,4 @@ class ObjColaborador {
         ? new ObjAutorizacoes.fromJson(json['objAutorizacoes'])
         : null;
   }
-
 }

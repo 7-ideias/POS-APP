@@ -12,6 +12,7 @@ import 'package:camera_camera/camera_camera.dart';
 import 'package:pos_app/screens/preview-page.dart';
 import 'package:http/http.dart' as http;
 
+import '../utilitarios/VariaveisGlobais.dart';
 import 'ListaDeColaboradores.dart';
 
 
@@ -871,7 +872,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     endereco = enderecoController.text;
     bairro = bairroController.text;
     complemento = complementoController.text;
-    final String apiUrl = 'http://localhost:8082/usuario/novo-colaborador';
+    // final String apiUrl = '${VariaveisGlobais.endPoint}/usuario/novo-colaborador';
     Future<List<int>> getImageBytes() async {
       File path = File(widget.file.path);
       path.existsSync();
@@ -927,7 +928,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     };
 
     final response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse('${VariaveisGlobais.endPoint}/usuario/novo-colaborador'),
       headers: {
         'Content-Type': 'application/json',
         'idUser': '5dab33ff2a8c4d6690547e33708fa2b1'

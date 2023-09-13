@@ -21,8 +21,9 @@ class ObjAutorizacoes {
     podeCadastrarProduto = json['podeCadastrarProduto'] != null
         ? json['podeCadastrarProduto']
         : null;
-    objProdutosPode =
-        json['objProdutosPode'] != null ? json['objProdutosPode'] : null;
+    Map<String, dynamic> objProdutosPode = json['objProdutosPode'] != null ? json['objProdutosPode'] : null;
+    // Map<String, dynamic> objProdutosPode = json['objProdutosPode'];
+
     objVendasPode =
         json['objVendasPode'] != null ? json['objVendasPode'] : null;
     objAssistenciaTecnicaPode = json['objAssistenciaTecnicaPode'] != null
@@ -37,4 +38,5 @@ class ObjAutorizacoes {
             ? json['objLancamentosFinanceirosPode']
             : null;
   }
+
 }

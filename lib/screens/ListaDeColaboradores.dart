@@ -8,7 +8,6 @@ import 'package:pos_app/dtos/objetos/obj-colaborador.dart';
 import 'package:pos_app/screens/cadastrando-novo-colaborador.dart';
 import 'package:http/http.dart' as http;
 
-
 import '../dtos/colaborador-dto-list.dart';
 import '../utilitarios/VariaveisGlobais.dart';
 
@@ -25,7 +24,8 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
 
   bool temConteudo = false;
 
-  late ColaboradoresList colaboradoresList;
+   ColaboradoresList? colaboradoresList;
+
   // List<ObjColaborador> colaboradorList = [];
   @override
   void initState() {
@@ -90,8 +90,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 FloatingActionButton(
                   child: const Icon(Icons.refresh),
                   onPressed: () {
-                    print("xxxxxxxx");
-                   getColaboradorList();
+                    getColaboradorList();
                   },
                 ),
               ],
@@ -109,9 +108,10 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
         child: AnimatedOpacity(
           opacity: mostrarOpcoes == true ? 0.1 : 1,
           duration: Duration(seconds: 1),
-          child: ListView(
-            children: [
-              GestureDetector(
+          child: ListView.builder(
+            itemCount: colaboradoresList?.colaboradoresList?.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
                 onTap: () {
                   setState(() {
                     mostrarOpcoes = false;
@@ -119,55 +119,59 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 },
                 child: Container(
                   color: Colors.transparent,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: () => getColaboradorList(),
+                            child: temConteudo == true
+                                ? Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 1,
+                                    height: MediaQuery.of(context).size.height * 0.2,
+                                    color: AppController.instance.corTelaAcima,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              1,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.2,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 2, color: Colors.white),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundImage: _getFoto(
+                                                    colaboradoresList?.colaboradoresList?[index]
+                                                        .foto.toString()),
+                                                backgroundColor: Colors.white,
+                                                radius: 60,
+                                              ),
+                                              Row(),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    child: Text(
+                                        'NAO TEM NENHUM COLABORADOR CADASTRADO AINDA')),
+                          ),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                        ),
-                      )
-                    : RefreshIndicator(
-                        onRefresh: () => getColaboradorList(),
-                        child: temConteudo == true
-                            ? Expanded(
-                              child: Container(
-                                  width: MediaQuery.of(context).size.width * 1,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.8,
-                                  color: AppController.instance.corTelaAcima,
-                                child: Expanded(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 1,
-                                        height: MediaQuery.of(context).size.height * 0.2,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 2, color: Colors.white)
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            CircleAvatar(
-                                              // backgroundImage: _getFoto(colaboradorList[0].foto),
-                                              backgroundColor: Colors.white,
-                                              radius: 60,
-                                            ),
-                                            Row(
-
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                ),
-                            )
-                            : Container(child: Text('NAO TEM NENHUM COLABORADOR CADASTRADO AINDA'),),
-                      ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
@@ -183,16 +187,19 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
       'Content-Type': 'application/json',
     };
-    var response = await http.get(Uri.parse('${VariaveisGlobais.endPoint}/usuario/lista-colaboradores'), headers: headers,);
-    if( response.statusCode == 200){
+    var response = await http.get(
+      Uri.parse('${VariaveisGlobais.endPoint}/usuario/lista-colaboradores'),
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print(response.body);
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       colaboradoresList = ColaboradoresList.fromJson(jsonResponse);
-     setState(() {
-       temConteudo = true;
-       isLoading = false;
-     });
-    }
-    else{
+      setState(() {
+        temConteudo = true;
+        isLoading = false;
+      });
+    } else {
       temConteudo == false;
     }
     setState(() {
@@ -202,12 +209,12 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
   }
 
   ImageProvider _getFoto(String? fotoBase64) {
-  if (fotoBase64 != null) {
-    List<int> imageBytes = base64.decode(fotoBase64);
-    Uint8List bytes = Uint8List.fromList(imageBytes);
-    return MemoryImage(bytes);
-  } else {
-    return AssetImage('caminho/para/imagem_padrao.png');
+    if (fotoBase64 != null) {
+      List<int> imageBytes = base64.decode(fotoBase64);
+      Uint8List bytes = Uint8List.fromList(imageBytes);
+      return MemoryImage(bytes);
+    } else {
+      return AssetImage('assets/male-profile-picture.png');
+    }
   }
-}
 }
