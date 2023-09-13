@@ -23,6 +23,7 @@ class OperacaoDto {
   List<ObjVendaEServico>? servicoList;
   ObjRecebimentosList? objRecebimentosList;
   ObjLogsList? objLogsList;
+  String? dataOperacao;
 
   OperacaoDto({
     required this.id,
@@ -39,6 +40,7 @@ class OperacaoDto {
     this.servicoList,
     this.objRecebimentosList,
     this.objLogsList,
+    this.dataOperacao,
   });
 
   factory OperacaoDto.fromJson(Map<String, dynamic> json) {
@@ -57,6 +59,7 @@ class OperacaoDto {
       servicoList : json['servicoList']!= null ?json['servicoList'] : null,
       objRecebimentosList : json['objRecebimentosList'] != null ? ObjRecebimentosList.fromJson(json['objRecebimentosList'])!= null ? ObjRecebimentosList.fromJson(json['objRecebimentosList']): null : null,
       // objLogsList : json['objLogsList'] != null ? ObjLogsList.fromJson(json['objLogsList'])!= null ? ObjLogsList.fromJson(json['objLogsList']): null : null,
+
     );
   }
 
@@ -76,6 +79,7 @@ class OperacaoDto {
     // data['servicoList'] = this.servicoList != null ? this.servicoList!.toJson() : null;
     // data['objRecebimentosList'] = this.objRecebimentosList != null ? this.objRecebimentosList!.toJson() : null;
     // data['objLogsList'] = this.objLogsList != null ? this.objLogsList!.toJson() : null;
+    data['dataOperacao'] = this.dataOperacao;
     return data;
   }
 }

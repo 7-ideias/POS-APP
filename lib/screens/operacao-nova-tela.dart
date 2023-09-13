@@ -543,8 +543,6 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     var url = '${VariaveisGlobais.endPoint}/operacao/inserir';
     String idColaborador = '${VariaveisGlobais.usuarioDto.id}';
 
-    var body;
-
     // double valorCusto = 0.00;
     // valorCusto = widget.produtoList[0].objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto;
 
@@ -567,75 +565,18 @@ class _OperacaoNovaState extends State<OperacaoNova> {
         vendaList: objVendaEServicoList,
         servicoList: null,
         objRecebimentosList: null,
+        dataOperacao: dataDaOperacao.toString()
     ).toJson();
 
-    var bodyTeste = jsonEncode(json);
+    var body = jsonEncode(json);
 
-    body = jsonEncode({
-      "idCliente": "NAO INFORMADO",
-      "codigoProprioDaOperacao": "xpto",
-      "descricao": "xpto",
-      "tipoDeOperacaoEnum": "VENDA",
-      "statusQuitada": false,
-      "operacaoFinalizadaEProntaParaOCaixa": false,
-      "objAgenda": {
-        "eventoUnico": false,
-        "tipoDeRecorrencia": null
-      },
-      "vendaList": [
-        {
-          "idCodigoProduto": "e098ab9b06aa48149a0f34ca5c95d4cc",
-          "codigoDeBarras": "ISSO EH SEMPRE CALCULADO DEPOIS PELO BACKEND",
-          "descricaoProduto": "ISSO EH SEMPRE CALCULADO DEPOIS PELO BACKEND",
-          "qt": 10.55,
-          "vlUnitario": "15.22",
-          "vlTotal": "150.22",
-          "idColaboradorResponsavelPeloServico": "ssssssssssss",
-          "nomeColaboradorResponsavel": "ssssssssssss"
-        }
-      ],
-      "servicoList": [
-        {
-          "idCodigoProduto": "e098ab9b06aa48149a0f34ca5c95d4cc",
-          "codigoDeBarras": "ISSO EH SEMPRE CALCULADO DEPOIS PELO BACKEND",
-          "descricaoProduto": "ISSO EH SEMPRE CALCULADO DEPOIS PELO BACKEND",
-          "qt": 10.55,
-          "vlUnitario": "15.22",
-          "vlTotal": "150.22",
-          "idColaboradorResponsavelPeloServico": "ssssssssssss",
-          "nomeColaboradorResponsavel": "ssssssssssss"
-        }
-      ],
-      "objRecebimentosList": [
-        {
-          "data": null,
-          "idDeQuemRegistrou": "idDeQuemRegistrou",
-          "objGrana": {
-            "tipo1": 10.55,
-            "tipo2": 10.55,
-            "tipo3": 10.55,
-            "tipo4": 10.55,
-            "tipo5": 10.55
-          }
-        }
-      ],
-      "objLogsList": [
-        {
-          "objInformacoesDoCadastro": {
-            "idDeQuemCadastrou": "idDeQuemCadastrou",
-            "dataCadastro": null
-          },
-          "ocorrencia": "ocorrencia"
-        }
-      ]
-    });
     var headers = {
       'Content-Type': 'application/json',
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
       'idColaborador': idColaborador
     };
 
-    var response = await http.post(Uri.parse(url), headers: headers, body: bodyTeste);
+    var response = await http.post(Uri.parse(url), headers: headers, body: body);
     // var response = await http.post(Uri.parse(url), headers: headers, body: body);
     debugPrint(response.statusCode.toString());
 

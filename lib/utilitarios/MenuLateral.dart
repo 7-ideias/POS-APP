@@ -25,12 +25,27 @@ class _MenuLateralState extends State<MenuLateral> {
           Container(
             child: imagemDaBarraLateral(context),
           ),
-          opcaoDaBarraLateral(context, 'desenvolvedor', Icons.account_box),
+          // opcaoDaBarraLateral(context, 'desenvolvedor', Icons.account_box),
           ListTile(
-            leading: const Icon(Icons.border_color),
-            title: Text('Feedback'),
+            leading: const Icon(Icons.people),
+            title: Text('meus dados'),
             onTap: () => {Navigator.of(context).pop()},
           ),
+          ListTile(
+            leading: const Icon(Icons.store_mall_directory_sharp),
+            title: Text('dados da empresa'),
+            onTap: () => {Navigator.of(context).pop()},
+          ),
+          ListTile(
+            leading: const Icon(Icons.pan_tool_sharp),
+            title: Text('configurações'),
+            onTap: () => {Navigator.of(context).pop()},
+          ),
+          // ListTile(
+          //   leading: const Icon(Icons.border_color),
+          //   title: Text('Feedback'),
+          //   onTap: () => {Navigator.of(context).pop()},
+          // ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
@@ -82,8 +97,9 @@ class _MenuLateralState extends State<MenuLateral> {
 Widget imagemDaBarraLateral(BuildContext context) {
   return Container(
     child: UserAccountsDrawerHeader(
-      accountName: Text("nome da conta"),
-      accountEmail: Text("carlos@email.com.br"),
+
+      accountName: Text(VariaveisGlobais.usuarioDto.objPessoa!.nome.toString()),
+      accountEmail: Text(VariaveisGlobais.usuarioDto.objPessoa!.email.toString().toLowerCase()),
       currentAccountPicture: CircleAvatar(
         radius: 30.0,
         backgroundImage: AssetImage('assets/carlosFotoPerfil_laranja.jpg'),
