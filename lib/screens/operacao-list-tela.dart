@@ -4,8 +4,10 @@ import 'package:pos_app/controller/operacao-controller.dart';
 import 'package:pos_app/dtos/operacao-dto-nova.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
+import 'package:pos_app/utilitarios/texto_ajuda.dart';
 import '../app/page/report_pdf.dart';
 import '../utilitarios/utils.dart';
+import '../utilitarios/widgetsGlobais.dart';
 
 class OperacaoTela extends StatefulWidget {
   const OperacaoTela({Key? key}) : super(key: key);
@@ -25,6 +27,9 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   int filtro = 1;
 
   late OperacoesDoBackEnd operacoesBackEnd;
+
+  TextEditingController _searchController = TextEditingController();
+  FocusNode _searchFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -64,6 +69,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             backgroundColor: Colors.redAccent,
             onPressed: () async {
               mostrarTudo = !mostrarTudo;
+              UtilsWidgets.floatDeAjuda(context,'texto');
             },
             label: Row(
               children: [
@@ -141,26 +147,34 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       child: TextField(
+                        controller: _searchController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'digite para buscar',
                           prefixIcon: Icon(Icons.search),
-                          suffixIcon: GestureDetector(
-                              onTap: (){
-                                //FIXME
-                              },
-                              child: Icon(Icons.clear)),
+                          suffixIcon:  _searchController.text.length > 0 ? GestureDetector(
+                              onTap: () {
+                                    setState(() {
+                                      _searchController.clear();
+                                      operacoesBackEnd.ops = VariaveisGlobais.operacoesBackEnd.ops;
+                                      _searchFocusNode.unfocus();
+                                    });
+                                  },
+                                  child: Icon(Icons.clear),
+                          ) : null,
                         ),
                         onChanged: (value) {
                           setState(() {
-                            // var listagem = produtoDtoList.produtosList;
-                            // produtoList = listagem
-                            //     .where((produto) => produto.nomeProduto
-                            //     .toLowerCase()
-                            //     .contains(value.toLowerCase()) || produto.codigoDeBarras
-                            //     .toLowerCase()
-                            //     .contains(value.toLowerCase()))
-                            //     .toList();
+                            var listagem = operacoesBackEnd.ops;
+                            operacoesBackEnd.ops = listagem
+                                ?.where((produto) => produto.codigoProprioDaOperacao
+                                !.toLowerCase()
+                                .contains(value.toLowerCase())
+                                || produto.objInformacoesDoCadastro!.dataCadastro.toString()
+                                .toLowerCase()
+                                .contains(value.toLowerCase())
+                            )
+                                .toList();
                           });
                         },
                       ),

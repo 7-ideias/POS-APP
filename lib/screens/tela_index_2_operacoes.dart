@@ -72,7 +72,7 @@ class _Index2TelaState extends State<Index2Tela> {
                               child: FittedBox(
                                 fit: BoxFit.scaleDown,
                                 child: Text(
-                                  'vendas/servicos ',
+                                  'vendas e\nservicos ',
                                   style: TextStyle(
                                     fontSize: tamanhoDaFonte)
                                 ),

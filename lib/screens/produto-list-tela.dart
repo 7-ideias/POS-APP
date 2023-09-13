@@ -27,6 +27,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
   late ProdutoDtoList produtoDtoList;
   bool mostrarTudo = false;
   bool _revelarValores = false;
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -78,20 +79,31 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       child: TextField(
+                        controller: _searchController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'digite para buscar',
-                          suffixIcon: Icon(Icons.search),
+                          prefixIcon: Icon(Icons.search),
+                          suffixIcon: _searchController.text.length > 0 ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _searchController.clear(); // Limpa o campo de busca
+                                produtoList = produtoDtoList.produtosList; // Restaura a lista original
+                              });
+                            },
+                            child: Icon(Icons.clear),
+                          ):null,
                         ),
                         onChanged: (value) {
                           setState(() {
-                            var listagem = produtoDtoList.produtosList;
-                            produtoList = listagem
-                                .where((produto) => produto.nomeProduto
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()) || produto.codigoDeBarras
+                            produtoList = produtoDtoList.produtosList
+                                .where((produto) =>
+                            produto.nomeProduto
                                 .toLowerCase()
-                                .contains(value.toLowerCase()))
+                                .contains(value.toLowerCase()) ||
+                                produto.codigoDeBarras
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
                                 .toList();
                           });
                         },

@@ -13,6 +13,8 @@ import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:pos_app/utilitarios/widgetsGlobais.dart';
 
 import '../dtos/produto-dto.dart';
+import '../utilitarios/moeda_formatador.dart';
+import '../utilitarios/texto_ajuda.dart';
 import '../utilitarios/utils.dart';
 
 
@@ -222,8 +224,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         ),
                       ): Container(),
 
-                      //qt para o estoque
-                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
+                      //qt inicial
+                      if(_nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -242,7 +244,13 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                     onTap: (){
                                       setState(() {
                                         _qtEstoqueInicial <= 1 ? _qtEstoqueInicial : _qtEstoqueInicial--;
-                                        print(_qtEstoqueInicial);
+                                      });
+                                    },
+                                    onLongPress: (){
+                                      setState(() {
+                                        if(_qtEstoqueInicial>10){
+                                        _qtEstoqueInicial = _qtEstoqueInicial-10;
+                                        }
                                       });
                                     },
                                     child: CircleAvatar(
@@ -250,29 +258,28 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                       child: Text('-',style: TextStyle(fontSize: 30)),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Container(
-                                      height: 100,
-                                      width: 100,
-                                      child: Center(
-                                        child: Text(_qtEstoqueInicial.toString(),style: TextStyle(fontSize: 30)),
-                                      ),
+                                  Container(
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: Text(_qtEstoqueInicial.toString(),style: TextStyle(fontSize: 30)),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        setState(() {
-                                          _qtEstoqueInicial++;
-                                          print(_qtEstoqueInicial);
-                                        });
-                                      },
-                                      child: CircleAvatar(
-                                        maxRadius: 25,
-                                        child: Text('+',style: TextStyle(fontSize: 30)),
-                                      ),
+                                  GestureDetector(
+                                    onTap: (){
+                                      setState(() {
+                                        _qtEstoqueInicial++;
+                                        print(_qtEstoqueInicial);
+                                      });
+                                    },
+                                    onLongPress: (){
+                                      setState(() {
+                                        _qtEstoqueInicial = _qtEstoqueInicial+10;
+                                      });
+                                    },
+                                    child: CircleAvatar(
+                                      maxRadius: 25,
+                                      child: Text('+',style: TextStyle(fontSize: 30)),
                                     ),
                                   ),
                                 ],
@@ -280,10 +287,10 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             ],
                           ),
                         ),
-                      ):Container(),
+                      ),
 
                       //custo e preco
-                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ?
+                      if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -304,19 +311,18 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
                                         validator: (value) {
+                                          print('value ------>'+value.toString());
                                           if (value == null || value.isEmpty) {
                                             return 'não deixe isso vazio';
                                           }
                                           return null;
                                         },
-                                        style: TextStyle(fontSize: tamanhoDaFonte,),
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(fontSize: tamanhoDaFonte),
                                         controller: _custo,
                                         enabled: editar,
-                                        keyboardType:
-                                        TextInputType.numberWithOptions(decimal: true),
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                        inputFormatters: [ FilteringTextInputFormatter.digitsOnly, FormatadorDeMoeda(),
                                         ],
                                         decoration: buildInputDecoration('custo'),
                                       ),
@@ -331,19 +337,18 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
                                         validator: (value) {
+                                          print('value ------>'+value.toString());
                                           if (value == null || value.isEmpty) {
                                             return 'não deixe isso vazio';
                                           }
                                           return null;
                                         },
-                                        style: TextStyle(fontSize: tamanhoDaFonte,),
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(fontSize: tamanhoDaFonte),
                                         controller: _vlDeVenda,
                                         enabled: editar,
-                                        keyboardType:
-                                        TextInputType.numberWithOptions(decimal: true),
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.allow(
-                                              RegExp(r'^\d{0,8}(\.\d{0,2})?$')),
+                                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, FormatadorDeMoeda()
                                         ],
                                         decoration: buildInputDecoration('preço'),
                                       ),
@@ -354,7 +359,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             ],
                           ),
                         ),
-                      ):Container(),
+                      ),
 
                       //qtidade minima
                       _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
@@ -535,8 +540,11 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
               ),
             ),
           ),
+      floatingActionButton: UtilsWidgets.floatDeAjuda(context,
+          _codigoProduto.text.isEmpty? 'os campos aparecem aos poucos!\n\nComece informando o códgo do produto' : 'ao informar os campos obrigatórios, outros irão aparecer'),
     );
   }
+
 
   //TODO FAZER A IMPLEMENTACAO DOS LOGS
   Widget getLogs(){

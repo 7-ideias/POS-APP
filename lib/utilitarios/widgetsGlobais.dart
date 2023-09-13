@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pos_app/utilitarios/texto_ajuda.dart';
 
 import '../controller/app_controller.dart';
 
@@ -102,5 +103,37 @@ onPressed:  (context) {
                           );
                         },
  */
+
+  static FloatingActionButton floatDeAjuda(BuildContext context, String texto) {
+    return FloatingActionButton.extended(
+      backgroundColor: Colors.redAccent,
+      onPressed: () async {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Ajuda'),
+              elevation: 10,
+              content: Text(texto),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('ok'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+      label: Row(
+        children: [
+          Icon(Icons.question_mark),
+          Text('ajuda' ),
+        ],
+      ),
+    );
+  }
 
 }

@@ -26,10 +26,10 @@ class OperacaoNova extends StatefulWidget {
 
 class _OperacaoNovaState extends State<OperacaoNova> {
 
-  //contrucao do objeto
   List<ObjVendaEServico> objVendaEServicoList = [];
   DateTime dataDaOperacao = DateTime.now();
   double somaValorTotal = 0.00;
+  double totalDeItens = 0.00;
 
   bool _isLoading = false;
   bool confirmacaoDeSucessoNaAPI = false;
@@ -41,14 +41,11 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return _isLoading == true ?
     (_isLoading == true && confirmacaoDeSucessoNaAPI == true ? TelaInteira().sucesso():
     TelaInteira().widgetDeLoadingPadraoDoApp()):Scaffold(
-      backgroundColor: AppController.instance.buildThemeData().primaryColor,
-      appBar: AppBar(),
+      // backgroundColor: AppController.instance.buildThemeData().primaryColor,
+      appBar: AppBar(title: Text('nova')),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -272,17 +269,26 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10,),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Row(
+                          children: [
+                            Text(
+                              'itens.:',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              '$totalDeItens',
+                              style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                         Text(
-                          'itens.: ' + objVendaEServicoList.length.toString(),
+                          Utils.formataParaMoeda(somaValorTotal),
+                          style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
                         )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                            'valor.: ' + Utils.formataParaMoeda(somaValorTotal), )
                       ],
                     ),
                   ],
@@ -602,8 +608,13 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     objVendaEServicoList.forEach((element) {
       somaValorTotal = somaValorTotal + double.parse(element.vlTotal.toString());
     });
-  }
 
+    //recalcula a quantidade de itens
+    totalDeItens = 0.00;
+    objVendaEServicoList.forEach((element) {
+      totalDeItens = totalDeItens + double.parse(element.qt.toString());
+    });
+  }
 
   Future<void> atualizarProdutos()async {
     print('atualizarProdutos');

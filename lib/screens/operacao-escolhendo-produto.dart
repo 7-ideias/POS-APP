@@ -59,7 +59,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
               ],
             ),
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 10,),
           FloatingActionButton(
             child: Icon(Icons.refresh),
             onPressed: () async {

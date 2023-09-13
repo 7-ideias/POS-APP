@@ -178,30 +178,49 @@ class _JornadaTelaState extends State<JornadaTela> {
             ],
           ),
           SizedBox(height: 16.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
             children: [
-              for (int i = 0; i < 5; i++)
-                GestureDetector(
-                  onTap: () {
-                    _pageController.animateToPage(
-                      i,
-                      duration: Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 4.0),
-                    width: 30.0,
-                    height: 30.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _currentPage == i ? Colors.red : Colors.grey[300],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  for (int i = 0; i < 5; i++)
+                    GestureDetector(
+                      onTap: () {
+                        _pageController.animateToPage(
+                          i,
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.ease,
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4.0),
+                        width: 30.0,
+                        height: 30.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentPage == i ? Colors.red : Colors.grey[300],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                ],
+              ),
             ],
           ),
+          SizedBox(height: 20,),
+          if(_currentPage == 4) GestureDetector(
+            onTap: (){
+              voltarEscolha(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color:  Colors.red ,
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              height: 50,
+              width: 200,
+              child: Center(child: Text('seguir',style: GoogleFonts.bebasNeue(fontSize: 25,color: Colors.white),)),
+            ),
+          )
         ],
       ),
     );
