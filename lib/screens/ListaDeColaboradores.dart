@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:pos_app/controller/app_controller.dart';
-import 'package:pos_app/dtos/objetos/obj-colaborador.dart';
 import 'package:pos_app/screens/cadastrando-novo-colaborador.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,7 +25,6 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
 
    ColaboradoresList? colaboradoresList;
 
-  // List<ObjColaborador> colaboradorList = [];
   @override
   void initState() {
     super.initState();
@@ -157,7 +155,44 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                                 backgroundColor: Colors.white,
                                                 radius: 60,
                                               ),
-                                              Row(),
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text('Colaborador: ${colaboradoresList!.colaboradoresList![index].objPessoa?.nome}',
+                                                      style: TextStyle(
+                                                        color: AppController.instance.corLetras,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight.w700,
+                                                      ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text('Tel: ${colaboradoresList!.colaboradoresList![index].objPessoa?.celular}',
+                                                        style: TextStyle(
+                                                          color: AppController.instance.corLetras,
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text('Email: ${colaboradoresList!.colaboradoresList![index].objPessoa?.email}',
+                                                        style: TextStyle(
+                                                          color: AppController.instance.corLetras,
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ],
                                           ),
                                         ),

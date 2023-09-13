@@ -872,7 +872,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     endereco = enderecoController.text;
     bairro = bairroController.text;
     complemento = complementoController.text;
-    // final String apiUrl = '${VariaveisGlobais.endPoint}/usuario/novo-colaborador';
+    
     Future<List<int>> getImageBytes() async {
       File path = File(widget.file.path);
       path.existsSync();
