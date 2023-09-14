@@ -33,7 +33,8 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   bool _isLoading = false;
   bool confirmacaoDeSucessoNaAPI = false;
-  bool mostrarOpcoes = false;
+  bool mostrarOpcoesDoFloat = false;
+  bool exibirContainerTransparente = false;
 
   bool carregando = true;
 
@@ -50,7 +51,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          if(mostrarOpcoes==true)Row(
+          if(mostrarOpcoesDoFloat==true)Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               if(objVendaEServicoList.length > 0)FloatingActionButton.extended(
@@ -61,7 +62,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Confirmação'),
-                        content: Text('gravar a operação?'),
+                        content: Text('gravar a operação?\nVerifique as informações antes de salvar'),
                         actions: <Widget>[
                           TextButton(
                             child: Text('Cancelar'),
@@ -73,7 +74,44 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                             child: Text('Confirmar'),
                             onPressed: () async {
                               Navigator.of(context).pop();
-                              sendApiNovaOperacao();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('receber agora?'),
+                                    content: Text('quer receber agora?'),
+                                    actions: <Widget>[
+                                      Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: TextButton(
+                                          child: Text('receber depois'),
+                                          onPressed: () async {
+                                            Navigator.of(context).pop();
+                                            await sendApiNovaOperacao();
+                                          },
+                                        ),
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 5,right: 5),
+                                        decoration: BoxDecoration(
+                                            color: AppController.instance.buildThemeData().focusColor,
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: TextButton(
+                                          child: Text('receber agora'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
                             },
                           ),
                         ],
@@ -129,7 +167,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
             ],
           ),
           SizedBox(height: 20,),
-          if(mostrarOpcoes==true)FloatingActionButton.extended(
+          if(mostrarOpcoesDoFloat==true)FloatingActionButton.extended(
             onPressed: () {
               atualizarProdutos();
               retornaOsDadosDaTelaOperacaoInserindo(context);
@@ -142,10 +180,13 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               ],
             ),
           ),
-          if(mostrarOpcoes==true)SizedBox(height: 20,),
+          if(mostrarOpcoesDoFloat==true)SizedBox(height: 20,),
           //adicionar novo
-          if(mostrarOpcoes==true)FloatingActionButton.extended(
+          if(mostrarOpcoesDoFloat==true)FloatingActionButton.extended(
             onPressed: () {
+              setState(() {
+                exibirContainerTransparente = false;
+              });
               atualizarProdutos();
               retornaOsDadosDaTelaOperacaoInserindo(context);
             },
@@ -157,25 +198,44 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               ],
             ),
           ),
-          if(mostrarOpcoes==true)SizedBox(height: 20,),
+          if(mostrarOpcoesDoFloat==true)SizedBox(height: 20,),
           FloatingActionButton.extended(
-            backgroundColor: Colors.greenAccent,
             onPressed: () {
               setState(() {
-                mostrarOpcoes = !mostrarOpcoes;
+                mostrarOpcoesDoFloat = !mostrarOpcoesDoFloat;
+                exibirContainerTransparente = !exibirContainerTransparente;
               });
             },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Icon(Icons.add),
-                Text('mostrar opções' ),
+                Icon(mostrarOpcoesDoFloat==false ? Icons.add : Icons.clear),
+                Text(mostrarOpcoesDoFloat==false ? 'mostrar opções' : 'reduzir'),
               ],
             ),
           )
         ],
       ),
-      body: objVendaEServicoList.length > 0 ? comOperacaoEmAndamento(context):AindaSemNadaNaOperacao(),
+      body: AnimatedOpacity(
+    opacity: exibirContainerTransparente == true ? 0.2 : 1,
+    duration: Duration(seconds: 1),
+    child:Stack(
+      children: [
+        objVendaEServicoList.length > 0 ?
+          comOperacaoEmAndamento(context):AindaSemNadaNaOperacao(),
+        if(exibirContainerTransparente == true)GestureDetector(
+          onTap: (){
+            setState(() {
+              mostrarOpcoesDoFloat = false;
+              exibirContainerTransparente = false;
+            });
+          },
+          child: Container(
+            color: Colors.transparent,
+          ),
+        ),
+      ],
+    )),
 
     );
   }
@@ -208,7 +268,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                         },
                           child: Row(
                             children: [
-                              Icon(Icons.edit),
+                              Icon(Icons.person),
                               SizedBox(width: 10,),
                               Container(
                                 padding: EdgeInsets.all(10),
@@ -239,7 +299,6 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                                   child: CupertinoDatePicker(
                                     mode: CupertinoDatePickerMode.date,
                                     onDateTimeChanged: (DateTime newDate) {
-                                      print(newDate);
                                       setState(() {
                                         dataDaOperacao = newDate;
                                       });
@@ -266,7 +325,8 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                                     color: AppController.instance.buildThemeData().focusColor,
                                     borderRadius: BorderRadius.circular(5)
                                 ),
-                                child: Text(dataDaOperacao.day.toString(), ),
+                                child: Text(Utils.exibicaoDeData(dataDaOperacao),
+                                  style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
                               ),
                             ],
                           ),
@@ -285,10 +345,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                           ),
                           child: Row(
                             children: [
-                              Text(
-                                'itens.:',
-                                style: TextStyle(fontSize: 20),
-                              ),
+                              Text('ITENS.: '),
                               Text(
                                 '$totalDeItens',
                                 style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
@@ -302,9 +359,14 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                               color: AppController.instance.buildThemeData().focusColor,
                               borderRadius: BorderRadius.circular(5)
                           ),
-                          child: Text(
-                            Utils.formataParaMoeda(somaValorTotal),
-                            style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                          child: Row(
+                            children: [
+                              Text('TOTAL.: '),
+                              Text(
+                                Utils.formataParaMoeda(somaValorTotal),
+                                style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                         )
                       ],
@@ -327,13 +389,43 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                         objVendaEServicoList[index]
                             .descricaoProduto
                             .toString(),
+                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('quantidade.: '+objVendaEServicoList[index].qt.toString()),
-                          Text('valor unitário.: '+Utils.formataParaMoeda(objVendaEServicoList[index].vlUnitario)),
-                          Text('valor total.: '+Utils.formataParaMoeda(objVendaEServicoList[index].vlTotal)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text('quantidade.: '),
+                              Text(objVendaEServicoList[index].qt.toString(),
+                                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          Container(
+                              decoration: BoxDecoration(
+                                  color: AppController.instance.buildThemeData().focusColor,
+                                  borderRadius: BorderRadius.circular(5)
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text('un.: '),
+                                      Text(Utils.formataParaMoeda(objVendaEServicoList[index].vlUnitario),
+                                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text('valor total.: '),
+                                      Text(Utils.formataParaMoeda(objVendaEServicoList[index].vlTotal),
+                                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                    ],
+                                  ),
+                                ],
+                              )),
                         ],
                       ),
                     ),
@@ -639,6 +731,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     await ProdutoController().atualizarListaDeProdutos();
     setState(() {
       carregando = false;
+      mostrarOpcoesDoFloat = false;
     });
   }
 

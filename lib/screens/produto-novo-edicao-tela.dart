@@ -223,72 +223,6 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           decoration: buildInputDecoration('descrição do item'),
                         ),
                       ): Container(),
-
-                      //qt inicial
-                      if(_nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            border:  Border.all(
-                            )
-                          ),
-                          child: Column(
-                            children: [
-                              Text('quantidade inicial'),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: (){
-                                      setState(() {
-                                        _qtEstoqueInicial <= 1 ? _qtEstoqueInicial : _qtEstoqueInicial--;
-                                      });
-                                    },
-                                    onLongPress: (){
-                                      setState(() {
-                                        if(_qtEstoqueInicial>10){
-                                        _qtEstoqueInicial = _qtEstoqueInicial-10;
-                                        }
-                                      });
-                                    },
-                                    child: CircleAvatar(
-                                      maxRadius: 25,
-                                      child: Text('-',style: TextStyle(fontSize: 30)),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 100,
-                                    child: Center(
-                                      child: Text(_qtEstoqueInicial.toString(),style: TextStyle(fontSize: 30)),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: (){
-                                      setState(() {
-                                        _qtEstoqueInicial++;
-                                        print(_qtEstoqueInicial);
-                                      });
-                                    },
-                                    onLongPress: (){
-                                      setState(() {
-                                        _qtEstoqueInicial = _qtEstoqueInicial+10;
-                                      });
-                                    },
-                                    child: CircleAvatar(
-                                      maxRadius: 25,
-                                      child: Text('+',style: TextStyle(fontSize: 30)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
                       //custo e preco
                       if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0)
                       Padding(
@@ -360,7 +294,70 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           ),
                         ),
                       ),
-
+                      //qt inicial
+                      if(_nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(30)),
+                                border:  Border.all(
+                                )
+                            ),
+                            child: Column(
+                              children: [
+                                Text('quantidade inicial'),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _qtEstoqueInicial <= 1 ? _qtEstoqueInicial : _qtEstoqueInicial--;
+                                        });
+                                      },
+                                      onLongPress: (){
+                                        setState(() {
+                                          if(_qtEstoqueInicial>10){
+                                            _qtEstoqueInicial = _qtEstoqueInicial-10;
+                                          }
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('-',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                        child: Text(_qtEstoqueInicial.toString(),style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        setState(() {
+                                          _qtEstoqueInicial++;
+                                          print(_qtEstoqueInicial);
+                                        });
+                                      },
+                                      onLongPress: (){
+                                        setState(() {
+                                          _qtEstoqueInicial = _qtEstoqueInicial+10;
+                                        });
+                                      },
+                                      child: CircleAvatar(
+                                        maxRadius: 25,
+                                        child: Text('+',style: TextStyle(fontSize: 30)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       //qtidade minima
                       _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
                       Padding(
@@ -666,7 +663,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       "modeloProduto": "UNIDADE, KILO, SEM_MODELO",
       "estoqueMaximo": _estoqueMaximo,
       "estoqueMinimo": _estoqueMinino,
-      "precoVenda":  VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text),
+      "precoVenda":  Utils.converterMoedaEmDoble(_vlDeVenda.text),
       "objComissao": {
         "produtoTemComissaoEspecial": _comissao,
         "valorFixoDeComissaoParaEsseProduto": _vlDaComissao.text
@@ -674,8 +671,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       "objEntradaSaidaProduto": [
         {
           "quantidade": _qtEstoqueInicial,
-          "valorCusto": VariaveisGlobais.converterMoedaEmDoble(_custo.text),
-          "valorDaVenda": VariaveisGlobais.converterMoedaEmDoble(_vlDeVenda.text)
+          "valorCusto": Utils.converterMoedaEmDoble(_custo.text),
+          "valorDaVenda": Utils.converterMoedaEmDoble(_vlDeVenda.text)
         }
       ],
       "objLogs": [

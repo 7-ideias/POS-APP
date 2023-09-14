@@ -35,16 +35,4 @@ class VariaveisGlobais {
   static String idioma = "ingles";
 
 
-  static String converterMoedaEmDoble(String valorString){
-    if (!valorString.contains(',')) {
-      return valorString;
-    }
-    valorString.isEmpty ? valorString = "0,0" : valorString;
-    valorString = valorString.replaceAll('R', '').replaceAll(' ', '').replaceAll('\$', '');
-    NumberFormat formatador = NumberFormat("#,##0.00", "pt_BR");
-    num valor = formatador.parse(valorString);
-    return valor.toString();
-  }
-
-
 }
