@@ -74,6 +74,17 @@ class _NovoColaboradorState extends State<NovoColaborador> {
       });
     }
     ;
+    printFileSize(widget.file);
+  }
+  void printFileSize(File file) {
+    var sizeInBytes = file.lengthSync();
+    var sizeInKB = sizeInBytes / 1024;
+    var sizeInMB = sizeInKB / 1024;
+
+    print('Tamanho do arquivo:');
+    print('Bytes: $sizeInBytes');
+    print('KB: $sizeInKB');
+    print('MB: $sizeInMB');
   }
 
   @override
@@ -931,7 +942,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
       Uri.parse('${VariaveisGlobais.endPoint}/usuario/novo-colaborador'),
       headers: {
         'Content-Type': 'application/json',
-        'idUser': '5dab33ff2a8c4d6690547e33708fa2b1'
+        'idUser': '${VariaveisGlobais.idUsuario}'
       },
       body: jsonEncode(payload),
     );

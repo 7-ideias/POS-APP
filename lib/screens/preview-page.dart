@@ -7,6 +7,16 @@ class PreviewPage extends StatelessWidget {
   File file;
 
   PreviewPage({Key? key, required this.file}) : super(key: key);
+  void printFileSize(File file) {
+    var sizeInBytes = file.lengthSync();
+    var sizeInKB = sizeInBytes / 1024;
+    var sizeInMB = sizeInKB / 1024;
+
+    print('Tamanho do arquivo:');
+    print('Bytes: $sizeInBytes');
+    print('KB: $sizeInKB');
+    print('MB: $sizeInMB');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +49,12 @@ class PreviewPage extends StatelessWidget {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.push(
+                              printFileSize(file);
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => NovoColaborador(file: file),
+                                  builder: (context) =>
+                                      NovoColaborador(file: file),
                                 ),
                               );
                             },
@@ -64,17 +76,7 @@ class PreviewPage extends StatelessWidget {
                               size: 30,
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => CameraCamera(
-                                    onFile: (file) {
-                                      // arquivo.add(file);
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ),
-                              );
+                              Navigator.pop(context);
                             },
                           ),
                         ),
