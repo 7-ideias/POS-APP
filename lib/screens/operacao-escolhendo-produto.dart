@@ -23,7 +23,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
 
   @override
   void initState() {
-    atualizarProdutos();
+    atualizarProdutos('PRODUTO');
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
                    ),
                  ),
                );
-               await atualizarProdutos();
+               await atualizarProdutos('PRODUTO');
              },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -63,7 +63,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
           FloatingActionButton(
             child: Icon(Icons.refresh),
             onPressed: () async {
-            await atualizarProdutos();
+            await atualizarProdutos('PRODUTO');
           },),
         ],
       ),
@@ -94,7 +94,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
             ),
           ),
           RefreshIndicator(
-            onRefresh: () async => await atualizarProdutos(),
+            onRefresh: () async => await atualizarProdutos('PRODUTO'),
             child:
             ListView.builder(
               scrollDirection: Axis.vertical,
@@ -132,11 +132,11 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
     );
   }
 
-  Future<void> atualizarProdutos()async {
+  Future<void> atualizarProdutos(String produtoOuServico)async {
     setState(() {
       carregando = true;
     });
-    await ProdutoController().atualizarListaDeProdutos();
+    await ProdutoController().atualizarListaDeProdutos(produtoOuServico);
     produtoListDessaClasse = VariaveisGlobais.produtoList;
     setState(() {
       carregando = false;

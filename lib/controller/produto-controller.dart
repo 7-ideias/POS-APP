@@ -7,8 +7,8 @@ import '../utilitarios/VariaveisGlobais.dart';
 class ProdutoController {
 
 
-  Future<void> atualizarListaDeProdutos() async {
-    http.Response fazRequisicao = await ProdutoController().fazRequisicao();
+  Future<void> atualizarListaDeProdutos(String produtoOuServico) async {
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao(produtoOuServico);
     if (fazRequisicao.statusCode == 200){
       var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
       buscarProdutoList.then((listaProdutos) {
@@ -20,7 +20,7 @@ class ProdutoController {
   }
 
 
-  Future<http.Response> fazRequisicao() async {
+  Future<http.Response> fazRequisicao(String produtoOuServico) async {
     var headers = {
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
       'idColaborador': '${VariaveisGlobais.usuarioDto.idUsuario}',
@@ -28,6 +28,7 @@ class ProdutoController {
     };
     var body = {
       'produtosAtivos': true,
+      'tipo' : produtoOuServico
     };
     var response = await http.post(Uri.parse('${VariaveisGlobais.endPoint}/produto/lista'), headers: headers,body: jsonEncode(body),);
     return response;

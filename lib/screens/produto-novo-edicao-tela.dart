@@ -40,6 +40,10 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   var revelarTodos = false;
   var editar = false;
   var edicaoDeProdutoAtivo = false;
+  var precoDeVendaMaiorQueZero = false;
+  var precoDeCustoMaiorQueZero = false;
+  var codigoDeBarrasPreenchido = false;
+  var descricaoDoItemPreenchido = false;
 
   var idProduto = '';
   var _idProduto = TextEditingController();
@@ -189,7 +193,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             // OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
                             // focusedBorder:
                             // OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-                            labelText: 'código de barras',
+                            labelText: 'código',
                             suffixIcon: GestureDetector(
                                 onTap: (){
                                   scan();
@@ -239,11 +243,24 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                               Row(
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    width: MediaQuery.of(context).size.width * 0.45,
                                     child: //custo
                                     widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(top: 8,left: 8,bottom: 8),
                                       child: TextFormField(
+                                        onChanged: (valor){
+                                          if(double.parse(Utils.converterMoedaEmDoble(_custo.text)) > 0.00){
+                                            print('maior');
+                                            setState(() {
+                                              precoDeCustoMaiorQueZero = true;
+                                            });
+                                          }else{
+                                            print('menor');
+                                            setState(() {
+                                              precoDeCustoMaiorQueZero = false;
+                                            });
+                                          }
+                                        },
                                         validator: (value) {
                                           print('value ------>'+value.toString());
                                           if (value == null || value.isEmpty) {
@@ -265,11 +282,24 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                   Spacer(),
                                   //valor da venda
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.4,
+                                    width: MediaQuery.of(context).size.width * 0.45,
                                     child:
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.only(top: 8,right: 8,bottom: 8),
                                       child: TextFormField(
+                                        onChanged: (valor){
+                                          if(double.parse(Utils.converterMoedaEmDoble(_vlDeVenda.text)) > 0.00){
+                                            print('maior');
+                                            setState(() {
+                                              precoDeVendaMaiorQueZero = true;
+                                            });
+                                          }else{
+                                            print('menor');
+                                            setState(() {
+                                              precoDeVendaMaiorQueZero = false;
+                                            });
+                                          }
+                                        },
                                         validator: (value) {
                                           print('value ------>'+value.toString());
                                           if (value == null || value.isEmpty) {
@@ -284,7 +314,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                         keyboardType: TextInputType.numberWithOptions(decimal: true),
                                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, FormatadorDeMoeda()
                                         ],
-                                        decoration: buildInputDecoration('preço'),
+                                        decoration: buildInputDecoration('preço de venda'),
                                       ),
                                     ),
                                   ),
@@ -295,7 +325,9 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         ),
                       ),
                       //qt inicial
-                      if(_nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO)
+                      if(_nomeProduto.text.length > 0
+                          && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO
+                        && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -359,7 +391,9 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           ),
                         ),
                       //qtidade minima
-                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
+                      if(_nomeProduto.text.length > 0
+                          && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO
+                          && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -419,10 +453,12 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             ],
                           ),
                         ),
-                      ):Container(),
+                      ) ,
 
                       //qtidade maxima no estoque
-                      _nomeProduto.text.length > 0 && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ?
+                      if(_nomeProduto.text.length > 0
+                          && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO
+                          && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -482,16 +518,16 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             ],
                           ),
                         ),
-                      ):Container(),
+                      ) ,
 
-                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Divider(
+                      if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true) Divider(
                         color: Colors.white,
                         height: 5,
                         thickness: 5,
-                      ):Container(),
+                      ) ,
 
                       //produto com comissao ao vendedor
-                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Container(
+                      if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true) Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -506,10 +542,10 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             ),
                           ],
                         ),
-                      ):Container(),
+                      ) ,
 
                       //valor da comissao
-                      _comissao==true && _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Padding(
+                      if(_comissao==true && _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true) Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           style: TextStyle(fontSize: tamanhoDaFonte,),
@@ -523,7 +559,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           ],
                           decoration: buildInputDecoration('valor da comissao'),
                         ),
-                      ):Container(),
+                      ) ,
 
                       SizedBox(height: 30),
 
@@ -561,7 +597,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     print(_vlDeVenda.text);
     return Column(
                 children: [
-                  _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? GestureDetector(
+                  if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
+                    GestureDetector(
                     onTap: ()async {
                       if (_form.currentState!.validate()) {
                         if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
@@ -600,7 +637,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     },
                     child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
                         'salvar'),
-                  ):Container(),
+                  ) ,
                   GestureDetector(
                     onTap: (){
                         setState(() {

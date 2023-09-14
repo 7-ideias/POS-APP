@@ -169,7 +169,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
           SizedBox(height: 20,),
           if(mostrarOpcoesDoFloat==true)FloatingActionButton.extended(
             onPressed: () {
-              atualizarProdutos();
+              atualizarProdutos('PRODUTO');
               retornaOsDadosDaTelaOperacaoInserindo(context);
             },
             label: Row(
@@ -187,7 +187,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               setState(() {
                 exibirContainerTransparente = false;
               });
-              atualizarProdutos();
+              atualizarProdutos('PRODUTO');
               retornaOsDadosDaTelaOperacaoInserindo(context);
             },
             label: Row(
@@ -576,7 +576,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
         // ! novo produto
         GestureDetector(
           onTap: (){
-            atualizarProdutos();
+            atualizarProdutos('PRODUTO');
             retornaOsDadosDaTelaOperacaoInserindo(context);
           },
           child: Padding(
@@ -726,9 +726,9 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     });
   }
 
-  Future<void> atualizarProdutos()async {
+  Future<void> atualizarProdutos(String produtoOuServico)async {
     print('atualizarProdutos');
-    await ProdutoController().atualizarListaDeProdutos();
+    await ProdutoController().atualizarListaDeProdutos(produtoOuServico);
     setState(() {
       carregando = false;
       mostrarOpcoesDoFloat = false;

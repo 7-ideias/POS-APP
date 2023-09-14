@@ -140,7 +140,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                 jaTemUmProduto == true ? UtilsWidgets.textFormField(false, false,18,'não deixe isso vazio', TextEditingController(text: produtoDto.nomeProduto),
                     TextInputType.number, 'descrição','', TextDirection.ltr): Container(),
                 //contador
-                jaTemUmProduto == true ? Row(
+                if(jaTemUmProduto == true) Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
@@ -200,11 +200,10 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                       ),
                     ),
                   ],
-                ): Container(),
+                ) ,
                 SizedBox(height: 10.0),
-
                 //PREÇOS
-                jaTemUmProduto == true ? Padding(
+                if(jaTemUmProduto == true) Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
@@ -218,10 +217,10 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         Row(
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.45,
                               child: //custo
                                Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                 padding: const EdgeInsets.only(left:8,top: 8,right: 8,bottom: 5),
                                 child: TextFormField(
                                  onChanged: (valor){
                                      setState(() {
@@ -235,7 +234,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                       return null;
                                     },
                                   textAlign: TextAlign.end,
-                                  style: TextStyle(fontSize: 22),
+                                  // style: TextStyle(fontSize: 18),
                                   controller: _vlUnitario,
                                   // enabled: editar,
                                   keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -248,10 +247,10 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                             if(liberBotaoInserirComValorValido == true)const Spacer(),
                             //valor da venda
                             if(liberBotaoInserirComValorValido == true)Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
+                              width: MediaQuery.of(context).size.width * 0.45,
                               child:
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(left:5,top: 8,right: 8,bottom: 8),
                                 child: TextFormField(
                                   enabled: false,
                                   onChanged: (valor){
@@ -260,7 +259,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                                     });
                                   },
                                   textAlign: TextAlign.end,
-                                  style: TextStyle(fontSize: 22),
+                                  // style: TextStyle(fontSize: 18),
                                   controller: TextEditingController(text: Utils.formataParaMoeda(vlTotalMultiplicado)) ,
                                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: [ FilteringTextInputFormatter.digitsOnly, FormatadorDeMoeda(),
@@ -302,8 +301,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                       ],
                     ),
                   ),
-                ): Container(),
-
+                ),
                 SizedBox(height: 10.0),
 
                 //_vlUnitario
@@ -319,7 +317,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                 // SizedBox(height: 16.0),
 
                 //estoque
-                jaTemUmProduto == true ? Row(
+                if(jaTemUmProduto == true)  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
@@ -343,9 +341,8 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                           child: Icon(Icons.remove_red_eye,size: 30,)),
                     ),
                   ],
-                ): Container(),
+                ) ,
                 SizedBox(height: 10.0),
-
 
                 //botao confirmar
                 if(liberBotaoInserirComValorValido == true)jaTemUmProduto == true ? GestureDetector(

@@ -8,6 +8,7 @@ import 'package:pos_app/screens/produto-adicionar-diminuir-estoque-rapido.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
 import 'package:pos_app/utilitarios/utils.dart';
 
+import '../controller/app_controller.dart';
 import '../dtos/produto-dto-list.dart';
 import '../dtos/produto-dto.dart';
 import '../utilitarios/VariaveisGlobais.dart';
@@ -64,14 +65,36 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             children: [
               Column(
                 children: [
-                  Card(
+                  _revelarValores == true ? Card(
                     elevation: 10,
                     child: Container(
-                      height: MediaQuery.of(context).size.height * .15,
+                      height: MediaQuery.of(context).size.height * .2,
                       width: MediaQuery.of(context).size.width * 0.95,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: cartaoDeProdutos(),
+                      ),
+                    ),
+                  ):Card(
+                    elevation: 10,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * .05,
+                      width: MediaQuery.of(context).size.width * 0.95,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _revelarValores = !_revelarValores;
+                            });
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(Icons.remove_red_eye,size: 30),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -225,7 +248,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             label: Row(
               children: [
                 Icon(Icons.add),
-                Text('  adicionar novo produto',style: TextStyle(fontSize: tamanhoDaFonte),),
+                Text('  adicionar novo produto',),
               ],
             ),
           ) ,
@@ -241,12 +264,12 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
             label: mostrarTudo == false ? Row(
               children: [
                 Icon(Icons.add),
-                Text(' mais ações', style: TextStyle(fontSize: tamanhoDaFonte)),
+                Text(' mais ações',),
               ],
             ) : Row(
               children: [
-                Text('X',style: TextStyle(fontSize: tamanhoDaFonte)),
-                Text(' fechar', style: TextStyle(fontSize: tamanhoDaFonte)),
+                Text('X'),
+                Text(' fechar'),
               ],
             ),
           ),
@@ -282,49 +305,60 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
               Spacer(),
               Column(
                 children: [
-                  if(_revelarValores == true)Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'produtos cadastrados.: ',
-                        style: TextStyle(fontSize: tamanhoDaFonte ),
-                      ),
-                      isLoading == false
-                          ? Text(
-                        _temConteudo == true ? produtoDtoList.produtosList.length.toString() : '0',
-                        style:
-                        TextStyle(fontSize: tamanhoDaFonte ),
-                      )
-                          : Container()
-                    ],
+                  if(_revelarValores == true)Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        color: AppController.instance.buildThemeData().focusColor,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'quantidade de produtos cadastrados.: ',
+                        ),
+                        isLoading == false
+                            ? Text(
+                          _temConteudo == true ? produtoDtoList.produtosList.length.toString() : '0',)
+                            : Container()
+                      ],
+                    ),
                   ),
-                  if(_revelarValores == true)Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'itens no estoque.: ',
-                        style: TextStyle(fontSize: tamanhoDaFonte ),
-                      ),
-                      isLoading == false
-                          ? Text(
-                        _temConteudo == true ? produtoDtoList.qtNoEstoque.toString() : '0',
-                              style:
-                                  TextStyle(fontSize: tamanhoDaFonte ),
-                            )
-                          : Container()
-                    ],
+                  if(_revelarValores == true)Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        color: AppController.instance.buildThemeData().focusColor,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'itens no estoque.: ',
+                        ),
+                        isLoading == false
+                            ? Text(
+                          _temConteudo == true ? produtoDtoList.qtNoEstoque.toString() : '0',
+                              )
+                            : Container()
+                      ],
+                    ),
                   ),
-                  if(_revelarValores == true)Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      isLoading == false
-                          ? Text(
-                        _temConteudo == true ? 'vl estoque.: '+ Utils.formataParaMoeda(produtoDtoList.vlEstoqueEmGrana) : '0',
-                              style:
-                                  TextStyle(fontSize: tamanhoDaFonte),
-                            )
-                          : Container()
-                    ],
+                  if(_revelarValores == true)Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                        color: AppController.instance.buildThemeData().focusColor,
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        isLoading == false
+                            ? Text(
+                          _temConteudo == true ? 'valor do patrimônio.: '+ Utils.formataParaMoeda(produtoDtoList.vlEstoqueEmGrana) : '0')
+                            : Container()
+                      ],
+                    ),
                   ),
                 ],
               )
@@ -460,7 +494,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       isLoading = true;
       _temConteudo = false;
     });
-    http.Response fazRequisicao = await ProdutoController().fazRequisicao();
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao('PRODUTO');
     if (fazRequisicao.statusCode == 200){
       var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
       buscarProdutoList.then((listaProdutos) {
