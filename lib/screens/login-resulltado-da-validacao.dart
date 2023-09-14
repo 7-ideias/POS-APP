@@ -49,12 +49,15 @@ class _ValidaPageState extends State<ValidaPage> {
 
     if(widget.usuarioColaboradorNovo == 'NOVO'){
       url = '${VariaveisGlobais.endPoint}/usuario/novo';
+      VariaveisGlobais.tipoTitularOuColaborador = 'TITULAR';
     }
     if(widget.usuarioColaboradorNovo == 'COLABORADOR'){
       url = '${VariaveisGlobais.endPoint}/usuario/autorizador-colaborador';
+      VariaveisGlobais.tipoTitularOuColaborador = 'COLABORADOR';
     }
     if(widget.usuarioColaboradorNovo == 'USUARIO'){
       url = '${VariaveisGlobais.endPoint}/usuario/autorizador';
+      VariaveisGlobais.tipoTitularOuColaborador = 'TITULAR';
     }
 
 

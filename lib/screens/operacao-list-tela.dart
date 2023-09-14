@@ -25,6 +25,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   int? _value = 1;
   String texto = '';
   int filtro = 1;
+  String resumoDaData='';
 
   late OperacoesDoBackEnd operacoesBackEnd;
 
@@ -208,7 +209,11 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                     itemBuilder: (context, index) {
 
                       double somaVlTotal = 0.00;
-                      operacoesBackEnd.ops![index].vendaList?.forEach((element) {somaVlTotal+=element.vlTotal;});
+                      operacoesBackEnd.ops![index].vendaList?.forEach((element) {somaVlTotal+=element.vlTotal;
+                      DateTime data = DateTime.parse(operacoesBackEnd.ops![index].objInformacoesDoCadastro!.dataCadastro.toString());
+                      resumoDaData = " as "+data.hour.toString() +':'+data.minute.toString();
+
+                      });
 
                       return Slidable(
                         startActionPane: esquerdaDireitaPane(index),
@@ -226,7 +231,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                               children: [
                                 Row(
                                   children: [
-                                    Text('DATA.: ${Utils.converterData(operacoesBackEnd.ops![index].objInformacoesDoCadastro!.dataCadastro.toString())}'),
+                                    Text('DATA.: ${Utils.converterData(operacoesBackEnd.ops![index].objInformacoesDoCadastro!.dataCadastro.toString())}' +resumoDaData),
                                   ],
                                 ),
                                 Row(

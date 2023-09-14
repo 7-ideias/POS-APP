@@ -1,4 +1,5 @@
 import 'package:pos_app/dtos/objetos/obj-user.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 import 'objetos/obj-pessoa-dto.dart';
 
@@ -12,6 +13,8 @@ class UsuarioDto {
   ObjPreferenciasDoAppRefleteParaTodosOsUsuarios? objPreferenciasDoAppRefleteParaTodosOsUsuarios;
   List<Null>? objLogsList;
   ObjPessoa? objPessoa;
+  String? tipoTitularOuColaborador;
+
 
   UsuarioDto(
       {this.id,
@@ -23,6 +26,7 @@ class UsuarioDto {
         this.objPreferenciasDoAppRefleteParaTodosOsUsuarios,
         this.objLogsList,
         this.objPessoa,
+        this.tipoTitularOuColaborador
       });
 
   UsuarioDto.fromJson(Map<String, dynamic> json) {
@@ -41,6 +45,7 @@ class UsuarioDto {
     objPessoa = json['objPessoa'] != null
         ? new ObjPessoa.fromJson(json['objPessoa'])
         : null;
+    tipoTitularOuColaborador = VariaveisGlobais.tipoTitularOuColaborador;
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +62,7 @@ class UsuarioDto {
       data['objPreferenciasDoAppRefleteParaTodosOsUsuarios'] =
           this.objPreferenciasDoAppRefleteParaTodosOsUsuarios!.toJson();
     }
+    data['tipoTitularOuColaborador'] =this.tipoTitularOuColaborador;
     return data;
   }
 }

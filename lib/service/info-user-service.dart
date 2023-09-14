@@ -13,7 +13,7 @@ Future<void> infoUserService() async {
     print(VariaveisGlobais.usuarioDto.toJson());
   } else {
     VariaveisGlobais.usuarioDto = UsuarioDto(
-      liberadoParaAcessar: false,
+      liberadoParaAcessar: false, tipoTitularOuColaborador: VariaveisGlobais.tipoTitularOuColaborador,
     );
     print(VariaveisGlobais.usuarioDto.toJson());
   }

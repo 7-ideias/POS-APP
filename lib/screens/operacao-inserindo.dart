@@ -340,7 +340,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         idCodigoProduto: produtoDto.id,
                         codigoDeBarras: produtoDto.codigoDeBarras,
                         descricaoProduto: produtoDto.nomeProduto,
-                        idColaboradorResponsavelPeloServico: VariaveisGlobais.idColaborador,
+                        idColaboradorResponsavelPeloServico: VariaveisGlobais.idDeQuemEstaCadastrando,
                         qt: double.parse(_contador.toString()),
                         vlUnitario: double.parse(_vlUnitario.value.text),
                         vlTotal: double.parse(_vlUnitario.value.text) *_contador

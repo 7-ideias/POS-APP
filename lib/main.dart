@@ -9,6 +9,7 @@ import 'package:pos_app/service/NotificationService.dart';
 import 'package:pos_app/service/info-user-service.dart';
 import 'package:pos_app/service/verifica-atualizacoes-para-cada-usuario.dart';
 import 'package:pos_app/screens/home-tela.dart';
+import 'package:pos_app/utilitarios/Rotina.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'controller/app_controller.dart';
 
@@ -33,8 +34,8 @@ void main() async {
   //**************************************************************
   runApp(TelaDeCarregamentoPrincipal());
 
-  // final rotina = Rotina();
-  // rotina.iniciarRotina();
+  final rotina = Rotina();
+  rotina.iniciarRotina();
   //**************************************************************
 
   //**************************************************************

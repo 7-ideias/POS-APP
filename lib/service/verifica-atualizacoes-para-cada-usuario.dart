@@ -1,4 +1,8 @@
 import 'package:http/http.dart' as http;
+import 'package:pos_app/controller/push-controller.dart';
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
+
+import 'NotificationService.dart';
 
 /**
  * criar um endpoint com um objeto simples.
@@ -8,4 +12,5 @@ import 'package:http/http.dart' as http;
  */
 Future<void> atualizacoesParaUsuarioService() async {
   print('vai no endPoint e pega um objeto com alteracoes para o usuario');
+  // await PushController().atualizaListaDePush();
 }

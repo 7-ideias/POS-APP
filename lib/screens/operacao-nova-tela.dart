@@ -189,6 +189,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
           Card(
             elevation: 10,
             child: Container(
+              color: AppController.instance.buildThemeData().cardColor,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -208,10 +209,11 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                           child: Row(
                             children: [
                               Icon(Icons.edit),
+                              SizedBox(width: 10,),
                               Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.red,
+                                  color: AppController.instance.buildThemeData().focusColor,
                                   borderRadius: BorderRadius.circular(5)
                                 ),
                                 child: Text(' cliente nao informado', ),
@@ -221,6 +223,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10,),
                     Row(
                       children: [
                         GestureDetector(
@@ -255,14 +258,15 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                           },
                           child: Row(
                             children: [
-                              Icon(Icons.change_circle),
+                              Icon(Icons.date_range),
+                              SizedBox(width: 10,),
                               Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                    color: Colors.yellowAccent,
+                                    color: AppController.instance.buildThemeData().focusColor,
                                     borderRadius: BorderRadius.circular(5)
                                 ),
-                                child: Text(dataDaOperacao.toIso8601String(), ),
+                                child: Text(dataDaOperacao.day.toString(), ),
                               ),
                             ],
                           ),
@@ -273,21 +277,35 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              'itens.:',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            Text(
-                              '$totalDeItens',
-                              style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: AppController.instance.buildThemeData().focusColor,
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                'itens.:',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                '$totalDeItens',
+                                style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          Utils.formataParaMoeda(somaValorTotal),
-                          style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: AppController.instance.buildThemeData().focusColor,
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Text(
+                            Utils.formataParaMoeda(somaValorTotal),
+                            style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                          ),
                         )
                       ],
                     ),
@@ -547,7 +565,6 @@ class _OperacaoNovaState extends State<OperacaoNova> {
       _isLoading = true;
     });
     var url = '${VariaveisGlobais.endPoint}/operacao/inserir';
-    String idColaborador = '${VariaveisGlobais.usuarioDto.id}';
 
     // double valorCusto = 0.00;
     // valorCusto = widget.produtoList[0].objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto;
@@ -579,7 +596,8 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     var headers = {
       'Content-Type': 'application/json',
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
-      'idColaborador': idColaborador
+      'idDeQuemEstaCadastrando': '${VariaveisGlobais.idDeQuemEstaCadastrando}',
+      'tipoTitularOuColaborador' : '${VariaveisGlobais.usuarioDto.tipoTitularOuColaborador}'
     };
 
     var response = await http.post(Uri.parse(url), headers: headers, body: body);
