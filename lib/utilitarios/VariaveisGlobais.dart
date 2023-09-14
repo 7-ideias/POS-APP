@@ -16,6 +16,7 @@ class VariaveisGlobais {
   // static final String endPoint = 'http://192.168.1.113:8082'; //qintess
   // static final String endPoint = 'http://192.168.1.107:8082'; //hp
   static final String endPoint = 'http://192.168.0.114:8082'; //MAC
+  // static final String endPoint = 'http://localhost:8082'; //LOCALHOST
   static const String PREFERENCIASDOUSUARIO = 'preferenciasDoUsuario';//é o nome da chave do objeto salvo em memoria
   static const String IDIOMADOAPP = 'idiomaDoApp';//é o nome da chave do objeto salvo em memoria
   static UsuarioDto usuarioDto = UsuarioDto();

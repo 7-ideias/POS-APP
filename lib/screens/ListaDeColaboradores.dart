@@ -107,7 +107,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
           opacity: mostrarOpcoes == true ? 0.1 : 1,
           duration: Duration(seconds: 1),
           child: ListView.builder(
-            itemCount: colaboradoresList?.colaboradoresList?.length,
+            itemCount:     colaboradoresList?.colaboradoresList?.length ?? 1,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
