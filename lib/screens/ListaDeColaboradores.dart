@@ -106,7 +106,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
         },
         child: AnimatedOpacity(
           opacity: mostrarOpcoes == true ? 0.1 : 1,
-          duration: Duration(seconds: 1),
+          duration: Duration(milliseconds: 50),
           child: ListView.builder(
             itemCount:  1,
             itemBuilder: (context, index) {
