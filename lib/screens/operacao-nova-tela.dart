@@ -169,8 +169,8 @@ class _OperacaoNovaState extends State<OperacaoNova> {
           SizedBox(height: 20,),
           if(mostrarOpcoesDoFloat==true)FloatingActionButton.extended(
             onPressed: () {
-              atualizarProdutos('PRODUTO');
-              retornaOsDadosDaTelaOperacaoInserindo(context,'PRODUTO');
+              atualizarProdutos('SERVICO');
+              retornaOsDadosDaTelaOperacaoInserindo(context,'SERVICO');
             },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -210,6 +210,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Icon(mostrarOpcoesDoFloat==false ? Icons.add : Icons.clear),
+                Text(mostrarOpcoesDoFloat==false ? 'mostrar opções' : 'reduzir'),
                 Text(mostrarOpcoesDoFloat==false ? 'mostrar opções' : 'reduzir'),
               ],
             ),
