@@ -14,14 +14,14 @@ class VariaveisGlobais {
   static const String NOVO_PRODUTO = 'novo produto';
   static final String minhaVariavel = 'Valor da minha variável';
   // static final String endPoint = 'https://sixbackend-70ed1c73ebec.herokuapp.com';
-  static final String endPoint = 'http://192.168.1.113:8082'; //qintess
-  // static final String endPoint = 'http://192.168.1.107:8082'; //hp
+  // static final String endPoint = 'http://192.168.1.113:8082'; //qintess
+  static final String endPoint = 'http://192.168.1.107:8082'; //hp
   static const String PREFERENCIASDOUSUARIO = 'preferenciasDoUsuario';//é o nome da chave do objeto salvo em memoria
   static const String IDIOMADOAPP = 'idiomaDoApp';//é o nome da chave do objeto salvo em memoria
   static String tipoTitularOuColaborador = 'VAZIO';//nao apague
   static UsuarioDto usuarioDto = UsuarioDto(tipoTitularOuColaborador: tipoTitularOuColaborador);
   static IdiomaDto idiomaDto = IdiomaDto();
-  static String? idDeQuemEstaCadastrando = usuarioDto.idUsuario;
+  static String? idDoTitularOuColaboradorQueEstaAcessando = usuarioDto.idUsuario;
   static String moeda = 'R\$ ';
   // static String? moeda = usuarioDto.objPreferenciasDoAppRefleteParaTodosOsUsuarios?.moedaPadraoDoAppParaRelatoriosEComprovantes;
 
@@ -30,8 +30,8 @@ class VariaveisGlobais {
   static List<PushDto> pushList = [];
   static OperacoesDoBackEnd operacoesBackEnd = OperacoesDoBackEnd();
 
-  static Map<String, String> headers() => {"Content-Type": "application/json","idUser":"{$idDeQuemEstaCadastrando}","idColaborador":"{$idDeQuemEstaCadastrando}"};
-  static final headersGlobal = {'Content-Type': 'application/json','idUser': '{$idDeQuemEstaCadastrando}','idColaborador': '{$idDeQuemEstaCadastrando}'};
+  static Map<String, String> headers() => {"Content-Type": "application/json","idUser":"{$idDoTitularOuColaboradorQueEstaAcessando}","idColaborador":"{$idDoTitularOuColaboradorQueEstaAcessando}"};
+  static final headersGlobal = {'Content-Type': 'application/json','idUser': '{$idDoTitularOuColaboradorQueEstaAcessando}','idColaborador': '{$idDoTitularOuColaboradorQueEstaAcessando}'};
   static String idioma = "ingles";
 
 

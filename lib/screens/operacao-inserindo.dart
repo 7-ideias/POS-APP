@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pos_app/dtos/produto-dto.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
@@ -353,7 +352,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         idCodigoProduto: produtoDto.id,
                         codigoDeBarras: produtoDto.codigoDeBarras,
                         descricaoProduto: produtoDto.nomeProduto,
-                        idColaboradorResponsavelPeloServico: VariaveisGlobais.idDeQuemEstaCadastrando,
+                        idColaboradorResponsavelPeloServico: VariaveisGlobais.idDoTitularOuColaboradorQueEstaAcessando,
                         qt: double.parse(_contador.toString()),
                         vlUnitario: double.parse(Utils.converterMoedaEmDoble(_vlUnitario.value.text)),
                         vlTotal: double.parse(Utils.converterMoedaEmDoble(_vlUnitario.value.text)) *_contador

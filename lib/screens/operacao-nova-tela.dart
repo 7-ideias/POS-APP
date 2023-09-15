@@ -688,7 +688,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     var headers = {
       'Content-Type': 'application/json',
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
-      'idDeQuemEstaCadastrando': '${VariaveisGlobais.idDeQuemEstaCadastrando}',
+      'idDeQuemEstaCadastrando': '${VariaveisGlobais.idDoTitularOuColaboradorQueEstaAcessando}',
       'tipoTitularOuColaborador' : '${VariaveisGlobais.usuarioDto.tipoTitularOuColaborador}'
     };
 
@@ -728,7 +728,8 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   Future<void> atualizarProdutos(String produtoOuServico)async {
     print('atualizarProdutos');
-    await ProdutoController().atualizarListaDeProdutos(produtoOuServico);
+    // http.Response fazRequisicao = await ProdutoController().fazRequisicao('PRODUTO',true);
+    await ProdutoController().atualizarListaDeProdutos(produtoOuServico,true);
     setState(() {
       carregando = false;
       mostrarOpcoesDoFloat = false;

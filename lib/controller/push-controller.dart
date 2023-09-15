@@ -26,13 +26,13 @@ class PushController {
       'idColaborador': '${VariaveisGlobais.usuarioDto.idUsuario}',
       'Content-Type': 'application/json',
     };
-    print('id da conta.: ${VariaveisGlobais.idDeQuemEstaCadastrando}');
+    print('id da conta.: ${VariaveisGlobais.idDoTitularOuColaboradorQueEstaAcessando}');
     print('id.: ${VariaveisGlobais.usuarioDto.id}');
     print('idUsuario.: ${VariaveisGlobais.usuarioDto.idUsuario}');
-    print('idDeQuemEstaCadastrando E OPERANDO.: ${VariaveisGlobais.idDeQuemEstaCadastrando}');
+    print('idDeQuemEstaCadastrando E OPERANDO.: ${VariaveisGlobais.idDoTitularOuColaboradorQueEstaAcessando}');
     print('TIPO.: ${VariaveisGlobais.usuarioDto.tipoTitularOuColaborador}');
 
-    var response = await http.get(Uri.parse('${VariaveisGlobais.endPoint}/push/${VariaveisGlobais.idDeQuemEstaCadastrando}'), headers: headers,);
+    var response = await http.get(Uri.parse('${VariaveisGlobais.endPoint}/push/${VariaveisGlobais.idDoTitularOuColaboradorQueEstaAcessando}'), headers: headers,);
     return response;
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -87,7 +88,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: widget.idProduto == VariaveisGlobais.NOVO_PRODUTO?false:true,
           title: Center(
             child: edicaoDeProdutoAtivo == true
                 ? Text(_textoApareceEmCimaDaTela)
@@ -118,15 +119,15 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     children: [
                       //só aparece esse card na edicao
                       widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Container() :Stack(
-                        alignment: Alignment.center,
+                        // alignment: Alignment.center,
                         children: [
                           Card(
-                            elevation: 10,
+                            // elevation: 10,
                             child: Container(
                               height: 200,
-                              width: MediaQuery.of(context).size.width * 0.9,
+                              width: MediaQuery.of(context).size.width * 0.95,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -135,24 +136,29 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                       radius: 50,
                                     ),
                                   ),
-                                  Text('qt no estoque.: '+ produtoModelo.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toStringAsFixed(0),style: TextStyle(fontSize: tamanhoDaFonte,),),
-                                  Text('vl estoque em grana.: '+Utils.formataParaMoeda(produtoModelo.objCalculosDeProdutoDoBackEnd.vlEstoqueEmGrana).toString(),style: TextStyle(fontSize: tamanhoDaFonte,),),
-                                  Text('ultimo preço pago.: '+Utils.formataParaMoeda(produtoModelo.objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto).toString(),style: TextStyle(fontSize: tamanhoDaFonte,),),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                  Text('qt no estoque.: ${produtoModelo.objCalculosDeProdutoDoBackEnd.qtNoEstoque.toStringAsFixed(0)}',),
+                                  Text('vl estoque em grana.: ${Utils.formataParaMoeda(produtoModelo.objCalculosDeProdutoDoBackEnd.vlEstoqueEmGrana)}',),
+                                  Text('ultimo preço pago.: ${Utils.formataParaMoeda(produtoModelo.objCalculosDeProdutoDoBackEnd.ultimoVlEmGranaPagoPeloProduto)}',),
+
+                                  ],),
                                 ],
                               ),
                             ),
                           ),
                         ],
                       ),
-
                       SizedBox(height: 20,),
 
                       //produto ativo
-                      _nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 ? Container(
+                      if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0)Container(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text('produto ativo',style: TextStyle(fontSize: tamanhoDaFonte,),),
+                            Text('produto ativo',),
                             Switch(
                               value: _produtoAtivo,
                               onChanged: edicaoDeProdutoAtivo == false ? null : (value) {
@@ -163,7 +169,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             ),
                           ],
                         ),
-                      ):Container(),
+                      ),
 
                       //codigo de barras ou codigo do item
                       Padding(
@@ -188,19 +194,25 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                             FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                           ],
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-                            // enabledBorder:
-                            // OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-                            // focusedBorder:
-                            // OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                             labelText: 'código',
-                            suffixIcon: GestureDetector(
-                                onTap: (){
-                                  scan();
-                                },
-                                child: Icon(Icons.qr_code_2_outlined))
-
-                          ),
+                            prefixIcon: edicaoDeProdutoAtivo==true ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      String numeroAleatorio = '';
+                                      Random random = Random();
+                                      for (int i = 0; i < 13; i++) {
+                                        numeroAleatorio += random.nextInt(10).toString();
+                                      }
+                                      _codigoProduto = TextEditingController(text: numeroAleatorio);
+                                    });
+                                  },
+                                  child: const Icon(Icons.refresh)):null,
+                              suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    scan();
+                                  },
+                                  child: const Icon(Icons.qr_code_2_outlined))),
 
                         ),
                       ),
@@ -233,7 +245,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
                               border:  Border.all(
                               )
                           ),
@@ -332,7 +344,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(30)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 border:  Border.all(
                                 )
                             ),
@@ -398,7 +410,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
                               border:  Border.all(
                               )
                           ),
@@ -463,7 +475,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
                               border:  Border.all(
                               )
                           ),
@@ -528,19 +540,29 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
                       //produto com comissao ao vendedor
                       if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true) Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text('comissao ao vendedor?',style: TextStyle(fontSize: tamanhoDaFonte,),),
-                            Switch(
-                              value: _comissao,
-                              onChanged: (value) {
-                                setState(() {
-                                  _comissao = value;
-                                });
-                              },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 16,right: 16),
+                            decoration: BoxDecoration(
+                                color: AppController.instance.buildThemeData().focusColor,
+                                borderRadius: BorderRadius.circular(5)
                             ),
-                          ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('comissao ao vendedor?',style: TextStyle(fontSize: tamanhoDaFonte,),),
+                                Switch(
+                                  value: _comissao,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _comissao = value;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ) ,
 
@@ -597,7 +619,9 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
     print(_vlDeVenda.text);
     return Column(
                 children: [
-                  if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
+                  if(_nomeProduto.text.length > 0 && _codigoProduto.text.length > 0 &&
+                      (precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
+                  )
                     GestureDetector(
                     onTap: ()async {
                       if (_form.currentState!.validate()) {
@@ -638,7 +662,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
                         'salvar'),
                   ) ,
-                  GestureDetector(
+                    GestureDetector(
                     onTap: (){
                         setState(() {
                           edicaoDeProdutoAtivo = false;
@@ -654,11 +678,11 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
   InputDecoration buildInputDecoration(String texto) {
     return InputDecoration(
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       enabledBorder:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       focusedBorder:
-          OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
+          OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       labelText: texto,
 
     );
@@ -762,10 +786,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       _nomeProduto = TextEditingController(text: produtoModelo.nomeProduto);
       _vlDeVenda = TextEditingController(text: NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(produtoModelo.precoVenda));
       _produtoAtivo = produtoModelo.ativo;
-
       _modeloProduto = TextEditingController(text: produtoModelo.modeloProduto);
-
-      _produtoAtivo = true;
+      _produtoAtivo = produtoModelo.ativo;
       _comissao = produtoModelo.objComissao.produtoTemComissaoEspecial!;
       _vlDaComissao = TextEditingController(text: produtoModelo.objComissao.valorFixoDeComissaoParaEsseProduto.toString());
 
@@ -779,6 +801,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
 
   void prepararCamposParaEdicao() {
+    precoDeVendaMaiorQueZero=true; // necessario para desbloquear na edicao
+    precoDeCustoMaiorQueZero=true; // necessario para desbloquear na edicao
     editar = !editar;
     edicaoDeProdutoAtivo = !edicaoDeProdutoAtivo;
     _vlDeVenda = TextEditingController(text: NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$').format(produtoModelo.precoVenda));

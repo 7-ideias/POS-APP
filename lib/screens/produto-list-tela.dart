@@ -494,9 +494,9 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       isLoading = true;
       _temConteudo = false;
     });
-    http.Response fazRequisicao = await ProdutoController().fazRequisicao('PRODUTO');
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao('PRODUTO',false);
     if (fazRequisicao.statusCode == 200){
-      var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
+      var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao,false);
       buscarProdutoList.then((listaProdutos) {
         produtoList = listaProdutos.produtosList;
         setState(() {

@@ -136,7 +136,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
     setState(() {
       carregando = true;
     });
-    await ProdutoController().atualizarListaDeProdutos(produtoOuServico);
+    await ProdutoController().atualizarListaDeProdutos(produtoOuServico,false);
     produtoListDessaClasse = VariaveisGlobais.produtoList;
     setState(() {
       carregando = false;

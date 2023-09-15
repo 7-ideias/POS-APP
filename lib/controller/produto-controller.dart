@@ -7,10 +7,10 @@ import '../utilitarios/VariaveisGlobais.dart';
 class ProdutoController {
 
 
-  Future<void> atualizarListaDeProdutos(String produtoOuServico) async {
-    http.Response fazRequisicao = await ProdutoController().fazRequisicao(produtoOuServico);
+  Future<void> atualizarListaDeProdutos(String produtoOuServico, bool apenasAtivos) async {
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao(produtoOuServico, apenasAtivos);
     if (fazRequisicao.statusCode == 200){
-      var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao);
+      var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao, apenasAtivos);
       buscarProdutoList.then((listaProdutos) {
         VariaveisGlobais.produtoList = listaProdutos.produtosList;
       }).catchError((erro) {
@@ -20,14 +20,14 @@ class ProdutoController {
   }
 
 
-  Future<http.Response> fazRequisicao(String produtoOuServico) async {
+  Future<http.Response> fazRequisicao(String produtoOuServico, bool apenasAtivos) async {
     var headers = {
       'idUsuario': '${VariaveisGlobais.usuarioDto.id}',
       'idColaborador': '${VariaveisGlobais.usuarioDto.idUsuario}',
       'Content-Type': 'application/json',
     };
     var body = {
-      'produtosAtivos': true,
+      'produtosAtivos': apenasAtivos,
       'tipo' : produtoOuServico
     };
     var response = await http.post(Uri.parse('${VariaveisGlobais.endPoint}/produto/lista'), headers: headers,body: jsonEncode(body),);
@@ -35,7 +35,7 @@ class ProdutoController {
   }
 
 
-  Future<ProdutoDtoList> buscarProdutoList(http.Response response) async {
+  Future<ProdutoDtoList> buscarProdutoList(http.Response response, bool apenasAtivos) async {
     Map<String, dynamic> jsonResponse = json.decode(response.body);
     ProdutoDtoList responseModel = ProdutoDtoList.fromJson(jsonResponse);
     return responseModel;
