@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
@@ -66,6 +68,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   bool recebeNoCaixa = true;
   bool veQuantoVendeu = true;
 
+  String? pathFotoComprimidaQueVaiProBackEnd;
+
+  String? imagemQueVaiProBack;
+
+
   Future chamaAGaleria() async {
     final file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
@@ -120,14 +127,14 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                   radius: MediaQuery.of(context).size.height * 0.155 / 2,
                   backgroundColor: Colors.grey,
                   backgroundImage:
-                      widget.file != null && widget.file.path.isNotEmpty
+                      widget.file.path.isNotEmpty
                           ? AssetImage(widget.file.path)
                           : AssetImage('assets/male-profile-picture.png'),
                 ),
               ),
               Positioned(
                   top: MediaQuery.of(context).size.height * 0.11,
-                  child: widget.file != null && widget.file.path.isNotEmpty
+                  child: widget.file.path.isNotEmpty
                       ? Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
@@ -872,8 +879,28 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     );
   }
 
+  Future<List<int>> ComprimeArquivo() async {
+    var result =  await FlutterImageCompress.compressAndGetFile(
+        widget.file.absolute.path, widget.file.path + '_compressed.jpg',
+      quality: 5,
+    );
+
+    if (widget.file == null) return [];
+
+    File path = File(result!.path);
+    if (!path.existsSync()) return [];
+
+    int tamanhoEmBytes = await path.length();
+    print('Tamanho em bytes da variável result: $tamanhoEmBytes');
+
+    return await path.readAsBytes();
+  }
+
   Future<void> fazerRequisicao() async {
-    foto = widget.file.path;
+      List<int> imageBytes = await ComprimeArquivo();
+      foto = base64Encode(imageBytes);
+
+    foto = foto;
     nome = nomeController.text;
     tel = telController.text;
     cpf = cpfController.text;
@@ -883,17 +910,9 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     endereco = enderecoController.text;
     bairro = bairroController.text;
     complemento = complementoController.text;
-    
-    Future<List<int>> getImageBytes() async {
-      File path = File(widget.file.path);
-      path.existsSync();
-      return await path.readAsBytes();
-    }
-    List<int> imageBytes = await getImageBytes();
-    String imageEm64 = base64Encode(imageBytes);
 
     final payload = {
-      "fotoDePerfil": imageEm64,
+      "fotoDePerfil": foto,
       "celularDeAcesso": "551102108432",
       "objPessoa": {
         "atencao": "atencao",

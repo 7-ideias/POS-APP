@@ -8,12 +8,12 @@ import 'obj-vendas-pode.dart';
 class ObjAutorizacoes {
   bool? podeFazerDevolucao;
   bool? podeCadastrarProduto;
-  ObjProdutosPode? objProdutosPode;
-  ObjVendasPode? objVendasPode;
-  ObjAssistenciaTecnicaPode? objAssistenciaTecnicaPode;
-  ObjClientesPode? objClientesPode;
-  ObjRelatoriosPode? objRelatoriosPode;
-  ObjLancamentosFinanceirosPode? objLancamentosFinanceirosPode;
+  // ObjProdutosPode? objProdutosPode;
+  // ObjVendasPode? objVendasPode;
+  // ObjAssistenciaTecnicaPode? objAssistenciaTecnicaPode;
+  // ObjClientesPode? objClientesPode;
+  // ObjRelatoriosPode? objRelatoriosPode;
+  // ObjLancamentosFinanceirosPode? objLancamentosFinanceirosPode;
 
   ObjAutorizacoes.fromJson(Map<String, dynamic> json) {
     podeFazerDevolucao =
@@ -21,22 +21,22 @@ class ObjAutorizacoes {
     podeCadastrarProduto = json['podeCadastrarProduto'] != null
         ? json['podeCadastrarProduto']
         : null;
-    Map<String, dynamic> objProdutosPode = json['objProdutosPode'] != null ? json['objProdutosPode'] : null;
-    // Map<String, dynamic> objProdutosPode = json['objProdutosPode'];
-
-    objVendasPode =
-        json['objVendasPode'] != null ? json['objVendasPode'] : null;
-    objAssistenciaTecnicaPode = json['objAssistenciaTecnicaPode'] != null
-        ? json['objAssistenciaTecnicaPode']
-        : null;
-    objClientesPode =
-        json['objClientesPode'] != null ? json['objClientesPode'] : null;
-    objRelatoriosPode =
-        json['objRelatoriosPode'] != null ? json['objRelatoriosPode'] : null;
-    objLancamentosFinanceirosPode =
-        json['objLancamentosFinanceirosPode'] != null
-            ? json['objLancamentosFinanceirosPode']
-            : null;
+  //   Map<String, dynamic> objProdutosPode = json['objProdutosPode'] != null ? json['objProdutosPode'] : null;
+  //   // Map<String, dynamic> objProdutosPode = json['objProdutosPode'];
+  //
+  //   objVendasPode =
+  //       json['objVendasPode'] != null ? json['objVendasPode'] : null;
+  //   objAssistenciaTecnicaPode = json['objAssistenciaTecnicaPode'] != null
+  //       ? json['objAssistenciaTecnicaPode']
+  //       : null;
+  //   objClientesPode =
+  //       json['objClientesPode'] != null ? json['objClientesPode'] : null;
+  //   objRelatoriosPode =
+  //       json['objRelatoriosPode'] != null ? json['objRelatoriosPode'] : null;
+  //   objLancamentosFinanceirosPode =
+  //       json['objLancamentosFinanceirosPode'] != null
+  //           ? json['objLancamentosFinanceirosPode']
+  //           : null;
   }
 
 }

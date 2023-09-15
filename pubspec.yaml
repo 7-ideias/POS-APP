@@ -36,6 +36,7 @@ dependencies:
   camera_camera: ^3.0.0
   image_picker: ^1.0.4
   get: ^4.6.5
+  flutter_image_compress: ^2.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
