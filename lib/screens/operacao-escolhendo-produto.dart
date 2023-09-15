@@ -9,7 +9,10 @@ import '../controller/produto-controller.dart';
 import '../utilitarios/utils.dart';
 
 class EscolhaOProduto extends StatefulWidget {
-  EscolhaOProduto({Key? key}) : super(key: key);
+
+  final String produtoOuServico;
+
+  EscolhaOProduto(this.produtoOuServico,{Key? key}) : super(key: key);
 
   @override
   State<EscolhaOProduto> createState() => _EscolhaOProdutoState();
@@ -23,7 +26,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
 
   @override
   void initState() {
-    atualizarProdutos('PRODUTO');
+    atualizarProdutos();
     super.initState();
   }
 
@@ -45,11 +48,13 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
                  context,
                  MaterialPageRoute(
                    builder: (context) => ProdutoNovoEdicaoTela(
-                     idProduto: VariaveisGlobais.NOVO_PRODUTO,
+                     idProduto: 'XXXXX',
+                     novoOuEdicao: 'NOVO',
+                     produtoOuServico: 'PRODUTO',
                    ),
                  ),
                );
-               await atualizarProdutos('PRODUTO');
+               await atualizarProdutos();
              },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -63,7 +68,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
           FloatingActionButton(
             child: Icon(Icons.refresh),
             onPressed: () async {
-            await atualizarProdutos('PRODUTO');
+            await atualizarProdutos();
           },),
         ],
       ),
@@ -94,7 +99,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
             ),
           ),
           RefreshIndicator(
-            onRefresh: () async => await atualizarProdutos('PRODUTO'),
+            onRefresh: () async => await atualizarProdutos(),
             child:
             ListView.builder(
               scrollDirection: Axis.vertical,
@@ -132,11 +137,11 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
     );
   }
 
-  Future<void> atualizarProdutos(String produtoOuServico)async {
+  Future<void> atualizarProdutos()async {
     setState(() {
       carregando = true;
     });
-    await ProdutoController().atualizarListaDeProdutos(produtoOuServico,false);
+    await ProdutoController().atualizarListaDeProdutos(widget.produtoOuServico.toUpperCase(),false);
     produtoListDessaClasse = VariaveisGlobais.produtoList;
     setState(() {
       carregando = false;

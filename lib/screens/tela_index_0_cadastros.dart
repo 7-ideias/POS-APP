@@ -40,7 +40,7 @@ class _Index0TelaState extends State<Index0Tela> {
                         onTap: (){
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => ProdutosTela()),
+                            MaterialPageRoute(builder: (context) => ProdutosTela('PRODUTO')),
                           );
                         },
                         child: Card(
@@ -55,6 +55,28 @@ class _Index0TelaState extends State<Index0Tela> {
                               style: TextStyle(
                                   fontSize: tamanhoDaFonte ),
                             )),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ProdutosTela('SERVICO')),
+                          );
+                        },
+                        child: Card(
+                          elevation: 10,
+                          child: Container(
+                            color: AppController.instance.buildThemeData().appBarTheme.backgroundColor,
+                            height: MediaQuery.of(context).size.width * 0.4,
+                            width: MediaQuery.of(context).size.width * larguraTela/2,
+                            child: Center(
+                                child: Text(
+                                  'serviços',
+                                  style: TextStyle(
+                                      fontSize: tamanhoDaFonte ),
+                                )),
                           ),
                         ),
                       ),

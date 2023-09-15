@@ -22,8 +22,13 @@ import '../utilitarios/utils.dart';
 
 class ProdutoNovoEdicaoTela extends StatefulWidget {
   String idProduto;
+  String novoOuEdicao;
+  String produtoOuServico;
 
-  ProdutoNovoEdicaoTela({Key? key, required this.idProduto}) : super(key: key);
+  ProdutoNovoEdicaoTela({Key? key, required this.idProduto,
+   required this.novoOuEdicao,
+   required this.produtoOuServico
+  }) : super(key: key);
 
   @override
   State<ProdutoNovoEdicaoTela> createState() => _ProdutoNovoEdicaoTelaState();
@@ -68,7 +73,12 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
   @override
   void initState() {
-    if (widget.idProduto != VariaveisGlobais.NOVO_PRODUTO) {
+    print('widget.idProduto -> '+widget.idProduto);
+    print('widget.novoOuEdicao -> '+widget.novoOuEdicao);
+    print('widget.produtoOuServico -> '+widget.produtoOuServico);
+
+
+    if (widget.novoOuEdicao=='EDITAR') {
       pesquisarOProduto(widget.idProduto);
     }
     super.initState();
@@ -77,8 +87,8 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
   @override
   Widget build(BuildContext context) {
     setState(() {
-      if (widget.idProduto == VariaveisGlobais.NOVO_PRODUTO) {
-        _textoApareceEmCimaDaTela = 'novo produto';
+      if (widget.novoOuEdicao=='NOVO') {
+        _textoApareceEmCimaDaTela = 'novo';
         edicaoDeProdutoAtivo = true;
         editar = true;
       } else {
@@ -88,7 +98,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: widget.idProduto == VariaveisGlobais.NOVO_PRODUTO?false:true,
+        automaticallyImplyLeading: widget.novoOuEdicao == 'NOVO'?false:true,
           title: Center(
             child: edicaoDeProdutoAtivo == true
                 ? Text(_textoApareceEmCimaDaTela)
@@ -118,7 +128,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                 child: Column(
                     children: [
                       //só aparece esse card na edicao
-                      widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Container() :Stack(
+                      if(widget.novoOuEdicao=='EDITAR'&&widget.produtoOuServico=='PRODUTO')Stack(
                         // alignment: Alignment.center,
                         children: [
                           Card(
@@ -257,7 +267,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                                   Container(
                                     width: MediaQuery.of(context).size.width * 0.45,
                                     child: //custo
-                                    widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? Padding(
+                                    widget.novoOuEdicao=='NOVO' ? Padding(
                                       padding: const EdgeInsets.only(top: 8,left: 8,bottom: 8),
                                       child: TextFormField(
                                         onChanged: (valor){
@@ -338,7 +348,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                       ),
                       //qt inicial
                       if(_nomeProduto.text.length > 0
-                          && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO
+                          && widget.novoOuEdicao =='NOVO'
                         && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -404,7 +414,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                         ),
                       //qtidade minima
                       if(_nomeProduto.text.length > 0
-                          && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO
+                          && widget.novoOuEdicao =='NOVO'
                           && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -469,7 +479,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
                       //qtidade maxima no estoque
                       if(_nomeProduto.text.length > 0
-                          && widget.idProduto == VariaveisGlobais.NOVO_PRODUTO
+                          && widget.novoOuEdicao =='NOVO'
                           && precoDeVendaMaiorQueZero==true && precoDeCustoMaiorQueZero==true)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -589,7 +599,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
 
                       SizedBox(height: 30),
 
-                      if (widget.idProduto != VariaveisGlobais.NOVO_PRODUTO) getLogs(),
+                      if (widget.produtoOuServico == 'PRODUTO' && widget.novoOuEdicao =='EDICAO') getLogs(),
                     ],
                   ),
               ),
@@ -625,7 +635,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
                     GestureDetector(
                     onTap: ()async {
                       if (_form.currentState!.validate()) {
-                        if(widget.idProduto == VariaveisGlobais.NOVO_PRODUTO){
+                        if( widget.novoOuEdicao =='NOVO'){
                           await enviarApiNovoOuEdicao('NOVO');
                         }else{
                           await enviarApiNovoOuEdicao('EDICAO');
@@ -712,7 +722,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       "ativo": _produtoAtivo,
       "codigoDeBarras": _codigoProduto.text,
       "nomeProduto": _nomeProduto.text,
-      "tipoPoduto": widget.idProduto == VariaveisGlobais.NOVO_PRODUTO ? "PRODUTO" : "SERVICO",
+      "tipoPoduto": widget.produtoOuServico,
       "objInformacoesDoCadastro": {
         "idDeQuemCadastrou": idDeQuemEstaCadastrando
       },

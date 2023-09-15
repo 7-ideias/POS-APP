@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,9 @@ import '../dtos/produto-dto.dart';
 import '../utilitarios/VariaveisGlobais.dart';
 
 class ProdutosTela extends StatefulWidget {
+  final String produtoOuServico;
+  ProdutosTela(this.produtoOuServico, {Key? key}) : super(key: key);
+
   @override
   _ProdutosTelaState2 createState() => _ProdutosTelaState2();
 }
@@ -41,7 +45,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
     return Scaffold(
       appBar: AppBar(
         // automaticallyImplyLeading: false,
-        title: Center(child: Text('Produtos')),
+        title: Center(child: Text(widget.produtoOuServico)),
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   currentIndex: _selectedIndex,
@@ -150,6 +154,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                     startActionPane: esquerdaDireitaPane(index),
                                     endActionPane: direitaEsquertaPane(index),
                                     child:ListTile(
+                                      tileColor: produtoList[index].ativo==false?CupertinoColors.inactiveGray:null,
                                       isThreeLine: true,
                                       leading: const CircleAvatar(
                                         maxRadius: 30,
@@ -195,6 +200,13 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                               Text('  estoque ideal',style: TextStyle(fontSize: 16)),
                                             ],
                                           ),
+                                          SizedBox(height: 5,),
+                                          if(produtoList[index].ativo==false)Row(
+                                            children: [
+                                              CircleAvatar(backgroundColor: Colors.redAccent,radius: 10,),
+                                              Text('  bloqueado para venda',style: TextStyle(fontSize: 16)),
+                                            ],
+                                          ),
 
                                         ],
                                       ),
@@ -232,14 +244,16 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
           SizedBox(
             height: 10,
           ),
-          if(mostrarTudo == true) FloatingActionButton.extended(
+          if(widget.produtoOuServico=='PRODUTO') if(mostrarTudo == true) FloatingActionButton.extended(
             backgroundColor: Colors.green,
             onPressed: () async {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProdutoNovoEdicaoTela(
-                    idProduto: VariaveisGlobais.NOVO_PRODUTO,
+                    idProduto: 'XXXXX',
+                    novoOuEdicao: 'NOVO',
+                    produtoOuServico: widget.produtoOuServico,
                   ),
                 ),
               );
@@ -249,6 +263,28 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
               children: [
                 Icon(Icons.add),
                 Text('  adicionar novo produto',),
+              ],
+            ),
+          ) ,
+          if(widget.produtoOuServico=='SERVICO') if(mostrarTudo == true) FloatingActionButton.extended(
+            backgroundColor: Colors.green,
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdutoNovoEdicaoTela(
+                    idProduto: 'XXXXX',
+                    novoOuEdicao: 'NOVO',
+                    produtoOuServico: 'SERVICO',
+                  ),
+                ),
+              );
+              getProdutoList();
+            },
+            label: Row(
+              children: [
+                Icon(Icons.add),
+                Text('  adicionar novo servico',),
               ],
             ),
           ) ,
@@ -445,6 +481,8 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
               MaterialPageRoute(
                 builder: (context) => ProdutoNovoEdicaoTela(
                   idProduto: idProduto,
+                  novoOuEdicao: 'EDITAR',
+                  produtoOuServico: widget.produtoOuServico,
                 ),
               ),
             );
@@ -494,7 +532,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
       isLoading = true;
       _temConteudo = false;
     });
-    http.Response fazRequisicao = await ProdutoController().fazRequisicao('PRODUTO',false);
+    http.Response fazRequisicao = await ProdutoController().fazRequisicao(widget.produtoOuServico,false);
     if (fazRequisicao.statusCode == 200){
       var buscarProdutoList = ProdutoController().buscarProdutoList(fazRequisicao,false);
       buscarProdutoList.then((listaProdutos) {

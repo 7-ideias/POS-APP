@@ -11,7 +11,7 @@ import '../dtos/usuario-dto.dart';
 
 class VariaveisGlobais {
   static const String NOME_SISTEMA = 'SIX POS';
-  static const String NOVO_PRODUTO = 'novo produto';
+  // static const String NOVO_PRODUTO = 'novo produto';
   static final String minhaVariavel = 'Valor da minha variável';
   // static final String endPoint = 'https://sixbackend-70ed1c73ebec.herokuapp.com';
   // static final String endPoint = 'http://192.168.1.113:8082'; //qintess

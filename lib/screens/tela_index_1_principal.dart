@@ -60,7 +60,7 @@ class _Index1TelaState extends State<Index1Tela>
               });
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProdutosTela()),
+                MaterialPageRoute(builder: (context) => ProdutosTela('PRODUTO')),
               );
             },
             label: Row(

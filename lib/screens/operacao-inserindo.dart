@@ -11,7 +11,9 @@ import '../utilitarios/widgetsGlobais.dart';
 import 'operacao-escolhendo-produto.dart';
 
 class InserindoProduto extends StatefulWidget {
-  InserindoProduto({Key? key}) : super(key: key);
+  final String produtoOuServico;
+
+  InserindoProduto(this.produtoOuServico, {Key? key}) : super(key: key);
 
   @override
   State<InserindoProduto> createState() => _InserindoProdutoState();
@@ -61,7 +63,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
     });
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('escolha o produto')),
+        title: Center(child: Text('escolha o '+widget.produtoOuServico)),
         automaticallyImplyLeading: false,
       ),
       body: Center(
@@ -71,6 +73,15 @@ class _InserindoProdutoState extends State<InserindoProduto> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  padding: EdgeInsets.only(left: 5,right: 5),
+                  decoration: BoxDecoration(
+                      color: AppController.instance.buildThemeData().focusColor,
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  child: Text(widget.produtoOuServico,style: TextStyle(fontSize: 20)),
+                ),
+                SizedBox(height: 10,),
                 //codigo de barras
                 jaTemUmProduto == false ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -86,7 +97,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         controller: _codigoProduto,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
-                        decoration: UtilsWidgets.buildInputDecoration('código produto',''),
+                        decoration: UtilsWidgets.buildInputDecoration('código',''),
                       ),
                     ),
 
@@ -458,7 +469,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   Future<void> retornoDaInformacao(BuildContext context) async {
     produtoDto =  await Navigator.push(
        context,
-       MaterialPageRoute(builder: (context) => EscolhaOProduto()),
+       MaterialPageRoute(builder: (context) => EscolhaOProduto(widget.produtoOuServico)),
      );
     setState(() {
       jaTemUmProduto =true;

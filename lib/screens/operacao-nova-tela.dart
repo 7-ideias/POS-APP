@@ -170,7 +170,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
           if(mostrarOpcoesDoFloat==true)FloatingActionButton.extended(
             onPressed: () {
               atualizarProdutos('PRODUTO');
-              retornaOsDadosDaTelaOperacaoInserindo(context);
+              retornaOsDadosDaTelaOperacaoInserindo(context,'PRODUTO');
             },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -188,7 +188,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                 exibirContainerTransparente = false;
               });
               atualizarProdutos('PRODUTO');
-              retornaOsDadosDaTelaOperacaoInserindo(context);
+              retornaOsDadosDaTelaOperacaoInserindo(context,'PRODUTO');
             },
             label: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -577,7 +577,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
         GestureDetector(
           onTap: (){
             atualizarProdutos('PRODUTO');
-            retornaOsDadosDaTelaOperacaoInserindo(context);
+            retornaOsDadosDaTelaOperacaoInserindo(context,'PRODUTO');
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -597,7 +597,8 @@ class _OperacaoNovaState extends State<OperacaoNova> {
         ),
         GestureDetector(
           onTap: (){
-
+            atualizarProdutos('SERVICO');
+            retornaOsDadosDaTelaOperacaoInserindo(context,'SERVICO');
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -619,10 +620,10 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     );
   }
 
-  Future<void> retornaOsDadosDaTelaOperacaoInserindo(BuildContext context) async {
+  Future<void> retornaOsDadosDaTelaOperacaoInserindo(BuildContext context, String produtoOuServico) async {
     ObjVendaEServico objVendaEServico = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => InserindoProduto()),
+      MaterialPageRoute(builder: (context) => InserindoProduto(produtoOuServico)),
     );
     setState(() {
       objVendaEServicoList.add(objVendaEServico);
@@ -693,7 +694,6 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     };
 
     var response = await http.post(Uri.parse(url), headers: headers, body: body);
-    // var response = await http.post(Uri.parse(url), headers: headers, body: body);
     debugPrint(response.statusCode.toString());
 
 
@@ -740,38 +740,38 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 }
 
 
-class BottomSerratedClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    final serrationWidth = 10.0;
-    final serrationHeight = 10.0;
-
-    path.moveTo(0, size.height);
-    path.lineTo(0, size.height - serrationHeight);
-
-    for (var i = 0; i < size.width / serrationWidth; i++) {
-      final startX = i * serrationWidth;
-      final isEven = i % 2 == 0;
-
-      path.lineTo(startX, size.height - serrationHeight);
-
-      if (isEven) {
-        path.lineTo(startX + serrationWidth / 2, size.height);
-      } else {
-        path.lineTo(startX + serrationWidth, size.height - serrationHeight);
-      }
-    }
-
-    path.lineTo(size.width, size.height - serrationHeight);
-    path.lineTo(size.width, size.height);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    return false;
-  }
-}
+// class BottomSerratedClipper extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     final path = Path();
+//     final serrationWidth = 10.0;
+//     final serrationHeight = 10.0;
+//
+//     path.moveTo(0, size.height);
+//     path.lineTo(0, size.height - serrationHeight);
+//
+//     for (var i = 0; i < size.width / serrationWidth; i++) {
+//       final startX = i * serrationWidth;
+//       final isEven = i % 2 == 0;
+//
+//       path.lineTo(startX, size.height - serrationHeight);
+//
+//       if (isEven) {
+//         path.lineTo(startX + serrationWidth / 2, size.height);
+//       } else {
+//         path.lineTo(startX + serrationWidth, size.height - serrationHeight);
+//       }
+//     }
+//
+//     path.lineTo(size.width, size.height - serrationHeight);
+//     path.lineTo(size.width, size.height);
+//     path.close();
+//
+//     return path;
+//   }
+//
+//   @override
+//   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+//     return false;
+//   }
+// }

@@ -67,7 +67,6 @@ class UtilsWidgets {
       OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
       focusedBorder:
       OutlineInputBorder(borderRadius: BorderRadius.circular(60)),
-      hintText: 'exemplo',
       labelText: labelText,
       prefixText: prefixText,
     );

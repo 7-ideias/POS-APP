@@ -16,6 +16,8 @@ class ProdutoController {
       }).catchError((erro) {
         print(erro);
       });
+    }if (fazRequisicao.statusCode == 204){
+      VariaveisGlobais.produtoList.clear();
     }
   }
 
