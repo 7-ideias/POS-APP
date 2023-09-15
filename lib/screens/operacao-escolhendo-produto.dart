@@ -34,7 +34,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('escolha o produto')),
+        title: Center(child: Text('escolha')),
         // automaticallyImplyLeading: false,
       ),
       floatingActionButton: Column(
@@ -50,7 +50,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
                    builder: (context) => ProdutoNovoEdicaoTela(
                      idProduto: 'XXXXX',
                      novoOuEdicao: 'NOVO',
-                     produtoOuServico: 'PRODUTO',
+                     produtoOuServico: widget.produtoOuServico,
                    ),
                  ),
                );
@@ -60,7 +60,7 @@ class _EscolhaOProdutoState extends State<EscolhaOProduto> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Icon(Icons.add),
-                Text('novo produto'),
+                Text(widget.produtoOuServico=='PRODUTO'?'novo produto':'novo serviço'),
               ],
             ),
           ),

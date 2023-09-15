@@ -8,6 +8,7 @@ class ObjVendaEServico {
   double vlTotal = 0.00;
   String? idColaboradorResponsavelPeloServico;
   String? nomeColaboradorResponsavel;
+  String? tipoPoduto;
 
   ObjVendaEServico(
       {
@@ -19,7 +20,8 @@ class ObjVendaEServico {
         required this.vlUnitario,
         required this.vlTotal,
         this.idColaboradorResponsavelPeloServico,
-        this.nomeColaboradorResponsavel
+        this.nomeColaboradorResponsavel,
+        this.tipoPoduto,
       });
 
   ObjVendaEServico.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class ObjVendaEServico {
     idColaboradorResponsavelPeloServico =
     json['idColaboradorResponsavelPeloServico'];
     nomeColaboradorResponsavel = json['nomeColaboradorResponsavel'];
+    tipoPoduto = json['tipoPoduto'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +50,7 @@ class ObjVendaEServico {
     data['idColaboradorResponsavelPeloServico'] =
         this.idColaboradorResponsavelPeloServico;
     data['nomeColaboradorResponsavel'] = this.nomeColaboradorResponsavel;
+    data['tipoPoduto'] = this.tipoPoduto;
     return data;
   }
 }

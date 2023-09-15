@@ -210,8 +210,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Icon(mostrarOpcoesDoFloat==false ? Icons.add : Icons.clear),
-                Text(mostrarOpcoesDoFloat==false ? 'mostrar opções' : 'reduzir'),
-                Text(mostrarOpcoesDoFloat==false ? 'mostrar opções' : 'reduzir'),
+                Text(mostrarOpcoesDoFloat==false ? 'mostrar opções' : 'reduzir'), 
               ],
             ),
           )
@@ -396,11 +395,16 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('quantidade.: '),
-                              Text(objVendaEServicoList[index].qt.toString(),
-                                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                              Text(objVendaEServicoList[index].tipoPoduto.toString()),
+                              Row(
+                                children: [
+                                  Text('quantidade.: '),
+                                  Text(objVendaEServicoList[index].qt.toString(),
+                                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                ],
+                              ),
                             ],
                           ),
                           Container(
