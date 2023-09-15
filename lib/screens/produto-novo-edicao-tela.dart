@@ -96,6 +96,7 @@ class _ProdutoNovoEdicaoTelaState extends State<ProdutoNovoEdicaoTela> {
       }
     });
 
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: widget.novoOuEdicao == 'NOVO'?false:true,
