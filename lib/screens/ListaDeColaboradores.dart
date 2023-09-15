@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pos_app/controller/app_controller.dart';
 import 'package:pos_app/screens/cadastrando-novo-colaborador.dart';
 import 'package:http/http.dart' as http;
@@ -107,7 +108,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
           opacity: mostrarOpcoes == true ? 0.1 : 1,
           duration: Duration(seconds: 1),
           child: ListView.builder(
-            itemCount:     colaboradoresList?.colaboradoresList?.length ?? 1,
+            itemCount:  1,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
@@ -200,10 +201,43 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                     ),
                                   )
                                 : Container(
-                                    child: Text(
-                                        'NAO TEM NENHUM COLABORADOR CADASTRADO AINDA')),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const SizedBox(height: 30),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Parece que você ainda não cadastrou nenhum colaborador ainda!',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 30,
+                                            color: AppController.instance.corLetras,
+                                            fontFamily: 'Caprasimo'
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      SizedBox(height: 80),
+                                      Lottie.asset('assets/employee-preparing-resume.json'),
+                                      SizedBox(height: 50),
+                                      Text('Vamos cadastrar seu primeiro colaborador?',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 25,
+                                            color: AppController.instance.corLetras,
+                                            fontFamily: 'Caprasimo'
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Container(
+                                        height: 220,
+                                          child: Lottie.asset('assets/right-arrow.json')),
+
+                                    ],
+                                    ),
                           ),
                   ),
+                ),
                 ),
               );
             },

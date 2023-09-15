@@ -68,3 +68,6 @@ flutter:
     - family: Roboto
       fonts:
         - asset: fonts/Roboto-Light.ttf
+    - family: Caprasimo
+      fonts:
+        - asset: fonts/Caprasimo-Regular.ttf
