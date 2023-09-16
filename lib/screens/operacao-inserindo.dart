@@ -8,7 +8,7 @@ import '../dtos/objetos/obj-venda-e-servico.dart';
 import '../utilitarios/moeda_formatador.dart';
 import '../utilitarios/utils.dart';
 import '../utilitarios/widgetsGlobais.dart';
-import 'operacao-escolhendo-produto.dart';
+import 'operacao_escolhendo_produto_servico.dart';
 
 class InserindoProduto extends StatefulWidget {
   final String produtoOuServico;
@@ -471,7 +471,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
   Future<void> retornoDaInformacao(BuildContext context) async {
     produtoDto =  await Navigator.push(
        context,
-       MaterialPageRoute(builder: (context) => EscolhaOProduto(widget.produtoOuServico)),
+       MaterialPageRoute(builder: (context) => EscolhaProdutoOuServico(widget.produtoOuServico)),
      );
     setState(() {
       jaTemUmProduto =true;

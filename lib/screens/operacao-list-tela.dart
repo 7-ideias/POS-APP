@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:pos_app/controller/operacao-controller.dart';
@@ -6,6 +7,7 @@ import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:pos_app/utilitarios/texto_ajuda.dart';
 import '../app/page/report_pdf.dart';
+import '../controller/app_controller.dart';
 import '../utilitarios/utils.dart';
 import '../utilitarios/widgetsGlobais.dart';
 
@@ -22,10 +24,18 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   bool mostrarTudo = false;
   double soma = 0.00;
   int qtOperacoes = 0;
-  int? _value = 1;
+  int? _posicaoDaData = 1;
+  int? _posicaoDoRecebimento = 1;
   String texto = '';
-  int filtro = 1;
+
+  DateTime dataFiltroInicio = DateTime.now();
+  DateTime dataFiltroFim = DateTime.now();
+
+  String filtroDeDataDeOperacao = 'todos';
+  int numeroFiltroDeDataDeOperacao = 2;
+  String filtroDeRecebimento = 'todos';
   String resumoDaData='';
+
 
   late OperacoesDoBackEnd operacoesBackEnd;
 
@@ -35,7 +45,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   @override
   void initState() {
     super.initState();
-    getOperacaoList(filtro);
+    getOperacaoList('todos');
   }
 
   @override
@@ -53,7 +63,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             backgroundColor: Colors.green,
             onPressed: () async {
               await Navigator.pushNamed(context, '/operacaoNova');
-              getOperacaoList(filtro);
+              getOperacaoList(filtroDeDataDeOperacao);
               mostrarTudo = !mostrarTudo;
             },
             label: Row(
@@ -104,7 +114,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
             height: 10,
           ),
           if(mostrarTudo == false)FloatingActionButton(onPressed: (){
-            getOperacaoList(filtro);
+            getOperacaoList(filtroDeDataDeOperacao);
           },child: Icon(Icons.refresh),)
         ],
       ),
@@ -183,20 +193,152 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                   ),
                   Wrap(
                     spacing: 5.0,
-                    children: List<Widget>.generate(2,(int index) {
-                      List<String> nomes = ['hoje', 'todos'];
+                    children: List<Widget>.generate(3,(int index) {
+                      List<String> nomes = ['hoje', 'filtrar data','todos'];
                       return ChoiceChip(
                           label:  Text(nomes[index]),
-                          selected: _value == index,
+                          selected: _posicaoDaData == index,
                           onSelected: (bool selected) {
                             setState(() {
-                              _value = selected ? index : 1;
-                              filtro = index;
-                              getOperacaoList(filtro);
+                              _posicaoDaData = selected ? index : 1;
+                              numeroFiltroDeDataDeOperacao = index;
+                              if(index==0){
+                                filtroDeDataDeOperacao = 'hoje';
+                              }else if(index==1){
+                                filtroDeDataDeOperacao = 'filtrar';
+                              }else{
+                                filtroDeDataDeOperacao = 'todos';
+                              }
+                              getOperacaoList(filtroDeDataDeOperacao);
                             });
                           },
                         );
                       },
+                    ).toList(),
+                  ),
+
+                  if(numeroFiltroDeDataDeOperacao==1)Text(filtroDeDataDeOperacao),
+
+                  if(numeroFiltroDeDataDeOperacao==1)Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text('data inicio'),
+                            GestureDetector(
+                              onTap: (){
+                                showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white
+                                      ),
+                                      height: 200,
+                                      child: CupertinoDatePicker(
+                                        mode: CupertinoDatePickerMode.date,
+                                        onDateTimeChanged: (DateTime newDate) {
+                                          setState(() {
+                                            dataFiltroInicio = newDate;
+                                            getOperacaoList('filtrar');
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.date_range),
+                                  SizedBox(width: 10,),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: AppController.instance.buildThemeData().focusColor,
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Text(Utils.exibicaoDeData(dataFiltroInicio),
+                                        style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text('ate'),
+                            GestureDetector(
+                              onTap: (){
+                                showCupertinoModalPopup(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white
+                                      ),
+                                      height: 200,
+                                      child: CupertinoDatePicker(
+                                        mode: CupertinoDatePickerMode.date,
+                                        onDateTimeChanged: (DateTime newDate) {
+                                          setState(() {
+                                            dataFiltroFim = newDate;
+                                            getOperacaoList('filtrar');
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Icon(Icons.date_range),
+                                  SizedBox(width: 10,),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: AppController.instance.buildThemeData().focusColor,
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Text(Utils.exibicaoDeData(dataFiltroFim),
+                                        style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
+
+                  Wrap(
+                    spacing: 5.0,
+                    children: List<Widget>.generate(3,(int index) {
+                      List<String> nomes = ['recebidas', 'não recebidas','todos'];
+                      return ChoiceChip(
+                        label:  Text(nomes[index]),
+                        selected: _posicaoDoRecebimento == index,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _posicaoDoRecebimento = selected ? index : 1;
+                            if(index==0){
+                              filtroDeRecebimento = 'recebidas';
+                            }else if(index==1){
+                              filtroDeRecebimento = 'naorecebidas';
+                            }else{
+                              filtroDeRecebimento = 'todos';
+                            }
+                            // getOperacaoList(filtro);
+                          });
+                        },
+                      );
+                    },
                     ).toList(),
                   ),
                 ],
@@ -382,7 +524,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
                       onPressed: () async {
                         Navigator.of(context).pop();
                         await OperacaoController().excluirOperacaoPorID(operacoesBackEnd.ops![index].id.toString());
-                        getOperacaoList(filtro);
+                        getOperacaoList(filtroDeDataDeOperacao);
                         },
                     ),
                   ],
@@ -395,7 +537,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
     );
   }
 
-  Future<void> getOperacaoList(int filtro) async {
+  Future<void> getOperacaoList(String hoje_filtrar_todos) async {
     setState(() {
       isLoading = true;
     });
@@ -404,12 +546,23 @@ class _OperacaoTelaState extends State<OperacaoTela> {
     operacoesBackEnd = VariaveisGlobais.operacoesBackEnd;
      operacoesBackEnd.ops = VariaveisGlobais.operacoesBackEnd.ops;
 
-    if(filtro==0){
+    if(hoje_filtrar_todos=='hoje'){
       operacoesBackEnd.ops = operacoesBackEnd.ops?.where((ops) =>
       Utils.converterData(ops.objInformacoesDoCadastro!.dataCadastro.toString()) ==
           Utils.converterData(DateTime.now().toString())).toList();
       print( Utils.converterData(DateTime.now().toString()));
-    }else{
+    }if(hoje_filtrar_todos=='filtrar'){
+      operacoesBackEnd.ops = operacoesBackEnd.ops
+          ?.where((ops) {
+        DateTime dataCadastro = DateTime.parse(ops.objInformacoesDoCadastro!.dataCadastro.toString());
+        DateTime ontem = DateTime.parse(dataFiltroInicio.toString());
+        DateTime amanha = DateTime.parse(dataFiltroFim.toString());
+        return dataCadastro.isAfter(ontem) && dataCadastro.isBefore(amanha);
+      })
+          .toList();
+      print(Utils.converterData(DateTime.now().toString()));
+    }
+    else{
       operacoesBackEnd.ops = VariaveisGlobais.operacoesBackEnd.ops;
     }
 

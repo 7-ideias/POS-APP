@@ -54,3 +54,38 @@ class ObjVendaEServico {
     return data;
   }
 }
+
+class ObjVendaEServicoFormatoString {
+  String? codigoDeBarras;
+  String? descricaoProduto;
+  String? qt;
+  String? vlUnitario;
+  String? vlTotal;
+
+  ObjVendaEServicoFormatoString(
+      {
+        this.codigoDeBarras,
+        this.descricaoProduto,
+        this.qt,
+        this.vlUnitario,
+        this.vlTotal,
+      });
+
+  ObjVendaEServicoFormatoString.fromJson(Map<String, dynamic> json) {
+     codigoDeBarras = json['codigoDeBarras'];
+    descricaoProduto = json['descricaoProduto'];
+    qt = json['qt'];
+    vlUnitario = json['vlUnitario'];
+    vlTotal = json['vlTotal'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['codigoDeBarras'] = this.codigoDeBarras;
+    data['descricaoProduto'] = this.descricaoProduto;
+    data['qt'] = this.qt;
+    data['vlUnitario'] = this.vlUnitario;
+    data['vlTotal'] = this.vlTotal;
+    return data;
+  }
+}
