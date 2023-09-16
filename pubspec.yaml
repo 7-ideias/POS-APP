@@ -37,6 +37,7 @@ dependencies:
   image_picker: ^1.0.4
   get: ^4.6.5
   flutter_image_compress: ^2.0.4
+  validatorless: ^1.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

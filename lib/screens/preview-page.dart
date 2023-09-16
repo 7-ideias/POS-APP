@@ -20,40 +20,6 @@ class PreviewPage extends StatelessWidget {
     print('MB: $sizeInMB');
   }
 
-  // Future <void> comprimirImagem() async {
-  //   if(file == null) return null;
-  //   XFile? imagemComprimida = await FlutterImageCompress.compressAndGetFile(
-  //     file.path,
-  //     file.path + '_comprimida.jpg',
-  //     quality: 10,
-  //   );
-  //
-  // }
-
-  // Future<void> verificarTamanhoArquivoComprimido() async {
-  //   if (file == null) return;
-  //
-  //   String caminhoImagemOriginal = file.path;
-  //   int tamanhoOriginal = await File(caminhoImagemOriginal).length();
-  //
-  //   XFile? imagemComprimida = await FlutterImageCompress.compressAndGetFile(
-  //     caminhoImagemOriginal,
-  //     caminhoImagemOriginal + '_comprimida.jpg',
-  //     quality: 10,
-  //   );
-  //
-  //   if (imagemComprimida == null) return;
-  //
-  //   String caminhoImagemComprimida = imagemComprimida.path;
-  //   int tamanhoComprimido = await File(caminhoImagemComprimida).length();
-  //
-  //   int diferencaTamanho = tamanhoOriginal - tamanhoComprimido;
-  //
-  //   print('Tamanho original do arquivo: $tamanhoOriginal bytes');
-  //   print('Tamanho do arquivo comprimido: $tamanhoComprimido bytes');
-  //   print('Diferença de tamanho: $diferencaTamanho bytes');
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,17 +51,7 @@ class PreviewPage extends StatelessWidget {
                               size: 30,
                             ),
                             onPressed: () {
-                              printFileSize(file);
-                              // comprimirImagem();
-                              // print('================================================');
-                              // verificarTamanhoArquivoComprimido();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NovoColaborador(file: file),
-                                ),
-                              );
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => NovoColaborador(file: file),));
                             },
                           ),
                         ),
