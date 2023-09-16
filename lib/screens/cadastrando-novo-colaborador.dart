@@ -194,385 +194,397 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                     )),
               ],
             ),
-            Container(
-              color: AppController.instance.corTelaAcima,
-              child: Padding(
-                padding:
-                const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
-                child: Card(
-                  child: Container(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.79,
-                    color: AppController.instance.corPrincipal,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            validator: Validatorless.multiple([
-                              Validatorless.required('Nome é obrigatório'),
-                              Validatorless.min(3,
-                                  'Um nome deve conter 3 caracteres no minimo'),
-                            ]),
-                            controller: nomeController,
-                            decoration: InputDecoration(
-                                label: Text('Nome'),
-                                labelStyle: TextStyle(
-                                    color: AppController.instance.corLetras,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 0.5)),
-                                suffixIcon: Icon(
-                                  Icons.person,
-                                  color: AppController.instance.corTelaAcima,
-                                )),
-                          ),
-                        ), //nome
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            validator: Validatorless.multiple([
-                              Validatorless.required('Email é obrigatório'),
-                              Validatorless.email(
-                                  'Email inválido'),
-                            ]),
-                            keyboardType: TextInputType.emailAddress,
-                            controller: emailController,
-                            decoration: InputDecoration(
-                                label: Text('Email'),
-                                labelStyle: TextStyle(
-                                    color: AppController.instance.corLetras,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 0.5)),
-                                suffixIcon: Icon(
-                                  Icons.email,
-                                  color: AppController.instance.corTelaAcima,
-                                )),
-                          ),
-                        ), //email
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: TextFormField(
-                            validator: Validatorless.multiple([
-                              Validatorless.required('Telefone de acesso é obrigatório'),
-                              Validatorless.number(
-                                  'Insira somente numeros'),
-                            ]),
-                            keyboardType: TextInputType.phone,
-                            controller: telController,
-                            decoration: InputDecoration(
-                                label: Text('Telefone de acesso'),
-                                labelStyle: TextStyle(
-                                    color: AppController.instance.corLetras,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(width: 0.5)),
-                                suffixIcon: Icon(
-                                  Icons.phone,
-                                  color: AppController.instance.corTelaAcima,
-                                )),
-                          ),
-                        ), //telefone
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  validator: Validatorless.multiple([
-                                    Validatorless.required('RG é obrigatório'),
-                                    Validatorless.min(9,
-                                        'RG deve conter 9 caracteres'),
-                                  ]),
-                                  keyboardType: TextInputType.number,
-                                  controller: rgController,
-                                  decoration: InputDecoration(
-                                      label: Text('RG'),
-                                      labelStyle: TextStyle(
-                                          color: AppController.instance
-                                              .corLetras,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w300),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 0.5)),
-                                      suffixIcon: Icon(
-                                        Icons.account_box_outlined,
-                                        color:
-                                        AppController.instance.corTelaAcima,
-                                      )),
-                                ),
-                              ),
+            Expanded(
+              child: Container(
+                color: AppController.instance.corTelaAcima,
+                child: Padding(
+                  padding:
+                  const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12.0),
+                  child: Card(
+                    child: Container(
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.79,
+                      color: AppController.instance.corPrincipal,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              validator: Validatorless.multiple([
+                                Validatorless.required('Nome é obrigatório'),
+                                Validatorless.min(3,
+                                    'Um nome deve conter 3 caracteres no minimo'),
+                              ]),
+                              controller: nomeController,
+                              decoration: InputDecoration(
+                                  label: Text('Nome'),
+                                  labelStyle: TextStyle(
+                                      color: AppController.instance.corLetras,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 0.5)),
+                                  suffixIcon: Icon(
+                                    Icons.person,
+                                    color: AppController.instance.corTelaAcima,
+                                  )),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  validator: Validatorless.multiple([
-                                    Validatorless.required('CPF é obrigatório'),
-                                    Validatorless.cpf(
-                                        'CPF inválido'),
-                                  ]),
-                                  keyboardType: TextInputType.number,
-                                  controller: cpfController,
-                                  decoration: InputDecoration(
-                                      label: Text('CPF'),
-                                      labelStyle: TextStyle(
-                                          color: AppController.instance
-                                              .corLetras,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w300),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(width: 0.5)),
-                                      suffixIcon: Icon(
-                                        Icons.people_alt_outlined,
-                                        color:
-                                        AppController.instance.corTelaAcima,
-                                      )),
-                                ),
-                              ),
+                          ), //nome
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              validator: Validatorless.multiple([
+                                Validatorless.required('Email é obrigatório'),
+                                Validatorless.email(
+                                    'Email inválido'),
+                              ]),
+                              keyboardType: TextInputType.emailAddress,
+                              controller: emailController,
+                              decoration: InputDecoration(
+                                  label: Text('Email'),
+                                  labelStyle: TextStyle(
+                                      color: AppController.instance.corLetras,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 0.5)),
+                                  suffixIcon: Icon(
+                                    Icons.email,
+                                    color: AppController.instance.corTelaAcima,
+                                  )),
                             ),
-                          ],
-                        ), //rg e cpf
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5, style: BorderStyle.solid)),
-                            child: CupertinoButton(
-                              onPressed: () =>
-                                  _showDialog(
-                                    CupertinoDatePicker(
-                                      dateOrder: DatePickerDateOrder.dmy,
-                                      initialDateTime: date,
-                                      mode: CupertinoDatePickerMode.date,
-                                      use24hFormat: true,
-                                      showDayOfWeek: true,
-                                      onDateTimeChanged: (DateTime newDate) {
-                                        setState(
-                                              () => date = newDate,
-                                        );
-                                      },
-                                    ),
+                          ), //email
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              validator: Validatorless.multiple([
+                                Validatorless.required('Telefone de acesso é obrigatório'),
+                                Validatorless.number(
+                                    'Insira somente numeros'),
+                              ]),
+                              keyboardType: TextInputType.phone,
+                              controller: telController,
+                              decoration: InputDecoration(
+                                  label: Text('Telefone de acesso'),
+                                  labelStyle: TextStyle(
+                                      color: AppController.instance.corLetras,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300),
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(width: 0.5)),
+                                  suffixIcon: Icon(
+                                    Icons.phone,
+                                    color: AppController.instance.corTelaAcima,
+                                  )),
+                            ),
+                          ), //telefone
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    validator: Validatorless.multiple([
+                                      Validatorless.required('RG é obrigatório'),
+                                      Validatorless.min(9,
+                                          'RG deve conter 9 caracteres'),
+                                    ]),
+                                    keyboardType: TextInputType.number,
+                                    controller: rgController,
+                                    decoration: InputDecoration(
+                                        label: Text('RG'),
+                                        labelStyle: TextStyle(
+                                            color: AppController.instance
+                                                .corLetras,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 0.5)),
+                                        suffixIcon: Icon(
+                                          Icons.account_box_outlined,
+                                          color:
+                                          AppController.instance.corTelaAcima,
+                                        )),
                                   ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .spaceBetween,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    validator: Validatorless.multiple([
+                                      Validatorless.required('CPF é obrigatório'),
+                                      Validatorless.cpf(
+                                          'CPF inválido'),
+                                    ]),
+                                    keyboardType: TextInputType.number,
+                                    controller: cpfController,
+                                    decoration: InputDecoration(
+                                        label: Text('CPF'),
+                                        labelStyle: TextStyle(
+                                            color: AppController.instance
+                                                .corLetras,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                        border: OutlineInputBorder(
+                                            borderSide: BorderSide(width: 0.5)),
+                                        suffixIcon: Icon(
+                                          Icons.people_alt_outlined,
+                                          color:
+                                          AppController.instance.corTelaAcima,
+                                        )),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ), //rg e cpf
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.5, style: BorderStyle.solid)),
+                              child: CupertinoButton(
+                                onPressed: () =>
+                                    _showDialog(
+                                      CupertinoDatePicker(
+                                        dateOrder: DatePickerDateOrder.dmy,
+                                        initialDateTime: date,
+                                        mode: CupertinoDatePickerMode.date,
+                                        use24hFormat: true,
+                                        showDayOfWeek: true,
+                                        onDateTimeChanged: (DateTime newDate) {
+                                          setState(
+                                                () => date = newDate,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                child: Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: [
+                                      Text(
+                                          style: TextStyle(
+                                              color: AppController.instance
+                                                  .corLetras,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w300),
+                                          'Data de nascimento'),
+                                      Text(
+                                        '${date.day}/${date.month}/${date.year}',
+                                        style: TextStyle(
+                                            color: AppController.instance.corLetras,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ), // data nascimento
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '———Dados endereço———',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      color: AppController.instance.corLetras,
+                                      fontSize: 20),
+                                ),
+                              )
+                            ],
+                          ), //'---dados endereco---'
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8.0, bottom: 8.0),
+                              child: Column(
                                 children: [
-                                  Text(
-                                      style: TextStyle(
-                                          color: AppController.instance
-                                              .corLetras,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w300),
-                                      'Data de nascimento'),
-                                  Text(
-                                    '${date.day}/${date.month}/${date.year}',
-                                    style: TextStyle(
-                                        color: AppController.instance.corLetras,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w300),
+                                  Expanded(
+                                    child: Card(
+                                      color: AppController.instance.corTelaAcima,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: TextFormField(
+                                                validator: Validatorless.multiple([
+                                                  Validatorless.required('CEP é obrigatório'),
+                                                  Validatorless.min(8,
+                                                      'Um cep deve conter 8 caracteres no minímo'),
+                                                ]),
+                                                controller: cepController,
+                                                keyboardType: TextInputType.number,
+                                                decoration: InputDecoration(
+                                                    label: Text('CEP'),
+                                                    labelStyle: TextStyle(
+                                                        color: AppController
+                                                            .instance.corLetras,
+                                                        fontSize: 20,
+                                                        fontWeight: FontWeight
+                                                            .w300),
+                                                    border: OutlineInputBorder(
+                                                        borderSide:
+                                                        BorderSide(width: 0.5)),
+                                                    suffixIcon: Icon(
+                                                      Icons.home,
+                                                      color: AppController
+                                                          .instance.corPrincipal,
+                                                    )),
+                                              ),
+                                            ), // cep
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0, bottom: 8.0),
+                                                child: TextFormField(
+                                                  validator:  Validatorless.required('Endereço é obrigatório'),
+                                                  controller: enderecoController,
+                                                  keyboardType:
+                                                  TextInputType.datetime,
+                                                  decoration: InputDecoration(
+                                                      label: Text('Endereço'),
+                                                      labelStyle: TextStyle(
+                                                          color: AppController
+                                                              .instance.corLetras,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.w300),
+                                                      border: OutlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(width: 0.5)),
+                                                      suffixIcon: Icon(
+                                                        Icons.home,
+                                                        color: AppController
+                                                            .instance.corPrincipal,
+                                                      )),
+                                                ),
+                                              ),
+                                            ), // endereco
+                                            Expanded(
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .only(
+                                                          right: 4.0),
+                                                      child: TextFormField(
+                                                        validator:  Validatorless.required('Bairro é obrigatório'),
+                                                        controller: bairroController,
+                                                        decoration: InputDecoration(
+                                                            label: Text('Bairro'),
+                                                            labelStyle: TextStyle(
+                                                                color: AppController
+                                                                    .instance
+                                                                    .corLetras,
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight
+                                                                    .w300),
+                                                            border:
+                                                            OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    width:
+                                                                    0.5)),
+                                                            suffixIcon: Icon(
+                                                              Icons
+                                                                  .account_box_outlined,
+                                                              color: AppController
+                                                                  .instance
+                                                                  .corTelaAcima,
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets
+                                                          .only(
+                                                          left: 4.0),
+                                                      child: TextFormField(
+                                                        validator: Validatorless.multiple([
+                                                          Validatorless.required('UF é obrigatório'),
+                                                          Validatorless.min(2,
+                                                              'UF deve conter no mínimo duas letras'),
+                                                          Validatorless.max(2, 'UF deve conter no máximo duas letras'),
+                                                          Validatorless.onlyCharacters('UF é composto somente por letras')
+                                                        ]),
+                                                        controller: ufController,
+                                                        decoration: InputDecoration(
+                                                            label: Text('UF'),
+                                                            labelStyle: TextStyle(
+                                                                color: AppController
+                                                                    .instance
+                                                                    .corLetras,
+                                                                fontSize: 20,
+                                                                fontWeight: FontWeight
+                                                                    .w300),
+                                                            border:
+                                                            OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    width:
+                                                                    0.5)),
+                                                            suffixIcon: Icon(
+                                                              Icons
+                                                                  .people_alt_outlined,
+                                                              color: AppController
+                                                                  .instance
+                                                                  .corTelaAcima,
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0, bottom: 8.0),
+                                                child: TextFormField(
+                                                  controller: complementoController,
+                                                  keyboardType:
+                                                  TextInputType.datetime,
+                                                  decoration: InputDecoration(
+                                                      label: Text('Complemento'),
+                                                      labelStyle: TextStyle(
+                                                          color: AppController
+                                                              .instance.corLetras,
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                          FontWeight.w300),
+                                                      border: OutlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(width: 0.5)),
+                                                      suffixIcon: Icon(
+                                                        Icons.home,
+                                                        color: AppController
+                                                            .instance.corPrincipal,
+                                                      )),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ), // data nascimento
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '———Dados endereço———',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: AppController.instance.corLetras,
-                                    fontSize: 20),
-                              ),
-                            )
-                          ],
-                        ), //'---dados endereco---'
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, right: 8.0, bottom: 8.0),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Card(
-                                    color: AppController.instance.corTelaAcima,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Column(
-                                        children: [
-                                          TextFormField(
-                                            validator: Validatorless.multiple([
-                                              Validatorless.required('CEP é obrigatório'),
-                                              Validatorless.min(8,
-                                                  'Um cep deve conter 8 caracteres no minímo'),
-                                            ]),
-                                            controller: cepController,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                label: Text('CEP'),
-                                                labelStyle: TextStyle(
-                                                    color: AppController
-                                                        .instance.corLetras,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight
-                                                        .w300),
-                                                border: OutlineInputBorder(
-                                                    borderSide:
-                                                    BorderSide(width: 0.5)),
-                                                suffixIcon: Icon(
-                                                  Icons.home,
-                                                  color: AppController
-                                                      .instance.corPrincipal,
-                                                )),
-                                          ), // cep
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, bottom: 8.0),
-                                            child: TextFormField(
-                                              validator:  Validatorless.required('Endereço é obrigatório'),
-                                              controller: enderecoController,
-                                              keyboardType:
-                                              TextInputType.datetime,
-                                              decoration: InputDecoration(
-                                                  label: Text('Endereço'),
-                                                  labelStyle: TextStyle(
-                                                      color: AppController
-                                                          .instance.corLetras,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                      FontWeight.w300),
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(width: 0.5)),
-                                                  suffixIcon: Icon(
-                                                    Icons.home,
-                                                    color: AppController
-                                                        .instance.corPrincipal,
-                                                  )),
-                                            ),
-                                          ), // endereco
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      right: 4.0),
-                                                  child: TextFormField(
-                                                    validator:  Validatorless.required('Bairro é obrigatório'),
-                                                    controller: bairroController,
-                                                    decoration: InputDecoration(
-                                                        label: Text('Bairro'),
-                                                        labelStyle: TextStyle(
-                                                            color: AppController
-                                                                .instance
-                                                                .corLetras,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w300),
-                                                        border:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(
-                                                                width:
-                                                                0.5)),
-                                                        suffixIcon: Icon(
-                                                          Icons
-                                                              .account_box_outlined,
-                                                          color: AppController
-                                                              .instance
-                                                              .corTelaAcima,
-                                                        )),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .only(
-                                                      left: 4.0),
-                                                  child: TextFormField(
-                                                    validator: Validatorless.multiple([
-                                                      Validatorless.required('UF é obrigatório'),
-                                                      Validatorless.min(2,
-                                                          'UF deve conter no mínimo duas letras'),
-                                                      Validatorless.max(2, 'UF deve conter no máximo duas letras'),
-                                                      Validatorless.onlyCharacters('UF é composto somente por letras')
-                                                    ]),
-                                                    controller: ufController,
-                                                    decoration: InputDecoration(
-                                                        label: Text('UF'),
-                                                        labelStyle: TextStyle(
-                                                            color: AppController
-                                                                .instance
-                                                                .corLetras,
-                                                            fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w300),
-                                                        border:
-                                                        OutlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(
-                                                                width:
-                                                                0.5)),
-                                                        suffixIcon: Icon(
-                                                          Icons
-                                                              .people_alt_outlined,
-                                                          color: AppController
-                                                              .instance
-                                                              .corTelaAcima,
-                                                        )),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, bottom: 8.0),
-                                            child: TextFormField(
-                                              controller: complementoController,
-                                              keyboardType:
-                                              TextInputType.datetime,
-                                              decoration: InputDecoration(
-                                                  label: Text('Complemento'),
-                                                  labelStyle: TextStyle(
-                                                      color: AppController
-                                                          .instance.corLetras,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                      FontWeight.w300),
-                                                  border: OutlineInputBorder(
-                                                      borderSide:
-                                                      BorderSide(width: 0.5)),
-                                                  suffixIcon: Icon(
-                                                    Icons.home,
-                                                    color: AppController
-                                                        .instance.corPrincipal,
-                                                  )),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ), //CEP
-                      ],
+                          ), //CEP
+                        ],
+                      ),
                     ),
                   ),
                 ),
