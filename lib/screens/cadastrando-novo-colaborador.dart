@@ -219,6 +219,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                               ]),
                               controller: nomeController,
                               decoration: InputDecoration(
+                                errorStyle: TextStyle(
+                                  color: AppController.instance.corLetras,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
                                   label: Text('Nome'),
                                   labelStyle: TextStyle(
                                       color: AppController.instance.corLetras,
@@ -243,6 +248,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                               keyboardType: TextInputType.emailAddress,
                               controller: emailController,
                               decoration: InputDecoration(
+                                  errorStyle: TextStyle(
+                                    color: AppController.instance.corLetras,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                   label: Text('Email'),
                                   labelStyle: TextStyle(
                                       color: AppController.instance.corLetras,
@@ -267,6 +277,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                               keyboardType: TextInputType.phone,
                               controller: telController,
                               decoration: InputDecoration(
+                                  errorStyle: TextStyle(
+                                    color: AppController.instance.corLetras,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                   label: Text('Telefone de acesso'),
                                   labelStyle: TextStyle(
                                       color: AppController.instance.corLetras,
@@ -286,14 +301,16 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextFormField(
-                                    validator: Validatorless.multiple([
-                                      Validatorless.required('RG é obrigatório'),
-                                      Validatorless.min(9,
-                                          'RG deve conter 9 caracteres'),
-                                    ]),
+                                    validator: Validatorless.min(9,
+                                        'RG deve conter 9 caracteres'),
                                     keyboardType: TextInputType.number,
                                     controller: rgController,
                                     decoration: InputDecoration(
+                                        errorStyle: TextStyle(
+                                          color: AppController.instance.corLetras,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                         label: Text('RG'),
                                         labelStyle: TextStyle(
                                             color: AppController.instance
@@ -322,6 +339,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                     keyboardType: TextInputType.number,
                                     controller: cpfController,
                                     decoration: InputDecoration(
+                                        errorStyle: TextStyle(
+                                          color: AppController.instance.corLetras,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                         label: Text('CPF'),
                                         labelStyle: TextStyle(
                                             color: AppController.instance
@@ -391,7 +413,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '———Dados endereço———',
+                                  '⎯⎯Dados endereço⎯⎯',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w300,
@@ -424,6 +446,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                                 controller: cepController,
                                                 keyboardType: TextInputType.number,
                                                 decoration: InputDecoration(
+                                                    errorStyle: TextStyle(
+                                                      color: AppController.instance.corLetras,
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
                                                     label: Text('CEP'),
                                                     labelStyle: TextStyle(
                                                         color: AppController
@@ -451,6 +478,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                                   keyboardType:
                                                   TextInputType.datetime,
                                                   decoration: InputDecoration(
+                                                      errorStyle: TextStyle(
+                                                        color: AppController.instance.corLetras,
+                                                        fontSize: 13,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
                                                       label: Text('Endereço'),
                                                       labelStyle: TextStyle(
                                                           color: AppController
@@ -481,6 +513,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                                         validator:  Validatorless.required('Bairro é obrigatório'),
                                                         controller: bairroController,
                                                         decoration: InputDecoration(
+                                                            errorStyle: TextStyle(
+                                                              color: AppController.instance.corLetras,
+                                                              fontSize: 13,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
                                                             label: Text('Bairro'),
                                                             labelStyle: TextStyle(
                                                                 color: AppController
@@ -520,6 +557,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                                                         ]),
                                                         controller: ufController,
                                                         decoration: InputDecoration(
+                                                            errorStyle: TextStyle(
+                                                              color: AppController.instance.corLetras,
+                                                              fontSize: 13,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
                                                             label: Text('UF'),
                                                             labelStyle: TextStyle(
                                                                 color: AppController
