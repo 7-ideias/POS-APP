@@ -89,7 +89,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                   children: [
                     Container(
                       height: 50,
-                      width: 200,
+                      width: 250,
                       child: TextFormField(
                         onChanged: (valor){
                           _novo = TextEditingController(text: valor);
@@ -98,7 +98,23 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                         controller: _codigoProduto,
                         keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
-                        decoration: UtilsWidgets.buildInputDecoration('código',''),
+                        decoration: InputDecoration(
+                          prefixIcon:  GestureDetector(
+                              onTap: (){
+                                retornoDaInformacao(context);
+                              },
+                              child: Icon(Icons.search)),
+                          suffixIcon: _codigoProduto.text.isNotEmpty ? GestureDetector(
+                              onTap: (){
+                                setState(() {
+                                _codigoProduto.clear();
+                                _isAcheiProduto = false;
+                                });
+                              },
+                              child: Icon(Icons.clear)):Container(),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                          labelText: 'código',
+                        ),
                       ),
                     ),
 
@@ -118,7 +134,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                           child: Icon(Icons.search,size: 50,),)),
 
                     // leitor de codigo
-                    GestureDetector(
+                    if(widget.produtoOuServico=='PRODUTO')GestureDetector(
                         onTap: (){
                           scan();
                         },
@@ -135,7 +151,6 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     ),
                     child: Column(
                       children: [
-                        Text('encontrei o produto',style: TextStyle(fontSize: 22)),
                         Text(_acheiProduto.text,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
                       ],
                     )),
@@ -328,7 +343,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                 // SizedBox(height: 16.0),
 
                 //estoque
-                if(jaTemUmProduto == true)  Row(
+                if(jaTemUmProduto == true && widget.produtoOuServico == 'PRODUTO')  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
@@ -386,7 +401,7 @@ class _InserindoProdutoState extends State<InserindoProduto> {
                     });
                   },
                   child: UtilsWidgets.botaoMaster(context, AppController.instance.botaoConfirmar,
-                      'confirmar o produto?'),
+                      'adicionar'),
                 ) : Container(),
 
                 //botao cancelar

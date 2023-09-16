@@ -51,8 +51,8 @@ class _OperacaoTelaState extends State<OperacaoTela> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Center(child: Text('Operações'),)),
-      floatingActionButton: Column(
+      appBar: isLoading == true?null:AppBar(title: Center(child: Text('Operações'),)),
+      floatingActionButton: isLoading == true?Container():Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -503,7 +503,7 @@ class _OperacaoTelaState extends State<OperacaoTela> {
       children: [
         SlidableAction(
           backgroundColor: Colors.red,
-          icon: Icons.clear,
+          icon: Icons.restore_from_trash,
           label: 'apagar',
           onPressed:  (context) {
             showDialog(
@@ -555,9 +555,10 @@ class _OperacaoTelaState extends State<OperacaoTela> {
       operacoesBackEnd.ops = operacoesBackEnd.ops
           ?.where((ops) {
         DateTime dataCadastro = DateTime.parse(ops.objInformacoesDoCadastro!.dataCadastro.toString());
-        DateTime ontem = DateTime.parse(dataFiltroInicio.toString());
-        DateTime amanha = DateTime.parse(dataFiltroFim.toString());
-        return dataCadastro.isAfter(ontem) && dataCadastro.isBefore(amanha);
+        DateTime inicio = DateTime.parse(dataFiltroInicio.toString());
+        DateTime fim = DateTime.parse(dataFiltroFim.toString());
+        return dataCadastro.isAfter(inicio.subtract(const Duration(days: 1))) &&
+            dataCadastro.isBefore(fim.add(const Duration(days: 1)));
       })
           .toList();
       print(Utils.converterData(DateTime.now().toString()));
