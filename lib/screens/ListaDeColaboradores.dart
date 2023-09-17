@@ -229,9 +229,16 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
-                                      Container(
-                                        height: 220,
-                                          child: Lottie.asset('assets/right-arrow.json')),
+                                      SizedBox(
+                                        height: 150,
+                                          child: Transform.rotate(
+                                            angle: 1.2,
+                                            child: Image.asset('assets/curved-up-arrow-2.png',
+                                              color: Colors.white,
+                                              width: 150,
+
+                                            ),
+                                          ),),
 
                                     ],
                                     ),
