@@ -26,6 +26,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
 
    ColaboradoresList? colaboradoresList;
 
+
   @override
   void initState() {
     super.initState();
@@ -108,8 +109,11 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
           opacity: mostrarOpcoes == true ? 0.1 : 1,
           duration: Duration(milliseconds: 50),
           child: ListView.builder(
-            itemCount:  1,
+            itemCount:  colaboradoresList?.colaboradoresList?.length,
             itemBuilder: (context, index) {
+              String isoText = colaboradoresList!.colaboradoresList![index].objPessoa?.nome ?? '';
+              List<int> bytes = Latin1Codec().encode(isoText);
+              String utfText = utf8.decode(bytes);
               return GestureDetector(
                 onTap: () {
                   setState(() {
@@ -135,14 +139,8 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                     child: Column(
                                       children: [
                                         Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              1,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.2,
+                                          width: MediaQuery.of(context).size.width * 1,
+                                          height: MediaQuery.of(context).size.height * 0.2,
                                           decoration: BoxDecoration(
                                             border: Border.all(
                                                 width: 2, color: Colors.white),
@@ -156,43 +154,50 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                                 backgroundColor: Colors.white,
                                                 radius: 60,
                                               ),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text('Colaborador: ${colaboradoresList!.colaboradoresList![index].objPessoa?.nome}',
-                                                      style: TextStyle(
-                                                        color: AppController.instance.corLetras,
-                                                        fontSize: 20,
-                                                        fontWeight: FontWeight.w700,
-                                                      ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text('Tel: ${colaboradoresList!.colaboradoresList![index].objPessoa?.celular}',
-                                                        style: TextStyle(
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text( utfText,
+                                                          style: TextStyle(
                                                           color: AppController.instance.corLetras,
                                                           fontSize: 20,
                                                           fontWeight: FontWeight.w700,
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text('Email: ${colaboradoresList!.colaboradoresList![index].objPessoa?.email}',
-                                                        style: TextStyle(
-                                                          color: AppController.instance.corLetras,
-                                                          fontSize: 20,
-                                                          fontWeight: FontWeight.w700,
+                                                          textAlign: TextAlign.left,
                                                         ),
+                                                      ],
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Text('Tel: ${colaboradoresList!.colaboradoresList![index].objPessoa?.celular}',
+                                                            style: TextStyle(
+                                                              color: AppController.instance.corLetras,
+                                                              fontSize: 15,
+                                                              fontWeight: FontWeight.w700,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: [
+                                                        Text('Email: ${colaboradoresList!.colaboradoresList![index].objPessoa?.email}',
+                                                          style: TextStyle(
+                                                            color: AppController.instance.corLetras,
+                                                            fontSize: 15,
+                                                            fontWeight: FontWeight.w700,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
