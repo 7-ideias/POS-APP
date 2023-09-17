@@ -123,7 +123,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 child: Container(
                   color: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: isLoading
                         ? Center(
                             child: CircularProgressIndicator(),
@@ -135,15 +135,19 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                     width:
                                         MediaQuery.of(context).size.width * 1,
                                     height: MediaQuery.of(context).size.height * 0.2,
-                                    color: AppController.instance.corTelaAcima,
+                                    decoration: BoxDecoration(
+                                      color: AppController.instance.corTelaAcima,
+                                      // borderRadius: BorderRadius.circular(50),
+                                    ),
                                     child: Column(
                                       children: [
                                         Container(
                                           width: MediaQuery.of(context).size.width * 1,
                                           height: MediaQuery.of(context).size.height * 0.2,
                                           decoration: BoxDecoration(
+                                            // borderRadius: BorderRadius.circular(50),
                                             border: Border.all(
-                                                width: 2, color: Colors.white),
+                                                width: 1, color: Colors.white),
                                           ),
                                           child: Row(
                                             children: [
@@ -159,6 +163,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                   children: [
                                                     Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
                                                         Text( utfText,
                                                           style: TextStyle(
@@ -168,6 +173,8 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                                         ),
                                                           textAlign: TextAlign.left,
                                                         ),
+                                                        IconButton(onPressed: () => (), icon: Icon(Icons.edit,
+                                                        color: AppController.instance.corPrincipal),),
                                                       ],
                                                     ),
                                                     Padding(
