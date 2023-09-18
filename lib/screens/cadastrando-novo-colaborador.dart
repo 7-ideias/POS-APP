@@ -158,22 +158,22 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                         .size
                         .height * 0.11,
                     child: widget.file.path.isNotEmpty
-                        ? Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      width: 150,
-                      height: 150,
-                      child: GestureDetector(
-                        onTap: () =>
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return buildJanelinhaQueSobe(context);
-                                }),
-                      ),
-                    )
+                            ? Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          width: 150,
+                          height: 150,
+                              child: GestureDetector(
+                               onTap: () =>
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return buildJanelinhaQueSobe(context);
+                                    }),
+                          ),
+                        )
                         : GestureDetector(
                       onTap: () =>
                           showModalBottomSheet(
@@ -210,7 +210,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 8.0,left: 8.0, right: 8.0,),
                             child: TextFormField(
                               validator: Validatorless.multiple([
                                 Validatorless.required('Nome é obrigatório'),
@@ -238,7 +238,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             ),
                           ), //nome
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 8.0,left: 8.0, right: 8.0,),
                             child: TextFormField(
                               validator: Validatorless.multiple([
                                 Validatorless.required('Email é obrigatório'),
@@ -267,7 +267,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             ),
                           ), //email
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 8.0,left: 8.0, right: 8.0,),
                             child: TextFormField(
                               validator: Validatorless.multiple([
                                 Validatorless.required('Telefone de acesso é obrigatório'),
@@ -299,7 +299,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0,),
                                   child: TextFormField(
                                     validator: Validatorless.min(9,
                                         'RG deve conter 9 caracteres'),
@@ -329,7 +329,7 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(top: 8.0,left: 8.0, right: 8.0,),
                                   child: TextFormField(
                                     validator: Validatorless.multiple([
                                       Validatorless.required('CPF é obrigatório'),
@@ -696,12 +696,14 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: AppController.instance.corLetras),
-                            'Colaborador pode cadastrar produto?'),
+                        Expanded(
+                          child: Text(
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppController.instance.corLetras),
+                              'Colaborador pode cadastrar produto?'),
+                        ),
                         Switch(
                           // This bool value toggles the switch.
                           value: cadastraProduto,
@@ -740,12 +742,14 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: AppController.instance.corLetras),
-                            'Colaborador pode editar um produto?'),
+                        Expanded(
+                          child: Text(
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppController.instance.corLetras),
+                              'Colaborador pode editar um produto?'),
+                        ),
                         Switch(
                           // This bool value toggles the switch.
                           value: editaProduto,
@@ -872,12 +876,14 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: AppController.instance.corLetras),
-                            'Colaborador pode ver quanto vendeu?'),
+                        Expanded(
+                          child: Text(
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppController.instance.corLetras),
+                              'Colaborador pode ver quanto vendeu?'),
+                        ),
                         Switch(
                           // This bool value toggles the switch.
                           value: veQuantoVendeu,
