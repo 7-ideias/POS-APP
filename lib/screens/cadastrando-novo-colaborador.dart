@@ -1105,8 +1105,14 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   }
 
   Future<void> fazerRequisicao() async {
-    List<int> imageBytes = await ComprimeArquivo();
-    foto = base64Encode(imageBytes);
+    try {
+      List<int> imageBytes = await ComprimeArquivo();
+      foto = base64Encode(imageBytes);
+      // Resto do código
+    } catch (e) {
+      // Trate a exceção 'CompressError' aqui
+      print('Ocorreu um erro ao comprimir o arquivo: $e');
+    }
 
     foto = foto;
     nome = nomeController.text;
