@@ -4,6 +4,7 @@ import 'obj-pessoa-dto.dart';
 import 'obj-dados-funcionais.dart';
 
 class ObjColaborador {
+  String? foto;
   String? id;
   bool? ativo;
   String? celularDeAcesso;
@@ -14,6 +15,7 @@ class ObjColaborador {
   ObjAutorizacoes? objAutorizacoes;
 
   ObjColaborador.fromJson(Map<String, dynamic> json) {
+    foto = json['foto'];
     id = json['id'];
     ativo = json['ativo'];
     celularDeAcesso = json['celularDeAcesso'];

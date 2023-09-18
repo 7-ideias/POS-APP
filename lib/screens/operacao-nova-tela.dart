@@ -28,8 +28,11 @@ class _OperacaoNovaState extends State<OperacaoNova> {
 
   List<ObjVendaEServico> objVendaEServicoList = [];
   DateTime dataDaOperacao = DateTime.now();
-  double somaValorTotal = 0.00;
-  double totalDeItens = 0.00;
+  double somaValorTotalProduto = 0.00;
+  double somaValorTotalServico = 0.00;
+  double somaValorTotalProdutoServico = 0.00;
+  double totalDeItensProduto = 0.00;
+  double totalDeItensServico = 0.00;
 
   bool _isLoading = false;
   bool confirmacaoDeSucessoNaAPI = false;
@@ -184,9 +187,6 @@ class _OperacaoNovaState extends State<OperacaoNova> {
           //adicionar novo
           if(mostrarOpcoesDoFloat==true)FloatingActionButton.extended(
             onPressed: () {
-              setState(() {
-                exibirContainerTransparente = false;
-              });
               atualizarProdutos('PRODUTO');
               retornaOsDadosDaTelaOperacaoInserindo(context,'PRODUTO');
             },
@@ -253,8 +253,9 @@ class _OperacaoNovaState extends State<OperacaoNova> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  // mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    //cliente
                     Row(
                       children: [
                         GestureDetector(
@@ -284,6 +285,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                       ],
                     ),
                     SizedBox(height: 10,),
+                    // data da operacao e total
                     Row(
                       children: [
                         GestureDetector(
@@ -319,22 +321,57 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                             children: [
                               Icon(Icons.date_range),
                               SizedBox(width: 10,),
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                    color: AppController.instance.buildThemeData().focusColor,
-                                    borderRadius: BorderRadius.circular(5)
-                                ),
-                                child: Text(Utils.exibicaoDeData(dataDaOperacao),
-                                  style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: AppController.instance.buildThemeData().focusColor,
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: Text(Utils.exibicaoDeData(dataDaOperacao),
+                                      style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold)),
+                                  ),
+                                  SizedBox(width: 10,),
+                                  Container(
+                                    // height: 50,
+                                    // width: 180,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: AppController.instance.buildThemeData().focusColor,
+                                        borderRadius: BorderRadius.circular(5)
+                                    ),
+                                    child: FittedBox(
+                                      child: Row(
+                                        children: [
+                                          Text('TOTAL.: '),
+                                          Text(
+                                            Utils.formataParaMoeda(somaValorTotalProdutoServico),
+                                            style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10,),
-                    Row(
+
+                    //produtos
+                    if(totalDeItensProduto>0)SizedBox(height: 5,),
+                    if(totalDeItensProduto>0)Divider(color: Colors.black),
+                    if(totalDeItensProduto>0)SizedBox(height: 5,),
+                    if(totalDeItensProduto>0)Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('PRODUTOS')
+                      ],),
+                    if(totalDeItensProduto>0)SizedBox(height: 5,),
+                    if(totalDeItensProduto>0)Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
@@ -347,7 +384,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                             children: [
                               Text('ITENS.: '),
                               Text(
-                                '$totalDeItens',
+                                '$totalDeItensProduto',
                                 style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -363,7 +400,55 @@ class _OperacaoNovaState extends State<OperacaoNova> {
                             children: [
                               Text('TOTAL.: '),
                               Text(
-                                Utils.formataParaMoeda(somaValorTotal),
+                                Utils.formataParaMoeda(somaValorTotalProduto),
+                                style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+
+                    //servicos
+                    if(totalDeItensServico>0)SizedBox(height: 5,),
+                    if(totalDeItensServico>0)Divider(color: Colors.black),
+                    if(totalDeItensServico>0)SizedBox(height: 5,),
+                    if(totalDeItensServico>0)Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Text('SERVICOS')
+                    ],),
+                    if(totalDeItensServico>0)SizedBox(height: 10,),
+                    if(totalDeItensServico>0)Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: AppController.instance.buildThemeData().focusColor,
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Row(
+                            children: [
+                              Text('SERVICOS.: '),
+                              Text(
+                                '$totalDeItensServico',
+                                style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              color: AppController.instance.buildThemeData().focusColor,
+                              borderRadius: BorderRadius.circular(5)
+                          ),
+                          child: Row(
+                            children: [
+                              Text('TOTAL.: '),
+                              Text(
+                                Utils.formataParaMoeda(somaValorTotalServico),
                                 style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -719,16 +804,38 @@ class _OperacaoNovaState extends State<OperacaoNova> {
   }
 
   void recalculaValoresParaCard() {
-    somaValorTotal = 0.00;
+    somaValorTotalProduto = 0.00;
+    somaValorTotalServico = 0.00;
+
+
     objVendaEServicoList.forEach((element) {
-      somaValorTotal = somaValorTotal + double.parse(element.vlTotal.toString());
+      if(element.tipoPoduto=='PRODUTO') {
+        somaValorTotalProduto =
+            somaValorTotalProduto + double.parse(element.vlTotal.toString());
+      }
+      if(element.tipoPoduto=='SERVICO') {
+        somaValorTotalServico =
+            somaValorTotalServico + double.parse(element.vlTotal.toString());
+      }
     });
 
-    //recalcula a quantidade de itens
-    totalDeItens = 0.00;
+    //recalcula a quantidade de PRODUTOS
+    totalDeItensProduto = 0.00;
     objVendaEServicoList.forEach((element) {
-      totalDeItens = totalDeItens + double.parse(element.qt.toString());
+      if(element.tipoPoduto=='PRODUTO'){
+        totalDeItensProduto = totalDeItensProduto + double.parse(element.qt.toString());
+      }
     });
+
+    //recalcula a quantidade de SERVICOS
+    totalDeItensServico = 0.00;
+    objVendaEServicoList.forEach((element) {
+      if(element.tipoPoduto=='SERVICO'){
+        totalDeItensServico = totalDeItensServico + double.parse(element.qt.toString());
+      }
+    });
+
+    somaValorTotalProdutoServico = somaValorTotalProduto + somaValorTotalServico;
   }
 
   Future<void> atualizarProdutos(String produtoOuServico)async {
@@ -738,6 +845,7 @@ class _OperacaoNovaState extends State<OperacaoNova> {
     setState(() {
       carregando = false;
       mostrarOpcoesDoFloat = false;
+      exibirContainerTransparente = false;
     });
   }
 

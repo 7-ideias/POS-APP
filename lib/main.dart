@@ -21,9 +21,9 @@ void main() async {
 
   //**************************************************************
   var cron = new Cron();
-  cron.schedule(new Schedule.parse('*/1 * * * *'), () async {
-    atualizacoesParaUsuarioService();
-  });
+  // cron.schedule(new Schedule.parse('*/1 * * * *'), () async {
+  //   atualizacoesParaUsuarioService();
+  // });
   //
   // cron.schedule(Schedule.parse('8-11 * * * *'), () async {
   //   print('between every 8 and 11 minutes');
@@ -34,8 +34,8 @@ void main() async {
   //**************************************************************
   runApp(TelaDeCarregamentoPrincipal());
 
-  final rotina = Rotina();
-  rotina.iniciarRotina();
+  // final rotina = Rotina();
+  // rotina.iniciarRotina();
   //**************************************************************
 
   //**************************************************************

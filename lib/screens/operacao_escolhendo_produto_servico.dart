@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pos_app/dtos/produto-dto.dart';
 import 'package:pos_app/screens/produto-novo-edicao-tela.dart';
+import 'package:pos_app/screens/servico_novo_tela.dart';
 import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 import 'package:pos_app/utilitarios/tela_inteira.dart';
 import 'package:pos_app/utilitarios/widgetsGlobais.dart';
@@ -67,6 +68,33 @@ class _EscolhaProdutoOuServicoState extends State<EscolhaProdutoOuServico> {
             ),
           ),
           const SizedBox(height: 10,),
+          if(widget.produtoOuServico=='SERVICO')FloatingActionButton.extended(
+            backgroundColor: Colors.blue,
+            onPressed: () async {
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ServicoNovoTela(),
+                ),
+              );
+            },
+            label: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.add),
+                Text('novo serviço avulso'),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10,),
+          FloatingActionButton(
+            backgroundColor: Colors.red,
+            child: Icon(Icons.question_mark),
+            onPressed: () {
+
+            },),
+          if(widget.produtoOuServico=='SERVICO')const SizedBox(height: 10,),
           FloatingActionButton(
             child: Icon(Icons.refresh),
             onPressed: () async {
