@@ -70,10 +70,8 @@ flutter:
   assets:
     - assets/
   uses-material-design: true
-#  fonts:
-#    - family: Roboto
-#      fonts:
-#        - asset: fonts/Roboto-Light.ttf
-#    - family: Caprasimo
-#      fonts:
-#        - asset: fonts/Caprasimo-Regular.ttf
+
+  fonts:
+    - family: Caprasimo
+      fonts:
+        - asset: fonts/Caprasimo-Regular.ttf
