@@ -109,10 +109,10 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
           opacity: mostrarOpcoes == true ? 0.1 : 1,
           duration: Duration(milliseconds: 50),
           child: ListView.builder(
-            itemCount:  colaboradoresList?.colaboradoresList?.length,
+            itemCount:  colaboradoresList?.colaboradoresList?.length ?? 1,
             itemBuilder: (context, index) {
-              String isoText = colaboradoresList!.colaboradoresList![index].objPessoa?.nome ?? '';
-              List<int> bytes = Latin1Codec().encode(isoText);
+              String isoText = colaboradoresList?.colaboradoresList?[index].objPessoa?.nome ?? '';
+              List<int> bytes = const Latin1Codec().encode(isoText);
               String utfText = utf8.decode(bytes);
               return GestureDetector(
                 onTap: () {
@@ -125,7 +125,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: isLoading
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : RefreshIndicator(
@@ -165,7 +165,8 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                                     Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                       children: [
-                                                        Text( utfText,
+                                                        Text(
+                                                          utfText,
                                                           style: TextStyle(
                                                           color: AppController.instance.corLetras,
                                                           fontSize: 20,
