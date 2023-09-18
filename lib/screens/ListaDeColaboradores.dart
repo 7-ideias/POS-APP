@@ -152,9 +152,9 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                                           child: Row(
                                             children: [
                                               CircleAvatar(
-                                                backgroundImage: _getFoto(
-                                                    colaboradoresList?.colaboradoresList?[index]
-                                                        .foto.toString()),
+                                               backgroundImage: colaboradoresList?.colaboradoresList?[index].foto != null
+                                                ? _getFoto(colaboradoresList?.colaboradoresList?[index].foto.toString())
+                                                : AssetImage('assets/male-profile-picture.png'),
                                                 backgroundColor: Colors.white,
                                                 radius: 60,
                                               ),
