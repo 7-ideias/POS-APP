@@ -5,7 +5,7 @@ class AppController extends ChangeNotifier {
 
   bool isDartTheme = false;
   var botaoTamanhoLetras = 20.0;
-
+  String fonte = '';
   //cores de ambiente
   MaterialAccentColor corAppBar = Colors.deepPurpleAccent;
   // MaterialColor corTelaFundo = Colors.indigo;
@@ -68,7 +68,8 @@ class AppController extends ChangeNotifier {
       appBarTheme: AppBarTheme(backgroundColor: corTelaAcima),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         // backgroundColor: Colors.grey
-      )
+      ),
+        fontFamily: fonte,
     );
   }
 

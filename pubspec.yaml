@@ -75,3 +75,15 @@ flutter:
     - family: Caprasimo
       fonts:
         - asset: fonts/Caprasimo-Regular.ttf
+
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat-VariableFont_wght.ttf
+
+    - family: PlayfairDisplay
+      fonts:
+        - asset: fonts/PlayfairDisplay-VariableFont_wght.ttf
+
+    - family: Roboto
+      fonts:
+        - asset: fonts/Roboto-Thin.ttf

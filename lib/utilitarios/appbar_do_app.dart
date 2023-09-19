@@ -154,6 +154,110 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                 ),
               ],
             ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'PlayfairDisplay',
+                          style:
+                          TextStyle(fontSize: 25, fontFamily: 'PlayfairDisplay'),
+                        ),
+                      ),
+                    ),
+                    onTap: () => AppController.instance.fonte = 'PlayfairDisplay',
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Montserrat',
+                          style:
+                          TextStyle(fontSize: 25, fontFamily: 'Montserrat'),
+                        ),
+                      ),
+                    ),
+                    onTap: () => AppController.instance.fonte = 'Montserrat',
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Roboto',
+                          style:
+                          TextStyle(fontSize: 25, fontFamily: 'Roboto'),
+                        ),
+                      ),
+                    ),
+                    onTap: () => AppController.instance.fonte = 'Roboto',
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      width: 180,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Caprasimo',
+                          style:
+                              TextStyle(fontSize: 25, fontFamily: 'Caprasimo'),
+                        ),
+                      ),
+                    ),
+                    onTap: () => AppController.instance.fonte = 'Caprasimo',
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );
