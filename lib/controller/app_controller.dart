@@ -54,7 +54,14 @@ class AppController extends ChangeNotifier {
       corLetras = Colors.white;
       botaoConfirmar = Colors.green;
       botaoNegar = Colors.red;
-    }
+    } else if (corPrincipal == Colors.cyan) {
+  corAppBar = Colors.cyanAccent;
+  // corTelaFundo = Colors.orange;
+  corTelaAcima = Colors.cyanAccent;
+  corLetras = Colors.black;
+  botaoConfirmar = Colors.green;
+  botaoNegar = Colors.red;
+  }
 
     buildThemeData();
     notifyListeners();

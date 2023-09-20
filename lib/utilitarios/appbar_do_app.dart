@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:pos_app/screens/TelaTeste.dart';
 
 import '../controller/app_controller.dart';
 import 'VariaveisGlobais.dart';
 
 bool dark = false;
+bool isDartTheme = AppController.instance.isDartTheme;
+
 
 AppBar buildAppBar(BuildContext context) {
   return AppBar(
@@ -44,111 +47,171 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 10,
-                    width: 60,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AnimatedContainer(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    color: Colors.transparent,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AnimatedContainer(
+                            duration: Duration(milliseconds: 500),
+                            margin: EdgeInsets.only(top: 10),
+                            height: 60,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(80),
+                              color: AppController.instance.isDartTheme ? Color(0xFF423966) : Color(0xFF9EE3FB),
+                            ),
+                            child: Stack(
+                              children: [
+                                AnimatedPositioned(
+                                  duration: Duration(milliseconds: 500),
+                                  top: 12,
+                                  left: AppController.instance.isDartTheme ? 10 : 50, // Lua à esquerda, sol à direita
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      AppController.instance.isDartTheme = !AppController.instance.isDartTheme; // Inverte o valor ao tocar
+                                      if (AppController.instance.isDartTheme) {
+                                        AppController.instance.mudarCores(!dark);// Altera o tema
+                                      } else {
+                                        AppController.instance.mudarCores(dark);
+                                      }// Fecha o modal após a alteração
+                                    },
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppController.instance.isDartTheme ? Colors.white : Color(0xFF9EE3FB),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(0, 0),
+                                            blurRadius: 20,
+                                            spreadRadius: 0,
+                                            color: Color(0xFFD9FBFF),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Icon(
+                                        AppController.instance.isDartTheme ? Icons.brightness_3 : Icons.wb_sunny,
+                                        size: 30,
+                                        color: AppController.instance.isDartTheme ? Colors.grey : Colors.yellow,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('tema ', style: TextStyle()),
-                ),
-                Switch(
-                  value: AppController.instance.isDartTheme,
-                  activeColor: Colors.green,
-                  onChanged: (bool value) {
-                    dark = value;
-                    AppController.instance.mudarCores(value);
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Escolha a cor do app ', style: TextStyle()),
+              child: Text('Escolha a cor do app ', style: TextStyle(
+                fontSize: 25,
+              )),
             ),
-            Wrap(
-              direction: Axis.horizontal,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //cor azul
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      AppController.instance.corPrincipal = Colors.indigo;
-                      AppController.instance.mudarCores(dark);
-                    },
-                    child: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundColor: Colors.indigo,
-                    ),
-                  ),
-                ),
-                //cor purple
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      AppController.instance.corPrincipal = Colors.purple;
-                      AppController.instance.mudarCores(dark);
-                    },
-                    child: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundColor: Colors.purple,
-                    ),
-                  ),
-                ),
-                //cor verde
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      AppController.instance.corPrincipal = Colors.green;
-                      AppController.instance.mudarCores(dark);
-                    },
-                    child: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundColor: Colors.green,
-                    ),
-                  ),
-                ),
-                //cor pink
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      AppController.instance.corPrincipal = Colors.pink;
-                      AppController.instance.mudarCores(dark);
-                    },
-                    child: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundColor: Colors.pink,
-                    ),
-                  ),
-                ),
-                //cor laranja
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      AppController.instance.corPrincipal = Colors.orange;
-                      AppController.instance.mudarCores(dark);
-                    },
-                    child: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundColor: Colors.orange,
+                Expanded(
+                  child: Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width*1,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              AppController.instance.corPrincipal = Colors.indigo;
+                              AppController.instance.mudarCores(dark);
+                            },
+                            child: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: Colors.indigo,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              AppController.instance.corPrincipal = Colors.purple;
+                              AppController.instance.mudarCores(dark);
+                            },
+                            child: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: Colors.purple,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              AppController.instance.corPrincipal = Colors.green;
+                              AppController.instance.mudarCores(dark);
+                            },
+                            child: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: Colors.green,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              AppController.instance.corPrincipal = Colors.pink;
+                              AppController.instance.mudarCores(dark);
+                            },
+                            child: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: Colors.pink,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              AppController.instance.corPrincipal = Colors.orange;
+                              AppController.instance.mudarCores(dark);
+                            },
+                            child: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: Colors.orange,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              AppController.instance.corPrincipal = Colors.cyan;
+                              AppController.instance.mudarCores(dark);
+                            },
+                            child: CircleAvatar(
+                              maxRadius: 30,
+                              backgroundColor: Colors.cyan,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -164,7 +227,6 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                       width: 180,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
                         border: Border.all(
                           color: Colors.black,
                           width: 2,
@@ -186,7 +248,6 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                       width: 180,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
                         border: Border.all(
                           color: Colors.black,
                           width: 2,
@@ -216,7 +277,6 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                       width: 180,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
                         border: Border.all(
                           color: Colors.black,
                           width: 2,
@@ -238,7 +298,6 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                       width: 180,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
                         border: Border.all(
                           color: Colors.black,
                           width: 2,
