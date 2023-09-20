@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:pos_app/screens/TelaTeste.dart';
 
 import '../controller/app_controller.dart';
@@ -103,8 +104,15 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                         AppController.instance.isDartTheme ? Icons.brightness_3 : Icons.wb_sunny,
                                         size: 30,
                                         color: AppController.instance.isDartTheme ? Colors.grey : Colors.yellow,
-                                      ),
-                                    ),
+                                      ).animate(onPlay: (controller) => controller.repeat(),)
+                                          .moveY(begin: -2.5, end: 0.5, curve: Curves.easeInOut, duration: 1500.milliseconds)
+                                          .then()
+                                          .moveY(begin: 0.5, end: -2.5, curve: Curves.easeInOut),
+
+                                    ).animate(onPlay: (controller) => controller.repeat(),)
+                                        .moveY(begin: -2.5, end: 0.5, curve: Curves.easeInOut, duration: 1500.milliseconds)
+                                        .then()
+                                        .moveY(begin: 0.5, end: -2.5, curve: Curves.easeInOut),
                                   ),
                                 ),
                               ],
