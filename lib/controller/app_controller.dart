@@ -62,11 +62,14 @@ class AppController extends ChangeNotifier {
   botaoConfirmar = Colors.green;
   botaoNegar = Colors.red;
   }
-
+    buildThemeData();
+      notifyListeners();
+  }
+  mudaFonte(String novaFonte){
+    fonte = novaFonte;
     buildThemeData();
     notifyListeners();
   }
-
 
   ThemeData buildThemeData() {
     return ThemeData(
