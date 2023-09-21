@@ -94,7 +94,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                         boxShadow: [
                                           BoxShadow(
                                             offset: Offset(0, 0),
-                                            blurRadius: 20,
+                                            blurRadius: 5,
                                             spreadRadius: 0,
                                             color: Color(0xFFD9FBFF),
                                           ),
@@ -105,14 +105,14 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                         size: 30,
                                         color: AppController.instance.isDartTheme ? Colors.grey : Colors.yellow,
                                       ).animate(onPlay: (controller) => controller.repeat(),)
-                                          .moveY(begin: -2.5, end: 0.5, curve: Curves.easeInOut, duration: 1500.milliseconds)
+                                          .moveY(begin: -2.8, end: 0.5, curve: Curves.easeInOut, duration: 1500.milliseconds)
                                           .then()
-                                          .moveY(begin: 0.5, end: -2.5, curve: Curves.easeInOut),
+                                          .moveY(begin: 0.5, end: -2.8, curve: Curves.easeInOut),
 
                                     ).animate(onPlay: (controller) => controller.repeat(),)
-                                        .moveY(begin: -2.5, end: 0.5, curve: Curves.easeInOut, duration: 1500.milliseconds)
+                                        .moveY(begin: -2.8, end: 0.5, curve: Curves.easeInOut, duration: 1500.milliseconds)
                                         .then()
-                                        .moveY(begin: 0.5, end: -2.5, curve: Curves.easeInOut),
+                                        .moveY(begin: 0.5, end: -2.8, curve: Curves.easeInOut),
                                   ),
                                 ),
                               ],
@@ -225,6 +225,8 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                 ),
               ],
             ),
+            SizedBox(height: 50),
+
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Row(
