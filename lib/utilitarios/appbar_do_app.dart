@@ -46,34 +46,15 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
           border: Border.all(color: Colors.transparent), // Definindo a borda como transparente
         ),
         child: Card(
-          color: AppController.instance.isDartTheme ? AppController.instance.corPrincipal : AppController.instance.corTelaAcima,
+          color: Colors.white24,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width*0.65,
-                        height: MediaQuery.of(context).size.height*0.06,
-                        decoration: BoxDecoration(
-                            color: AppController.instance.isDartTheme ? Colors.white24 : Color(0xfffe3e3e3),
-                          borderRadius: BorderRadius.circular(20)
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Selecione uma cor',
-                            style: TextStyle(
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     AnimatedContainer(
                       duration: Duration(milliseconds: 500),
                       curve: Curves.easeInOut,
@@ -146,6 +127,23 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   ],
                 ),
               ),
+              Container(
+                width: MediaQuery.of(context).size.width*0.65,
+                height: MediaQuery.of(context).size.height*0.06,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Selecione uma cor',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -154,7 +152,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                       height: 100,
                       width: MediaQuery.of(context).size.width*1,
                       decoration: BoxDecoration(
-                          color: AppController.instance.isDartTheme ? AppController.instance.corPrincipal.shade800 : AppController.instance.corTelaAcima,
+                          color: Colors.transparent,
                         borderRadius: BorderRadius.circular(10)
                       ),
                       child: ListView(
@@ -167,10 +165,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                 AppController.instance.corPrincipal = Colors.indigo;
                                 AppController.instance.mudarCores(dark);
                               },
-                              child: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor: Colors.indigo,
-                              ),
+                              child: BolinhaCor(Colors.indigo),
                             ),
                           ),
                           Padding(
@@ -180,10 +175,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                 AppController.instance.corPrincipal = Colors.purple;
                                 AppController.instance.mudarCores(dark);
                               },
-                              child: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor: Colors.purple,
-                              ),
+                              child: BolinhaCor(Colors.purple)
                             ),
                           ),
                           Padding(
@@ -193,10 +185,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                 AppController.instance.corPrincipal = Colors.green;
                                 AppController.instance.mudarCores(dark);
                               },
-                              child: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor: Colors.green,
-                              ),
+                              child: BolinhaCor(Colors.green)
                             ),
                           ),
                           Padding(
@@ -206,10 +195,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                 AppController.instance.corPrincipal = Colors.pink;
                                 AppController.instance.mudarCores(dark);
                               },
-                              child: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor: Colors.pink,
-                              ),
+                              child: BolinhaCor(Colors.pink)
                             ),
                           ),
                           Padding(
@@ -219,10 +205,7 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                                 AppController.instance.corPrincipal = Colors.orange;
                                 AppController.instance.mudarCores(dark);
                               },
-                              child: CircleAvatar(
-                                maxRadius: 30,
-                                backgroundColor: Colors.orange,
-                              ),
+                              child: BolinhaCor(Colors.orange)
                             ),
                           ),
                           Padding(
@@ -244,22 +227,19 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 12),
-                child: Container(
-                  width: MediaQuery.of(context).size.width*0.65,
-                  height: MediaQuery.of(context).size.height*0.06,
-                  decoration: BoxDecoration(
-                      color: AppController.instance.isDartTheme ? Colors.white24 : Color(0xfffe3e3e3),
-                      borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Selecione uma fonte',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
+              Container(
+                width: MediaQuery.of(context).size.width*0.65,
+                height: MediaQuery.of(context).size.height*0.06,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    'Selecione uma fonte',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ),
@@ -271,47 +251,11 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppController.instance.isDartTheme ? Colors.white24 : Color(0xfffe3e3e3),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'PlayfairDisplay',
-                            style:
-                            TextStyle(fontSize: 25, fontFamily: 'PlayfairDisplay'),
-                          ),
-                        ),
-                      ),
+                      child: containerDasFonte(25, 'PlayfairDisplay'),
                       onTap: () => AppController.instance.mudaFonte('PlayfairDisplay'),
                     ),
                     GestureDetector(
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppController.instance.isDartTheme ? Colors.white24 : Color(0xfffe3e3e3),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Montserrat',
-                            style:
-                            TextStyle(fontSize: 25, fontFamily: 'Montserrat'),
-                          ),
-                        ),
-                      ),
+                      child: containerDasFonte(25,'Montserrat'),
                       onTap: () => AppController.instance.mudaFonte('Montserrat'),
                     ),
                   ],
@@ -323,47 +267,11 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppController.instance.isDartTheme ? Colors.white24 : Color(0xfffe3e3e3),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Roboto',
-                            style:
-                            TextStyle(fontSize: 25, fontFamily: 'Roboto'),
-                          ),
-                        ),
-                      ),
+                      child: containerDasFonte(25, 'Roboto'),
                       onTap: () => AppController.instance.mudaFonte('Roboto'),
                     ),
                     GestureDetector(
-                      child: Container(
-                        width: 180,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          color: AppController.instance.isDartTheme ? Colors.white24 : Color(0xfffe3e3e3),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Caprasimo',
-                            style:
-                                TextStyle(fontSize: 25, fontFamily: 'Caprasimo'),
-                          ),
-                        ),
-                      ),
+                      child: containerDasFonte(25, 'Caprasimo'),
                       onTap: () => AppController.instance.mudaFonte('Caprasimo'),
                     ),
                   ],
@@ -374,5 +282,40 @@ Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
         ),
       );
     },
+  );
+}
+
+Container containerDasFonte(double fontSize, String font) {
+  return Container(
+    width: 180,
+    height: 50,
+    decoration: BoxDecoration(
+      border: Border.all(
+        color: Colors.black,
+        width: 0.5,
+      ),
+      borderRadius: BorderRadius.circular(20),
+      color: AppController.instance.isDartTheme
+          ? Colors.white10
+          : Color(0xfffe3e3e3),
+    ),
+    child: Center(
+      child: Text(
+        font,
+        style: TextStyle(fontSize: fontSize, fontFamily: font),
+      ),
+    ),
+  );
+}
+
+Container BolinhaCor(Color cor) {
+  return Container(
+    width: 60,
+    height: 60,
+    decoration: BoxDecoration(
+      border: Border.all(width: 0.5,),
+      shape: BoxShape.circle,
+      color: cor,
+    ),
   );
 }
