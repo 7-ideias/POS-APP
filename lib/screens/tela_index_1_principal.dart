@@ -142,7 +142,7 @@ class _Index1TelaState extends State<Index1Tela>
                                     children: [
                                       SizedBox(width: 20),
                                       Text('Ola',
-                                          style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                          style: TextStyle(fontSize: 22)),
                                     ],
                                   ),
                                   SizedBox(width: 20),
@@ -152,8 +152,8 @@ class _Index1TelaState extends State<Index1Tela>
                                       SizedBox(width: 20),
                                       Text(
                                         VariaveisGlobais.usuarioDto.objPessoa?.nome ??'',
-                                        style: GoogleFonts.bebasNeue(
-                                          fontWeight: FontWeight.bold,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
                                           fontSize: 25,
                                         ),
                                       ),
@@ -188,12 +188,12 @@ class _Index1TelaState extends State<Index1Tela>
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('operacoes do dia R\$ 1000,88',style: GoogleFonts.bebasNeue(fontSize: 22)),
-                                        Text('vendas - '+ numeroDeVendas,style: GoogleFonts.bebasNeue(fontSize: 22)),
-                                        Text('servicos - 3',style: GoogleFonts.bebasNeue(fontSize: 22)),
-                                        Text('-----------------------------------',style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                        Text('operacoes do dia R\$ 1000,88',style: TextStyle(fontSize: 22)),
+                                        Text('vendas - '+ numeroDeVendas,style: TextStyle(fontSize: 22)),
+                                        Text('servicos - 3',style: TextStyle(fontSize: 22)),
+                                        Text('-------------------------------',style: TextStyle(fontSize: 22)),
                                         Divider(),
-                                        Text('operações nao recebidas',style: GoogleFonts.bebasNeue(fontSize: 22)),
+                                        Text('operações nao recebidas',style: TextStyle(fontSize: 22)),
                                       ],
                                     ),
                                   ),
