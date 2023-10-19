@@ -109,7 +109,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                         controller: _searchController,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'digite para buscar',
+                          labelText: 'Buscar um produto',
                           prefixIcon: Icon(Icons.search),
                           suffixIcon: _searchController.text.length > 0 ? GestureDetector(
                             onTap: () {
@@ -139,7 +139,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                   ),
                   Expanded(
                     child: isLoading
-                        ? Center(
+                        ? const Center(
                             child: CircularProgressIndicator(),
                           )
                         : RefreshIndicator(
@@ -171,50 +171,47 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                                   style: TextStyle(fontSize: 16)),
                                             ],
                                           ),
-
                                           Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text("estoque atual.: ${produtoList[index]
                                                       .objCalculosDeProdutoDoBackEnd
                                                       .qtNoEstoque}",style: TextStyle(fontSize: 16)),
-                                            ],
-                                          ),
-                                          if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque < produtoList[index].estoqueMinimo)Row(
-                                            children: [
-                                              CircleAvatar(backgroundColor: Colors.red,radius: 10,),
-                                              Text('  abaixo do estoque mínimo',style: TextStyle(fontSize: 16)),
-                                            ],
-                                          ),
-                                          if(produtoList[index]
-                                              .objCalculosDeProdutoDoBackEnd
-                                              .qtNoEstoque > produtoList[index].estoqueMaximo)Row(
-                                            children: [
-                                              CircleAvatar(backgroundColor: Colors.orange,radius: 10,),
-                                              Text('  acima do estoque ideal',style: TextStyle(fontSize: 16)),
-                                            ],
-                                          ),
-                                          if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque >= produtoList[index].estoqueMinimo &&
-                                              produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque <= produtoList[index].estoqueMaximo)Row(
-                                            children: [
-                                              CircleAvatar(backgroundColor: Colors.green,radius: 10,),
-                                              Text('  estoque ideal',style: TextStyle(fontSize: 16)),
+                                              if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque < produtoList[index].estoqueMinimo)
+                                                Tooltip(
+                                                  message: "Estoque baixo!",
+                                                  child: Icon(Icons.arrow_downward_rounded,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                              if(produtoList[index]
+                                                  .objCalculosDeProdutoDoBackEnd
+                                                  .qtNoEstoque > produtoList[index].estoqueMaximo)
+                                                Tooltip(
+                                                  message: "Estoque alto!",
+                                                  child: Icon(Icons.arrow_upward_rounded,
+                                                  color: Colors.deepOrange,
+                                                  ),
+                                                ),
+                                              if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque >= produtoList[index].estoqueMinimo &&
+                                                  produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque <= produtoList[index].estoqueMaximo)
+                                                Tooltip(
+                                                  message: "Estoque dentro do esperado",
+                                                  child: Icon(Icons.check,
+                                                  color: Colors.green,
+                                                  ),
+                                                ),
+                                              if(produtoList[index].ativo==false)
+                                                Tooltip(
+                                                  message: "Bloqueado para venda",
+                                                  child: Icon(Icons.error_outline,
+                                                  color: Colors.red,),
+                                                ),
                                             ],
                                           ),
                                           SizedBox(height: 5,),
-                                          if(produtoList[index].ativo==false)Row(
-                                            children: [
-                                              CircleAvatar(backgroundColor: Colors.redAccent,radius: 10,),
-                                              Text('  bloqueado para venda',style: TextStyle(fontSize: 16)),
-                                            ],
-                                          ),
-
                                         ],
                                       ),
-                                      // tileColor: produtoList[index]
-                                      //     .objCalculosDeProdutoDoBackEnd
-                                      //     .qtNoEstoque < 10
-                                      //     ? Colors.red
-                                      //     : null,
                                     ),
                                 );
                               },
