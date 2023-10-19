@@ -156,25 +156,28 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                     child:ListTile(
                                       tileColor: produtoList[index].ativo==false?CupertinoColors.inactiveGray:null,
                                       isThreeLine: true,
-                                      leading: const CircleAvatar(
-                                        maxRadius: 30,
-                                        child: Icon(Icons.question_mark),
+                                      //TODO aqui tem que arrumar um jeito de colocar um container pra inserir a foto e ficar mais bacana
+                                      leading: CircleAvatar(
+                                        maxRadius: 80,
+                                       child: Icon(Icons.question_mark),
                                       ),
                                       title: Text(produtoList[index].nomeProduto,style: TextStyle(fontSize: 20)),
-
                                       subtitle: Column(
                                         children: [
-                                          Row(children: [Text('código.: '+produtoList[index].codigoDeBarras,style: TextStyle(fontSize: 16))],),
+                                          Row(children: [Text('código: '+produtoList[index].codigoDeBarras,style: TextStyle(fontSize: 16))],),
                                           Row(
                                             children: [
-                                              Text("preço.: ${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
-                                                  style: TextStyle(fontSize: 16)),
+                                              Text("${Utils.formataParaMoeda(produtoList[index].precoVenda)}",
+                                                  style: TextStyle(fontSize: 20,
+                                                    color: Colors.orange.shade900,
+                                                    fontWeight: FontWeight.w600
+                                                  ),),
                                             ],
                                           ),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text("estoque atual.: ${produtoList[index]
+                                              Text("Estoque: ${produtoList[index]
                                                       .objCalculosDeProdutoDoBackEnd
                                                       .qtNoEstoque}",style: TextStyle(fontSize: 16)),
                                               if(produtoList[index].objCalculosDeProdutoDoBackEnd.qtNoEstoque < produtoList[index].estoqueMinimo)
@@ -209,7 +212,7 @@ class _ProdutosTelaState2 extends State<ProdutosTela> {
                                                 ),
                                             ],
                                           ),
-                                          SizedBox(height: 5,),
+                                          SizedBox(height: 10,),
                                         ],
                                       ),
                                     ),
