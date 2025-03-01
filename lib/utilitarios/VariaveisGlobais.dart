@@ -1,13 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pos_app/controller/app_controller.dart';
 
 import '../dtos/obj-idioma.dart';
 import '../dtos/operacao-dto-nova.dart';
 import '../dtos/produto-dto.dart';
 import '../dtos/push-dto.dart';
 import '../dtos/usuario-dto.dart';
+import 'dart:io' as dartIo;
 
 class VariaveisGlobais {
   static const String NOME_SISTEMA = 'SIX POS';
@@ -15,8 +12,8 @@ class VariaveisGlobais {
   static final String minhaVariavel = 'Valor da minha variável';
   // static final String endPoint = 'https://sixbackend-70ed1c73ebec.herokuapp.com';
   // static final String endPoint = 'http://192.168.1.113:8082'; //qintess
-  // static final String endPoint = 'http://192.168.1.107:8082'; //hp
-  static final String endPoint = 'http://192.168.0.114:8082'; //mac
+  static final String endPoint = 'http://192.168.1.107:8082'; //hp
+  // static final String endPoint = 'http://192.168.0.114:8082'; //mac
   static const String PREFERENCIASDOUSUARIO = 'preferenciasDoUsuario';//é o nome da chave do objeto salvo em memoria
   static const String IDIOMADOAPP = 'idiomaDoApp';//é o nome da chave do objeto salvo em memoria
   static String tipoTitularOuColaborador = 'VAZIO';//nao apague
@@ -35,5 +32,6 @@ class VariaveisGlobais {
   static final headersGlobal = {'Content-Type': 'application/json','idUser': '{$idDoTitularOuColaboradorQueEstaAcessando}','idColaborador': '{$idDoTitularOuColaboradorQueEstaAcessando}'};
   static String idioma = "ingles";
 
-
+  static String caminho = "";
+  static dartIo.File file = dartIo.File('');
 }

@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../dtos/colaborador-dto-list.dart';
 import '../utilitarios/VariaveisGlobais.dart';
+import 'dart:io' as dartIo;
 
 class ListaDeColaboradores extends StatefulWidget {
   const ListaDeColaboradores({super.key});
@@ -53,11 +54,7 @@ class _ListaDeColaboradoresState extends State<ListaDeColaboradores> {
                 setState(() {
                   mostrarOpcoes = false;
                 });
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NovoColaborador(file: File(''))),
-                );
+                 Navigator.pushNamed(context, '/colaborador');
               },
               label: Row(
                 mainAxisAlignment: MainAxisAlignment.end,

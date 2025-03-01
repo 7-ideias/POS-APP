@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:pos_app/screens/TelaTeste.dart';
+// import 'package:pos_app/screens/TelaTeste.dart';
 
 import '../controller/app_controller.dart';
 import 'VariaveisGlobais.dart';

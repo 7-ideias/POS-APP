@@ -7,6 +7,7 @@ import 'package:pos_app/screens/tela_index_1_principal.dart';
 
 import '../app/page/pdf_create_page.dart';
 import '../desenvolvedor/desenvolvedor.dart';
+import 'cadastrando-novo-colaborador.dart';
 import 'idioma-tela.dart';
 import 'login-tela.dart';
 import 'operacao-nova-tela.dart';
@@ -50,6 +51,7 @@ class _HomeState extends State<Home> {
               // // '/cadcliente': (_) => CadastroClienteTela(),
               // '/caixa': (_) => CaixaTela(),
               // '/clientes': (_) => ClientesTela(),
+              '/colaborador': (_) => NovoColaborador(),
               // '/configs': (_) => ConfiguracoesTela(),
               '/desenvolvedor': (_) => DesenvolvedorPage(),
               // '/devolucao': (_) => DevolucaoTela(),

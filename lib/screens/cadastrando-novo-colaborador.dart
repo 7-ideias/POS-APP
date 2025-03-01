@@ -17,13 +17,11 @@ import 'package:validatorless/validatorless.dart';
 
 import '../utilitarios/VariaveisGlobais.dart';
 import 'ListaDeColaboradores.dart';
+import 'dart:io' as dartIo;
 
 
 class NovoColaborador extends StatefulWidget {
-  File file;
-
-
-  NovoColaborador({super.key, required this.file});
+  NovoColaborador({super.key});
 
   @override
   State<NovoColaborador> createState() => _NovoColaboradorState();
@@ -79,11 +77,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
     final file = await picker.pickImage(source: ImageSource.gallery);
     if (file != null) {
       setState(() {
-        widget.file = File(file.path);
+        VariaveisGlobais.file = File(file.path);
       });
     }
     ;
-    printFileSize(widget.file);
+    printFileSize(VariaveisGlobais.file);
   }
 
   void printFileSize(File file) {
@@ -99,6 +97,10 @@ class _NovoColaboradorState extends State<NovoColaborador> {
 
   @override
   Widget build(BuildContext context) {
+
+    print('VariaveisGlobais.file.path -> '+VariaveisGlobais.file.path.toString());
+    print(VariaveisGlobais.file.path.isEmpty?'vazio':'tem algo');
+
     return Scaffold(
       backgroundColor: AppController.instance.corPrincipal,
       appBar: AppBar(
@@ -147,17 +149,18 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                         .height * 0.155 / 2,
                     backgroundColor: Colors.grey,
                     backgroundImage:
-                    widget.file.path.isNotEmpty
-                        ? AssetImage(widget.file.path)
+                    VariaveisGlobais.file.path.isEmpty
+                        ? AssetImage(VariaveisGlobais.file.path)
                         : AssetImage('assets/male-profile-picture.png'),
                   ),
                 ),
+                Text(VariaveisGlobais.file.path),
                 Positioned(
                     top: MediaQuery
                         .of(context)
                         .size
                         .height * 0.11,
-                    child: widget.file.path.isNotEmpty
+                    child: VariaveisGlobais.file.path.isNotEmpty
                             ? Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
@@ -1028,11 +1031,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
                             showPreview(file);
                             Navigator.pop(context);
                             setState(() {
-                              widget.file = file;
                             });
                           },
                         )),
               );
+
             },
           ),
           ListTile(
@@ -1048,14 +1051,15 @@ class _NovoColaboradorState extends State<NovoColaborador> {
   }
 
   showPreview(file) async {
+    print('showPreview');
     file = await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PreviewPage(file: file),
+          builder: (context) => PreviewPage(),
         ));
     if (file != null) {
       setState(() {
-        widget.file = file;
+        VariaveisGlobais.file = file;
       });
       Get.back();
     }
@@ -1089,11 +1093,11 @@ class _NovoColaboradorState extends State<NovoColaborador> {
 
   Future<List<int>> ComprimeArquivo() async {
     var result = await FlutterImageCompress.compressAndGetFile(
-      widget.file.absolute.path, widget.file.path + '_compressed.jpg',
+      VariaveisGlobais.file.absolute.path, VariaveisGlobais.file.path + '_compressed.jpg',
       quality: 5,
     );
 
-    if (widget.file == null) return [];
+    if (VariaveisGlobais.file == null) return [];
 
     File path = File(result!.path);
     if (!path.existsSync()) return [];

@@ -1,16 +1,13 @@
 import 'dart:io';
-import 'dart:typed_data';
-import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:pos_app/screens/cadastrando-novo-colaborador.dart';
+
+import 'package:pos_app/utilitarios/VariaveisGlobais.dart';
 
 class PreviewPage extends StatelessWidget {
-  File file;
 
-  PreviewPage({Key? key, required this.file}) : super(key: key);
-  void printFileSize(File file) {
-    var sizeInBytes = file.lengthSync();
+  PreviewPage({Key? key}) : super(key: key);
+  void printFileSize() {
+    var sizeInBytes = VariaveisGlobais.file.lengthSync();
     var sizeInKB = sizeInBytes / 1024;
     var sizeInMB = sizeInKB / 1024;
 
@@ -23,65 +20,91 @@ class PreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
+      body: Stack(
         children: [
-          Expanded(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Image.file(
-                    file,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            children: [
+              Expanded(
+                child: Stack(
                   children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.all(32.0),
-                        child: CircleAvatar(
-                          radius: 32,
-                          backgroundColor: Colors.black.withOpacity(0.5),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => NovoColaborador(file: file),));
-                            },
-                          ),
-                        ),
+                    Positioned.fill(
+                      child: Image.file(
+                        VariaveisGlobais.file,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.all(32.0),
-                        child: CircleAvatar(
-                          radius: 32,
-                          backgroundColor: Colors.black.withOpacity(0.5),
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: 30,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.all(32.0),
+                            child: CircleAvatar(
+                              radius: 32,
+                              backgroundColor: Colors.black.withOpacity(0.5),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.popUntil(context, ModalRoute.withName('/colaborador'));
+                                  },
+                              ),
                             ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
                           ),
                         ),
-                      ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.all(32.0),
+                            child: CircleAvatar(
+                              radius: 32,
+                              backgroundColor: Colors.black.withOpacity(0.5),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
+          Row(children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 100,top: 100),
+                child: CircleAvatar(
+                  radius: 32,
+                  backgroundColor: Colors.black.withOpacity(0.5),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      Navigator.popUntil(context, ModalRoute.withName('/colaborador'));
+                    },
+                  ),
+                ),
+              ),
+            )
+          ],),
         ],
       ),
     );
